@@ -1,6 +1,6 @@
 /*
  * Validación del nombre de una rama de trabajo: lógica pura, sin DOM (se prueba en Node).
- * La fuente de verdad son las dos expresiones de ESTRATEGIA-RAMAS.md v1.6, sección 2 («Comprobación automática»),
+ * La fuente de verdad son las dos expresiones de ESTRATEGIA-RAMAS.md v1.7, sección 2 («Comprobación automática»),
  * más el límite de 60 caracteres:
  *   ^(feature|bug|hotfix)/(az|glpi)-[0-9]+(-[a-z0-9]+)+-[a-z]{2,3}$
  *   ^test/(az|glpi)-[0-9]+-(desk|web|serv)(-[a-z0-9]+)+-[a-z]{2,3}$

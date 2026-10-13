@@ -1,6 +1,6 @@
 /*
  * Flujo: Incidencia urgente (hotfix), variante con qa ocupado.
- * Transcripción de ESTRATEGIA-RAMAS.md v1.5, sección 5.2: el gitGraph (mismo orden de carriles, commits, tags y
+ * Transcripción de ESTRATEGIA-RAMAS.md v1.7, sección 5.2: el gitGraph (mismo orden de carriles, commits, tags y
  * merges) y la tabla de pasos (mismas filas y números, incluida la fila «1–3» y la fila «—», que en esta tabla va
  * DESPUÉS de «1–3»). "description" une «Qué se hace» y «Por qué» de la tabla.
  *

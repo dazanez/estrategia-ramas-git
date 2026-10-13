@@ -1,6 +1,6 @@
 /*
  * Flujo: Dos tags al mismo tiempo.
- * Transcripción de ESTRATEGIA-RAMAS.md v1.6, sección 6.7: el gitGraph (mismo orden de carriles, commits, tags y merges).
+ * Transcripción de ESTRATEGIA-RAMAS.md v1.7, sección 6.7: el gitGraph (mismo orden de carriles, commits, tags y merges).
  *
  * La sección 6.7 NO tiene tabla de pasos ni lista de «Pasos». Por eso:
  *   - los pasos son los números del gráfico (1 a 5), uno por commit o merge;

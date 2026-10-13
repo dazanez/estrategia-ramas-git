@@ -1,6 +1,6 @@
 /*
  * Flujo: Retiro temporal de una versión certificada que espera al cliente (A espera, sale B).
- * Transcripción de ESTRATEGIA-RAMAS.md v1.6, sección 6.2: el gitGraph (mismo orden de carriles, commits, tags y merges)
+ * Transcripción de ESTRATEGIA-RAMAS.md v1.7, sección 6.2: el gitGraph (mismo orden de carriles, commits, tags y merges)
  * y la tabla de pasos (mismas filas y números, incluidas las filas agrupadas «1–2», «4–5», «6–7», «9–12» y «14–17»;
  * cada commit o merge conserva su número del gráfico mediante "number").
  *

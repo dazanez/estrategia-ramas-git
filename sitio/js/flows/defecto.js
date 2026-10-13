@@ -1,6 +1,6 @@
 /*
  * Flujo: Defecto (QA rechaza una versión).
- * Transcripción de ESTRATEGIA-RAMAS.md v1.5, sección 4: el gitGraph (mismo orden de carriles, commits, tags y merges)
+ * Transcripción de ESTRATEGIA-RAMAS.md v1.7, sección 4: el gitGraph (mismo orden de carriles, commits, tags y merges)
  * y la tabla de pasos (mismas filas y mismos números, incluidas las filas agrupadas "1–2" y "10–11"; cada commit
  * conserva su número del gráfico mediante "number"). "description" une «Qué se hace» y «Por qué» de la tabla.
  *

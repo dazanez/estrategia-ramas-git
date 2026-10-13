@@ -4,7 +4,7 @@
  *   - los diagramas enlazan a ellas desde el panel de comandos de cada paso (js/git-flow/views.js), en lugar de repetir
  *     la explicación. Qué receta corresponde a un paso lo decide "detect": las líneas de comando de la receta.
  *
- * Los comandos salen de ESTRATEGIA-RAMAS.md v1.6, sección 3 («Pasos» 1 a 6), sección 2 («Versionado») y sección 6.2;
+ * Los comandos salen de ESTRATEGIA-RAMAS.md v1.7, sección 3 («Pasos» 1 a 6), sección 2 («Versionado») y sección 6.2;
  * los que ya existen en los flujos vienen de js/recipes.js, con marcadores en lugar de nombres concretos.
  *
  * Cada receta: { id, title, summary, when, commands, azure?, more?, notes?, rules?, detect }
@@ -39,7 +39,8 @@
       commands: R.chainRule('<último tag>'),
       notes: [
         { kind: 'nota', title: 'Dónde se resuelve un conflicto', text: 'Si hay conflicto, se resuelve en la rama de trabajo (R3), nunca en sbx (PoC 6 y 11).' },
-        { kind: 'error', title: 'El PR a sbx tiene conflicto', text: 'Casi siempre es porque se saltó este paso. Se vuelve aquí: se incorpora el último tag en la rama, se resuelve allí y se crea el tag.' }
+        { kind: 'error', title: 'El PR a sbx tiene conflicto', text: 'Casi siempre es porque se saltó este paso. Se vuelve aquí: se incorpora el último tag en la rama, se resuelve allí y se crea el tag.' },
+        { kind: 'warn', title: 'Si ya se creó un tag sin aplicar la regla', text: 'Ese tag no se usa (R10). Se incorpora el primero en la rama y se crea un tag nuevo, cuyo mensaje lleva la línea `Descarta: <tag que no se usa>`. La validación automática rechaza el PR del tag anterior con `CADENA` y explica cómo hacerlo.', see: [{ text: '6.7 Dos tags al mismo tiempo', href: 'pages/flujo-casos-poco-frecuentes.html#caso-6-7' }] }
       ],
       rules: ['R3'],
       detect: /^git merge /

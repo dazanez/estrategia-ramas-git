@@ -1,6 +1,6 @@
 /*
  * Flujo: Requerimiento (historia de usuario).
- * Transcripción de ESTRATEGIA-RAMAS.md v1.5, sección 3: el gitGraph (carriles, commits, tags y merges, en el mismo
+ * Transcripción de ESTRATEGIA-RAMAS.md v1.7, sección 3: el gitGraph (carriles, commits, tags y merges, en el mismo
  * orden) y la tabla de pasos (mismos números y mismo contenido). Solo se quitaron los cuadros de color del emoji,
  * que ahora los pone el tipo de la rama.
  *

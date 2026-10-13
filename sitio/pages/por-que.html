@@ -84,7 +84,7 @@
           <p class="card__head"><span class="card__num">#6</span><span class="card__title">Nombre de las ramas <span class="card__note">(actualizada 2026-10-05)</span></span></p>
           <dl>
             <dt>Decisión</dt><dd>Una sola forma para toda rama de trabajo: <code>&lt;tipo&gt;/&lt;sistema&gt;-&lt;id&gt;-&lt;descripcion&gt;-&lt;iniciales&gt;</code>, en minúsculas, con <code>&lt;tipo&gt;</code> = feature, bug, hotfix o test y <code>&lt;sistema&gt;</code> = az o glpi. Sin sprint. Reemplaza <code>HU_…</code>, <code>BUG_…</code>, <code>&lt;tag&gt;_BUG_…</code> y <code>AUT_…</code>.</dd>
-            <dt>Justificación</dt><dd>Es predecible: las mismas cuatro preguntas arman y leen cualquier nombre, y una sola expresión regular lo valida. DES-EST-016 §4.6.3 ya habla del "prefijo bug/" y el estándar usa <code>promote/</code>. Es la convención que Microsoft recomienda para Azure Repos.</dd>
+            <dt>Justificación</dt><dd>Es predecible: las mismas cinco preguntas arman y leen cualquier nombre, y una sola expresión regular lo valida. DES-EST-016 §4.6.3 ya habla del "prefijo bug/" y el estándar usa <code>promote/</code>. Es la convención que Microsoft recomienda para Azure Repos.</dd>
             <dt>Riesgo</dt><dd class="card__risk">Se aparta de los ejemplos del estándar (§4.6.2–4.6.5, ARQ-PRO-001 §6.3, §7.3 y §8.3): hay que comunicarlo. En Windows pueden chocar carpeta/rama y mayúsculas; se mitiga con las reglas de escritura y la validación automática.</dd>
           </dl>
         </li>

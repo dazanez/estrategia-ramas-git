@@ -1,6 +1,6 @@
 /*
  * Flujo: Rollback de producción.
- * Transcripción de ESTRATEGIA-RAMAS.md v1.6, sección 6.5: el gitGraph (mismo orden de carriles, commits, tags y merges;
+ * Transcripción de ESTRATEGIA-RAMAS.md v1.7, sección 6.5: el gitGraph (mismo orden de carriles, commits, tags y merges;
  * el PR a sbx va ANTES de promover a qa, como en el hotfix: I2) y la tabla de pasos (mismas filas y números, incluidas
  * «1–5» y «8–10»). "description" une «Qué se hace» y «Por qué» de la tabla.
  *
