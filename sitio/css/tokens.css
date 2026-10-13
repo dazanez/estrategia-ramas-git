@@ -16,12 +16,12 @@
   --on-primary: #FFFFFF;
 
   /* Ambientes y clases de rama: relleno (c), borde/linea (edge), fondo suave (soft), texto sobre el relleno (on) */
-  --c-sbx: #6CD4FF;      --c-sbx-edge: #1E88B8;      --c-sbx-soft: #E4F6FF;      --c-sbx-on: var(--ink);
+  --c-sbx: #41521F;      --c-sbx-edge: #41521F;      --c-sbx-soft: #E7EBDD;      --c-sbx-on: #FFFFFF;
   --c-qa: #FFA400;       --c-qa-edge: #B36F00;       --c-qa-soft: #FFF1D6;       --c-qa-on: var(--ink);
   --c-stg: #2A2A72;      --c-stg-edge: #2A2A72;      --c-stg-soft: #E6E6F4;      --c-stg-on: #FFFFFF;
-  --c-prod: #AD343E;     --c-prod-edge: #AD343E;     --c-prod-soft: #F7E3E5;     --c-prod-on: #FFFFFF;
+  --c-prod: #6CD4FF;     --c-prod-edge: #1E88B8;     --c-prod-soft: #E4F6FF;     --c-prod-on: var(--ink);
   --c-feature: #7FEFBD;  --c-feature-edge: #1F9467;  --c-feature-soft: #DDFAEE;  --c-feature-on: var(--ink);
-  --c-bug: #41521F;      --c-bug-edge: #41521F;      --c-bug-soft: #E7EBDD;      --c-bug-on: #FFFFFF;
+  --c-bug: #AD343E;      --c-bug-edge: #AD343E;      --c-bug-soft: #F7E3E5;      --c-bug-on: #FFFFFF;
   --c-hotfix: #C24A1F;   --c-hotfix-edge: #C24A1F;   --c-hotfix-soft: #FBE6DD;   --c-hotfix-on: #FFFFFF;
   --c-test: #6E7271;     --c-test-edge: #6E7271;     --c-test-soft: #ECEEED;     --c-test-on: #FFFFFF;
   --c-tag: #026433;      --c-tag-edge: #026433;      --c-tag-soft: #E3F0E8;      --c-tag-on: #FFFFFF;

@@ -1,6 +1,6 @@
 /*
  * Flujo: Pruebas automatizadas.
- * Transcripción de ESTRATEGIA-RAMAS.md v1.7, sección 6.11: el gitGraph (mismo orden de carriles, commits, tags y merges).
+ * Transcripción de ESTRATEGIA-RAMAS.md v1.8, sección 6.11: el gitGraph (mismo orden de carriles, commits, tags y merges).
  *
  * La sección 6.11 NO tiene tabla de pasos ni lista de «Pasos». Por eso:
  *   - los pasos son los números del gráfico (1 y 2), uno por commit o merge;

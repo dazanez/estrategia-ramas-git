@@ -1,6 +1,6 @@
 # DESIGN.md — Guía Git · SigDoc - MTI
 
-**Estado:** aprobado · **Fase actual:** 4 (contenido) · **Fuente de contenido:** [ESTRATEGIA-RAMAS.md](../ESTRATEGIA-RAMAS.md) v1.7
+**Estado:** aprobado · **Fase actual:** 4 (contenido) · **Fuente de contenido:** [ESTRATEGIA-RAMAS.md](../ESTRATEGIA-RAMAS.md) v1.8
 
 Este documento fija las decisiones de diseño y estructura del sitio. Es la referencia para todas las fases: si algo del código o del contenido lo contradice, se corrige el código o se actualiza este documento (nunca queda sin registrar). Última revisión de alineación código ↔ documento: ver §14.
 
@@ -16,7 +16,7 @@ Este documento fija las decisiones de diseño y estructura del sitio. Es la refe
 |---|---|---|---|
 | 1. Datos | Objetos sin lógica | `nav-data.js`, `config.js`, `js/flows/*.js`, `guides-data.js`, `js/chains/*.js` | No |
 | 2. Modelos | Funciones puras: reciben datos, devuelven resultados | `nav-model.js`, `reading-model.js`, `git-flow/model.js`, `layout.js`, `branch-name.js`, `recipes.js` | No (se prueban en Node) |
-| 3. Vistas | Dibujan un modelo en la página | `nav.js`, `toc.js`, `guides.js`, `tag-chain.js`, `branch-validator.js`, `git-flow/views.js` | Sí |
+| 3. Vistas | Dibujan un modelo en la página | `nav.js`, `toc.js`, `pages-index.js`, `guides.js`, `tag-chain.js`, `branch-validator.js`, `git-flow/views.js` | Sí |
 | 4. Composición | Crea las vistas, les entrega lo que necesitan y las monta | `main.js` (marco), `git-flow.js` (diagrama) | Sí |
 
 `boot.js` solo **carga** los archivos en orden; cada página tiene una sola etiqueta `<script>`. Más detalle en §9.
@@ -25,7 +25,7 @@ Este documento fija las decisiones de diseño y estructura del sitio. Es la refe
 
 | Qué | Dónde (única fuente) | Quién lo muestra |
 |---|---|---|
-| Menú, migas, Anterior/Siguiente, «Relacionados», índice y subítems con ancla | `js/nav-data.js` | `nav.js`, `breadcrumbs.js`, `pager.js`, `related.js`, `toc.js` |
+| Menú, migas, Anterior/Siguiente, «Relacionados», índice de la página, índice de páginas y subítems con ancla | `js/nav-data.js` | `nav.js`, `breadcrumbs.js`, `pager.js`, `related.js`, `toc.js`, `pages-index.js` |
 | Versión, fecha y estado de la guía (indicador lateral y pie) | `js/config.js` | `nav.js`, `footer.js` |
 | El texto de cada página | `pages/*.html` e `index.html`, escritos a mano | el navegador |
 | Un diagrama de ramas | `js/flows/<id>.js`, con `<div data-git-flow="<id>">` | `git-flow.js` y `js/git-flow/` |
@@ -40,11 +40,12 @@ Este documento fija las decisiones de diseño y estructura del sitio. Es la refe
 | Quiero agregar | Pasos |
 |---|---|
 | **Una página** | 1) Copiar `pages/_plantilla.html`. 2) Escribir su contenido. 3) Agregar una entrada en `nav-data.js` (con `summary` y, si quiere «Relacionados», `related`). |
+| **Una sección con varias páginas** | 1) Su página (el `href` de la sección) queda como portada: «Para qué sirve» y `<div data-pages-index>`, que lista las páginas hijas con su resumen y sus partes con ancla (si comparten `group`, con el subtítulo del grupo). 2) Las hijas van en `pages` de la sección, cada una con `summary`, `related` y, si es larga, `anchors`. |
 | **Un flujo con diagrama** | 1) Crear `js/flows/<id>.js` (formato en §7.1; los textos repetidos salen de `recipes.js`). 2) Poner `<div data-git-flow="<id>"></div>` en la página. Los enlaces «Receta: …» bajo los comandos aparecen solos. |
 | **Una parte con ancla en una página larga** | 1) Dar un `id` al bloque. 2) Declararlo en `anchors` de la página en `nav-data.js`: aparece en el índice (`<div data-toc>`) y como subítem del menú. |
 | **Una receta de Guías rápidas** | 1) Agregarla a `js/guides-data.js` (su `detect` dice qué líneas de comando la hacen aparecer en los flujos). 2) Agregar su ancla `receta-<id>` en los `anchors` de Guías rápidas. |
-| **Una regla (R12)** | Una fila con `id="r12"` en la tabla de reglas de Referencia; el chip es `<a class="chip chip--rule" href="…referencia.html#r12">R12</a>`. |
-| **Cambiar un color** | `css/tokens.css`, §3.2 de este documento y la tabla de colores de la sección 1 de `ESTRATEGIA-RAMAS.md` (que usa los mismos nombres). |
+| **Una regla (R12)** | Una fila con `id="r12"` en la tabla de `pages/referencia-reglas.html`; el chip es `<a class="chip chip--rule" href="…referencia-reglas.html#r12">R12</a>`. |
+| **Cambiar un color** | Cinco lugares, que deben quedar iguales: 1) `css/tokens.css` (`--c-<rol>`, `-edge`, `-soft`, `-on`); 2) §3.2 de este documento; 3) la tabla «Colores de los diagramas» de `pages/referencia-versionado-colores.html` (nombre del color y chip); 4) en `ESTRATEGIA-RAMAS.md`: la tabla de colores de la sección 1, los cuadrados de las tablas y la paleta de los diagramas (`themeVariables` `git0…` y `classDef`); 5) el número de versión de la guía (`config.js`). Ningún JS lleva un color escrito: el motor de diagramas solo lee los tokens. |
 | **Subir la versión de la guía** | `sourceVersion`, `sourceDate` y `sourceStatus` en `js/config.js`; después, revisar las páginas cuyo `Fuente: §` cambió. |
 
 **Cómo se mantiene al día con la guía.** `ESTRATEGIA-RAMAS.md` es la fuente. Cada página lleva su `Fuente: §x`. Lo que el sitio copia de la guía se copia tal cual; lo que la guía describe para otro medio (por ejemplo, Mermaid) o lo que falta se marca `[PENDIENTE]` (falta material) o se lista como `[POR CONFIRMAR]` (la guía dice algo dudoso o contradictorio). Todo lo que un flujo deriva de la sección 3 en lugar de leerlo literalmente se anota en el encabezado de su archivo `js/flows/<id>.js`. No se escribe nada que la guía no diga.
@@ -109,19 +110,25 @@ Colores que usted indicó, con el rol que propongo para cada uno. Los marcados *
 
 | Elemento | Color | `fill` | `edge` | `soft` | `on` |
 |---|---|---|---|---|---|
-| Ambiente `sbx` | celeste (blue sky) | `#6CD4FF` | `#1E88B8` | `#E4F6FF` | `--ink` |
+| Ambiente `sbx` | verde oliva | `#41521F` | `#41521F` | `#E7EBDD` | blanco |
 | Ambiente `qa` | amarillo | `#FFA400` | `#B36F00` | `#FFF1D6` | `--ink` |
 | Ambiente `stg` | morado | `#2A2A72` | `#2A2A72` | `#E6E6F4` | blanco |
-| Ambiente `prod` | vinotinto | `#AD343E` | `#AD343E` | `#F7E3E5` | blanco |
+| Ambiente `prod` | celeste (blue sky) | `#6CD4FF` | `#1E88B8` | `#E4F6FF` | `--ink` |
 | Rama `feature` | aguamarina | `#7FEFBD` | `#1F9467` | `#DDFAEE` | `--ink` |
-| Rama `bug` | verde oliva | `#41521F` | `#41521F` | `#E7EBDD` | blanco |
+| Rama `bug` | vinotinto | `#AD343E` | `#AD343E` | `#F7E3E5` | blanco |
 | Rama `hotfix` | naranja quemado **(nuevo)** | `#C24A1F` | `#C24A1F` | `#FBE6DD` | blanco |
 | Rama `test` y `promote/` | gris | `#6E7271` | `#6E7271` | `#ECEEED` | blanco |
 | Tag (etiqueta) | verde primario | `#026433` | `#026433` | `#E3F0E8` | blanco |
 
 El **azul marino** no es el color de ningún ambiente: es el color del texto, para que no compita con el morado de `stg`.
 
-**La guía usa los mismos nombres.** Desde la v1.7, la tabla de colores de la sección 1 de `ESTRATEGIA-RAMAS.md` y la paleta de sus diagramas Mermaid son estas (`fill` para el relleno y `on` para el texto de la etiqueta). Los cuadrados de color de las tablas de la guía son aproximados: no existe un cuadrado verde oliva ni gris medio, así que `feature` y `bug` se distinguen por el nombre de la rama.
+**La guía usa los mismos nombres.** Desde la v1.7, la tabla de colores de la sección 1 de `ESTRATEGIA-RAMAS.md` y la paleta de sus diagramas Mermaid son estas (`fill` para el relleno y `on` para el texto de la etiqueta). Los cuadrados de color de las tablas de la guía son aproximados: no existe un cuadrado verde oliva, aguamarina ni gris medio, así que `sbx` y `feature` comparten 🟩 y `test` usa ⬛; cada cuadrado va siempre junto al nombre de la rama.
+
+**Historial del reparto.** En la v1.8 se reasignaron tres colores a petición del responsable del proyecto: `sbx` pasó de celeste a verde oliva, `bug` de verde oliva a vinotinto y `prod` de vinotinto a celeste. El resto no cambió. Efectos a tener presentes:
+
+- `sbx` (verde oliva oscuro) y `feature` (aguamarina claro, con tres tonos más) son los dos verdes del diagrama. Se distinguen por la luminosidad y, siempre, por el nombre escrito junto a la línea.
+- `bug` comparte el vinotinto con el recuadro «Error común» (§3.3) y con el estado «no válido» del validador (`--error-bar`). No se confunden: el recuadro lleva su título y el chip lleva el nombre.
+- `prod`, el ambiente más delicado, pasa a ser el color más claro del diagrama; por eso va con `edge` en las líneas finas (§3.4) y su nombre siempre escrito.
 
 ### 3.3 Colores semánticos para los recuadros
 
@@ -140,9 +147,9 @@ El **azul marino** no es el color de ningún ambiente: es el color del texto, pa
 | `--ink-muted` sobre `--bg` | 7.1 : 1 | 4.5 | Cumple |
 | `--primary` sobre `--bg` / `--surface` | 6.8 / 7.3 : 1 | 4.5 | Cumple |
 | `--ink` sobre `--primary-tint` | 12.7 : 1 | 4.5 | Cumple |
-| Blanco sobre `stg`, `prod`, `bug`, `hotfix`, `tag` | 12.6 / 6.3 / 8.6 / 5.1 / 7.3 : 1 | 4.5 | Cumple |
-| `--ink` sobre `sbx`, `qa`, `feature` (relleno) | 8.9 / 7.5 / 10.6 : 1 | 4.5 | Cumple |
-| `edge` de `sbx`, `qa`, `feature` sobre `--surface` (líneas) | 4.0 / 4.1 / 3.8 : 1 | 3 (gráficos) | Cumple |
+| Blanco sobre `stg`, `sbx`, `bug`, `hotfix`, `tag` | 12.6 / 8.6 / 6.3 / 4.9 / 7.3 : 1 | 4.5 | Cumple |
+| `--ink` sobre `prod`, `qa`, `feature` (relleno) | 8.9 / 7.5 / 10.6 : 1 | 4.5 | Cumple |
+| `edge` de `prod`, `qa`, `feature` sobre `--surface` (líneas) | 4.0 / 4.0 / 3.8 : 1 | 3 (gráficos) | Cumple |
 | `#6E7271` (gris) como texto sobre `--bg` | 4.5 : 1 | 4.5 | Justo; solo en texto ≥ 16 px o en relleno con texto blanco |
 
 Los rellenos claros (`#6CD4FF`, `#FFA400`, `#7FEFBD`) **nunca** se usan como línea fina ni como color de texto sobre fondo claro; para eso están los `edge`.
@@ -178,7 +185,7 @@ Las fuentes **se incluyen dentro del sitio** (no se descargan de internet). Las 
 
 ## 5. Estructura de contenido: la página tipo
 
-La página tipo es corta (**máximo ~350 palabras de texto**, sin contar diagrama, tablas ni comandos) y tiene siempre los mismos cuatro bloques, en este orden. *Las páginas de contenido de la Fase 4 (Referencia, Por qué, Guías rápidas, Casos poco frecuentes) superan ese límite porque reúnen varias partes; ver «Páginas de contenido» más abajo.*
+La página tipo es corta (**máximo ~350 palabras de texto**, sin contar diagrama, tablas ni comandos) y tiene siempre los mismos cuatro bloques, en este orden. *Las páginas de contenido de la Fase 4 superan ese límite porque reúnen varias partes; ver «Páginas de contenido» más abajo. Referencia y Por qué se dividieron en páginas hijas en la v1.8; Casos poco frecuentes se probó dividida en tres y se dejó en una sola página porque así se leía mejor.*
 
 | # | Bloque (`h2`) | Contenido | Límite |
 |---|---|---|---|
@@ -200,6 +207,8 @@ El número de cada paso es el de la tabla de la guía; si la guía no trae tabla
 
 **Páginas con varios casos** («Casos poco frecuentes», sección 6 de la guía). Una sola página para varios casos que comparten flujos: `Cuándo` → `Índice` (`<div data-toc>`) → un bloque `h2` por caso → `Relacionados`. Cada bloque tiene un `id` (`caso-6-2`) que declara `nav-data.js` en el campo `anchors`; ese mismo campo dibuja el índice y los subítems del menú. El nombre del `id` es libre: el margen al saltar a un ancla (y bajo la barra fija en móvil) se aplica a todo elemento con `id` dentro de `.content`, no a un prefijo. Cada caso lleva su texto, su diagrama animado solo si la guía le da uno propio (si reutiliza el de otro caso, va un recuadro con el enlace al flujo o al caso que corresponda), sus avisos y, al final, una fila «Reglas que aplica» con un chip de regla por cada regla (R1–R11) que el caso cita o aplica.
 
+**Portada de «Flujos de trabajo».** «Para qué sirve» (con el aviso de la sección 5: ante un error reportado en producción, primero decidir si puede esperar a la próxima entrega) → «Los flujos» (`<div data-pages-index>`: las páginas de la sección, con el subtítulo de su grupo y, bajo «Casos poco frecuentes», los once casos con ancla) → «Cómo se lee un flujo» (controles del diagrama, comandos, pasos en Azure DevOps y enlace a la receta) → «Relacionados».
+
 **Páginas de contenido** (Fase 4). Cada una se arma a partir de ESTRATEGIA-RAMAS.md. Las tablas se copiaron de la guía con un script de un solo uso; **hoy son HTML escrito a mano y se editan directamente** (no hay generador: volver a generarlas borraría las ediciones):
 
 | Página | Bloques | Fuente |
@@ -208,8 +217,14 @@ El número de cada paso es el de la tabla de la guía; si la guía no trae tabla
 | **Conceptos clave** (Primeros pasos) | Para qué sirve → Índice → un bloque por concepto de §1, con el mini diagrama de la cadena de tags, la escalera «arriba y abajo» y el recorrido «qué viaja en cada dirección» → Relacionados | §1 |
 | **Clonar y configurar** (Primeros pasos) | Marcador `[PENDIENTE]`: el material se entrega aparte | — |
 | **Guías rápidas** | Para qué sirve → Índice → una receta por bloque (cuándo, comandos con *Copiar*, pasos de Azure DevOps, avisos, reglas que aplica) → Relacionados | §2, §3 y §6.2; las recetas están en `js/guides-data.js` |
-| **Referencia** | Para qué sirve → Índice → Reglas R1–R11 (tabla con un `id` por regla: `#r1`…`#r11`) → Nomenclatura (las cinco partes, tablas, reglas de escritura, expresiones y validador) → Versionado → Colores de los diagramas → Configuración de Azure DevOps (con el aviso fijo «Propuesta — no probada en Azure») → Relacionados | §1, §2 y §7 |
-| **Por qué lo hacemos así** | Para qué sirve → Índice → Registro de decisiones (tarjetas Decisión / Justificación / Riesgo) → Diferencias con DES-EST-016 y ARQ-PRO-001 → Evidencia de la PoC → Relacionados | §8, §9 y §10 |
+| **Referencia** (portada) | Para qué sirve → Índice de páginas (`data-pages-index`) → Relacionados. Cuatro páginas hijas: | §1, §2 y §7 |
+| · Reglas R1–R11 | Para qué sirve → tabla de reglas con un `id` por regla (`#r1`…`#r11`) → Relacionados | §2 |
+| · Nomenclatura y validador | Para qué sirve → Índice → las cinco partes, tablas, reglas de escritura, expresiones y validador → Relacionados | §2 |
+| · Versionado y colores | Para qué sirve → Índice → Versionado → Colores de los diagramas → Relacionados | §2 y §1 |
+| · Azure DevOps | Para qué sirve → Índice → configuración (con el aviso fijo «Propuesta — no probada en Azure») → Relacionados | §7 |
+| **Por qué lo hacemos así** (portada) | Para qué sirve → Índice de páginas (`data-pages-index`) → Relacionados. Dos páginas hijas: | §8, §9 y §10 |
+| · Registro de decisiones | Para qué sirve → Decisiones (tarjetas Tema / Decisión / Justificación / Riesgo) → Relacionados | §8 |
+| · Diferencias y evidencia | Para qué sirve → Índice → Diferencias con DES-EST-016 y ARQ-PRO-001 → Evidencia de la PoC → Relacionados | §9 y §10 |
 
 Reglas de estas páginas: lo que la guía dice se copia tal cual (con `código` y **negrita**); lo que la guía describe para otro medio (por ejemplo, «las etiquetas inclinadas» de los diagramas Mermaid) no se copia, y lo que falta se marca `[PENDIENTE]` o se lista para confirmar; no se escribe nada que la guía no diga.
 
@@ -218,7 +233,7 @@ Elementos fijos de cada página:
 - **Migas de pan** arriba (`Flujos de trabajo › Hotfix`).
 - **Encabezado:** `h1` + una etiqueta pequeña con su origen en la guía: `Fuente: ESTRATEGIA-RAMAS §5.2`. Sirve para volver al documento oficial y para detectar páginas desactualizadas.
 - **Anterior / Siguiente** al final, siguiendo el orden del menú.
-- **Pie del sitio:** «Basado en ESTRATEGIA-RAMAS.md v1.7» (el número sale de un único lugar, `config.js`).
+- **Pie del sitio:** «Basado en ESTRATEGIA-RAMAS.md v1.8» (el número sale de un único lugar, `config.js`).
 
 Las páginas **de flujo** pueden añadir, entre los bloques 1 y 2, un recuadro **Equivalencia SVN** cuando haya una diferencia que cause confusión («En SVN, el commit publica de inmediato; en git, el commit es local hasta el `push`»).
 
@@ -237,7 +252,7 @@ Las páginas **de flujo** pueden añadir, entre los bloques 1 y 2, un recuadro *
 │    · Req.    │  ── Relacionados ──                          │
 │    · Hotfix ◀│  [← Anterior]               [Siguiente →]    │
 │ Guías        │                                              │
-│ Referencia   │  Basado en ESTRATEGIA-RAMAS v1.7             │
+│ Referencia   │  Basado en ESTRATEGIA-RAMAS v1.8             │
 │ Por qué…     │                                              │
 └──────────────┴──────────────────────────────────────────────┘
    fija, 296 px          contenido: máx. 920 px, centrado
@@ -259,9 +274,10 @@ Las páginas **de flujo** pueden añadir, entre los bloques 1 y 2, un recuadro *
 
 - Seis entradas fijas: **Inicio, Primeros pasos, Flujos de trabajo, Guías rápidas, Referencia, Por qué lo hacemos así**.
 - Solo se **despliega la sección de la página actual**; las demás quedan cerradas (se pueden abrir a mano).
-- En «Flujos de trabajo» las páginas se agrupan en dos subtítulos: *Casos habituales* y *Casos poco frecuentes*.
+- En «Flujos de trabajo» las páginas se agrupan en dos subtítulos: *Casos habituales* y *Casos poco frecuentes* (una página con los 11 casos).
+- «Referencia» y «Por qué lo hacemos así» tienen una página de sección (portada con el índice de sus páginas) y páginas hijas, que se despliegan al entrar en la sección.
 - Una página larga puede declarar `anchors` en `nav-data.js`: bajo su enlace, y solo mientras es la página actual, el menú muestra un subítem con ancla por parte (se marca el de la parte que el usuario está leyendo, según el scroll y no según el `#` de la URL; `js/scroll-spy.js`, con la decisión en `js/reading-model.js`). Si el subítem activo queda fuera de la vista del panel, este se desplaza para mostrarlo. En móvil, tocar uno cierra el panel.
-- **Indicador de la guía:** al pie del panel, siempre visible, una línea con la versión, la fecha y el estado («Guía v1.7 · 2026-10-13 · Pendiente de aprobación»). Los tres datos se editan en un solo lugar: `sourceVersion`, `sourceDate` y `sourceStatus` de `js/config.js` (el pie de página usa la misma versión).
+- **Indicador de la guía:** al pie del panel, siempre visible, una línea con la versión, la fecha y el estado («Guía v1.8 · 2026-10-13 · Pendiente de aprobación»). Los tres datos se editan en un solo lugar: `sourceVersion`, `sourceDate` y `sourceStatus` de `js/config.js` (el pie de página usa la misma versión).
 - Una **página de sección** también puede declarar `anchors` (por ejemplo, las recetas de Guías rápidas): sus subítems cuelgan de la propia sección.
 - Ítem activo: fondo `--primary-tint` y barra izquierda de 3 px `--primary`.
 - Enlace «Saltar al contenido» como primer elemento enfocable; foco visible en todo (contorno de 2 px `--primary`, separado 2 px).
@@ -280,12 +296,13 @@ Cada componente es una clase CSS con nombre fijo (`.componente`, `.componente--v
 | **Encabezado de página** | `h1`, chip «Fuente: §x», y el «Para qué sirve». | Estático. |
 | **Chip de ambiente** | `<span class="chip chip--prod">prod</span>`: fondo `soft`, borde `edge`, un punto del color de relleno y el texto en `--ink` (así el contraste es siempre ≥ 4.5), mono 13 px. | Estático. |
 | **Chip de rama** | El mismo componente `chip`, con la variante de la clase de rama (`chip--hotfix`). El nombre se escribe tal cual. El diagrama usa este chip para la rama de cada paso. | Estático. |
-| **Chip de regla** | `<a class="chip chip--rule" href="referencia.html#r3">R3</a>`: el chip del sitio, neutro, con enlace. Va en una fila «Reglas que aplica» (`.rules`). Los destinos `#r1`…`#r11` son las filas de la tabla «Reglas R1–R11» de Referencia. | Estático. |
+| **Chip de regla** | `<a class="chip chip--rule" href="referencia-reglas.html#r3">R3</a>`: el chip del sitio, neutro, con enlace. Va en una fila «Reglas que aplica» (`.rules`). Los destinos `#r1`…`#r11` son las filas de la tabla de la página «Reglas R1–R11». | Estático. |
 | **Índice de página** | Rejilla de enlaces con ancla (`.toc`), uno por parte de la página, con una línea que dice qué tiene (diagrama, texto, enlace a otro flujo). Se declara en `nav-data.js` (`anchors`) y se dibuja donde haya un `<div data-toc>`; es la misma lista del menú. | Se genera desde el mapa del sitio. |
+| **Índice de páginas** | Las mismas tarjetas del índice de página (`.toc`), pero una por **página**: título con enlace, resumen y, debajo, sus partes con ancla (a dos columnas y a todo el ancho si son 6 o más). Solo funciona en la portada de una sección, donde lista las páginas hijas; si declaran `group`, pone el subtítulo del grupo. Se dibuja donde haya un `<div data-pages-index>` (`js/pages-index.js`, que lo calcula `nav-model.indexPages()`). | Se genera desde el mapa del sitio. |
 | **Receta** | Bloque de una página de Guías rápidas: título, «Cuándo se usa», bloque de comandos con **Copiar**, pasos de Azure DevOps (si los tiene), avisos y chips de las reglas que aplica. Se dibuja desde `js/guides-data.js` (`<div data-guides>`). | Botón **Copiar** (con respaldo para `file://`). |
 | **Enlace a la receta** | Bajo los comandos de cada paso de un diagrama: «Receta: Crear una rama desde un tag». Qué recetas corresponden lo decide `G.guides.forCommands()` a partir de las líneas de comando del paso, así que no se cablea paso por paso y no puede quedar desactualizado. | Enlace. |
 | **Cadena de tags** | Mini diagrama interactivo (`<div data-tag-chain="cadena-de-tags">`): fila de tags con flechas «está contenido en» y muñecas rusas anidadas; al tocar un tag se marca lo que contiene y una frase lo dice. | Botones con `aria-pressed`. |
-| **Validador de nombre de rama** | Campo de texto (`<div data-branch-validator>`) que valida con las dos expresiones de la guía y el límite de 60 caracteres, muestra el desglose en partes (✔/✖ además del color) y explica qué parte falla. Con ejemplos de la guía que se pueden pulsar. Se puede poner en cualquier página con solo el marcador (hoy, Referencia e Inicio): `boot.js` carga sus módulos y su CSS, y varios en una misma página no se pisan. | Valida mientras se escribe. |
+| **Validador de nombre de rama** | Campo de texto (`<div data-branch-validator>`) que valida con las dos expresiones de la guía y el límite de 60 caracteres, muestra el desglose en partes (✔/✖ además del color) y explica qué parte falla. Con ejemplos de la guía que se pueden pulsar. Se puede poner en cualquier página con solo el marcador (hoy, Nomenclatura y validador e Inicio): `boot.js` carga sus módulos y su CSS, y varios en una misma página no se pisan. | Valida mientras se escribe. |
 | **Recorrido, escalera y tarjeta de decisión** | `.route` (una fila por paso: acción → ambiente), `.ladder` (prod arriba, sbx abajo) y `.card` (Tema / Decisión / Justificación / Riesgo; el riesgo en ámbar, salvo «Ninguno»). HTML estático. | Estático. |
 | **Bloque de comando** | Fondo `--surface`, borde `--line`, mono 15 px. Rótulo «Comandos de Git» arriba a la izquierda. | Botón **Copiar**. |
 | **Pasos en Azure DevOps** | Lista numerada con rótulo «Pasos en Azure DevOps» (decisión 11b: solo texto, sin capturas). | Estático. |
@@ -365,22 +382,30 @@ GuiaGit.flows.register({
 | Sección | Página | Archivo | Fuente | Estado |
 |---|---|---|---|---|
 | **Inicio** | Inicio: resumen en una página, validador de nombre y tres reglas | `index.html` | §0 y §2 | Hecha |
-| **Primeros pasos** | (página de sección) | `primeros-pasos.html` | — | Marcador |
+| **Primeros pasos** | (página de sección; falta el material) | `primeros-pasos.html` | — | Marcador |
 | | Conceptos clave (con la cadena de tags interactiva) | `conceptos-clave.html` | §1 | Hecha |
 | | Clonar y configurar | `clonar-y-configurar.html` | material por entregar | `[PENDIENTE]` |
-| **Flujos de trabajo** | (página de sección) | `flujos.html` | §3 a §6 | Marcador |
+| **Flujos de trabajo** | (portada: elección del flujo, lista de flujos y cómo se lee uno) | `flujos.html` | §0 y §3 a §6 | Hecha |
 | | *Casos habituales:* Requerimiento | `flujo-requerimiento.html` | §3 | Hecha |
 | | Defecto (QA rechaza una versión) | `flujo-defecto.html` | §4 | Hecha |
 | | Incidencia no urgente | `flujo-incidencia-no-urgente.html` | §5.1 | Hecha |
 | | Incidencia urgente: hotfix | `flujo-hotfix.html` | §5.2 | Hecha |
 | | *Casos poco frecuentes:* una sola página con los 11 casos | `flujo-casos-poco-frecuentes.html` | §6 | Hecha |
 | **Guías rápidas** | Seis recetas | `guias.html` | §2, §3 y §6.2 | Hecha |
-| **Referencia** | Reglas, nomenclatura (con validador), versionado, colores y Azure DevOps | `referencia.html` | §1, §2 y §7 | Hecha |
-| **Por qué lo hacemos así** | Decisiones, diferencias con los estándares y evidencia | `por-que.html` | §8, §9 y §10 | Hecha |
+| **Referencia** | (página de sección: índice de sus páginas) | `referencia.html` | §1, §2 y §7 | Hecha |
+| | Reglas R1–R11 | `referencia-reglas.html` | §2 | Hecha |
+| | Nomenclatura y validador | `referencia-nomenclatura.html` | §2 | Hecha |
+| | Versionado y colores | `referencia-versionado-colores.html` | §2 y §1 | Hecha |
+| | Azure DevOps | `referencia-azure-devops.html` | §7 | Hecha |
+| **Por qué lo hacemos así** | (página de sección: índice de sus páginas) | `por-que.html` | §8, §9 y §10 | Hecha |
+| | Registro de decisiones | `por-que-decisiones.html` | §8 | Hecha |
+| | Diferencias y evidencia | `por-que-diferencias-evidencia.html` | §9 y §10 | Hecha |
 
-**Casos poco frecuentes.** Cinco casos tienen diagrama animado propio (6.2, 6.5, 6.6, 6.7 y 6.11). 6.1 usa el flujo de Defecto; 6.3 y 6.4 usan el diagrama de 6.2; 6.9 usa el de Hotfix; 6.8 y 6.10 son solo texto (6.8 con el aviso «No probado en la PoC»). Ningún diagrama se repite.
+**Casos poco frecuentes.** Una sola página, aunque es la más larga del sitio (≈ 12 200 px): se probó dividida en tres y el responsable del proyecto prefirió la página única, porque así se lee mejor el conjunto. Para encontrar un caso están el índice de la página, los subítems del menú y la portada de «Flujos de trabajo». Cinco casos tienen diagrama animado propio (6.2, 6.5, 6.6, 6.7 y 6.11). 6.1 usa el flujo de Defecto; 6.3 y 6.4 usan el diagrama de 6.2; 6.9 usa el de Hotfix; 6.8 y 6.10 son solo texto (6.8 con el aviso «No probado en la PoC»). Ningún diagrama se repite.
 
-**Pendiente de decidir (no de construir):** el largo de las páginas Referencia, Por qué, Guías rápidas y Casos poco frecuentes (§14), y si el contenido de las dos páginas de sección con marcador (Primeros pasos y Flujos de trabajo) es una portada con enlaces.
+**Largo de las páginas.** Referencia (portada y cuatro páginas) y Por qué (portada y dos) se dividieron en la v1.8 (§14). Guías rápidas (seis recetas cortas, con el menú de seguimiento de lectura), Conceptos clave y Casos poco frecuentes se dejaron enteras.
+
+**Pendiente:** el contenido de la portada de «Primeros pasos», que depende del material que entregará el responsable del proyecto. Con `<div data-pages-index>` se arma con una línea.
 
 **Lo que no se hizo, por decisión:** buscador y glosario con enlaces automáticos (no se eligieron).
 
@@ -404,8 +429,8 @@ Como el sitio se abre por `file://`, no se pueden usar `import`/`export` ni `fet
 
 | Contrato | Forma | Quién lo cumple |
 |---|---|---|
-| **Vista del marco** | `{ mount(elemento) }` | `nav.js`, `breadcrumbs.js`, `related.js`, `toc.js`, `pager.js`, `footer.js` (reciben `{ model, rootUrl, config, reading }`; `reading` es `null` si la página no declara `anchors`) |
-| **Modelo de navegación** | `{ sections, current(), previous(), next(), trail(), related(), anchors() }`, de solo lectura | `nav-model.js`, a partir de `nav-data.js` |
+| **Vista del marco** | `{ mount(elemento) }` | `nav.js`, `breadcrumbs.js`, `related.js`, `toc.js`, `pages-index.js`, `pager.js`, `footer.js` (reciben `{ model, rootUrl, config, reading }`; `reading` es `null` si la página no declara `anchors`) |
+| **Modelo de navegación** | `{ sections, current(), previous(), next(), trail(), related(), anchors(), indexPages() }`, de solo lectura | `nav-model.js`, a partir de `nav-data.js` |
 | **Modelo de lectura** | `pickReading(tops, viewportHeight, atBottom) → índice \| -1`; **función pura** | `reading-model.js` |
 | **Seguimiento de lectura** | `{ current(), onChange(fn), start() }`; `fn` recibe el id de la parte que se lee, o `null` | `scroll-spy.js`; lo crea `main.js` y lo suscribe `nav.js` |
 | **Modelo de un flujo** | `buildModel(flow) → { lanes, nodes, edges, steps, totalSteps, uses, errors }`; **función pura** | `git-flow/model.js` |
@@ -459,8 +484,10 @@ poc-ramas/
    ├─ index.html                    ← Inicio
    ├─ pages/                        ← todas las demás páginas, planas (una .html por tema)
    │  ├─ _plantilla.html            ← se copia para crear una página; no está en el menú
-   │  ├─ primeros-pasos.html · flujos.html · guias.html · referencia.html · por-que.html
+   │  ├─ primeros-pasos.html · flujos.html · guias.html · referencia.html · por-que.html   (páginas de sección)
    │  ├─ conceptos-clave.html · clonar-y-configurar.html
+   │  ├─ referencia-reglas.html · referencia-nomenclatura.html · referencia-versionado-colores.html · referencia-azure-devops.html
+   │  ├─ por-que-decisiones.html · por-que-diferencias-evidencia.html
    │  └─ flujo-requerimiento.html · flujo-defecto.html · flujo-incidencia-no-urgente.html · flujo-hotfix.html · flujo-casos-poco-frecuentes.html
    ├─ css/
    │  ├─ tokens.css                 ← variables: colores, tipografía, espaciado (§3, §4, §6)
@@ -482,11 +509,11 @@ poc-ramas/
    │  ├─ guides.js                  ← dibuja las recetas en <div data-guides>
    │  ├─ branch-name.js · branch-validator.js ← validación del nombre de rama (pura) y su vista
    │  ├─ tag-chain.js · chains/     ← mini diagrama de la cadena de tags y sus datos (cadena-de-tags.js)
-   │  ├─ nav-model.js               ← lógica pura: página actual, anterior, siguiente, migas
+   │  ├─ nav-model.js               ← lógica pura: página actual, anterior, siguiente, migas, índice de páginas
    │  ├─ nav.js · nav-mobile.js     ← menú lateral y su comportamiento en móvil
    │  ├─ reading-model.js           ← lógica pura: qué parte de la página se está leyendo, según su posición
    │  ├─ scroll-spy.js              ← mide la página, escucha el scroll y avisa la parte activa (la usa el menú)
-   │  ├─ breadcrumbs.js · related.js · toc.js · pager.js · footer.js
+   │  ├─ breadcrumbs.js · related.js · toc.js · pages-index.js · pager.js · footer.js
    │  ├─ git-flow.js                ← componente de diagramas: ensambla y monta <div data-git-flow="id">
    │  ├─ git-flow/                  ← motor: model.js · layout.js · player.js (puros) · render-svg.js · views.js · util.js · registry.js
    │  └─ flows/                     ← un archivo de datos por flujo (el id del div es el nombre del archivo): requerimiento.js · defecto.js · incidencia-no-urgente.js · hotfix.js ·
@@ -508,7 +535,7 @@ Convenciones:
 
 **Colores.** Son los de §3.2, sin cambios: el diagrama los toma de los tokens `--c-*` de `tokens.css` (relleno, línea y texto sobre el relleno), igual que los chips del resto del sitio. La única variación propia son tres tonos más de verde para `feature` (`#3FAE7C`, `#146B4F`, `#C4F5DF`), porque un flujo con varias features necesita distinguirlas (`ESTRATEGIA-RAMAS` §1: «verde, varios tonos»).
 
-> **Sin diferencia con la guía desde la v1.7.** La guía anterior describía `prod` en negro, `bug` en naranja, `hotfix` en rojo y `test` en café; se decidió que los colores del sitio (§3.2) están mejor pensados y se corrigió la guía (tabla de colores, cuadrados de las tablas y paleta de los diagramas Mermaid). El significado de cada color lo sigue dando su nombre escrito junto a la línea.
+> **Sin diferencia con la guía desde la v1.7; v1.8 reasignó tres colores en los dos.** La guía anterior describía `prod` en negro, `bug` en naranja, `hotfix` en rojo y `test` en café; se decidió que los colores del sitio (§3.2) están mejor pensados y se corrigió la guía (tabla de colores, cuadrados de las tablas y paleta de los diagramas Mermaid). En la v1.8 el responsable del proyecto pidió `sbx` verde oliva, `bug` vinotinto y `prod` celeste, y se aplicó igual en `tokens.css`, §3.2, Referencia y la guía. El significado de cada color lo sigue dando su nombre escrito junto a la línea.
 
 **Datos.** Un flujo es un objeto con `lanes` (carriles con `order` fijo), `start` (estado de partida) y `steps` (una fila de la tabla de la guía: `number`, `branches`, `description`, `commands`, `azure`, `events`). `description` junta las columnas «Qué se hace» y «Por qué» de la tabla. `commands` son los comandos de Git útiles en ese paso y `azure` los pasos que se hacen en Azure DevOps (texto). Los eventos son `commit` (con `style`: `commit`, `revert` o `highlight`), `branch` y `merge`; el tag va en el commit o el merge. Un commit o merge puede llevar un `id`, y un `branch` puede nacer de ese commit con `node` (en lugar de nacer de la punta actual del carril): se usa cuando la guía hace nacer una rama de un commit anterior, como la rama del hotfix, que nace de `v1.4.0` aunque sbx ya haya avanzado.
 
@@ -531,7 +558,7 @@ Convenciones:
 | **1** ✔ | `DESIGN.md` aprobado | Acordar el diseño antes de escribir código |
 | **2** ✔ | Cimientos + una porción vertical completa: CSS, fuentes, núcleo, menú, migas, pager, motor de diagramas, `index.html` y **una** página de flujo completa (Requerimiento) | Verificar de punta a punta que todo funciona con doble clic y que el diseño se ve bien, antes de multiplicar páginas |
 | **3** ✔ | Los flujos con sus diagramas: cuatro habituales (secciones 3, 4, 5.1 y 5.2) y los cinco de los casos poco frecuentes que la guía dibuja (6.2, 6.5, 6.6, 6.7 y 6.11) | La parte más valiosa |
-| **4** (en curso: contenido hecho; falta decidir el largo de página y recibir el material de «Clonar y configurar») | Primeros pasos (Conceptos clave; Clonar y configurar pendiente de material), Guías rápidas, Referencia y Por qué | Contenido que se apoya en lo anterior |
+| **4** (en curso: contenido hecho y páginas largas divididas; falta el material de «Clonar y configurar») | Primeros pasos (Conceptos clave; Clonar y configurar pendiente de material), Guías rápidas, Referencia y Por qué | Contenido que se apoya en lo anterior |
 | **5** | Revisión: enlaces, contraste, teclado, Firefox, y comparación página por página con ESTRATEGIA-RAMAS.md | Cierre |
 
 ---
@@ -544,7 +571,8 @@ Convenciones:
 | **Las páginas son HTML a mano:** un script que las regenere borraría ediciones. | No existe un generador en el repositorio. Los cambios de contenido se hacen editando el HTML (o el archivo de datos) y se confirman en git. |
 | `fonts.css` en base64 pesa (~250–350 KB). | Se carga una vez y el navegador la guarda; solo caracteres latinos. Es el precio de que funcione igual con doble clic en cualquier navegador. |
 | Hay que mantener ~15 escenarios de diagrama. | Se escriben como datos simples (§7.1); las posiciones se calculan solas. |
-| El color de `hotfix` (`#C24A1F`) se parece algo al amarillo/vinotinto vecinos. | La línea siempre lleva su nombre escrito y está en un lugar fijo del diagrama (la de más arriba). Se ve en la Fase 2 y se ajusta si hace falta. |
+| El color de `hotfix` (`#C24A1F`) se parece algo al amarillo de `qa` y al vinotinto de `bug`. | La línea siempre lleva su nombre escrito y está en un lugar fijo del diagrama (la de más arriba). Se ve en la Fase 2 y se ajusta si hace falta. |
+| `sbx` (verde oliva) y `feature` (aguamarina) son los dos verdes del diagrama, y `bug` comparte el vinotinto con el recuadro «Error común». | Difieren en luminosidad y siempre llevan el nombre escrito; en la guía los cuadrados aproximados repiten 🟩 y por eso van junto al nombre (§3.2). |
 | El gris `#6E7271` como texto roza el mínimo de contraste. | Solo se usa como relleno con texto blanco, o en texto grande. El texto secundario usa `--ink-muted`. |
 
 ---
@@ -553,7 +581,7 @@ Convenciones:
 
 Todas se confirmaron; lo que cambió respecto de lo propuesto está registrado en §7.1, §10 y §10.1. Se conserva la lista como historial.
 
-1. **Reparto de colores (§3.2).** Usted dio los colores; yo los asigné: celeste → `sbx`, amarillo → `qa`, morado → `stg`, vinotinto → `prod`, aguamarina → `feature`, verde oliva → `bug`, gris → `test`/`promote`, verde `#026433` → tags y acción. El **naranja quemado `#C24A1F`** para `hotfix` es nuevo. ¿Está bien este reparto?
+1. **Reparto de colores (§3.2).** Usted dio los colores; yo los asigné: celeste → `sbx`, amarillo → `qa`, morado → `stg`, vinotinto → `prod`, aguamarina → `feature`, verde oliva → `bug`, gris → `test`/`promote`, verde `#026433` → tags y acción. El **naranja quemado `#C24A1F`** para `hotfix` es nuevo. *Aprobado. En la v1.8 el responsable cambió tres: verde oliva → `sbx`, vinotinto → `bug`, celeste → `prod`; el reparto vigente es el de §3.2.*
 2. **Tipografías:** Source Serif 4 + IBM Plex Sans + IBM Plex Mono, incluidas en el sitio. ¿De acuerdo?
 3. **Carpeta `sitio/`** nueva dentro de `poc-ramas`, sin tocar `html/git-merge-types.html`. ¿De acuerdo?
 4. **Mapa de páginas (§8):** ¿falta o sobra alguna? (Por ejemplo, no incluí un glosario ni un buscador porque no los eligió.)
@@ -578,8 +606,20 @@ Revisión hecha antes de seguir con más páginas. Se comprobaron, con scripts, 
 | Tablas anchas sin contenedor con desplazamiento (§6) | Clase `.table-wrap` |
 | Documento desactualizado: carpeta `assets/`, estaciones, panel de ambientes, nombres en español, bus de eventos, orden de carriles | §2, §3, §4, §7, §7.1, §8, §9, §10, §11 y §13 puestos al día |
 
-**Fase 4 (contenido).** Se añadieron Inicio, Conceptos clave, Clonar y configurar (marcador), Guías rápidas, Referencia y Por qué. Se movió `recipes.js` al núcleo (`G.recipes`) para que lo usen flujos y guías, y `richText` y `copyText` pasaron a módulos del núcleo (`dom.js`, `clipboard.js`). Las páginas Referencia (≈ 8 900 px de alto), Por qué (≈ 6 900 px), Guías rápidas (≈ 6 100 px) y Casos poco frecuentes (≈ 12 200 px) superan por mucho el límite de §5: **pendiente de decidir si se dividen** (propuesta entregada con esta fase).
+**Fase 4 (contenido).** Se añadieron Inicio, Conceptos clave, Clonar y configurar (marcador), Guías rápidas, Referencia y Por qué. Se movió `recipes.js` al núcleo (`G.recipes`) para que lo usen flujos y guías, y `richText` y `copyText` pasaron a módulos del núcleo (`dom.js`, `clipboard.js`). Las páginas Referencia (≈ 8 900 px de alto), Por qué (≈ 6 900 px) y Casos poco frecuentes (≈ 12 200 px) superaban por mucho el límite de §5. Referencia y Por qué se dividieron en la v1.8 (ver abajo); Casos poco frecuentes se dividió y se revirtió. Guías rápidas (≈ 6 100 px) y Conceptos clave (≈ 4 100 px) se dejaron enteras.
 
 **Revisión de la v1.7 de la guía.** Dos correcciones nacidas del sitio: (1) la nomenclatura tiene **cinco** partes (tipo, sistema, ID, descripción e iniciales), no cuatro: se corrigió la guía (sección 2 y decisión 6) y las páginas de Referencia y Por qué; (2) la guía adoptó los colores del sitio (§3.2): tabla de la sección 1, cuadrados de color de sus tablas y paleta de los once diagramas Mermaid (se comprobó que los once siguen interpretándose).
+
+**Revisión de la v1.8 de la guía y del sitio.**
+
+| Cambio | Detalle |
+|---|---|
+| Colores | `sbx` verde oliva, `bug` vinotinto y `prod` celeste. Cambiado en `tokens.css` (único lugar donde el motor toma los colores: los diagramas, chips y validador no llevan ningún color escrito, salvo los tres tonos extra de `feature`), en §3.2 y §3.4 (contrastes recalculados), en la tabla de Referencia y en la guía (tabla, 22 cuadrados de las tablas y paleta de los diez diagramas con color; los once siguen interpretándose en Mermaid). |
+| Nombre del responsable | La sección 8 de la guía nombra a Diego Sánchez (@dazanez), igual que la página «Registro de decisiones». |
+| División de páginas | Referencia en 4 (más su portada) y Por qué en 2 (más su portada). Alto medido a 1 280 px: Reglas ≈ 2 100 px, Nomenclatura ≈ 4 100, Versionado y colores ≈ 2 200, Azure DevOps ≈ 3 300 (portada ≈ 1 500); Decisiones ≈ 4 300, Diferencias y evidencia ≈ 3 400 (portada ≈ 1 100). Nuevo componente `pages-index.js` y método `indexPages()` del modelo de navegación. Se reescribieron los enlaces (chips de regla, recetas, Inicio, Conceptos clave) y se comprobaron los enlaces internos: ninguno roto. |
+| Casos poco frecuentes | Se dividió en tres páginas (≈ 6 400, 5 500 y 3 300 px) y se **revirtió** a una sola, a pedido del responsable: el conjunto se entendía mejor junto aunque la página sea larga. Vuelve a ser `flujo-casos-poco-frecuentes.html`, con sus 11 subítems de menú. |
+| Portada de «Flujos de trabajo» | Completada: elección del flujo, lista de flujos con sus casos y cómo se lee un flujo (§5 y §8). «Primeros pasos» sigue como marcador, a la espera del material. |
+| Corrección | La celda «Pipelines» de la tabla de Azure DevOps mostraba `feature/<em>` en lugar de `feature/*` (el generador de la Fase 4 leyó los asteriscos como cursiva). |
+| Contrastes | Dos cifras de §3.4 estaban redondeadas hacia arriba: blanco sobre `hotfix` es 4.9 (no 5.1) y el `edge` de `qa` es 4.0 (no 4.1). Siguen cumpliendo. |
 
 **Pendiente por fase** (no es una inconsistencia: aún no hay contenido que lo use): recuadro «Equivalencia SVN» en uso, variantes de un flujo como pestañas, el diagrama de recorrido de Inicio, y la migración de `html/git-merge-types.html` a «Por qué lo hacemos así».

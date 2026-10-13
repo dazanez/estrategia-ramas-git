@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Azure DevOps · Guía Git · SigDoc - MTI</title>
+<link rel="stylesheet" href="../vendor/fonts/fonts.css">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+<div data-nav></div>
+
+<main class="content" id="contenido">
+  <div class="content__inner">
+    <div data-breadcrumbs></div>
+
+    <header class="page-header">
+      <h1>Azure DevOps</h1>
+      <p class="source-chip">Fuente: ESTRATEGIA-RAMAS §7</p>
+    </header>
+
+    <section class="block">
+      <h2>Para qué sirve</h2>
+      <p>Lo que hay que configurar en el proyecto de Azure DevOps: políticas de rama, permisos y validación automática de los PR.</p>
+    </section>
+
+    <section class="block">
+      <h2>Índice</h2>
+      <div data-toc><p class="pending"><strong>[CONTENIDO PENDIENTE]</strong> Índice de la página.</p></div>
+    </section>
+
+    <section class="block" id="azure-devops">
+      <h2>Configuración de Azure DevOps</h2>
+      <div class="callout callout--warn">
+        <p class="callout__title">Propuesta — no probada en Azure</p>
+        <p>La PoC simuló Azure DevOps con git local. Lo que sigue hay que configurarlo y probarlo en el proyecto real; los nombres de las opciones pueden variar según la versión de Azure DevOps.</p>
+      </div>
+      <p><strong>El paso a paso, con el plan de pruebas, está en <code>CONFIGURAR-AZURE-DEVOPS.md</code>.</strong></p>
+      <h3 id="azure-validacion">La validación automática</h3>
+      <p><strong>La validación automática ya está escrita y probada en la PoC:</strong></p>
+      <ul>
+        <li><code>ci\Validar-PR.ps1</code> es el script.</li>
+        <li><code>ci\azure-pipelines-validar-pr.yml</code> es el pipeline que lo ejecuta en Azure.</li>
+        <li><code>probar-validar-pr.ps1</code> es la prueba: 48 casos sobre un remoto local que simula Azure, con el resultado esperado en todos (detalle en <code>POC-RAMAS.md</code>, sección "Validación automática de PR").</li>
+      </ul>
+      <p>Lo que <strong>no</strong> se ha probado es su ejecución dentro de Azure DevOps.</p>
+      <h3 id="azure-configuracion">Qué se configura</h3>
+      <div class="table-wrap table-wrap--wrap">
+        <table>
+          <thead><tr><th scope="col">Dónde</th><th scope="col">Configuración</th><th scope="col">Para qué</th></tr></thead>
+          <tbody>
+            <tr><td>Políticas de <code>sbx</code>, <code>qa</code>, <code>stg</code> y <code>prod</code></td><td>"Require a minimum number of reviewers" (≥ 1; en <code>prod</code>, quien autorice el comité)</td><td>R1</td></tr>
+            <tr><td>Mismas ramas</td><td><strong>"Limit merge types": solo "Basic merge (no fast-forward)"</strong></td><td>R11</td></tr>
+            <tr><td>Permisos del repositorio</td><td>Denegar "Force push (rewrite history, delete branches and tags)" a desarrolladores</td><td>Que nadie mueva ni borre tags o historia (R10)</td></tr>
+            <tr><td>Mismas ramas</td><td>"Bypass policies" solo para administradores, y no para el uso diario</td><td>R1</td></tr>
+            <tr><td>Permisos del repositorio</td><td><strong>Exigir que las ramas se creen en carpetas:</strong> denegar "Create branch" en la raíz y permitirlo solo en <code>feature/</code>, <code>bug/</code>, <code>hotfix/</code>, <code>test/</code> y <code>promote/</code>. Microsoft lo documenta como "Require branches to be created in folders" (con <code>tf git permission</code> o la CLI de Azure DevOps). Las ramas de ambiente las crea Soporte.</td><td>Nadie puede crear nombres fuera de norma ni una rama <code>hotfix</code> que bloquee la carpeta</td></tr>
+            <tr><td>Pipelines</td><td>Disparadores y filtros por carpeta: <code>feature/*</code>, <code>bug/*</code>, <code>hotfix/*</code>, <code>test/*</code></td><td>Un solo filtro cubre todas las ramas de un tipo</td></tr>
+            <tr><td>PR a <code>sbx</code></td><td>Validación automática (<code>Validar-PR.ps1</code>): nombre de la rama (sección 2); la punta tiene un tag anotado; cuarta posición solo en <code>hotfix/</code>; el tag es la versión más alta; la rama contiene el último tag (regla de cadena), salvo los declarados con <code>Descarta:</code>; después del merge sbx queda idéntico al tag; nunca entra una rama de ambiente ni de promoción</td><td>R2–R5, R9, R10</td></tr>
+            <tr><td>PR a <code>qa</code>, <code>stg</code> y <code>prod</code></td><td>Validación automática: el origen es <code>promote/&lt;tag&gt;-to-&lt;env&gt;</code> y apunta exactamente al tag; el tag ya entró a sbx (qa, sin excepciones) o ya pasó por qa (stg, salvo un hotfix); en <code>prod</code>, el tag es el que está en <code>stg</code>; un hotfix nace del tag de producción; el resultado del merge es idéntico al tag; promover algo que el ambiente ya tiene se rechaza</td><td>R6, R7; garantiza I1 aunque alguien se salte la cadena</td></tr>
+            <tr><td>Política "Build validation"</td><td>Required, expiración "Immediately when <code>&lt;rama&gt;</code> is updated"</td><td>Si la rama destino cambia, la validación se repite</td></tr>
+            <tr><td>"Automatically included reviewers" en <code>sbx</code></td><td>Revisor obligatorio para cambios en <code>azure-pipelines-validar-pr.yml</code></td><td>Nadie desactiva la validación desde su propio PR</td></tr>
+            <tr><td>Repositorio aparte (<code>devops-plantillas</code>)</td><td><code>Validar-PR.ps1</code> vive allí, protegido; el pipeline lo descarga de su rama <code>main</code></td><td>Un desarrollador no puede cambiar las reglas en su PR</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 id="azure-basic-merge">Por qué «Basic merge (no fast-forward)» y no las otras opciones</h3>
+      <ul>
+        <li><em>Fast-forward</em> puro: bloquea el PR a sbx cada vez que sbx avanzó (PoC, hallazgo H2). Además, Azure DevOps no lo ofrece tal cual: su opción "Rebase and fast-forward" <strong>reescribe</strong> los commits cuando no puede avanzar directo.</li>
+        <li><em>Squash</em> y <em>rebase</em>: crean commits nuevos en lugar de los originales. Entonces el commit del tag deja de formar parte del historial de sbx, y la cadena y la regla "el tag es ancestro de sbx" se rompen. (Esto se deduce de cómo funciona git; la PoC no lo ejecutó.)</li>
+        <li><em>No fast-forward</em> con la regla de cadena: todas las corridas de la PoC dejaron los ambientes idénticos al tag (escenario 12).</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>Relacionados</h2>
+      <div data-related><p class="pending"><strong>[CONTENIDO PENDIENTE]</strong> De dos a cuatro enlaces a otras páginas.</p></div>
+    </section>
+
+    <div data-pager></div>
+    <footer data-footer></footer>
+  </div>
+</main>
+
+<script src="../js/boot.js"></script>
+</body>
+</html>

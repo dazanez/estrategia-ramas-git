@@ -1,6 +1,6 @@
 /*
  * Flujo: Incidencia no urgente.
- * Transcripción de ESTRATEGIA-RAMAS.md v1.7, sección 5.1: el gitGraph (mismo orden de carriles, commits, tags y merges).
+ * Transcripción de ESTRATEGIA-RAMAS.md v1.8, sección 5.1: el gitGraph (mismo orden de carriles, commits, tags y merges).
  *
  * La sección 5.1 NO tiene tabla de pasos, ni lista de «Pasos», ni comandos. Por eso:
  *   - los pasos son los números del gráfico (1 a 8), uno por commit o merge;

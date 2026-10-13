@@ -31,6 +31,7 @@
     'pager.js',
     'related.js',
     'toc.js',
+    'pages-index.js',
     'footer.js'
   ];
 

@@ -1,6 +1,7 @@
 # Estrategia de ramificación SigDoc — guía por caso
 
-**Versión 1.7 · 2026-10-13**
+**Versión 1.8 · 2026-10-13**
+- 1.8: se reasignan tres colores: `sbx` pasa a verde oliva, `bug/` a vinotinto y `prod` a celeste (el resto no cambia). La sección 8 nombra al responsable del proyecto.
 - 1.7: la nomenclatura tiene cinco partes (decía cuatro; el esquema ya mostraba cinco: tipo, sistema, ID, descripción e iniciales). Los colores de las ramas y de los diagramas pasan a ser los del sitio de documentación: celeste, aguamarina, verde oliva, naranja quemado, gris, amarillo, morado y vinotinto.
 - 1.6: coherencia con el sitio de documentación: el aviso «Importante» del hotfix (5.2) cita los pasos 7 a 9 de la tabla (5 a 7 de la lista «Pasos»), y en el defecto (4) el paso 1–2 remite al «Flujo de requerimiento».
 - 1.5: rollback (6.5): el PR a `sbx` va antes de promover a qa, igual que en el hotfix (I2); el diagrama y la tabla se corrigen. En 5.2 se aclara que, con qa libre, el recorrido normal también empieza por el PR a `sbx`. La validación automática deja de aceptar (antes avisaba) un hotfix en qa que aún no está en `sbx`.
@@ -66,10 +67,10 @@ flowchart LR
     STG -->|"5. promote/vX.Y.Z-to-prod<br/>con aprobación"| PROD["prod<br/>= vX.Y.Z"]
     classDef trabajo fill:#7FEFBD,color:#14264B,stroke:#1F9467
     classDef tag fill:#ffffff,color:#1f2328,stroke:#57606a,stroke-width:2px
-    classDef sbx fill:#6CD4FF,color:#14264B,stroke:#1E88B8
+    classDef sbx fill:#41521F,color:#FFFFFF,stroke:#41521F
     classDef qa fill:#FFA400,color:#14264B,stroke:#B36F00
     classDef stg fill:#2A2A72,color:#FFFFFF,stroke:#2A2A72
-    classDef prod fill:#AD343E,color:#FFFFFF,stroke:#AD343E
+    classDef prod fill:#6CD4FF,color:#14264B,stroke:#1E88B8
     class C trabajo
     class T tag
     class SBX sbx
@@ -86,16 +87,16 @@ flowchart LR
 
   | Color | Rama |
   |---|---|
-  | 🟦 celeste | `sbx` (línea base) |
+  | 🟩 verde oliva | `sbx` (línea base) |
   | 🟩 aguamarina (varios tonos si hay varias) | `feature/` (requerimiento) |
-  | 🟩 verde oliva | `bug/` (defecto o incidencia no urgente) |
+  | 🟥 vinotinto | `bug/` (defecto o incidencia no urgente) |
   | 🟧 naranja quemado | `hotfix/` (incidencia urgente o rollback) |
   | ⬛ gris | `test/` (prueba automatizada) |
   | 🟨 amarillo | `qa` |
   | 🟪 morado | `stg` |
-  | 🟥 vinotinto | `prod` |
+  | 🟦 celeste | `prod` |
 
-  *Son los colores del sitio de documentación. Los cuadrados de las tablas son aproximados (no existe un cuadrado verde oliva ni gris medio): `feature/` y `bug/` se identifican por el nombre de la rama.*
+  *Son los colores del sitio de documentación. Los cuadrados de las tablas son aproximados: no existe un cuadrado verde oliva, aguamarina ni gris medio, así que `sbx` y `feature/` comparten 🟩 y `test/` usa ⬛. Cada cuadrado va siempre junto al nombre de la rama, que es lo que la identifica.*
 - Cada commit lleva un **número de paso** (`1.`, `2.`, …). Debajo de cada diagrama hay una tabla con los mismos números que explica qué se hace en cada paso. Si las etiquetas se cruzan en el dibujo, guíese por los números y la tabla.
 - Cada círculo es un commit. La etiqueta en recuadro es el tag (`v1.6.0`).
 - Cuando una línea se junta con otra, es un merge: un PR completado. En las ramas de ambiente, el texto del círculo dice qué promoción fue (`promote/v1.6.0-to-qa`).
@@ -195,7 +196,7 @@ Para contar las iteraciones de una versión: `git tag -l "v1.5.*" -n1`.
 **Cuándo:** desarrollo de una funcionalidad nueva.
 
 ```mermaid
-%%{init: {'theme': 'base', 'gitGraph': {'mainBranchName': 'sbx'}, 'themeVariables': {'git0': '#6CD4FF', 'gitBranchLabel0': '#14264B', 'gitInv0': '#6CD4FF', 'git1': '#7FEFBD', 'gitBranchLabel1': '#14264B', 'gitInv1': '#7FEFBD', 'git2': '#41521F', 'gitBranchLabel2': '#FFFFFF', 'gitInv2': '#41521F', 'git3': '#FFA400', 'gitBranchLabel3': '#14264B', 'gitInv3': '#FFA400', 'git4': '#2A2A72', 'gitBranchLabel4': '#FFFFFF', 'gitInv4': '#2A2A72', 'git5': '#AD343E', 'gitBranchLabel5': '#FFFFFF', 'gitInv5': '#AD343E', 'commitLabelColor': '#1f2328', 'commitLabelBackground': '#ffffff', 'commitLabelFontSize': '13px', 'tagLabelColor': '#1f2328', 'tagLabelBackground': '#ffffff', 'tagLabelBorder': '#57606a', 'tagLabelFontSize': '13px'}} }%%
+%%{init: {'theme': 'base', 'gitGraph': {'mainBranchName': 'sbx'}, 'themeVariables': {'git0': '#41521F', 'gitBranchLabel0': '#FFFFFF', 'gitInv0': '#41521F', 'git1': '#7FEFBD', 'gitBranchLabel1': '#14264B', 'gitInv1': '#7FEFBD', 'git2': '#AD343E', 'gitBranchLabel2': '#FFFFFF', 'gitInv2': '#AD343E', 'git3': '#FFA400', 'gitBranchLabel3': '#14264B', 'gitInv3': '#FFA400', 'git4': '#2A2A72', 'gitBranchLabel4': '#FFFFFF', 'gitInv4': '#2A2A72', 'git5': '#6CD4FF', 'gitBranchLabel5': '#14264B', 'gitInv5': '#6CD4FF', 'commitLabelColor': '#1f2328', 'commitLabelBackground': '#ffffff', 'commitLabelFontSize': '13px', 'tagLabelColor': '#1f2328', 'tagLabelBackground': '#ffffff', 'tagLabelBorder': '#57606a', 'tagLabelFontSize': '13px'}} }%%
 gitGraph
     commit id: "linea base" tag: "v1.5.0"
     branch qa order: 7
@@ -228,13 +229,13 @@ gitGraph
 |---|---|---|---|
 | — | 🟩 `feature/az-32154-…` | La rama nace del último tag (`v1.5.0`) | R2: nunca de la rama sbx |
 | 1 | 🟩 feature | Se desarrolla | — |
-| 2 | 🟩 `bug/az-65490-…` | Mientras tanto, otro equipo entrega un bug: tag `v1.5.1` y PR a sbx | Ahora el último tag es `v1.5.1` |
+| 2 | 🟥 `bug/az-65490-…` | Mientras tanto, otro equipo entrega un bug: tag `v1.5.1` y PR a sbx | Ahora el último tag es `v1.5.1` |
 | 3 | 🟩 feature | Se termina el desarrollo (pruebas unitarias) | — |
 | 4 | 🟩 feature | **Regla de cadena**: `git merge v1.5.1` en la rama. Después, el tag `v1.6.0` **en la rama** | `v1.6.0` debe contener al último tag (R3), y el tag va antes del PR (R4) |
-| 5 | 🟦 sbx | PR de la rama a sbx | sbx queda igual a `v1.6.0` |
+| 5 | 🟩 sbx | PR de la rama a sbx | sbx queda igual a `v1.6.0` |
 | 6 | 🟨 qa | `promote/v1.6.0-to-qa` | QA prueba |
 | 7 | 🟪 stg | `promote/v1.6.0-to-stg`, cuando QA certifica y el cliente aprueba | — |
-| 8 | 🟥 prod | `promote/v1.6.0-to-prod`, cuando el comité autoriza | — |
+| 8 | 🟦 prod | `promote/v1.6.0-to-prod`, cuando el comité autoriza | — |
 
 **Pasos**
 
@@ -280,7 +281,7 @@ gitGraph
 **Cuándo:** QA prueba `v1.6.0` en qa, encuentra un error y lo registra como bug en Azure DevOps.
 
 ```mermaid
-%%{init: {'theme': 'base', 'gitGraph': {'mainBranchName': 'sbx'}, 'themeVariables': {'git0': '#6CD4FF', 'gitBranchLabel0': '#14264B', 'gitInv0': '#6CD4FF', 'git1': '#7FEFBD', 'gitBranchLabel1': '#14264B', 'gitInv1': '#7FEFBD', 'git2': '#41521F', 'gitBranchLabel2': '#FFFFFF', 'gitInv2': '#41521F', 'git3': '#41521F', 'gitBranchLabel3': '#FFFFFF', 'gitInv3': '#41521F', 'git4': '#FFA400', 'gitBranchLabel4': '#14264B', 'gitInv4': '#FFA400', 'git5': '#2A2A72', 'gitBranchLabel5': '#FFFFFF', 'gitInv5': '#2A2A72', 'git6': '#AD343E', 'gitBranchLabel6': '#FFFFFF', 'gitInv6': '#AD343E', 'commitLabelColor': '#1f2328', 'commitLabelBackground': '#ffffff', 'commitLabelFontSize': '13px', 'tagLabelColor': '#1f2328', 'tagLabelBackground': '#ffffff', 'tagLabelBorder': '#57606a', 'tagLabelFontSize': '13px'}} }%%
+%%{init: {'theme': 'base', 'gitGraph': {'mainBranchName': 'sbx'}, 'themeVariables': {'git0': '#41521F', 'gitBranchLabel0': '#FFFFFF', 'gitInv0': '#41521F', 'git1': '#7FEFBD', 'gitBranchLabel1': '#14264B', 'gitInv1': '#7FEFBD', 'git2': '#AD343E', 'gitBranchLabel2': '#FFFFFF', 'gitInv2': '#AD343E', 'git3': '#AD343E', 'gitBranchLabel3': '#FFFFFF', 'gitInv3': '#AD343E', 'git4': '#FFA400', 'gitBranchLabel4': '#14264B', 'gitInv4': '#FFA400', 'git5': '#2A2A72', 'gitBranchLabel5': '#FFFFFF', 'gitInv5': '#2A2A72', 'git6': '#6CD4FF', 'gitBranchLabel6': '#14264B', 'gitInv6': '#6CD4FF', 'commitLabelColor': '#1f2328', 'commitLabelBackground': '#ffffff', 'commitLabelFontSize': '13px', 'tagLabelColor': '#1f2328', 'tagLabelBackground': '#ffffff', 'tagLabelBorder': '#57606a', 'tagLabelFontSize': '13px'}} }%%
 gitGraph
     commit id: "linea base" tag: "v1.5.0"
     branch qa order: 7
@@ -317,15 +318,15 @@ gitGraph
 
 | Paso | Rama | Qué se hace | Por qué |
 |---|---|---|---|
-| 1–2 | 🟩 feature → 🟦 sbx | Requerimiento: tag `v1.6.0` en la rama y PR a sbx | Flujo de requerimiento |
+| 1–2 | 🟩 feature → 🟩 sbx | Requerimiento: tag `v1.6.0` en la rama y PR a sbx | Flujo de requerimiento |
 | 3 | 🟨 qa | `promote/v1.6.0-to-qa`. **QA rechaza** (bug 65487 en Azure) | — |
-| 4 | 🟩 `bug/az-65487-…` | Rama desde `v1.6.0`, corrección y tag `v1.6.1` | Una corrección sube el **patch** |
-| 5 | 🟦 sbx | PR del bug a sbx | — |
+| 4 | 🟥 `bug/az-65487-…` | Rama desde `v1.6.0`, corrección y tag `v1.6.1` | Una corrección sube el **patch** |
+| 5 | 🟩 sbx | PR del bug a sbx | — |
 | 6 | 🟨 qa | `promote/v1.6.1-to-qa`. **QA rechaza otra vez** (bug 65488) | — |
-| 7 | 🟩 `bug/az-65488-…` | Rama **desde `v1.6.1`** (el último tag), corrección y tag `v1.6.2` | Cada rechazo es un bug nuevo con su propia rama (R9) |
-| 8 | 🟦 sbx | PR del bug a sbx | — |
+| 7 | 🟥 `bug/az-65488-…` | Rama **desde `v1.6.1`** (el último tag), corrección y tag `v1.6.2` | Cada rechazo es un bug nuevo con su propia rama (R9) |
+| 8 | 🟩 sbx | PR del bug a sbx | — |
 | 9 | 🟨 qa | `promote/v1.6.2-to-qa`. **QA aprueba** | — |
-| 10–11 | 🟪 stg → 🟥 prod | `v1.6.2` sube a stg y a prod | Solo la versión aprobada sale; `v1.6.0` y `v1.6.1` quedan en el historial de qa |
+| 10–11 | 🟪 stg → 🟦 prod | `v1.6.2` sube a stg y a prod | Solo la versión aprobada sale; `v1.6.0` y `v1.6.1` quedan en el historial de qa |
 
 **Pasos:** los mismos que en un requerimiento, con estas diferencias:
 - La rama se llama `bug/az-<idBug>-<descripcion>-<ini>` y nace del último tag. Normalmente es la versión rechazada; si mientras tanto salió otro tag, es ese, por la regla de cadena.
@@ -345,7 +346,7 @@ Primero hay que decidir si **puede esperar a la próxima entrega**.
 Es un defecto más que sale con la próxima versión. Rama `bug/glpi-<ticket>-<descripcion>-<ini>` desde el último tag; tag patch (o minor, si viaja junto con un requerimiento); recorrido normal qa → stg → prod. PoC, escenario 1a.
 
 ```mermaid
-%%{init: {'theme': 'base', 'gitGraph': {'mainBranchName': 'sbx'}, 'themeVariables': {'git0': '#6CD4FF', 'gitBranchLabel0': '#14264B', 'gitInv0': '#6CD4FF', 'git1': '#7FEFBD', 'gitBranchLabel1': '#14264B', 'gitInv1': '#7FEFBD', 'git2': '#41521F', 'gitBranchLabel2': '#FFFFFF', 'gitInv2': '#41521F', 'git3': '#FFA400', 'gitBranchLabel3': '#14264B', 'gitInv3': '#FFA400', 'git4': '#2A2A72', 'gitBranchLabel4': '#FFFFFF', 'gitInv4': '#2A2A72', 'git5': '#AD343E', 'gitBranchLabel5': '#FFFFFF', 'gitInv5': '#AD343E', 'commitLabelColor': '#1f2328', 'commitLabelBackground': '#ffffff', 'commitLabelFontSize': '13px', 'tagLabelColor': '#1f2328', 'tagLabelBackground': '#ffffff', 'tagLabelBorder': '#57606a', 'tagLabelFontSize': '13px'}} }%%
+%%{init: {'theme': 'base', 'gitGraph': {'mainBranchName': 'sbx'}, 'themeVariables': {'git0': '#41521F', 'gitBranchLabel0': '#FFFFFF', 'gitInv0': '#41521F', 'git1': '#7FEFBD', 'gitBranchLabel1': '#14264B', 'gitInv1': '#7FEFBD', 'git2': '#AD343E', 'gitBranchLabel2': '#FFFFFF', 'gitInv2': '#AD343E', 'git3': '#FFA400', 'gitBranchLabel3': '#14264B', 'gitInv3': '#FFA400', 'git4': '#2A2A72', 'gitBranchLabel4': '#FFFFFF', 'gitInv4': '#2A2A72', 'git5': '#6CD4FF', 'gitBranchLabel5': '#14264B', 'gitInv5': '#6CD4FF', 'commitLabelColor': '#1f2328', 'commitLabelBackground': '#ffffff', 'commitLabelFontSize': '13px', 'tagLabelColor': '#1f2328', 'tagLabelBackground': '#ffffff', 'tagLabelBorder': '#57606a', 'tagLabelFontSize': '13px'}} }%%
 gitGraph
     commit id: "linea base" tag: "v1.5.0"
     branch qa order: 7
@@ -380,7 +381,7 @@ Ten en cuenta que la corrección sale junto con todo lo que ya esté en la caden
 ### 5.2 Incidencia urgente (hotfix)
 
 ```mermaid
-%%{init: {'theme': 'base', 'gitGraph': {'mainBranchName': 'sbx'}, 'themeVariables': {'git0': '#6CD4FF', 'gitBranchLabel0': '#14264B', 'gitInv0': '#6CD4FF', 'git1': '#7FEFBD', 'gitBranchLabel1': '#14264B', 'gitInv1': '#7FEFBD', 'git2': '#C24A1F', 'gitBranchLabel2': '#FFFFFF', 'gitInv2': '#C24A1F', 'git3': '#FFA400', 'gitBranchLabel3': '#14264B', 'gitInv3': '#FFA400', 'git4': '#2A2A72', 'gitBranchLabel4': '#FFFFFF', 'gitInv4': '#2A2A72', 'git5': '#AD343E', 'gitBranchLabel5': '#FFFFFF', 'gitInv5': '#AD343E', 'commitLabelColor': '#1f2328', 'commitLabelBackground': '#ffffff', 'commitLabelFontSize': '13px', 'tagLabelColor': '#1f2328', 'tagLabelBackground': '#ffffff', 'tagLabelBorder': '#57606a', 'tagLabelFontSize': '13px'}} }%%
+%%{init: {'theme': 'base', 'gitGraph': {'mainBranchName': 'sbx'}, 'themeVariables': {'git0': '#41521F', 'gitBranchLabel0': '#FFFFFF', 'gitInv0': '#41521F', 'git1': '#7FEFBD', 'gitBranchLabel1': '#14264B', 'gitInv1': '#7FEFBD', 'git2': '#C24A1F', 'gitBranchLabel2': '#FFFFFF', 'gitInv2': '#C24A1F', 'git3': '#FFA400', 'gitBranchLabel3': '#14264B', 'gitInv3': '#FFA400', 'git4': '#2A2A72', 'gitBranchLabel4': '#FFFFFF', 'gitInv4': '#2A2A72', 'git5': '#6CD4FF', 'gitBranchLabel5': '#14264B', 'gitInv5': '#6CD4FF', 'commitLabelColor': '#1f2328', 'commitLabelBackground': '#ffffff', 'commitLabelFontSize': '13px', 'tagLabelColor': '#1f2328', 'tagLabelBackground': '#ffffff', 'tagLabelBorder': '#57606a', 'tagLabelFontSize': '13px'}} }%%
 gitGraph
     commit id: "linea base" tag: "v1.4.0"
     branch qa order: 7
@@ -413,13 +414,13 @@ gitGraph
 
 | Paso | Rama | Qué se hace | Por qué |
 |---|---|---|---|
-| 1–3 | 🟩 feature → 🟦 sbx → 🟨 qa | Antes del incidente: `v1.5.0` está en qa, **en pruebas**. Prod sigue en `v1.4.0` | Situación de partida |
+| 1–3 | 🟩 feature → 🟩 sbx → 🟨 qa | Antes del incidente: `v1.5.0` está en qa, **en pruebas**. Prod sigue en `v1.4.0` | Situación de partida |
 | — | 🟧 `hotfix/glpi-13487-…` | La rama nace de **`v1.4.0`**, lo que está en producción, no del último tag | Solo debe llevar la corrección |
 | 4 | 🟧 hotfix | Corrección y tag `v1.4.0.1` (cuarta posición) | Cuarta posición = hotfix |
 | 5 | 🟪 stg | `promote/v1.4.0.1-to-stg` | **Salta qa** (R7), porque qa está ocupado con `v1.5.0` |
-| 6 | 🟥 prod | `promote/v1.4.0.1-to-prod` | Incidente resuelto en producción |
+| 6 | 🟦 prod | `promote/v1.4.0.1-to-prod` | Incidente resuelto en producción |
 | 7 | 🟧 hotfix | En la misma rama, `git merge v1.5.0` y tag `v1.5.1` (= `v1.5.0` + hotfix) | La versión en pruebas no tenía el hotfix |
-| 8 | 🟦 sbx | PR de la rama del hotfix a sbx | La corrección entra a la línea base |
+| 8 | 🟩 sbx | PR de la rama del hotfix a sbx | La corrección entra a la línea base |
 | 9 | 🟨 qa | `promote/v1.5.1-to-qa`: **reemplaza** a `v1.5.0` | `v1.5.0` ya no se promueve, porque no tiene el hotfix |
 
 **Pasos**
@@ -497,7 +498,7 @@ En principio no debería pasar, porque stg solo recibe lo que QA ya certificó. 
    Luego PR a sbx y qa → stg → prod.
 
 ```mermaid
-%%{init: {'theme': 'base', 'gitGraph': {'mainBranchName': 'sbx'}, 'themeVariables': {'git0': '#6CD4FF', 'gitBranchLabel0': '#14264B', 'gitInv0': '#6CD4FF', 'git1': '#7FEFBD', 'gitBranchLabel1': '#14264B', 'gitInv1': '#7FEFBD', 'git2': '#3FAE7C', 'gitBranchLabel2': '#14264B', 'gitInv2': '#3FAE7C', 'git3': '#146B4F', 'gitBranchLabel3': '#FFFFFF', 'gitInv3': '#146B4F', 'git4': '#C4F5DF', 'gitBranchLabel4': '#14264B', 'gitInv4': '#C4F5DF', 'git5': '#FFA400', 'gitBranchLabel5': '#14264B', 'gitInv5': '#FFA400', 'git6': '#2A2A72', 'gitBranchLabel6': '#FFFFFF', 'gitInv6': '#2A2A72', 'git7': '#AD343E', 'gitBranchLabel7': '#FFFFFF', 'gitInv7': '#AD343E', 'commitLabelColor': '#1f2328', 'commitLabelBackground': '#ffffff', 'commitLabelFontSize': '13px', 'tagLabelColor': '#1f2328', 'tagLabelBackground': '#ffffff', 'tagLabelBorder': '#57606a', 'tagLabelFontSize': '13px'}} }%%
+%%{init: {'theme': 'base', 'gitGraph': {'mainBranchName': 'sbx'}, 'themeVariables': {'git0': '#41521F', 'gitBranchLabel0': '#FFFFFF', 'gitInv0': '#41521F', 'git1': '#7FEFBD', 'gitBranchLabel1': '#14264B', 'gitInv1': '#7FEFBD', 'git2': '#3FAE7C', 'gitBranchLabel2': '#14264B', 'gitInv2': '#3FAE7C', 'git3': '#146B4F', 'gitBranchLabel3': '#FFFFFF', 'gitInv3': '#146B4F', 'git4': '#C4F5DF', 'gitBranchLabel4': '#14264B', 'gitInv4': '#C4F5DF', 'git5': '#FFA400', 'gitBranchLabel5': '#14264B', 'gitInv5': '#FFA400', 'git6': '#2A2A72', 'gitBranchLabel6': '#FFFFFF', 'gitInv6': '#2A2A72', 'git7': '#6CD4FF', 'gitBranchLabel7': '#14264B', 'gitInv7': '#6CD4FF', 'commitLabelColor': '#1f2328', 'commitLabelBackground': '#ffffff', 'commitLabelFontSize': '13px', 'tagLabelColor': '#1f2328', 'tagLabelBackground': '#ffffff', 'tagLabelBorder': '#57606a', 'tagLabelFontSize': '13px'}} }%%
 gitGraph
     commit id: "linea base" tag: "v1.5.0"
     branch qa order: 7
@@ -547,14 +548,14 @@ gitGraph
 
 | Paso | Rama | Qué se hace | Contenido del tag |
 |---|---|---|---|
-| 1–2 | 🟩 A `feature/az-1001-…` → 🟦 sbx | Tag `v1.6.0` y PR a sbx | A |
+| 1–2 | 🟩 A `feature/az-1001-…` → 🟩 sbx | Tag `v1.6.0` y PR a sbx | A |
 | 3 | 🟨 qa | `promote/v1.6.0-to-qa`. QA certifica; **A espera al cliente** | — |
 | 4–5 | 🟩 B `feature/az-1002-…` | B termina; regla de cadena (`git merge v1.6.0`) y tag `v1.7.0` | A + B |
-| 6–7 | 🟦 sbx → 🟨 qa | PR de B y `promote/v1.7.0-to-qa` | — |
+| 6–7 | 🟩 sbx → 🟨 qa | PR de B y `promote/v1.7.0-to-qa` | — |
 | 8 | 🟩 `feature/az-1003-retiro-temporal-…` | B debe salir y el cliente no ha aprobado A: `git revert` de A (✕) y tag `v1.7.1` | **solo B** |
-| 9–12 | 🟦 sbx → 🟨 qa → 🟪 stg → 🟥 prod | PR y recorrido completo de `v1.7.1` | Prod recibe B **sin A** |
+| 9–12 | 🟩 sbx → 🟨 qa → 🟪 stg → 🟦 prod | PR y recorrido completo de `v1.7.1` | Prod recibe B **sin A** |
 | 13 | 🟩 `feature/az-1004-reintroduce-…` | El cliente aprueba A: "revert del revert" (cuadrado) y tag `v1.8.0` | A + B |
-| 14–17 | 🟦 sbx → 🟨 qa → 🟪 stg → 🟥 prod | PR y recorrido completo de `v1.8.0` | Prod recibe A, ahora con aprobación |
+| 14–17 | 🟩 sbx → 🟨 qa → 🟪 stg → 🟦 prod | PR y recorrido completo de `v1.8.0` | Prod recibe A, ahora con aprobación |
 
 En ningún paso llega A a stg ni a prod sin aprobación.
 
@@ -590,7 +591,7 @@ Rama con el ID de un **ítem nuevo** ("retirar HU 801"; no se reutiliza el nombr
    Luego se sigue el flujo de hotfix (5.2). Aquí `v1.4.0` es la cabeza de la cadena y qa tiene lo mismo que prod (nada en pruebas), así que el recorrido es el normal, con el PR a sbx primero: sbx → qa → stg → prod. Si qa tuviera otra versión en pruebas, sería como en 5.2: stg → prod, re-etiquetar la cabeza, PR a sbx y promover el tag re-etiquetado a qa. La PoC comprobó que el contenido del tag nuevo queda **idéntico** al de `v1.3.0` (9b).
 
 ```mermaid
-%%{init: {'theme': 'base', 'gitGraph': {'mainBranchName': 'sbx'}, 'themeVariables': {'git0': '#6CD4FF', 'gitBranchLabel0': '#14264B', 'gitInv0': '#6CD4FF', 'git1': '#7FEFBD', 'gitBranchLabel1': '#14264B', 'gitInv1': '#7FEFBD', 'git2': '#C24A1F', 'gitBranchLabel2': '#FFFFFF', 'gitInv2': '#C24A1F', 'git3': '#FFA400', 'gitBranchLabel3': '#14264B', 'gitInv3': '#FFA400', 'git4': '#2A2A72', 'gitBranchLabel4': '#FFFFFF', 'gitInv4': '#2A2A72', 'git5': '#AD343E', 'gitBranchLabel5': '#FFFFFF', 'gitInv5': '#AD343E', 'commitLabelColor': '#1f2328', 'commitLabelBackground': '#ffffff', 'commitLabelFontSize': '13px', 'tagLabelColor': '#1f2328', 'tagLabelBackground': '#ffffff', 'tagLabelBorder': '#57606a', 'tagLabelFontSize': '13px'}} }%%
+%%{init: {'theme': 'base', 'gitGraph': {'mainBranchName': 'sbx'}, 'themeVariables': {'git0': '#41521F', 'gitBranchLabel0': '#FFFFFF', 'gitInv0': '#41521F', 'git1': '#7FEFBD', 'gitBranchLabel1': '#14264B', 'gitInv1': '#7FEFBD', 'git2': '#C24A1F', 'gitBranchLabel2': '#FFFFFF', 'gitInv2': '#C24A1F', 'git3': '#FFA400', 'gitBranchLabel3': '#14264B', 'gitInv3': '#FFA400', 'git4': '#2A2A72', 'gitBranchLabel4': '#FFFFFF', 'gitInv4': '#2A2A72', 'git5': '#6CD4FF', 'gitBranchLabel5': '#14264B', 'gitInv5': '#6CD4FF', 'commitLabelColor': '#1f2328', 'commitLabelBackground': '#ffffff', 'commitLabelFontSize': '13px', 'tagLabelColor': '#1f2328', 'tagLabelBackground': '#ffffff', 'tagLabelBorder': '#57606a', 'tagLabelFontSize': '13px'}} }%%
 gitGraph
     commit id: "linea base" tag: "v1.3.0"
     branch qa order: 7
@@ -624,10 +625,10 @@ gitGraph
 
 | Paso | Rama | Qué se hace | Por qué |
 |---|---|---|---|
-| 1–5 | 🟩 feature → 🟦 sbx → 🟨 qa → 🟪 stg → 🟥 prod | `v1.4.0` recorre todos los ambientes y **falla en producción** | Situación de partida |
+| 1–5 | 🟩 feature → 🟩 sbx → 🟨 qa → 🟪 stg → 🟦 prod | `v1.4.0` recorre todos los ambientes y **falla en producción** | Situación de partida |
 | 6 | 🟧 `hotfix/glpi-90001-rollback-v140-pc` | Rama desde `v1.4.0`, `git revert` de lo que trajo `v1.4.0` (✕) y tag `v1.4.0.1` | Su contenido queda **igual a `v1.3.0`** |
-| 7 | 🟦 sbx | PR de la rama a sbx | El retiro entra a la línea base **antes** de promover: nada llega a qa sin estar en sbx (I2) |
-| 8–10 | 🟨 qa → 🟪 stg → 🟥 prod | `v1.4.0.1` recorre los ambientes | Aquí qa tenía lo mismo que prod, así que no hace falta saltar qa (5.2, paso 4) |
+| 7 | 🟩 sbx | PR de la rama a sbx | El retiro entra a la línea base **antes** de promover: nada llega a qa sin estar en sbx (I2) |
+| 8–10 | 🟨 qa → 🟪 stg → 🟦 prod | `v1.4.0.1` recorre los ambientes | Aquí qa tenía lo mismo que prod, así que no hace falta saltar qa (5.2, paso 4) |
 
 El rollback no "vuelve atrás" en git: avanza con una versión nueva que deshace la anterior. Como `v1.4.0` era la cabeza de la cadena, no hay que re-etiquetar nada.
 
@@ -638,7 +639,7 @@ El rollback no "vuelve atrás" en git: avanza con una versión nueva que deshace
 Dos HU cambian las mismas líneas. La primera en crear su tag pasa sin problema. La segunda encuentra el conflicto al aplicar la regla de cadena (paso 3 de la sección 3), en su propia rama, y lo resuelve allí. sbx nunca recibe una resolución directa (PoC 6).
 
 ```mermaid
-%%{init: {'theme': 'base', 'gitGraph': {'mainBranchName': 'sbx'}, 'themeVariables': {'git0': '#6CD4FF', 'gitBranchLabel0': '#14264B', 'gitInv0': '#6CD4FF', 'git1': '#7FEFBD', 'gitBranchLabel1': '#14264B', 'gitInv1': '#7FEFBD', 'git2': '#3FAE7C', 'gitBranchLabel2': '#14264B', 'gitInv2': '#3FAE7C', 'commitLabelColor': '#1f2328', 'commitLabelBackground': '#ffffff', 'commitLabelFontSize': '13px', 'tagLabelColor': '#1f2328', 'tagLabelBackground': '#ffffff', 'tagLabelBorder': '#57606a', 'tagLabelFontSize': '13px'}} }%%
+%%{init: {'theme': 'base', 'gitGraph': {'mainBranchName': 'sbx'}, 'themeVariables': {'git0': '#41521F', 'gitBranchLabel0': '#FFFFFF', 'gitInv0': '#41521F', 'git1': '#7FEFBD', 'gitBranchLabel1': '#14264B', 'gitInv1': '#7FEFBD', 'git2': '#3FAE7C', 'gitBranchLabel2': '#14264B', 'gitInv2': '#3FAE7C', 'commitLabelColor': '#1f2328', 'commitLabelBackground': '#ffffff', 'commitLabelFontSize': '13px', 'tagLabelColor': '#1f2328', 'tagLabelBackground': '#ffffff', 'tagLabelBorder': '#57606a', 'tagLabelFontSize': '13px'}} }%%
 gitGraph
     commit id: "linea base" tag: "v1.5.0"
     branch feature/az-602-regla-descuento-dd order: 2
@@ -659,7 +660,7 @@ gitGraph
 Si dos personas crean un tag casi a la vez desde la misma cabeza, el segundo tag no contiene al primero y la cadena se rompe. Al promoverlo, el PR se bloquea o mezcla.
 
 ```mermaid
-%%{init: {'theme': 'base', 'gitGraph': {'mainBranchName': 'sbx'}, 'themeVariables': {'git0': '#6CD4FF', 'gitBranchLabel0': '#14264B', 'gitInv0': '#6CD4FF', 'git1': '#7FEFBD', 'gitBranchLabel1': '#14264B', 'gitInv1': '#7FEFBD', 'git2': '#3FAE7C', 'gitBranchLabel2': '#14264B', 'gitInv2': '#3FAE7C', 'commitLabelColor': '#1f2328', 'commitLabelBackground': '#ffffff', 'commitLabelFontSize': '13px', 'tagLabelColor': '#1f2328', 'tagLabelBackground': '#ffffff', 'tagLabelBorder': '#57606a', 'tagLabelFontSize': '13px'}} }%%
+%%{init: {'theme': 'base', 'gitGraph': {'mainBranchName': 'sbx'}, 'themeVariables': {'git0': '#41521F', 'gitBranchLabel0': '#FFFFFF', 'gitInv0': '#41521F', 'git1': '#7FEFBD', 'gitBranchLabel1': '#14264B', 'gitInv1': '#7FEFBD', 'git2': '#3FAE7C', 'gitBranchLabel2': '#14264B', 'gitInv2': '#3FAE7C', 'commitLabelColor': '#1f2328', 'commitLabelBackground': '#ffffff', 'commitLabelFontSize': '13px', 'tagLabelColor': '#1f2328', 'tagLabelBackground': '#ffffff', 'tagLabelBorder': '#57606a', 'tagLabelFontSize': '13px'}} }%%
 gitGraph
     commit id: "linea base" tag: "v1.5.0"
     branch feature/az-702-firma-digital-dd order: 2
@@ -705,7 +706,7 @@ Una rama por cada prueba automatizada sobre un componente (DES-EST-016 §4.5): `
 Sigue el mismo flujo de la sección 3 hasta el PR a sbx: nace del último tag, aplica la regla de cadena, se etiqueta antes del PR y el tag sube el **patch**, porque no cambia la funcionalidad. ARQ-PRO-001 §8 termina en el merge a sbx: el tag queda en la cadena y viaja con la siguiente promoción, sin promoverse por separado.
 
 ```mermaid
-%%{init: {'theme': 'base', 'gitGraph': {'mainBranchName': 'sbx'}, 'themeVariables': {'git0': '#6CD4FF', 'gitBranchLabel0': '#14264B', 'gitInv0': '#6CD4FF', 'git1': '#6E7271', 'gitBranchLabel1': '#FFFFFF', 'gitInv1': '#6E7271', 'commitLabelColor': '#1f2328', 'commitLabelBackground': '#ffffff', 'commitLabelFontSize': '13px', 'tagLabelColor': '#1f2328', 'tagLabelBackground': '#ffffff', 'tagLabelBorder': '#57606a', 'tagLabelFontSize': '13px'}} }%%
+%%{init: {'theme': 'base', 'gitGraph': {'mainBranchName': 'sbx'}, 'themeVariables': {'git0': '#41521F', 'gitBranchLabel0': '#FFFFFF', 'gitInv0': '#41521F', 'git1': '#6E7271', 'gitBranchLabel1': '#FFFFFF', 'gitInv1': '#6E7271', 'commitLabelColor': '#1f2328', 'commitLabelBackground': '#ffffff', 'commitLabelFontSize': '13px', 'tagLabelColor': '#1f2328', 'tagLabelBackground': '#ffffff', 'tagLabelBorder': '#57606a', 'tagLabelFontSize': '13px'}} }%%
 gitGraph
     commit id: "linea base" tag: "v1.6.0"
     branch test/az-32154-web-login-dd order: 1
@@ -752,7 +753,7 @@ Lo que **no** se ha probado es su ejecución dentro de Azure DevOps.
 
 ## 8. Registro de decisiones
 
-Decididas por el responsable del proyecto con apoyo de Claude Code, porque no hubo más reuniones con el arquitecto.
+Decididas por el responsable del proyecto, Diego Sánchez (@dazanez), con apoyo de Claude Code, porque no hubo más reuniones con el arquitecto.
 
 > **Aprobación pendiente:** DES-EST-016 §4.1 asigna al Director de Desarrollo la aprobación de "cambios estratégicos sobre el estándar" y al Director de Arquitectura la de "cambios estructurales en git o del estándar". Varias decisiones de esta guía (la nomenclatura, el momento del tag, el versionado) cambian el estándar. Hasta que la guía pase por esa aprobación, conviene registrarla como desviación aprobada por el proyecto.
 

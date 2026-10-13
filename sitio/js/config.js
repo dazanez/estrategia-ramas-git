@@ -5,7 +5,7 @@
     siteName: 'Guía Git',
     siteSubtitle: 'SigDoc - MTI',
     sourceDoc: 'ESTRATEGIA-RAMAS.md',
-    sourceVersion: '1.7',
+    sourceVersion: '1.8',
     sourceDate: '2026-10-13',
     sourceStatus: 'Pendiente de aprobación'
   };

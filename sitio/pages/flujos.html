@@ -19,25 +19,27 @@
 
     <header class="page-header">
       <h1>Flujos de trabajo</h1>
-      <p class="source-chip">Fuente: ESTRATEGIA-RAMAS §3 a §6</p>
+      <p class="source-chip">Fuente: ESTRATEGIA-RAMAS §0 y §3 a §6</p>
     </header>
 
     <section class="block">
       <h2>Para qué sirve</h2>
-      <p class="pending"><strong>[CONTENIDO PENDIENTE]</strong> De una a tres frases: cuándo se usa esta página.</p>
-    </section>
-
-    <section class="block">
-      <h2>Diagrama</h2>
-      <p class="pending"><strong>[CONTENIDO PENDIENTE]</strong> Presentación de la sección y lista de flujos, con su diagrama paso a paso.</p>
-    </section>
-
-    <section class="block">
-      <h2>Error común</h2>
-      <div class="callout callout--error">
-        <p class="callout__title">Error común</p>
-        <p><strong>[CONTENIDO PENDIENTE]</strong> El error más frecuente y cómo se corrige (una o dos frases).</p>
+      <p>Cada caso de la estrategia, con su diagrama paso a paso, sus comandos de Git y sus pasos en Azure DevOps. Primero se decide qué pasó y se abre el flujo que corresponde; la tabla de <a href="../index.html#resumen">Inicio</a> resume todos los casos en una página.</p>
+      <div class="callout">
+        <p class="callout__title">Ante un error reportado en producción</p>
+        <p>Primero hay que decidir si <strong>puede esperar a la próxima entrega</strong>. Si puede, es una <a href="flujo-incidencia-no-urgente.html">incidencia no urgente</a>; si no, es una <a href="flujo-hotfix.html">incidencia urgente (hotfix)</a>.</p>
       </div>
+    </section>
+
+    <section class="block" id="flujos">
+      <h2>Los flujos</h2>
+      <div data-pages-index><p class="pending"><strong>[CONTENIDO PENDIENTE]</strong> Lista de los flujos.</p></div>
+    </section>
+
+    <section class="block" id="como-se-lee">
+      <h2>Cómo se lee un flujo</h2>
+      <p>Cada página de flujo tiene un diagrama que avanza paso a paso, con los botones <strong>Anterior</strong> y <strong>Siguiente</strong> o saltando al número del paso. En cada paso se ve qué se hace y por qué, los <strong>comandos de Git</strong> (con botón <strong>Copiar</strong>) y los <strong>pasos en Azure DevOps</strong>. Bajo los comandos, «Receta: …» lleva a la receta correspondiente de <a href="guias.html">Guías rápidas</a>.</p>
+      <p>Cómo se leen las líneas, las etiquetas y los rombos de los diagramas: <a href="conceptos-clave.html#leer-diagramas">Conceptos clave › Cómo leer los diagramas de ramas</a>.</p>
     </section>
 
     <section class="block">

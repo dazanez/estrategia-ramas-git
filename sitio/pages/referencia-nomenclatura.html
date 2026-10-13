@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nomenclatura y validador · Guía Git · SigDoc - MTI</title>
+<link rel="stylesheet" href="../vendor/fonts/fonts.css">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+<div data-nav></div>
+
+<main class="content" id="contenido">
+  <div class="content__inner">
+    <div data-breadcrumbs></div>
+
+    <header class="page-header">
+      <h1>Nomenclatura y validador</h1>
+      <p class="source-chip">Fuente: ESTRATEGIA-RAMAS §2 (Nomenclatura)</p>
+    </header>
+
+    <section class="block">
+      <h2>Para qué sirve</h2>
+      <p>Cómo se arma y se lee el nombre de una rama de trabajo, las reglas de escritura y un validador para comprobarlo.</p>
+    </section>
+
+    <section class="block">
+      <h2>Índice</h2>
+      <div data-toc><p class="pending"><strong>[CONTENIDO PENDIENTE]</strong> Índice de la página.</p></div>
+    </section>
+
+    <section class="block" id="nomenclatura">
+      <h2>Las cinco partes del nombre</h2>
+      <p>Todas las ramas de trabajo siguen <strong>una sola forma, con cinco partes, en el mismo orden y sin excepciones</strong>:</p>
+      <pre><code>&lt;tipo&gt;/&lt;sistema&gt;-&lt;id&gt;-&lt;descripcion&gt;-&lt;iniciales&gt;</code></pre>
+      <div class="table-wrap table-wrap--wrap">
+        <table>
+          <thead><tr><th scope="col">Parte</th><th scope="col">Pregunta</th><th scope="col">Qué va</th></tr></thead>
+          <tbody>
+            <tr><td><code>&lt;tipo&gt;</code></td><td>¿Qué clase de trabajo?</td><td><code>feature</code>, <code>bug</code>, <code>hotfix</code> o <code>test</code></td></tr>
+            <tr><td><code>&lt;sistema&gt;</code></td><td>¿Dónde está registrado?</td><td><code>az</code> (Azure DevOps) o <code>glpi</code></td></tr>
+            <tr><td><code>&lt;id&gt;</code></td><td>¿Qué número?</td><td>el ID del ítem en ese sistema</td></tr>
+            <tr><td><code>&lt;descripcion&gt;</code></td><td>¿Qué hace?</td><td>2 a 5 palabras en minúscula, sin tildes ni conectores</td></tr>
+            <tr><td><code>&lt;iniciales&gt;</code></td><td>¿Quién?</td><td>iniciales en minúscula; varias personas, separadas por guion (<code>pc-dd</code>)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Para armar el nombre se responden esas cinco preguntas, en ese orden. Para leerlo, igual: el nombre de cualquier rama dice qué es, dónde está el ítem, qué número tiene, de qué trata y quién la tiene.</p>
+      <div class="table-wrap table-wrap--wrap">
+        <table>
+          <thead><tr><th scope="col">Clase de trabajo</th><th scope="col"><code>&lt;tipo&gt;</code></th><th scope="col">Ejemplo</th></tr></thead>
+          <tbody>
+            <tr><td>Requerimiento (historia de usuario)</td><td><code>feature</code></td><td><code>feature/az-32154-validacion-tokens-pc</code></td></tr>
+            <tr><td>Requerimiento entre dos personas</td><td><code>feature</code></td><td><code>feature/az-32154-validacion-tokens-pc-dd</code></td></tr>
+            <tr><td>Cambio de alcance: retiro temporal, reintroducción, cancelación (ID del <strong>ítem nuevo</strong>)</td><td><code>feature</code></td><td><code>feature/az-1003-retiro-temporal-hu-1001-pc</code></td></tr>
+            <tr><td>Defecto reportado por QA</td><td><code>bug</code></td><td><code>bug/az-65487-validacion-login-dd</code></td></tr>
+            <tr><td>Incidencia no urgente</td><td><code>bug</code></td><td><code>bug/glpi-13487-calculo-redondeo-pc</code></td></tr>
+            <tr><td>Hotfix (incluye rollback)</td><td><code>hotfix</code></td><td><code>hotfix/glpi-13487-caida-login-pc</code></td></tr>
+            <tr><td>Prueba automatizada</td><td><code>test</code></td><td><code>test/az-32154-web-login-dd</code> — la <strong>primera palabra</strong> de la descripción es el tipo de componente: <code>desk</code>, <code>web</code> o <code>serv</code> (DES-EST-016 §4.6.5)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 id="no-trabajo">Nombres que no son ramas de trabajo</h3>
+      <p>Conservan el formato del estándar:</p>
+      <div class="table-wrap table-wrap--wrap">
+        <table>
+          <thead><tr><th scope="col">Clase</th><th scope="col">Formato</th><th scope="col">Ejemplo</th></tr></thead>
+          <tbody>
+            <tr><td>Promoción</td><td><code>promote/&lt;tag&gt;-to-&lt;qa|stg|prod&gt;</code></td><td><code>promote/v1.5.0-to-qa</code> (DES-EST-016 §4.13.7)</td></tr>
+            <tr><td>Ramas de ambiente</td><td><code>sbx</code>, <code>qa</code>, <code>stg</code>, <code>prod</code></td><td>—</td></tr>
+            <tr><td>Tag</td><td><code>vX.Y.Z</code> o, solo para hotfix, <code>vX.Y.Z.W</code></td><td><code>v1.5.0</code>, <code>v1.4.0.1</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 id="escritura">Reglas de escritura</h3>
+      <ul>
+        <li><strong>Todo en minúsculas</strong>, incluidas las iniciales. En Windows, git no distingue mayúsculas en las carpetas. En la PoC, con una carpeta <code>Bug/</code> existente, la rama <code>bug/az-2-y-dd</code> se creó como <code>Bug/az-2-y-dd</code> sin avisar, y su <code>git push</code> falló.</li>
+        <li><strong>Solo letras sin tilde, números y guiones:</strong> sin espacios, tildes ni ñ (<code>validacion</code>, <code>contrasena</code>). Git acepta tildes, pero no todas las herramientas (pipelines, consolas, URLs) las manejan bien. Es la misma regla que DES-EST-016 §4.4.3 pone a los nombres de componentes.</li>
+        <li><strong>Descripción corta:</strong> de 2 a 5 palabras, sin conectores ni preposiciones ("de", "para", "entre"; DES-EST-016 §4.4.3). El nombre completo no pasa de 60 caracteres: los nombres muy largos dependen de que cada equipo tenga <code>core.longpaths</code> activado.</li>
+        <li><strong>El sistema va siempre</strong>, también en <code>feature</code> y <code>test</code>. Azure DevOps y GLPI numeran por separado y el mismo número puede existir en los dos. Además, un requerimiento que llegue por GLPI se nombra igual (<code>feature/glpi-…</code>), sin crear una regla aparte.</li>
+        <li><strong>Nunca crear una rama llamada solo <code>feature</code>, <code>bug</code>, <code>hotfix</code>, <code>test</code> o <code>promote</code>.</strong> Git no permite que un nombre sea a la vez rama y carpeta: si existe la rama <code>hotfix</code>, nadie puede crear <code>hotfix/...</code> (comprobado en la PoC).</li>
+        <li><strong>No se incluye el sprint.</strong> El sprint está en Azure Boards y queda obsoleto si la HU pasa a otro sprint; el ID es único.</li>
+        <li><strong>No se incluye la versión base en el hotfix.</strong> El tag del hotfix ya la dice: <code>v1.4.0.1</code> es una corrección sobre <code>v1.4.0</code>.</li>
+      </ul>
+      <h3 id="comprobacion">Comprobación automática</h3>
+      <p>Un nombre es válido si cumple una de estas dos expresiones y no pasa de 60 caracteres. Son las que usa la PoC (I4) y las que usaría la validación de Azure DevOps (sección 7):</p>
+      <pre><code>^(feature|bug|hotfix)/(az|glpi)-[0-9]+(-[a-z0-9]+)+-[a-z]{2,3}$
+^test/(az|glpi)-[0-9]+-(desk|web|serv)(-[a-z0-9]+)+-[a-z]{2,3}$</code></pre>
+      <h3 id="validador">Validador</h3>
+      <p>Escriba o pegue el nombre de una rama. Se valida con las dos expresiones de arriba y el límite de 60 caracteres, y si falla se explica qué parte falla.</p>
+      <div data-branch-validator></div>
+      <p><strong>Transición:</strong> las ramas abiertas con el formato anterior (<code>HU_…</code>, <code>BUG_…</code>, <code>AUT_…</code>) terminan con ese nombre; las nuevas usan este.</p>
+    </section>
+
+    <section class="block">
+      <h2>Relacionados</h2>
+      <div data-related><p class="pending"><strong>[CONTENIDO PENDIENTE]</strong> De dos a cuatro enlaces a otras páginas.</p></div>
+    </section>
+
+    <div data-pager></div>
+    <footer data-footer></footer>
+  </div>
+</main>
+
+<script src="../js/boot.js"></script>
+</body>
+</html>

@@ -269,6 +269,13 @@
 .toc__item:hover { border-color: var(--primary); }
 .toc__link { font-weight: 600; }
 .toc__summary { font-size: var(--fs-small); color: var(--ink-muted); }
+/* Índice de páginas (js/pages-index.js): cada página con sus partes debajo; un subtítulo por grupo */
+.toc__group { grid-column: 1 / -1; margin: var(--sp-3) 0 0; padding: 0; font-size: var(--fs-small); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-muted); }
+.toc__group:first-child { margin-top: 0; }
+.toc__parts { list-style: none; margin: var(--sp-2) 0 0; padding: 0; max-width: none; font-size: var(--fs-small); }
+.toc__part { margin: 2px 0; padding: 0; break-inside: avoid; }
+.toc__item--wide { grid-column: 1 / -1; }
+.toc__item--wide .toc__parts { columns: 2 18rem; column-gap: var(--sp-5); }
 /* Todo elemento con id del contenido (parte con ancla, regla R1–R11, etc.) deja aire arriba al saltar a él; en móvil, además, el alto de la barra fija. */
 .content [id] { scroll-margin-top: var(--sp-5); }
 @media (max-width: 959px) { .content [id] { scroll-margin-top: calc(var(--bar-h) + var(--sp-4)); } }

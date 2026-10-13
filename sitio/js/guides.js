@@ -82,7 +82,7 @@
       if (guide.rules && guide.rules.length) {
         children.push(el('p', { 'class': 'rules' }, [el('span', { 'class': 'rules__label', text: LABELS.rules })].concat(
           guide.rules.map(function (id) {
-            return el('a', { 'class': 'chip chip--rule', href: rootUrl + 'pages/referencia.html#' + id.toLowerCase(), title: LABELS.ruleTitle + ' ' + id, text: id });
+            return el('a', { 'class': 'chip chip--rule', href: rootUrl + 'pages/referencia-reglas.html#' + id.toLowerCase(), title: LABELS.ruleTitle + ' ' + id, text: id });
           })
         )));
       }

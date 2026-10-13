@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reglas R1–R11 · Guía Git · SigDoc - MTI</title>
+<link rel="stylesheet" href="../vendor/fonts/fonts.css">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+<div data-nav></div>
+
+<main class="content" id="contenido">
+  <div class="content__inner">
+    <div data-breadcrumbs></div>
+
+    <header class="page-header">
+      <h1>Reglas R1–R11</h1>
+      <p class="source-chip">Fuente: ESTRATEGIA-RAMAS §2</p>
+    </header>
+
+    <section class="block">
+      <h2>Para qué sirve</h2>
+      <p>Las reglas generales de la estrategia. Cada flujo y cada receta enlazan aquí a las que aplican.</p>
+    </section>
+
+    <section class="block" id="reglas">
+      <h2>Las once reglas</h2>
+      <div class="table-wrap table-wrap--wrap">
+        <table>
+          <thead><tr><th scope="col">#</th><th scope="col">Regla</th><th scope="col">Por qué</th></tr></thead>
+          <tbody>
+            <tr id="r1"><td>R1</td><td><code>sbx</code>, <code>qa</code>, <code>stg</code> y <code>prod</code> están protegidas: <strong>sin push directo</strong>, todo entra por PR con revisión. La única excepción es el commit inicial al crear el repositorio.</td><td>Trazabilidad y revisión obligatoria (ARQ-PRO-001 §5).</td></tr>
+            <tr id="r2"><td>R2</td><td>Toda rama de trabajo nace de un tag: <code>git checkout tags/&lt;tag&gt; -b &lt;rama&gt;</code>. El hotfix nace del tag de producción; todo lo demás, de la <strong>cabeza de la cadena</strong>.</td><td>Así nunca se arrastra código que no pertenece a ninguna versión (PoC 3 y 4).</td></tr>
+            <tr id="r3"><td>R3</td><td><strong>Regla de cadena.</strong> Antes de crear el tag, la rama incorpora el último tag (<code>git merge &lt;último tag&gt;</code>). Si hay conflicto, se resuelve en la rama de trabajo.</td><td>Mantiene una sola cadena y evita mezclas en los ambientes (PoC 5b, 12).</td></tr>
+            <tr id="r4"><td>R4</td><td>El tag se crea <strong>en la rama de trabajo, antes de completar el PR</strong> a sbx. Lo crea o lo valida el líder técnico (DES-EST-016 §4.1). Siempre es un tag anotado (<code>git tag -a ... -m</code>).</td><td>La versión contiene solo lo que se probó (PoC 3b y 4b frente a 3a y 4a).</td></tr>
+            <tr id="r5"><td>R5</td><td>PR de la rama de trabajo a <code>sbx</code>. Con R2–R4, <code>sbx</code> queda siempre con el mismo contenido que el último tag.</td><td>sbx deja de tener "cosas sueltas" sin versión (PoC 12).</td></tr>
+            <tr id="r6"><td>R6</td><td>La promoción siempre parte de un tag, con <code>promote/&lt;tag&gt;-to-&lt;ambiente&gt;</code>, en orden <strong>qa → stg → prod</strong>. <code>prod</code> solo recibe desde <code>stg</code>. La rama <code>promote/</code> se borra al terminar.</td><td>DES-EST-016 §4.12 y ARQ-PRO-001 §6.7–6.11.</td></tr>
+            <tr id="r7"><td>R7</td><td>La única excepción al orden es el <strong>hotfix</strong>, que entra directo a <code>stg</code> (salta qa).</td><td>qa suele tener otra versión en pruebas que no debe mezclarse (PoC 2).</td></tr>
+            <tr id="r8"><td>R8</td><td><code>stg</code> solo recibe versiones aprobadas para salir a producción en esa ventana. Lo que espera la aprobación del cliente <strong>se queda en qa</strong>. Así <code>stg</code> es casi siempre igual a <code>prod</code> y sirve para validar hotfixes.</td><td>Sin esto, un hotfix no tendría dónde validarse (sección 6.8).</td></tr>
+            <tr id="r9"><td>R9</td><td>Nombres únicos: una rama o un tag nunca se reutilizan. Cada iteración, retiro o reintroducción usa el ID de un ítem nuevo.</td><td>DES-EST-016 §4.10 y §4.12 (PoC 4, 9a).</td></tr>
+            <tr id="r10"><td>R10</td><td>Los tags nunca se mueven ni se borran. Un tag creado por error queda sin usar y se declara en el mensaje del siguiente tag con una línea <code>Descarta: &lt;tag&gt; (motivo)</code>. Así la validación automática sabe que no forma parte de la cadena.</td><td>Un tag es el registro de lo entregado.</td></tr>
+            <tr id="r11"><td>R11</td><td>Tipo de merge en Azure DevOps: <strong>solo "Basic merge (no fast-forward)"</strong>. Squash y rebase quedan prohibidos.</td><td>Ver sección 7.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Relacionados</h2>
+      <div data-related><p class="pending"><strong>[CONTENIDO PENDIENTE]</strong> De dos a cuatro enlaces a otras páginas.</p></div>
+    </section>
+
+    <div data-pager></div>
+    <footer data-footer></footer>
+  </div>
+</main>
+
+<script src="../js/boot.js"></script>
+</body>
+</html>

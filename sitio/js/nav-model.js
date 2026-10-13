@@ -53,6 +53,17 @@
         var current = index === -1 ? null : entries[index];
         return current && current.anchors ? current.anchors : [];
       },
+      // Páginas que presenta el índice de páginas: las hijas de la sección, si la actual es la página de una sección.
+      // [{ title, href, summary, anchors, group }]
+      indexPages: function () {
+        var current = index === -1 ? null : entries[index];
+        if (!current || !current.isSectionPage) return [];
+        return entries.filter(function (entry) {
+          return entry.section === current.section && !entry.isSectionPage;
+        }).map(function (entry) {
+          return { title: entry.title, href: entry.href, summary: entry.summary, anchors: entry.anchors, group: entry.group };
+        });
+      },
       // Ruta de migas: [] en Inicio y en páginas que no están en el menú; el último elemento no lleva enlace.
       trail: function () {
         var current = index === -1 ? null : entries[index];

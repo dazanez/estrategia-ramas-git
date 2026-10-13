@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Registro de decisiones · Guía Git · SigDoc - MTI</title>
+<link rel="stylesheet" href="../vendor/fonts/fonts.css">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+<div data-nav></div>
+
+<main class="content" id="contenido">
+  <div class="content__inner">
+    <div data-breadcrumbs></div>
+
+    <header class="page-header">
+      <h1>Registro de decisiones</h1>
+      <p class="source-chip">Fuente: ESTRATEGIA-RAMAS §8</p>
+    </header>
+
+    <section class="block">
+      <h2>Para qué sirve</h2>
+      <p>El motivo de cada decisión de la estrategia: qué se decidió, por qué y qué riesgo tiene.</p>
+    </section>
+
+    <section class="block" id="decisiones">
+      <h2>Decisiones</h2>
+      <p>Decididas por el responsable del proyecto, Diego Sánchez (@dazanez), con apoyo de Claude Code, porque no hubo más reuniones con el arquitecto.</p>
+      <div class="callout callout--warn">
+        <p class="callout__title">Aprobación pendiente</p>
+        <p>DES-EST-016 §4.1 asigna al Director de Desarrollo la aprobación de "cambios estratégicos sobre el estándar" y al Director de Arquitectura la de "cambios estructurales en git o del estándar". Varias decisiones de esta guía (la nomenclatura, el momento del tag, el versionado) cambian el estándar. Hasta que la guía pase por esa aprobación, conviene registrarla como desviación aprobada por el proyecto.</p>
+      </div>
+      <ul class="cards">
+        <li class="card">
+          <p class="card__head"><span class="card__num">#1</span><span class="card__title">Cuarta posición</span></p>
+          <dl>
+            <dt>Decisión</dt><dd>Solo para hotfix (DES-EST-016 §4.11). Los rechazos de QA suben el patch; la iteración va en el mensaje del tag.</dd>
+            <dt>Justificación</dt><dd>Un número no puede tener dos significados (PoC 10). El patch ya significa "corrección".</dd>
+            <dt>Riesgo</dt><dd class="card__risk">Se pierde ver la iteración "a simple vista" en el número. Se mitiga con el mensaje del tag y Azure DevOps.</dd>
+          </dl>
+        </li>
+        <li class="card">
+          <p class="card__head"><span class="card__num">#2</span><span class="card__title">Momento del tag</span></p>
+          <dl>
+            <dt>Decisión</dt><dd>En la rama de trabajo, antes de completar el PR (ARQ-PRO-001 §6.5).</dd>
+            <dt>Justificación</dt><dd>El tag sobre sbx después del PR arrastra lo que haya en sbx (PoC 3a, 4a).</dd>
+            <dt>Riesgo</dt><dd class="card__risk">Carrera entre dos tags (6.7). Se mitiga con R4 y la validación automática.</dd>
+          </dl>
+        </li>
+        <li class="card">
+          <p class="card__head"><span class="card__num">#3</span><span class="card__title">Origen de la rama</span></p>
+          <dl>
+            <dt>Decisión</dt><dd>Desde un tag, nunca desde la rama sbx.</dd>
+            <dt>Justificación</dt><dd>Evita traer código sin versión.</dd>
+            <dt>Riesgo</dt><dd class="card__risk">Si no se aplica la regla de cadena antes del tag, la cadena se rompe (PoC 5b).</dd>
+          </dl>
+        </li>
+        <li class="card">
+          <p class="card__head"><span class="card__num">#4</span><span class="card__title">Hotfix con qa ocupado <span class="card__note">(actualizada 2026-10-05)</span></span></p>
+          <dl>
+            <dt>Decisión</dt><dd>Validar en stg → prod; re-etiquetar la cabeza; PR a sbx; <strong>después</strong> promover el tag re-etiquetado a qa.</dd>
+            <dt>Justificación</dt><dd>Única variante sin mezclas (PoC 2c, 12). El PR a sbx va antes de qa para que nada llegue a qa sin estar en sbx (I2); la validación automática lo exige.</dd>
+            <dt>Riesgo</dt><dd class="card__risk">El hotfix queda abierto hasta completar los tres pasos; mientras tanto, no se crean tags nuevos.</dd>
+          </dl>
+        </li>
+        <li class="card">
+          <p class="card__head"><span class="card__num">#5</span><span class="card__title">Orden de promoción</span></p>
+          <dl>
+            <dt>Decisión</dt><dd>Siempre qa → stg → prod; prod solo desde stg; el hotfix puede saltar qa.</dd>
+            <dt>Justificación</dt><dd>Saltar stg deja stg atrás de prod (PoC 2a).</dd>
+            <dt>Riesgo</dt><dd class="card__none">Ninguno nuevo.</dd>
+          </dl>
+        </li>
+        <li class="card">
+          <p class="card__head"><span class="card__num">#6</span><span class="card__title">Nombre de las ramas <span class="card__note">(actualizada 2026-10-05)</span></span></p>
+          <dl>
+            <dt>Decisión</dt><dd>Una sola forma para toda rama de trabajo: <code>&lt;tipo&gt;/&lt;sistema&gt;-&lt;id&gt;-&lt;descripcion&gt;-&lt;iniciales&gt;</code>, en minúsculas, con <code>&lt;tipo&gt;</code> = feature, bug, hotfix o test y <code>&lt;sistema&gt;</code> = az o glpi. Sin sprint. Reemplaza <code>HU_…</code>, <code>BUG_…</code>, <code>&lt;tag&gt;_BUG_…</code> y <code>AUT_…</code>.</dd>
+            <dt>Justificación</dt><dd>Es predecible: las mismas cinco preguntas arman y leen cualquier nombre, y una sola expresión regular lo valida. DES-EST-016 §4.6.3 ya habla del "prefijo bug/" y el estándar usa <code>promote/</code>. Es la convención que Microsoft recomienda para Azure Repos.</dd>
+            <dt>Riesgo</dt><dd class="card__risk">Se aparta de los ejemplos del estándar (§4.6.2–4.6.5, ARQ-PRO-001 §6.3, §7.3 y §8.3): hay que comunicarlo. En Windows pueden chocar carpeta/rama y mayúsculas; se mitiga con las reglas de escritura y la validación automática.</dd>
+          </dl>
+        </li>
+        <li class="card">
+          <p class="card__head"><span class="card__num">#7</span><span class="card__title">Lo que espera aprobación del cliente</span></p>
+          <dl>
+            <dt>Decisión</dt><dd>Se integra a sbx cuando está terminado y probado unitariamente. Espera en qa. Si otra versión debe salir antes, se retira temporalmente con revert.</dd>
+            <dt>Justificación</dt><dd>QA necesita la versión en la cadena para probarla. El retiro está probado (PoC 12).</dd>
+            <dt>Riesgo</dt><dd class="card__risk">Re-pruebas, conflictos de revert, migraciones de base de datos. Si es frecuente, conviene usar feature flags.</dd>
+          </dl>
+        </li>
+        <li class="card">
+          <p class="card__head"><span class="card__num">#8</span><span class="card__title">Rechazo en stg</span></p>
+          <dl>
+            <dt>Decisión</dt><dd>Igual que un rechazo de QA (<code>bug/az-…</code>, patch, qa → stg → prod). Si es configuración, no se toca git.</dd>
+            <dt>Justificación</dt><dd>Una sola mecánica para todas las correcciones.</dd>
+            <dt>Riesgo</dt><dd class="card__none">Ninguno nuevo.</dd>
+          </dl>
+        </li>
+        <li class="card">
+          <p class="card__head"><span class="card__num">#9</span><span class="card__title">Rollback</span></p>
+          <dl>
+            <dt>Decisión</dt><dd>Redespliegue inmediato del artefacto anterior y luego regularización como hotfix con revert.</dd>
+            <dt>Justificación</dt><dd>Promover un tag anterior no hace nada (PoC 9a). El revert deja el contenido idéntico (9b).</dd>
+            <dt>Riesgo</dt><dd class="card__risk">Desfase temporal entre la rama prod y lo desplegado. La base de datos no se revierte sola.</dd>
+          </dl>
+        </li>
+        <li class="card">
+          <p class="card__head"><span class="card__num">#10</span><span class="card__title">Tipo de merge</span></p>
+          <dl>
+            <dt>Decisión</dt><dd>Solo "Basic merge (no fast-forward)" más validaciones automáticas.</dd>
+            <dt>Justificación</dt><dd>Sección 7.</dd>
+            <dt>Riesgo</dt><dd class="card__risk">Hay que construir y mantener las validaciones del pipeline.</dd>
+          </dl>
+        </li>
+        <li class="card">
+          <p class="card__head"><span class="card__num">#11</span><span class="card__title">Push directo</span></p>
+          <dl>
+            <dt>Decisión</dt><dd>Prohibido en las cuatro ramas; solo PR.</dd>
+            <dt>Justificación</dt><dd>ARQ-PRO-001 §5.</dd>
+            <dt>Riesgo</dt><dd class="card__none">Ninguno.</dd>
+          </dl>
+        </li>
+        <li class="card">
+          <p class="card__head"><span class="card__num">#12</span><span class="card__title">Validación automática <span class="card__note">(2026-10-05)</span></span></p>
+          <dl>
+            <dt>Decisión</dt><dd>Todo PR a sbx, qa, stg o prod pasa por <code>Validar-PR.ps1</code> (build validation obligatoria). El script vive en un repositorio protegido. Los tags descartados se declaran con <code>Descarta:</code> en el mensaje del tag siguiente.</dd>
+            <dt>Justificación</dt><dd>Las reglas escritas no bastan: la PoC muestra que un solo paso fuera de orden deja ambientes con mezclas que no son ninguna versión. La validación detuvo los 22 errores probados y aprobó los 26 pasos correctos.</dd>
+            <dt>Riesgo</dt><dd class="card__risk">No probado en Azure. Cuesta un pipeline por PR. Quien tenga permiso de bypass puede saltarla, pero los PR siguientes lo detectan (<code>RESULTADO</code>). Supone que el repositorio ya cumple la cadena al activarla (ver CONFIGURAR-AZURE-DEVOPS.md, paso 0).</dd>
+          </dl>
+        </li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>Relacionados</h2>
+      <div data-related><p class="pending"><strong>[CONTENIDO PENDIENTE]</strong> De dos a cuatro enlaces a otras páginas.</p></div>
+    </section>
+
+    <div data-pager></div>
+    <footer data-footer></footer>
+  </div>
+</main>
+
+<script src="../js/boot.js"></script>
+</body>
+</html>

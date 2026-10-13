@@ -24,7 +24,7 @@
 
     <section class="block">
       <h2>Para qué sirve</h2>
-      <p>Esta guía complementa <strong>DES-EST-016 v2</strong> (Estándar control de código fuente) y <strong>ARQ-PRO-001 v1</strong> (Procedimiento control de versiones). Donde esos documentos se contradicen o no cubren un caso, se aplica lo que dice esta guía; las diferencias están en <a href="pages/por-que.html#diferencias">Por qué lo hacemos así</a>. Cada regla se probó en la prueba de concepto (<code>POC-RAMAS.md</code>), cuya evidencia está en <code>evidencia\&lt;escenario&gt;\</code>.</p>
+      <p>Esta guía complementa <strong>DES-EST-016 v2</strong> (Estándar control de código fuente) y <strong>ARQ-PRO-001 v1</strong> (Procedimiento control de versiones). Donde esos documentos se contradicen o no cubren un caso, se aplica lo que dice esta guía; las diferencias están en <a href="pages/por-que-diferencias-evidencia.html#diferencias">Por qué lo hacemos así</a>. Cada regla se probó en la prueba de concepto (<code>POC-RAMAS.md</code>), cuya evidencia está en <code>evidencia\&lt;escenario&gt;\</code>.</p>
       <p>Elija en la tabla qué pasó: cada fila lleva a su flujo.</p>
     </section>
 
@@ -51,16 +51,16 @@
 
     <section class="block" id="validador">
       <h2>Validador de nombre de rama</h2>
-      <p>Escriba o pegue el nombre de una rama. Se valida con las dos expresiones de la guía y el límite de 60 caracteres, y si falla se explica qué parte falla. Las expresiones y las reglas de escritura están en <a href="pages/referencia.html#nomenclatura">Referencia › Nomenclatura</a>.</p>
+      <p>Escriba o pegue el nombre de una rama. Se valida con las dos expresiones de la guía y el límite de 60 caracteres, y si falla se explica qué parte falla. Las expresiones y las reglas de escritura están en <a href="pages/referencia-nomenclatura.html#nomenclatura">Referencia › Nomenclatura</a>.</p>
       <div data-branch-validator></div>
     </section>
 
     <section class="block" id="tres-reglas">
       <h2>Tres reglas que sostienen todo lo demás</h2>
       <ol class="rules-list">
-        <li><strong>Toda rama de trabajo nace de un tag</strong> (nunca de la rama <code>sbx</code>). El hotfix nace del tag que está en producción; el resto, del último tag. <a class="chip chip--rule" href="pages/referencia.html#r2" title="Ver la regla R2 en Referencia">R2</a></li>
-        <li><strong>Antes de crear un tag, la rama incorpora el último tag existente</strong> (regla de cadena). <a class="chip chip--rule" href="pages/referencia.html#r3" title="Ver la regla R3 en Referencia">R3</a></li>
-        <li><strong>El tag se crea en la rama de trabajo, antes de completar el PR a sbx.</strong> <a class="chip chip--rule" href="pages/referencia.html#r4" title="Ver la regla R4 en Referencia">R4</a></li>
+        <li><strong>Toda rama de trabajo nace de un tag</strong> (nunca de la rama <code>sbx</code>). El hotfix nace del tag que está en producción; el resto, del último tag. <a class="chip chip--rule" href="pages/referencia-reglas.html#r2" title="Ver la regla R2 en Referencia">R2</a></li>
+        <li><strong>Antes de crear un tag, la rama incorpora el último tag existente</strong> (regla de cadena). <a class="chip chip--rule" href="pages/referencia-reglas.html#r3" title="Ver la regla R3 en Referencia">R3</a></li>
+        <li><strong>El tag se crea en la rama de trabajo, antes de completar el PR a sbx.</strong> <a class="chip chip--rule" href="pages/referencia-reglas.html#r4" title="Ver la regla R4 en Referencia">R4</a></li>
       </ol>
     </section>
 

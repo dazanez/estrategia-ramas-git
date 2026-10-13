@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diferencias y evidencia · Guía Git · SigDoc - MTI</title>
+<link rel="stylesheet" href="../vendor/fonts/fonts.css">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+<div data-nav></div>
+
+<main class="content" id="contenido">
+  <div class="content__inner">
+    <div data-breadcrumbs></div>
+
+    <header class="page-header">
+      <h1>Diferencias y evidencia</h1>
+      <p class="source-chip">Fuente: ESTRATEGIA-RAMAS §9 y §10</p>
+    </header>
+
+    <section class="block">
+      <h2>Para qué sirve</h2>
+      <p>En qué se aparta la estrategia de DES-EST-016 y ARQ-PRO-001, y qué evidencia de la PoC respalda las reglas.</p>
+    </section>
+
+    <section class="block">
+      <h2>Índice</h2>
+      <div data-toc><p class="pending"><strong>[CONTENIDO PENDIENTE]</strong> Índice de la página.</p></div>
+    </section>
+
+    <section class="block" id="diferencias">
+      <h2>Diferencias con DES-EST-016 y ARQ-PRO-001</h2>
+      <p>Dónde esta guía se aparta de los dos documentos que complementa, y qué se hace en su lugar.</p>
+      <div class="table-wrap table-wrap--wrap">
+        <table>
+          <thead><tr><th scope="col">Documento y sección</th><th scope="col">Dice</th><th scope="col">Esta guía</th></tr></thead>
+          <tbody>
+            <tr><td>ARQ-PRO-001 §6.3, §7.3</td><td><code>git checkout sbx -b &lt;rama&gt;</code></td><td>La rama nace de un tag (R2).</td></tr>
+            <tr><td>DES-EST-016 §4.10</td><td>Integrar a sbx y "posteriormente" etiquetar</td><td>Etiquetar en la rama antes del PR (R4), como ARQ-PRO-001 §6.5.</td></tr>
+            <tr><td>DES-EST-016 §4.7.1</td><td>Push directo a sbx permitido a desarrolladores autorizados</td><td>Prohibido (R1).</td></tr>
+            <tr><td>DES-EST-016 §4.8, §4.8.1</td><td>stg "requiere PR desde qa"; prod "desde qa o stg"</td><td>Siempre desde un tag con <code>promote/</code>; prod solo desde stg (R6).</td></tr>
+            <tr><td>DES-EST-016 §4.13.6</td><td>Promoción con merge y push directo, sin PR</td><td>No se usa (R1, R6).</td></tr>
+            <tr><td>DES-EST-016 §4.6.2</td><td><code>HU_&lt;sprint&gt;.&lt;idHU&gt;_&lt;ini&gt;</code></td><td><code>feature/az-&lt;idHU&gt;-&lt;descripcion&gt;-&lt;ini&gt;</code>, sin sprint.</td></tr>
+            <tr><td>DES-EST-016 §4.6.3</td><td>"Prefijo bug/" en el texto; <code>BUG_AZ_65487_DD</code> en los ejemplos</td><td><code>bug/&lt;az|glpi&gt;-&lt;id&gt;-&lt;descripcion&gt;-&lt;ini&gt;</code>: se sigue el texto.</td></tr>
+            <tr><td>DES-EST-016 §4.6.4</td><td><code>V.1.0.3_ BUG_AZ_1_PC</code> con "consecutivo de corrección"</td><td><code>hotfix/&lt;az|glpi&gt;-&lt;id&gt;-&lt;descripcion&gt;-&lt;ini&gt;</code> con el ID real; la versión base la indica el tag del hotfix.</td></tr>
+            <tr><td>ARQ-PRO-001 §6.3, §7.3 (nombres)</td><td><code>HU_6.32154_PC</code>, <code>BUG_GLPI_13487_PC_DD</code></td><td>Formato de carpetas (sección 2).</td></tr>
+            <tr><td>DES-EST-016 §4.6.5, ARQ-PRO-001 §8.3</td><td>Automatización: <code>AUT_&lt;DESK|WEB|SERV&gt;_&lt;sprint&gt;.&lt;id&gt;_&lt;ini&gt;</code></td><td><code>test/az-&lt;id&gt;-&lt;desk|web|serv&gt;-&lt;descripcion&gt;-&lt;ini&gt;</code>: la misma forma que el resto; el tipo de componente es la primera palabra de la descripción.</td></tr>
+            <tr><td>ARQ-PRO-001 §7.5 (Nota)</td><td>Hotfix con "nomenclatura diferenciada" sin definir</td><td>Definida (sección 2) y flujo completo (5.2).</td></tr>
+            <tr><td>Arquitecto (verbal)</td><td>Cuarta posición para iteraciones de QA</td><td>Cuarta posición solo para hotfix; las iteraciones suben el patch (decisión 1).</td></tr>
+            <tr><td>— (no cubierto)</td><td>Entrega parcial, cancelación, rollback, rechazo en stg, espera del cliente</td><td>Secciones 6.1 a 6.5.</td></tr>
+            <tr><td>— (nuevo)</td><td>—</td><td>Regla de cadena (R3) y "stg ≈ prod" (R8).</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="block" id="evidencia">
+      <h2>Evidencia de la PoC</h2>
+      <p>Cada regla se probó en la prueba de concepto; esta tabla dice en qué escenario y con qué resultado.</p>
+      <div class="table-wrap table-wrap--wrap">
+        <table>
+          <thead><tr><th scope="col">Regla o caso</th><th scope="col">Escenario de la PoC</th><th scope="col">Resultado</th></tr></thead>
+          <tbody>
+            <tr><td>Tag antes del PR (R4)</td><td>3b, 4b (frente a 3a, 4a)</td><td>Sin fuga de cambios no aprobados</td></tr>
+            <tr><td>Regla de cadena (R3)</td><td>12 (frente a 5b)</td><td>Ambientes siempre iguales a un tag; sbx igual al último tag</td></tr>
+            <tr><td>Hotfix (5.2)</td><td>2c, 12</td><td>I1–I7 ✔</td></tr>
+            <tr><td>Espera del cliente / retiro temporal (6.2)</td><td>12</td><td>A no llega a prod sin aprobación; llega al reintroducirla</td></tr>
+            <tr><td>Cancelación (6.4)</td><td>8</td><td>El revert retira; volver a hacer merge de la rama original no reintroduce</td></tr>
+            <tr><td>Rollback (6.5)</td><td>9a, 9b</td><td>Promover un tag anterior no hace nada; el revert deja el contenido idéntico a v1.3.0</td></tr>
+            <tr><td>Conflictos (6.6)</td><td>6, 11</td><td>Resueltos en la rama de trabajo; PR limpio</td></tr>
+            <tr><td>Rechazo en stg (6.1)</td><td>7a</td><td>I1–I7 ✔</td></tr>
+            <tr><td>Nomenclatura (sección 2), incluida una rama <code>test/</code></td><td>12 con <code>-Nomenclatura carpetas</code> y prueba de nombres en Windows</td><td>I1–I7 ✔ en ff y noff</td></tr>
+            <tr><td>Validación automática (sección 7) y orden del hotfix (5.2)</td><td><code>probar-validar-pr.ps1</code> (grupos G1, G2 y G3)</td><td>48 casos con el resultado esperado; detalle en <code>evidencia\validar-pr\resultados.md</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Para reproducir: <code>.\Ejecutar-Todo.ps1</code> (todas las corridas), <code>.\esc12-tren-aprobacion-cliente.ps1 -MergeMode noff</code> (el modelo de esta guía) y <code>.\probar-validar-pr.ps1</code> (la validación automática).</p>
+    </section>
+
+    <section class="block">
+      <h2>Relacionados</h2>
+      <div data-related><p class="pending"><strong>[CONTENIDO PENDIENTE]</strong> De dos a cuatro enlaces a otras páginas.</p></div>
+    </section>
+
+    <div data-pager></div>
+    <footer data-footer></footer>
+  </div>
+</main>
+
+<script src="../js/boot.js"></script>
+</body>
+</html>

@@ -59,6 +59,7 @@
         title: 'Flujos de trabajo',
         href: 'pages/flujos.html',
         summary: 'Cada caso de la estrategia, con su diagrama paso a paso.',
+        related: ['pages/conceptos-clave.html', 'pages/guias.html', 'pages/referencia.html'],
         pages: [
           {
             title: 'Requerimiento',
@@ -132,29 +133,75 @@
         id: 'referencia',
         title: 'Referencia',
         href: 'pages/referencia.html',
-        summary: 'Reglas, nomenclatura, versionado y configuración de Azure DevOps.',
+        summary: 'Reglas, nomenclatura, versionado, colores y configuración de Azure DevOps.',
         related: ['pages/guias.html', 'pages/por-que.html', 'pages/flujo-requerimiento.html'],
-        anchors: [
-          { title: 'Reglas R1–R11', anchor: 'reglas' },
-          { title: 'Nomenclatura', anchor: 'nomenclatura' },
-          { title: 'Versionado', anchor: 'versionado' },
-          { title: 'Colores de los diagramas', anchor: 'colores' },
-          { title: 'Configuración de Azure DevOps', anchor: 'azure-devops' }
-        ],
-        pages: []
+        pages: [
+          {
+            title: 'Reglas R1–R11',
+            href: 'pages/referencia-reglas.html',
+            summary: 'Las once reglas generales; cada flujo y cada receta enlazan a las que aplican.',
+            related: ['pages/referencia-nomenclatura.html', 'pages/guias.html', 'pages/por-que-decisiones.html']
+          },
+          {
+            title: 'Nomenclatura y validador',
+            href: 'pages/referencia-nomenclatura.html',
+            summary: 'Cómo se nombra una rama, las reglas de escritura y un validador del nombre.',
+            related: ['pages/referencia-reglas.html', 'pages/referencia-versionado-colores.html', 'pages/guias.html'],
+            anchors: [
+              { title: 'Las cinco partes del nombre', anchor: 'nomenclatura' },
+              { title: 'Nombres que no son ramas de trabajo', anchor: 'no-trabajo' },
+              { title: 'Reglas de escritura', anchor: 'escritura' },
+              { title: 'Comprobación automática', anchor: 'comprobacion' },
+              { title: 'Validador', anchor: 'validador' }
+            ]
+          },
+          {
+            title: 'Versionado y colores',
+            href: 'pages/referencia-versionado-colores.html',
+            summary: 'Qué número sube con cada tag y qué color tiene cada tipo de rama.',
+            related: ['pages/referencia-nomenclatura.html', 'pages/conceptos-clave.html', 'pages/guias.html'],
+            anchors: [
+              { title: 'Versionado', anchor: 'versionado' },
+              { title: 'Colores de los diagramas', anchor: 'colores' }
+            ]
+          },
+          {
+            title: 'Azure DevOps',
+            href: 'pages/referencia-azure-devops.html',
+            summary: 'Políticas, permisos y validación automática. Propuesta, no probada en Azure.',
+            related: ['pages/referencia-reglas.html', 'pages/guias.html', 'pages/por-que-decisiones.html'],
+            anchors: [
+              { title: 'La validación automática', anchor: 'azure-validacion' },
+              { title: 'Qué se configura', anchor: 'azure-configuracion' },
+              { title: 'Por qué «Basic merge»', anchor: 'azure-basic-merge' }
+            ]
+          }
+        ]
       },
       {
         id: 'por-que',
         title: 'Por qué lo hacemos así',
         href: 'pages/por-que.html',
-        summary: 'El motivo de cada decisión de la estrategia.',
+        summary: 'El motivo de cada decisión de la estrategia, en qué se aparta de los estándares y la evidencia.',
         related: ['pages/referencia.html', 'pages/flujo-hotfix.html', 'pages/flujo-casos-poco-frecuentes.html'],
-        anchors: [
-          { title: 'Registro de decisiones', anchor: 'decisiones' },
-          { title: 'Diferencias con los estándares', anchor: 'diferencias' },
-          { title: 'Evidencia de la PoC', anchor: 'evidencia' }
-        ],
-        pages: []
+        pages: [
+          {
+            title: 'Registro de decisiones',
+            href: 'pages/por-que-decisiones.html',
+            summary: 'Las decisiones de la estrategia, con su justificación y su riesgo.',
+            related: ['pages/referencia-reglas.html', 'pages/por-que-diferencias-evidencia.html', 'pages/flujo-hotfix.html']
+          },
+          {
+            title: 'Diferencias y evidencia',
+            href: 'pages/por-que-diferencias-evidencia.html',
+            summary: 'En qué se aparta la estrategia de DES-EST-016 y ARQ-PRO-001, y qué probó la PoC.',
+            related: ['pages/por-que-decisiones.html', 'pages/referencia-azure-devops.html', 'pages/flujo-casos-poco-frecuentes.html'],
+            anchors: [
+              { title: 'Diferencias con los estándares', anchor: 'diferencias' },
+              { title: 'Evidencia de la PoC', anchor: 'evidencia' }
+            ]
+          }
+        ]
       }
     ]
   };

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Versionado y colores · Guía Git · SigDoc - MTI</title>
+<link rel="stylesheet" href="../vendor/fonts/fonts.css">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+<div data-nav></div>
+
+<main class="content" id="contenido">
+  <div class="content__inner">
+    <div data-breadcrumbs></div>
+
+    <header class="page-header">
+      <h1>Versionado y colores</h1>
+      <p class="source-chip">Fuente: ESTRATEGIA-RAMAS §2 (Versionado) y §1 (Cómo leer los diagramas)</p>
+    </header>
+
+    <section class="block">
+      <h2>Para qué sirve</h2>
+      <p>Qué número de la versión sube con cada tag, y qué color tiene cada tipo de rama en los diagramas.</p>
+    </section>
+
+    <section class="block">
+      <h2>Índice</h2>
+      <div data-toc><p class="pending"><strong>[CONTENIDO PENDIENTE]</strong> Índice de la página.</p></div>
+    </section>
+
+    <section class="block" id="versionado">
+      <h2>Versionado</h2>
+      <div class="table-wrap table-wrap--wrap">
+        <table>
+          <thead><tr><th scope="col">El tag contiene…</th><th scope="col">Qué número sube</th><th scope="col">Ejemplo desde <code>v1.5.0</code></th></tr></thead>
+          <tbody>
+            <tr><td>Cambios incompatibles (rompen contrato)</td><td>Major</td><td><code>v2.0.0</code></td></tr>
+            <tr><td>Al menos un requerimiento nuevo</td><td>Minor</td><td><code>v1.6.0</code></td></tr>
+            <tr><td>Solo correcciones: defecto de QA, rechazo en stg, incidencia no urgente, retiro de algo</td><td>Patch</td><td><code>v1.5.1</code></td></tr>
+            <tr><td>Hotfix sobre el tag de producción</td><td>Cuarta posición sobre el tag de prod</td><td>prod = <code>v1.4.0</code> → <code>v1.4.0.1</code>; el segundo hotfix, <code>v1.4.0.2</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>El <strong>número de iteraciones de QA</strong> (el objetivo del arquitecto con la cuarta posición) se registra en el <strong>mensaje del tag</strong> y en Azure DevOps, no en el número:</p>
+      <pre><code>git tag -a v1.5.1 -m "v1.5.1: corrige rechazo QA #1 de v1.5.0 (BUG AZ 65487, HU 32154)"
+git tag -a v1.5.2 -m "v1.5.2: corrige rechazo QA #2 de v1.5.0 (BUG AZ 65488, HU 32154)"</code></pre>
+      <p>Para contar las iteraciones de una versión: <code>git tag -l "v1.5.*" -n1</code>.</p>
+    </section>
+
+    <section class="block" id="colores">
+      <h2>Colores de los diagramas</h2>
+      <p>El color dice qué tipo de rama es (igual en todos los diagramas).</p>
+      <div class="table-wrap table-wrap--wrap">
+        <table>
+          <thead><tr><th scope="col">Color</th><th scope="col">Rama</th></tr></thead>
+          <tbody>
+            <tr><td><span class="chip chip--sbx">verde oliva</span></td><td><code>sbx</code> (línea base)</td></tr>
+            <tr><td><span class="chip chip--feature">aguamarina</span> (varios tonos si hay varias)</td><td><code>feature/</code> (requerimiento)</td></tr>
+            <tr><td><span class="chip chip--bug">vinotinto</span></td><td><code>bug/</code> (defecto o incidencia no urgente)</td></tr>
+            <tr><td><span class="chip chip--hotfix">naranja quemado</span></td><td><code>hotfix/</code> (incidencia urgente o rollback)</td></tr>
+            <tr><td><span class="chip chip--test">gris</span></td><td><code>test/</code> (prueba automatizada)</td></tr>
+            <tr><td><span class="chip chip--qa">amarillo</span></td><td><code>qa</code></td></tr>
+            <tr><td><span class="chip chip--stg">morado</span></td><td><code>stg</code></td></tr>
+            <tr><td><span class="chip chip--prod">celeste</span></td><td><code>prod</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Relacionados</h2>
+      <div data-related><p class="pending"><strong>[CONTENIDO PENDIENTE]</strong> De dos a cuatro enlaces a otras páginas.</p></div>
+    </section>
+
+    <div data-pager></div>
+    <footer data-footer></footer>
+  </div>
+</main>
+
+<script src="../js/boot.js"></script>
+</body>
+</html>

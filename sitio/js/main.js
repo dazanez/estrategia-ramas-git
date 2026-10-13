@@ -22,6 +22,7 @@
       { selector: '[data-nav]', view: G.createNav(deps), after: G.enhanceNavMobile },
       { selector: '[data-breadcrumbs]', view: G.createBreadcrumbs(deps) },
       { selector: '[data-toc]', view: G.createToc(deps) },
+      { selector: '[data-pages-index]', view: G.createPagesIndex(deps) },
       { selector: '[data-related]', view: G.createRelated(deps) },
       { selector: '[data-pager]', view: G.createPager(deps) },
       { selector: '[data-footer]', view: G.createFooter(deps) }

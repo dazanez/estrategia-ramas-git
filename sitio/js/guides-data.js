@@ -4,7 +4,7 @@
  *   - los diagramas enlazan a ellas desde el panel de comandos de cada paso (js/git-flow/views.js), en lugar de repetir
  *     la explicación. Qué receta corresponde a un paso lo decide "detect": las líneas de comando de la receta.
  *
- * Los comandos salen de ESTRATEGIA-RAMAS.md v1.7, sección 3 («Pasos» 1 a 6), sección 2 («Versionado») y sección 6.2;
+ * Los comandos salen de ESTRATEGIA-RAMAS.md v1.8, sección 3 («Pasos» 1 a 6), sección 2 («Versionado») y sección 6.2;
  * los que ya existen en los flujos vienen de js/recipes.js, con marcadores en lugar de nombres concretos.
  *
  * Cada receta: { id, title, summary, when, commands, azure?, more?, notes?, rules?, detect }
@@ -26,7 +26,7 @@
       notes: [
         { kind: 'nota', title: 'De qué tag', text: 'El primero de la lista es el último tag, la cabeza de la cadena. El hotfix nace del tag que está en producción; todo lo demás, del último tag.' },
         { kind: 'warn', title: 'Nunca desde la rama sbx', text: 'Toda rama de trabajo nace de un tag (R2). Así nunca se arrastra código que no pertenece a ninguna versión.' },
-        { kind: 'nota', title: 'El nombre de la rama', text: 'Se arma con las partes del nombre, en este orden: tipo, sistema, ID, descripción e iniciales.', see: [{ text: 'Nomenclatura (con validador)', href: 'pages/referencia.html#nomenclatura' }] }
+        { kind: 'nota', title: 'El nombre de la rama', text: 'Se arma con las partes del nombre, en este orden: tipo, sistema, ID, descripción e iniciales.', see: [{ text: 'Nomenclatura (con validador)', href: 'pages/referencia-nomenclatura.html#nomenclatura' }] }
       ],
       rules: ['R2'],
       detect: /^git checkout tags\/\S+ -b (?!promote\/)/
@@ -66,7 +66,7 @@
       ],
       notes: [
         { kind: 'warn', title: 'Siempre anotado, y antes del PR', text: 'El tag es siempre anotado (`-a … -m`) y se crea en la rama de trabajo, antes de completar el PR a sbx. Lo crea o lo valida el líder técnico (R4).' },
-        { kind: 'nota', title: 'Qué número sube', text: 'Depende de lo que contiene el tag: cambios incompatibles, un requerimiento nuevo o solo correcciones. La iteración de QA va en el mensaje del tag, no en el número.', see: [{ text: 'Versionado', href: 'pages/referencia.html#versionado' }] },
+        { kind: 'nota', title: 'Qué número sube', text: 'Depende de lo que contiene el tag: cambios incompatibles, un requerimiento nuevo o solo correcciones. La iteración de QA va en el mensaje del tag, no en el número.', see: [{ text: 'Versionado', href: 'pages/referencia-versionado-colores.html#versionado' }] },
         { kind: 'nota', title: 'Un tag no se mueve ni se borra', text: 'Un tag creado por error queda sin usar y se declara en el mensaje del siguiente tag con una línea `Descarta: <tag> (motivo)` (R10).' }
       ],
       rules: ['R4', 'R10'],
@@ -95,7 +95,7 @@
       commands: R.validatePr('<rama>'),
       notes: [
         { kind: 'nota', title: 'Qué hace Azure', text: 'Azure ejecuta la validación automática (sección 7) y no deja completar el PR si encuentra un error.' },
-        { kind: 'warn', title: 'Probada en la PoC, no en Azure', text: 'El script está escrito y probado en la PoC (48 casos sobre un remoto local). Lo que no se ha probado es su ejecución dentro de Azure DevOps.', see: [{ text: 'Configuración de Azure DevOps', href: 'pages/referencia.html#azure-devops' }] }
+        { kind: 'warn', title: 'Probada en la PoC, no en Azure', text: 'El script está escrito y probado en la PoC (48 casos sobre un remoto local). Lo que no se ha probado es su ejecución dentro de Azure DevOps.', see: [{ text: 'Configuración de Azure DevOps', href: 'pages/referencia-azure-devops.html#azure-devops' }] }
       ],
       rules: ['R2', 'R3', 'R4', 'R5', 'R9', 'R10'],
       detect: /Validar-PR\.ps1/
