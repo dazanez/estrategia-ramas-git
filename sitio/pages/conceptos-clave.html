@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conceptos clave · Guía Git · SigDoc - MTI</title>
+<link rel="stylesheet" href="../vendor/fonts/fonts.css">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+<div data-nav></div>
+
+<main class="content" id="contenido">
+  <div class="content__inner">
+    <div data-breadcrumbs></div>
+
+    <header class="page-header">
+      <h1>Conceptos clave</h1>
+      <p class="source-chip">Fuente: ESTRATEGIA-RAMAS §1</p>
+    </header>
+
+    <section class="block">
+      <h2>Para qué sirve</h2>
+      <p>Los conceptos que hay que tener claros antes de seguir un flujo.</p>
+    </section>
+
+    <section class="block">
+      <h2>Índice</h2>
+      <div data-toc><p class="pending"><strong>[CONTENIDO PENDIENTE]</strong> Índice de la página.</p></div>
+    </section>
+
+    <section class="block" id="tag-no-vive">
+      <h2>Un tag no «vive» en un ambiente</h2>
+      <p>Un tag (<code>v1.5.0</code>) es una etiqueta permanente pegada a un commit del historial compartido. Cuando decimos "qa tiene v1.5.0", queremos decir que la rama <code>qa</code> tiene exactamente el mismo contenido que ese commit. Por eso, crear una rama "desde el tag que está en qa" no es sacar nada de qa: es partir de una foto del historial que qa también tiene.</p>
+    </section>
+
+    <section class="block" id="solo-avanzan">
+      <h2>Las ramas de ambiente solo avanzan</h2>
+      <p>Promover hace un <em>merge</em> del tag en la rama del ambiente, y git sabe juntar, no reemplazar. Si el tag nuevo no contiene lo que el ambiente ya tiene, pasa una de dos cosas:</p>
+      <ul>
+        <li>con <em>fast-forward</em>, el PR se bloquea;</li>
+        <li>con <em>merge</em> normal, el ambiente queda con una <strong>mezcla que no corresponde a ningún tag</strong>.</li>
+      </ul>
+      <p>La PoC lo mostró en los escenarios 2 y 5b. De ahí sale la regla más importante de esta guía.</p>
+    </section>
+
+    <section class="block" id="cadena-de-tags">
+      <h2>Cadena de tags</h2>
+      <p>Si cada tag nuevo contiene al anterior, los tags forman una cadena:</p>
+      <div data-tag-chain="cadena-de-tags"></div>
+      <p>Cada flecha se lee "está contenido en": <code>v1.1.0</code> contiene todo <code>v1.0.0</code>, <code>v1.1.1</code> contiene todo <code>v1.1.0</code>, y así sucesivamente.</p>
+      <p>Con la cadena, cualquier tag nuevo es la continuación de lo que tienen los ambientes, y cada promoción deja el ambiente <strong>idéntico</strong> al tag. La <strong>cabeza de la cadena</strong> es el último tag: el de mayor versión, que contiene a todos los demás.</p>
+      <div class="callout">
+        <p class="callout__title">Una analogía: muñecas rusas</p>
+        <p>Cada tag contiene al anterior, como cada muñeca rusa contiene a la más pequeña. La más grande, la que lo contiene todo, es la cabeza de la cadena.</p>
+      </div>
+    </section>
+
+    <section class="block" id="arriba-y-abajo">
+      <h2>Arriba y abajo</h2>
+      <ol class="ladder" aria-label="Orden de los ambientes, de arriba abajo">
+        <li class="ladder__rung"><span class="chip chip--prod">prod</span><span class="ladder__note">arriba</span></li>
+        <li class="ladder__rung"><span class="chip chip--stg">stg</span></li>
+        <li class="ladder__rung"><span class="chip chip--qa">qa</span></li>
+        <li class="ladder__rung"><span class="chip chip--sbx">sbx</span><span class="ladder__note">abajo</span></li>
+      </ol>
+      <p>El orden es <code>sbx</code> (abajo) → <code>qa</code> → <code>stg</code> → <code>prod</code> (arriba). Lo prohibido es llevar algo de un ambiente superior a uno inferior; por ejemplo, un merge de <code>qa</code> en <code>sbx</code>. Incorporar un tag o <code>sbx</code> en tu rama de trabajo <strong>no</strong> es bajar, porque son la base de la que partes.</p>
+    </section>
+
+    <section class="block" id="que-viaja">
+      <h2>Qué viaja en cada dirección</h2>
+      <ol class="route" aria-label="Recorrido de una versión">
+        <li class="route__step"><span class="route__what">Los commits se hacen en la rama de trabajo.</span><span class="route__arrow" aria-hidden="true">↓</span><span class="route__to"><span class="chip chip--feature">rama de trabajo</span></span></li>
+        <li class="route__step"><span class="route__what"><strong>1.</strong> Tag <code>vX.Y.Z</code> en la rama.</span><span class="route__arrow" aria-hidden="true">↓</span><span class="route__to"><span class="chip chip--tag">vX.Y.Z</span></span></li>
+        <li class="route__step"><span class="route__what"><strong>2.</strong> PR.</span><span class="route__arrow" aria-hidden="true">↓</span><span class="route__to"><span class="chip chip--sbx">sbx = vX.Y.Z</span></span></li>
+        <li class="route__step"><span class="route__what"><strong>3.</strong> <code>promote/vX.Y.Z-to-qa</code></span><span class="route__arrow" aria-hidden="true">↓</span><span class="route__to"><span class="chip chip--qa">qa = vX.Y.Z</span></span></li>
+        <li class="route__step"><span class="route__what"><strong>4.</strong> <code>promote/vX.Y.Z-to-stg</code>, cuando QA certifica.</span><span class="route__arrow" aria-hidden="true">↓</span><span class="route__to"><span class="chip chip--stg">stg = vX.Y.Z</span></span></li>
+        <li class="route__step"><span class="route__what"><strong>5.</strong> <code>promote/vX.Y.Z-to-prod</code>, con aprobación.</span><span class="route__arrow" aria-hidden="true">↓</span><span class="route__to"><span class="chip chip--prod">prod = vX.Y.Z</span></span></li>
+      </ol>
+      <ul>
+        <li><strong>Primero el tag, después el PR.</strong> El tag se crea en la rama de trabajo (paso 1), y esa rama ya etiquetada entra a <code>sbx</code> por PR (paso 2).</li>
+        <li><strong>La versión sube por los ambientes en orden</strong> qa → stg → prod (pasos 3 a 5). Las flechas muestran ese orden, pero cada promoción se hace <strong>desde el tag</strong> (<code>promote/vX.Y.Z-to-…</code>), no copiando el ambiente anterior. Por eso cada caja dice <code>= vX.Y.Z</code>: los cuatro terminan con exactamente la misma versión.</li>
+        <li>Nada sale de qa, stg o prod hacia otra rama.</li>
+      </ul>
+    </section>
+
+    <section class="block" id="leer-diagramas">
+      <h2>Cómo leer los diagramas de ramas</h2>
+      <ul>
+        <li>Cada línea horizontal es una rama. Su nombre aparece a la izquierda, y el <strong>color dice qué tipo de rama es</strong>, igual en todos los diagramas. Los colores están en <a href="referencia.html#colores">Referencia</a>.</li>
+        <li>Cada commit lleva un <strong>número de paso</strong> (<code>1.</code>, <code>2.</code>, …). El panel que está debajo del diagrama explica qué se hace en el paso, con los mismos números que la guía.</li>
+        <li>Cada círculo es un commit. La etiqueta con forma de tag es el tag (<code>v1.6.0</code>).</li>
+        <li>Cuando una línea se junta con otra, es un merge, dibujado como un rombo: un PR completado. Las promociones van con línea discontinua y el texto dice qué promoción fue (<code>promote/v1.6.0-to-qa</code>).</li>
+        <li>La regla de cadena (<code>git merge v1.5.1</code>) y las promociones a qa, stg y prod se dibujan saliendo de <code>sbx</code>, que en ese momento ya es igual al tag: es el mismo commit que nombra el comando. La excepción es el hotfix hacia stg y prod (5.2) y el rollback (6.5): como <code>sbx</code> todavía no tiene la corrección, esas líneas salen de la rama del hotfix.</li>
+        <li>Un círculo con una ✕ es un <code>git revert</code>. Un cuadrado marca un commit destacado: en esta guía, el "revert del revert" que devuelve algo retirado.</li>
+      </ul>
+    </section>
+
+    <section class="block">
+      <h2>Relacionados</h2>
+      <div data-related><p class="pending"><strong>[CONTENIDO PENDIENTE]</strong> De dos a cuatro enlaces a otras páginas.</p></div>
+    </section>
+
+    <div data-pager></div>
+    <footer data-footer></footer>
+  </div>
+</main>
+
+<script src="../js/boot.js"></script>
+</body>
+</html>

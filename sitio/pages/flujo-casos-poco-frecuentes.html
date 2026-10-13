@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Casos poco frecuentes · Guía Git · SigDoc - MTI</title>
+<link rel="stylesheet" href="../vendor/fonts/fonts.css">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+<div data-nav></div>
+
+<main class="content" id="contenido">
+  <div class="content__inner">
+    <div data-breadcrumbs></div>
+
+    <header class="page-header">
+      <h1>Casos poco frecuentes</h1>
+      <p class="source-chip">Fuente: ESTRATEGIA-RAMAS §6</p>
+    </header>
+
+    <section class="block">
+      <h2>Cuándo</h2>
+      <p>Situaciones que no se dan a diario y que se resuelven con los mismos flujos habituales. Elija el caso en el índice.</p>
+    </section>
+
+    <section class="block">
+      <h2>Índice</h2>
+      <div data-toc><p class="pending"><strong>[CONTENIDO PENDIENTE]</strong> Índice de los casos de esta página.</p></div>
+    </section>
+
+    <section class="block" id="caso-6-1">
+      <h2>6.1 Rechazo en stg</h2>
+      <p>En principio no debería pasar, porque stg solo recibe lo que QA ya certificó. Cuando pasa, suele ser por una de estas causas:</p>
+      <ul>
+        <li><strong>Configuración distinta</strong> entre qa y stg: variables, certificados, URLs de servicios externos.</li>
+        <li><strong>Integraciones reales:</strong> stg conversa con sistemas que en qa estaban simulados.</li>
+        <li><strong>Datos parecidos a los de producción:</strong> volumen, casos raros, datos históricos.</li>
+        <li><strong>Despliegue:</strong> scripts de base de datos o pasos manuales que fallan solo allí.</li>
+        <li><strong>Prueba del cliente:</strong> DES-EST-016 §3 define stg como el ambiente de «pruebas funcionales con clientes internos y externos».</li>
+      </ul>
+      <h3>Qué hacer</h3>
+      <ul>
+        <li>Si la causa es <strong>configuración o infraestructura</strong>, se corrige el ambiente y no se toca git.</li>
+        <li>Si es <strong>código</strong>, se trata igual que un rechazo de QA: <code>bug/az-&lt;idBug&gt;-&lt;descripcion&gt;-&lt;ini&gt;</code> desde el último tag, tag patch, PR a sbx y recorrido completo <strong>qa → stg → prod</strong>. La corrección vuelve a pasar por QA (PoC 7a).</li>
+      </ul>
+      <div class="callout">
+        <p class="callout__title">Este caso no tiene diagrama propio</p>
+        <p>El flujo es el del diagrama de Defecto, con el rechazo en stg en lugar de qa: ver <a href="flujo-defecto.html">Defecto (QA rechaza una versión)</a>.</p>
+      </div>
+      <p class="rules"><span class="rules__label">Reglas que aplica:</span> <a class="chip chip--rule" href="referencia.html#r2" title="Ver la regla R2 en Referencia">R2</a> <a class="chip chip--rule" href="referencia.html#r5" title="Ver la regla R5 en Referencia">R5</a> <a class="chip chip--rule" href="referencia.html#r6" title="Ver la regla R6 en Referencia">R6</a></p>
+    </section>
+
+    <section class="block" id="caso-6-2">
+      <h2>6.2 Versión certificada que espera al cliente mientras otra debe salir (retiro temporal)</h2>
+      <p><strong>Situación:</strong> QA certificó A (<code>v1.6.0</code>) y solo falta la aprobación del cliente, que tarda. Mientras tanto se termina B. A no debe salir a producción sin aprobación.</p>
+      <h3>Cómo funciona con la regla de cadena</h3>
+      <ol>
+        <li>A se queda en qa (R8).</li>
+        <li>B, antes de su tag, incorpora el último tag. Así <code>v1.7.0</code> = A + B, y sube a qa sin mezclas.</li>
+        <li>Si el cliente aprueba A antes de que B deba salir, todo sigue normal.</li>
+        <li>Si <strong>B debe salir y A sigue sin aprobación</strong>, se hace un <strong>retiro temporal de A</strong>: una rama nueva, con el ID de un ítem nuevo, desde <code>v1.7.0</code>; <code>git revert</code> del commit de A y el tag <code>v1.7.1</code>. Luego PR a sbx y recorrido <strong>qa → stg → prod</strong>. QA prueba B sin A.</li>
+        <li>Cuando el cliente aprueba A, se <strong>revierte el retiro</strong> (el «revert del revert») en otra rama nueva desde <code>v1.7.1</code>, con el tag <code>v1.8.0</code>. Luego PR a sbx y qa → stg → prod.</li>
+      </ol>
+      <div data-git-flow="retiro-temporal"></div>
+      <p>En ningún paso llega A a stg ni a prod sin aprobación.</p>
+      <div class="callout">
+        <p class="callout__title callout__title--question">¿Se cuela lo no aprobado?</p>
+        <p>A <strong>producción</strong>, no. A viaja dentro de las versiones de qa, pero solo sube a stg y prod con aprobación, o retirado con el revert. La PoC lo probó en el escenario 12 (I1–I7 ✔ en los dos modos): <code>v1.7.1</code>, la versión sin A, llegó a prod sin A, y A apareció en prod solo con la reintroducción.</p>
+      </div>
+      <div class="callout callout--warn">
+        <p class="callout__title">Re-pruebas: QA vuelve a probar dos veces</p>
+        <p>QA tiene que volver a probar la versión sin A, y otra vez cuando A regresa.</p>
+      </div>
+      <div class="callout callout--warn">
+        <p class="callout__title">Base de datos: el revert de git no la deshace</p>
+        <p>Si A incluía <strong>cambios de base de datos</strong>, el revert de git <strong>no</strong> los deshace en la base. Hay que preparar un script de reversión.</p>
+      </div>
+      <div class="callout">
+        <p class="callout__title">Conflicto en el revert</p>
+        <p>Si B modificó el mismo código que A, el revert puede tener conflicto. Se resuelve en la rama del retiro.</p>
+      </div>
+      <div class="callout callout--error">
+        <p class="callout__title">Recuperar A volviendo a hacer merge de su rama</p>
+        <p>Para recuperar A <strong>no</strong> sirve volver a hacer merge de su rama original: git responde «Already up to date» y no hace nada (PoC 8). Siempre es «revert del revert».</p>
+      </div>
+      <div class="callout">
+        <p class="callout__title">Si esto pasa seguido</p>
+        <p>La solución de fondo no es de ramas sino de código: <strong>interruptores de funcionalidad</strong> (<em>feature flags</em>). A sale a producción apagada y se enciende cuando el cliente aprueba. Requiere esfuerzo de desarrollo, pero elimina los retiros.</p>
+      </div>
+      <p class="rules"><span class="rules__label">Reglas que aplica:</span> <a class="chip chip--rule" href="referencia.html#r2" title="Ver la regla R2 en Referencia">R2</a> <a class="chip chip--rule" href="referencia.html#r3" title="Ver la regla R3 en Referencia">R3</a> <a class="chip chip--rule" href="referencia.html#r6" title="Ver la regla R6 en Referencia">R6</a> <a class="chip chip--rule" href="referencia.html#r8" title="Ver la regla R8 en Referencia">R8</a> <a class="chip chip--rule" href="referencia.html#r9" title="Ver la regla R9 en Referencia">R9</a></p>
+    </section>
+
+    <section class="block" id="caso-6-3">
+      <h2>6.3 Entrega parcial (salen A y C, pero no B)</h2>
+      <p>Es el mismo mecanismo que <a href="#caso-6-2">6.2</a>: sobre el último tag (A+B+C) se hace un retiro temporal de B y se crea el tag (A+C). Ya no hace falta una «rama de integración» sin nombre en el estándar (PoC 5c).</p>
+      <div class="callout">
+        <p class="callout__title">Este caso no tiene diagrama propio</p>
+        <p>El flujo es el del diagrama de <a href="#caso-6-2">6.2</a>: el retiro de B ocupa el lugar del retiro de A.</p>
+      </div>
+      <p class="rules"><span class="rules__label">Reglas que aplica:</span> <a class="chip chip--rule" href="referencia.html#r2" title="Ver la regla R2 en Referencia">R2</a> <a class="chip chip--rule" href="referencia.html#r9" title="Ver la regla R9 en Referencia">R9</a></p>
+    </section>
+
+    <section class="block" id="caso-6-4">
+      <h2>6.4 Requerimiento cancelado definitivamente</h2>
+      <p>Rama con el ID de un <strong>ítem nuevo</strong> («retirar HU 801»; no se reutiliza el nombre de la HU cancelada), <code>git revert</code>, tag patch, PR y recorrido normal. Si algún día se pide de nuevo, se hace un revert del revert (PoC 8).</p>
+      <div class="callout">
+        <p class="callout__title">Este caso no tiene diagrama propio</p>
+        <p>El flujo es el del diagrama de <a href="#caso-6-2">6.2</a> hasta el retiro (<code>v1.7.1</code>), sin la reintroducción.</p>
+      </div>
+      <p class="rules"><span class="rules__label">Reglas que aplica:</span> <a class="chip chip--rule" href="referencia.html#r6" title="Ver la regla R6 en Referencia">R6</a> <a class="chip chip--rule" href="referencia.html#r9" title="Ver la regla R9 en Referencia">R9</a></p>
+    </section>
+
+    <section class="block" id="caso-6-5">
+      <h2>6.5 Rollback de producción</h2>
+      <div class="callout callout--error">
+        <p class="callout__title">No se puede promover un tag anterior</p>
+        <p>Git ve que prod ya lo contiene y no cambia nada; el PR «se completa» pero prod sigue igual (PoC 9a). El rollback se hace en dos capas.</p>
+      </div>
+      <ol>
+        <li><strong>Inmediato (operación):</strong> se redespliega desde el pipeline el <strong>artefacto</strong> del tag anterior (por ejemplo <code>v1.3.0</code>), sin tocar git. Durante ese rato, la rama <code>prod</code> dice <code>v1.4.0</code> aunque lo desplegado sea <code>v1.3.0</code>; se deja anotado en el ticket GLPI.</li>
+        <li><strong>Regularización (git):</strong> se trata como un hotfix cuya corrección es el revert (ver <a href="flujo-hotfix.html">Incidencia urgente: hotfix</a>). Aquí <code>v1.4.0</code> es la cabeza de la cadena y qa tiene lo mismo que prod (nada en pruebas), así que el recorrido es el normal, con el PR a sbx primero: sbx → qa → stg → prod. Si qa tuviera otra versión en pruebas, sería como en el hotfix: stg → prod, re-etiquetar la cabeza, PR a sbx y promover el tag re-etiquetado a qa. La PoC comprobó que el contenido del tag nuevo queda <strong>idéntico</strong> al de <code>v1.3.0</code> (9b).</li>
+      </ol>
+      <div data-git-flow="rollback"></div>
+      <p>El rollback no «vuelve atrás» en git: avanza con una versión nueva que deshace la anterior. Como <code>v1.4.0</code> era la cabeza de la cadena, no hay que re-etiquetar nada.</p>
+      <div class="callout callout--warn">
+        <p class="callout__title">Base de datos: el revert de git no la deshace</p>
+        <p>Los cambios de <strong>base de datos</strong> de <code>v1.4.0</code> no se revierten con git. Toda entrega con migraciones debe traer su script de reversión.</p>
+      </div>
+      <p class="rules"><span class="rules__label">Reglas que aplica:</span> <a class="chip chip--rule" href="referencia.html#r2" title="Ver la regla R2 en Referencia">R2</a> <a class="chip chip--rule" href="referencia.html#r5" title="Ver la regla R5 en Referencia">R5</a> <a class="chip chip--rule" href="referencia.html#r6" title="Ver la regla R6 en Referencia">R6</a> <a class="chip chip--rule" href="referencia.html#r7" title="Ver la regla R7 en Referencia">R7</a></p>
+    </section>
+
+    <section class="block" id="caso-6-6">
+      <h2>6.6 Conflicto entre dos requerimientos</h2>
+      <p>Dos HU cambian las mismas líneas. La primera en crear su tag pasa sin problema. La segunda encuentra el conflicto al aplicar la regla de cadena (paso 3 del flujo de <a href="flujo-requerimiento.html">Requerimiento</a>), en su propia rama, y lo resuelve allí.</p>
+      <div data-git-flow="conflicto"></div>
+      <div class="callout callout--warn">
+        <p class="callout__title">El conflicto se resuelve en la rama, nunca en sbx</p>
+        <p>sbx nunca recibe una resolución directa (PoC 6).</p>
+      </div>
+      <p class="rules"><span class="rules__label">Reglas que aplica:</span> <a class="chip chip--rule" href="referencia.html#r3" title="Ver la regla R3 en Referencia">R3</a> <a class="chip chip--rule" href="referencia.html#r5" title="Ver la regla R5 en Referencia">R5</a></p>
+    </section>
+
+    <section class="block" id="caso-6-7">
+      <h2>6.7 Dos tags al mismo tiempo</h2>
+      <p>Si dos personas crean un tag casi a la vez desde la misma cabeza, el segundo tag no contiene al primero y la cadena se rompe. Al promoverlo, el PR se bloquea o mezcla.</p>
+      <div data-git-flow="dos-tags"></div>
+      <p>En el diagrama, <code>v1.7.0</code> se creó sin contener a <code>v1.6.0</code>, así que la cadena se rompe. La validación automática rechaza el PR con <code>CADENA</code>. La rama incorpora <code>v1.6.0</code>, crea <code>v1.7.1</code> declarando <code>Descarta: v1.7.0</code>, y ese es el tag que sigue adelante.</p>
+      <div class="callout">
+        <p class="callout__title">Prevención</p>
+        <p>Que el tag lo cree el líder técnico justo antes de completar el PR (R4), más la validación automática de la sección 7 de la guía.</p>
+      </div>
+      <div class="callout callout--warn">
+        <p class="callout__title">Si ya pasó: el segundo tag no se usa</p>
+        <p>El segundo tag no se usa (R10). Se incorpora el primero en la rama y se crea un tag nuevo, cuyo mensaje lleva la línea <code>Descarta: &lt;tag que no se usa&gt;</code>. La validación automática rechaza el PR del segundo tag con <code>CADENA</code> y explica cómo hacerlo (PoC, grupo G2).</p>
+      </div>
+      <p class="rules"><span class="rules__label">Reglas que aplica:</span> <a class="chip chip--rule" href="referencia.html#r3" title="Ver la regla R3 en Referencia">R3</a> <a class="chip chip--rule" href="referencia.html#r4" title="Ver la regla R4 en Referencia">R4</a> <a class="chip chip--rule" href="referencia.html#r10" title="Ver la regla R10 en Referencia">R10</a></p>
+    </section>
+
+    <section class="block" id="caso-6-8">
+      <h2>6.8 Hotfix cuando stg no está igual a prod</h2>
+      <div class="callout callout--warn">
+        <p class="callout__title">No probado en la PoC</p>
+        <p>Este caso <strong>no se probó</strong> en la PoC.</p>
+      </div>
+      <p>Si se cumple R8, solo pasa durante la ventana de un paso a producción. Las opciones:</p>
+      <ul>
+        <li><strong>(a)</strong> Si la versión que está en stg ya tiene aprobación, se termina su paso a prod. El hotfix se hace después, sobre el nuevo tag de prod.</li>
+        <li><strong>(b)</strong> Si no tiene aprobación, no hay ambiente libre para validar el hotfix sin mezclar. Se escala al comité de cambios.</li>
+      </ul>
+      <div class="callout">
+        <p class="callout__title">Este caso no tiene diagrama propio</p>
+        <p>El hotfix en sí es el de <a href="flujo-hotfix.html">Incidencia urgente: hotfix</a>.</p>
+      </div>
+      <p class="rules"><span class="rules__label">Reglas que aplica:</span> <a class="chip chip--rule" href="referencia.html#r7" title="Ver la regla R7 en Referencia">R7</a> <a class="chip chip--rule" href="referencia.html#r8" title="Ver la regla R8 en Referencia">R8</a></p>
+    </section>
+
+    <section class="block" id="caso-6-9">
+      <h2>6.9 Segundo hotfix sobre la misma versión</h2>
+      <p>Prod tiene <code>v1.4.0.1</code> y aparece otra urgencia. La rama es <code>hotfix/glpi-&lt;ticket&gt;-&lt;descripcion&gt;-&lt;ini&gt;</code>, desde <code>v1.4.0.1</code>, y el tag es <code>v1.4.0.2</code>. El resto, igual que en el hotfix.</p>
+      <div class="callout">
+        <p class="callout__title">Este caso no tiene diagrama propio</p>
+        <p>Es el mismo diagrama de <a href="flujo-hotfix.html">Incidencia urgente: hotfix</a>, partiendo de <code>v1.4.0.1</code> en lugar de <code>v1.4.0</code>.</p>
+      </div>
+      <p class="rules"><span class="rules__label">Reglas que aplica:</span> <a class="chip chip--rule" href="referencia.html#r2" title="Ver la regla R2 en Referencia">R2</a> <a class="chip chip--rule" href="referencia.html#r7" title="Ver la regla R7 en Referencia">R7</a></p>
+    </section>
+
+    <section class="block" id="caso-6-10">
+      <h2>6.10 Fallo de ambiente que no es de código</h2>
+      <p>Si lo que falla es configuración, credenciales o infraestructura, no se crea ninguna rama ni tag. Se corrige el ambiente y se registra en el ticket.</p>
+    </section>
+
+    <section class="block" id="caso-6-11">
+      <h2>6.11 Pruebas automatizadas</h2>
+      <p>Una rama por cada prueba automatizada sobre un componente (DES-EST-016 §4.5): <code>test/az-&lt;id&gt;-&lt;desk|web|serv&gt;-&lt;descripcion&gt;-&lt;ini&gt;</code>, donde <code>&lt;id&gt;</code> es el requerimiento o ticket que origina la prueba.</p>
+      <p>Sigue el mismo flujo de <a href="flujo-requerimiento.html">Requerimiento</a> hasta el PR a sbx: nace del último tag, aplica la regla de cadena, se etiqueta antes del PR y el tag sube el <strong>patch</strong>, porque no cambia la funcionalidad. ARQ-PRO-001 §8 termina en el merge a sbx: el tag queda en la cadena y viaja con la siguiente promoción, sin promoverse por separado.</p>
+      <div data-git-flow="pruebas-automatizadas"></div>
+      <div class="callout">
+        <p class="callout__title">Qué probó la PoC</p>
+        <p>La PoC probó el nombre y el paso a sbx (escenario 12 con <code>-Nomenclatura carpetas</code>).</p>
+      </div>
+      <p class="rules"><span class="rules__label">Reglas que aplica:</span> <a class="chip chip--rule" href="referencia.html#r2" title="Ver la regla R2 en Referencia">R2</a> <a class="chip chip--rule" href="referencia.html#r3" title="Ver la regla R3 en Referencia">R3</a> <a class="chip chip--rule" href="referencia.html#r4" title="Ver la regla R4 en Referencia">R4</a> <a class="chip chip--rule" href="referencia.html#r5" title="Ver la regla R5 en Referencia">R5</a></p>
+    </section>
+
+    <section class="block">
+      <h2>Relacionados</h2>
+      <div data-related><p class="pending"><strong>[CONTENIDO PENDIENTE]</strong> De dos a cuatro enlaces a otras páginas.</p></div>
+    </section>
+
+    <div data-pager></div>
+    <footer data-footer></footer>
+  </div>
+</main>
+
+<script src="../js/boot.js"></script>
+</body>
+</html>

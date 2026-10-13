@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Defecto (QA rechaza una versión) · Guía Git · SigDoc - MTI</title>
+<link rel="stylesheet" href="../vendor/fonts/fonts.css">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+<div data-nav></div>
+
+<main class="content" id="contenido">
+  <div class="content__inner">
+    <div data-breadcrumbs></div>
+
+    <header class="page-header">
+      <h1>Defecto (QA rechaza una versión)</h1>
+      <p class="source-chip">Fuente: ESTRATEGIA-RAMAS §4</p>
+    </header>
+
+    <section class="block">
+      <h2>Cuándo</h2>
+      <p>QA prueba <code>v1.6.0</code> en qa, encuentra un error y lo registra como bug en Azure DevOps.</p>
+    </section>
+
+    <section class="block">
+      <h2>Diagrama y pasos con comandos</h2>
+      <div data-git-flow="defecto"></div>
+      <div class="callout">
+        <p class="callout__title">Los pasos son los de un requerimiento</p>
+        <p>La guía dice que los pasos son «los mismos que en un requerimiento, con estas diferencias» y no escribe comandos propios para este caso. Los comandos y los pasos de Azure DevOps del diagrama son los de <a href="flujo-requerimiento.html">Requerimiento</a>, con las ramas y los tags de este caso.</p>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Avisos</h2>
+      <div class="callout callout--error">
+        <p class="callout__title">Reutilizar la rama del bug</p>
+        <p>Cada rechazo es un <strong>bug nuevo</strong> en Azure DevOps, con su propia rama. No se reutiliza <code>bug/az-65487-validacion-login-dd</code> para la segunda vuelta (R9).</p>
+      </div>
+      <div class="callout">
+        <p class="callout__title callout__title--question">¿Si la corrección parte de la versión que está en qa, el tag vuelve hacia sbx?</p>
+        <p>No. La rama parte del <strong>tag</strong> <code>v1.6.0</code>, que es una foto del historial común, no de la rama <code>qa</code>. El recorrido es el normal: la rama entra a sbx por PR y el tag nuevo sube a qa por promoción. Nada sale de qa. La PoC lo verificó en el escenario 4: I2 e I3 se cumplen.</p>
+      </div>
+      <div class="callout">
+        <p class="callout__title">De dónde nace la rama</p>
+        <p>La rama se llama <code>bug/az-&lt;idBug&gt;-&lt;descripcion&gt;-&lt;ini&gt;</code> y nace del último tag. Normalmente es la versión rechazada; si mientras tanto salió otro tag, es ese, por la regla de cadena.</p>
+      </div>
+      <div class="callout">
+        <p class="callout__title">Versión y mensaje del tag</p>
+        <p>La versión sube el <strong>patch</strong> (<code>v1.6.1</code>). El mensaje del tag dice qué rechazo corrige y su número de iteración.</p>
+      </div>
+      <div class="callout">
+        <p class="callout__title">Si el rechazo ocurre en stg</p>
+        <p>El flujo es el mismo, con el rechazo en stg en lugar de qa. La corrección vuelve a pasar por qa → stg → prod (sección 6.1 de la guía).</p>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Relacionados</h2>
+      <div data-related><p class="pending"><strong>[CONTENIDO PENDIENTE]</strong> De dos a cuatro enlaces a otras páginas.</p></div>
+    </section>
+
+    <div data-pager></div>
+    <footer data-footer></footer>
+  </div>
+</main>
+
+<script src="../js/boot.js"></script>
+</body>
+</html>

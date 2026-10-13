@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Requerimiento · Guía Git · SigDoc - MTI</title>
+<link rel="stylesheet" href="../vendor/fonts/fonts.css">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+<div data-nav></div>
+
+<main class="content" id="contenido">
+  <div class="content__inner">
+    <div data-breadcrumbs></div>
+
+    <header class="page-header">
+      <h1>Requerimiento</h1>
+      <p class="source-chip">Fuente: ESTRATEGIA-RAMAS §3</p>
+    </header>
+
+    <section class="block">
+      <h2>Cuándo</h2>
+      <p>Desarrollo de una funcionalidad nueva.</p>
+    </section>
+
+    <section class="block">
+      <h2>Diagrama y pasos con comandos</h2>
+      <div data-git-flow="requerimiento"></div>
+    </section>
+
+    <section class="block">
+      <h2>Avisos</h2>
+      <div class="callout callout--error">
+        <p class="callout__title">Error común</p>
+        <p>El PR a sbx tiene conflicto: casi siempre es porque se saltó la regla de cadena. Se vuelve a ese paso: se incorpora el último tag en la rama, se resuelve allí y se crea el tag. Nunca se resuelve en sbx.</p>
+      </div>
+      <div class="callout">
+        <p class="callout__title">Rama, versión y recorrido</p>
+        <p>La rama <code>feature/az-&lt;idHU&gt;-&lt;descripcion&gt;-&lt;ini&gt;</code> nace del último tag, el tag nuevo sube el <strong>minor</strong> y la versión recorre PR a sbx → qa → stg → prod.</p>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Relacionados</h2>
+      <div data-related><p class="pending"><strong>[CONTENIDO PENDIENTE]</strong> De dos a cuatro enlaces a otras páginas.</p></div>
+    </section>
+
+    <div data-pager></div>
+    <footer data-footer></footer>
+  </div>
+</main>
+
+<script src="../js/boot.js"></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+/* Tokens de diseño (DESIGN.md §3, §4, §6). Aquí solo hay variables: ningún selector de componente. */
+:root {
+  color-scheme: light;
+
+  /* Base de la interfaz */
+  --bg: #F6F7F3;
+  --surface: #FFFFFF;
+  --surface-nav: #EBEFE8;
+  --line: #D5DBD3;
+  --line-strong: #B4BDB2;
+  --ink: #14264B;
+  --ink-muted: #4B5558;
+  --primary: #026433;
+  --primary-hover: #01512A;
+  --primary-tint: #E3F0E8;
+  --on-primary: #FFFFFF;
+
+  /* Ambientes y clases de rama: relleno (c), borde/linea (edge), fondo suave (soft), texto sobre el relleno (on) */
+  --c-sbx: #6CD4FF;      --c-sbx-edge: #1E88B8;      --c-sbx-soft: #E4F6FF;      --c-sbx-on: var(--ink);
+  --c-qa: #FFA400;       --c-qa-edge: #B36F00;       --c-qa-soft: #FFF1D6;       --c-qa-on: var(--ink);
+  --c-stg: #2A2A72;      --c-stg-edge: #2A2A72;      --c-stg-soft: #E6E6F4;      --c-stg-on: #FFFFFF;
+  --c-prod: #AD343E;     --c-prod-edge: #AD343E;     --c-prod-soft: #F7E3E5;     --c-prod-on: #FFFFFF;
+  --c-feature: #7FEFBD;  --c-feature-edge: #1F9467;  --c-feature-soft: #DDFAEE;  --c-feature-on: var(--ink);
+  --c-bug: #41521F;      --c-bug-edge: #41521F;      --c-bug-soft: #E7EBDD;      --c-bug-on: #FFFFFF;
+  --c-hotfix: #C24A1F;   --c-hotfix-edge: #C24A1F;   --c-hotfix-soft: #FBE6DD;   --c-hotfix-on: #FFFFFF;
+  --c-test: #6E7271;     --c-test-edge: #6E7271;     --c-test-soft: #ECEEED;     --c-test-on: #FFFFFF;
+  --c-tag: #026433;      --c-tag-edge: #026433;      --c-tag-soft: #E3F0E8;      --c-tag-on: #FFFFFF;
+
+  /* Recuadros */
+  --note-bar: var(--primary);   --note-bg: var(--primary-tint);
+  --error-bar: #AD343E;         --error-bg: #F7E3E5;
+  --svn-bar: #2A2A72;           --svn-bg: #E6E6F4;
+  --warn-bar: #B36F00;          --warn-bg: #FFF1D6;
+
+  /* Tipografía */
+  --font-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --font-sans: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', Consolas, 'Courier New', monospace;
+
+  --fs-h1: 2.25rem;     /* 36 px */
+  --fs-h2: 1.5rem;      /* 24 px */
+  --fs-h3: 1.1875rem;   /* 19 px */
+  --fs-body: 1.0625rem; /* 17 px */
+  --fs-small: 0.875rem; /* 14 px */
+  --fs-code: 0.9375rem; /* 15 px */
+  --fs-chip: 0.8125rem; /* 13 px */
+
+  /* Espaciado (base 4 px) */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+
+  /* Radios */
+  --r-s: 6px;
+  --r-m: 10px;
+
+  /* Layout */
+  --nav-w: 296px;
+  --content-max: 920px;
+  --bar-h: 56px;
+  --measure: 68ch;
+
+  /* Movimiento */
+  --t-fast: 150ms;
+  --t-nav: 250ms;
+}

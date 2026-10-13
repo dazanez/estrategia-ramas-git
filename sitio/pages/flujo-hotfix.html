@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Incidencia urgente: hotfix · Guía Git · SigDoc - MTI</title>
+<link rel="stylesheet" href="../vendor/fonts/fonts.css">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+<div data-nav></div>
+
+<main class="content" id="contenido">
+  <div class="content__inner">
+    <div data-breadcrumbs></div>
+
+    <header class="page-header">
+      <h1>Incidencia urgente: hotfix</h1>
+      <p class="source-chip">Fuente: ESTRATEGIA-RAMAS §5.2</p>
+    </header>
+
+    <section class="block">
+      <h2>Cuándo</h2>
+      <p>Error reportado en producción que no puede esperar a la próxima entrega.</p>
+    </section>
+
+    <section class="block">
+      <h2>Diagrama y pasos con comandos</h2>
+      <div data-git-flow="hotfix"></div>
+      <div class="callout">
+        <p class="callout__title">Variante con qa libre (no se anima)</p>
+        <p>Si qa tiene <strong>el mismo tag que prod</strong> (nada en pruebas), el recorrido es el normal, con el PR a sbx primero: el PR de la rama del hotfix a <code>sbx</code> y después <code>v1.4.0.1</code> recorre qa → stg → prod. No hace falta saltar qa. Si la cabeza de la cadena es el tag de producción, tampoco hay que re-etiquetar (como en el rollback, sección 6.5 de la guía).</p>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Avisos</h2>
+      <div class="callout callout--warn">
+        <p class="callout__title">Importante</p>
+        <p>El hotfix no está terminado hasta completar los <strong>pasos 7 a 9</strong>. Mientras tanto, la cabeza de la cadena no tiene la corrección, y cualquier tag que se cree sobre ella tampoco la tendría. <strong>Hasta cerrar el hotfix, nadie crea tags nuevos.</strong></p>
+      </div>
+      <div class="callout callout--warn">
+        <p class="callout__title">El PR a sbx va antes de promover a qa</p>
+        <p>Nada llega a qa sin estar antes en sbx (I2): por eso el paso 8 (PR a sbx) va antes del 9. La validación automática lo exige. Solo el tag de cuarta posición puede llegar a stg y prod antes de pasar por sbx, por urgencia; a qa no, y la validación lo rechaza con <code>SBX</code>.</p>
+      </div>
+      <div class="callout">
+        <p class="callout__title">Esto no es una «promoción hacia abajo»</p>
+        <p>No se lleva nada de stg a qa. Se crea un tag nuevo (<code>v1.5.1</code>) que junta la versión en pruebas con el hotfix, y ese tag sube a qa como cualquier otro. La única excepción real es que el hotfix salta qa.</p>
+      </div>
+      <div class="callout">
+        <p class="callout__title"><code>v1.5.0</code> ya no se promueve</p>
+        <p><code>v1.5.0</code> ya no se promueve más porque no tiene el hotfix: si siguiera su camino, se bloquea o se mezcla (PoC 2).</p>
+      </div>
+      <div class="callout">
+        <p class="callout__title">Cuarta posición</p>
+        <p>El tag del hotfix usa la cuarta posición sobre el tag de producción: con prod en <code>v1.4.0</code> es <code>v1.4.0.1</code>, y el segundo hotfix es <code>v1.4.0.2</code>.</p>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Relacionados</h2>
+      <div data-related><p class="pending"><strong>[CONTENIDO PENDIENTE]</strong> De dos a cuatro enlaces a otras páginas.</p></div>
+    </section>
+
+    <div data-pager></div>
+    <footer data-footer></footer>
+  </div>
+</main>
+
+<script src="../js/boot.js"></script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+/* Validador del nombre de una rama (js/branch-validator.js). Se carga solo con [data-branch-validator]. */
+.validator { margin: 0 0 var(--sp-5); padding: var(--sp-4); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-m); }
+.validator__label { display: block; margin-bottom: var(--sp-2); font-weight: 600; }
+.validator__field { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-3); }
+.validator__input {
+  flex: 1 1 22rem;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0 var(--sp-3);
+  border: 2px solid var(--line-strong);
+  border-radius: var(--r-s);
+  background: #FFFFFF;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: var(--fs-code);
+}
+.validator__input:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.is-valid .validator__input { border-color: var(--primary); }
+.is-invalid .validator__input { border-color: var(--error-bar); }
+.validator__count { font-family: var(--font-mono); font-size: var(--fs-chip); color: var(--ink-muted); }
+.validator__count.is-over { color: var(--error-bar); font-weight: 600; }
+
+.validator__parts { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: var(--sp-2); margin: var(--sp-4) 0; padding: 0; max-width: none; }
+.validator__part { display: flex; flex-direction: column; gap: 2px; margin: 0; padding: var(--sp-2) var(--sp-3); background: var(--bg); border: 1px solid var(--line); border-radius: var(--r-s); min-width: 0; }
+.validator__question { font-size: var(--fs-chip); color: var(--ink-muted); }
+.validator__partname { font-weight: 600; }
+.validator__value { font-family: var(--font-mono); font-size: var(--fs-code); overflow-wrap: anywhere; }
+.validator__part.is-empty .validator__value { color: var(--ink-muted); }
+.validator__part.is-ok { background: var(--primary-tint); border-color: var(--primary); }
+.validator__part.is-bad { background: var(--error-bg); border-color: var(--error-bar); }
+.validator__part.is-ok .validator__partname::after { content: ' ✔'; color: var(--primary); }
+.validator__part.is-bad .validator__partname::after { content: ' ✖'; color: var(--error-bar); }
+
+.validator__verdict { margin: 0 0 var(--sp-2); font-weight: 600; max-width: none; }
+.validator__verdict--valid { color: var(--primary); }
+.validator__verdict--invalid { color: var(--error-bar); }
+.validator__verdict--empty, .validator__verdict--other { font-weight: 400; color: var(--ink-muted); }
+.validator__problems { margin: 0 0 var(--sp-3); max-width: none; }
+
+.validator__examples { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); margin: var(--sp-3) 0 0; max-width: none; font-size: var(--fs-small); color: var(--ink-muted); }
+.validator__examples-label { font-weight: 600; margin-right: var(--sp-1); }
+.validator__example {
+  padding: 2px var(--sp-2);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-s);
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: var(--fs-chip);
+  cursor: pointer;
+}
+.validator__example:hover { border-color: var(--primary); color: var(--primary); }

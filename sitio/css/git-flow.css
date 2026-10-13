@@ -1,0 +1,200 @@
+/* Diagramas interactivos de ramas (js/git-flow.js). Se carga solo en las páginas que tienen un [data-git-flow]. */
+
+/* ---------- Paleta por tipo de rama ----------
+   Sale de DESIGN.md §3.2 (tokens --c-* de tokens.css): cada ambiente y cada clase de rama tiene un solo color en todo el sitio.
+   --gf-fill = relleno · --gf-line = línea y borde (contraste >= 3:1 sobre blanco) · --gf-ink = texto sobre el relleno.
+   Los tonos 1 a 3 de feature son la única variación propia: DESIGN.md define un solo verde, y un flujo con varias
+   features necesita distinguirlas (ESTRATEGIA-RAMAS §1: "verde, varios tonos"). */
+.gf-type-default { --gf-fill: var(--line); --gf-line: var(--c-test-edge); --gf-ink: var(--ink); }
+.gf-type-sbx     { --gf-fill: var(--c-sbx);     --gf-line: var(--c-sbx-edge);     --gf-ink: var(--c-sbx-on); }
+.gf-type-qa      { --gf-fill: var(--c-qa);      --gf-line: var(--c-qa-edge);      --gf-ink: var(--c-qa-on); }
+.gf-type-stg     { --gf-fill: var(--c-stg);     --gf-line: var(--c-stg-edge);     --gf-ink: var(--c-stg-on); }
+.gf-type-prod    { --gf-fill: var(--c-prod);    --gf-line: var(--c-prod-edge);    --gf-ink: var(--c-prod-on); }
+.gf-type-feature { --gf-fill: var(--c-feature); --gf-line: var(--c-feature-edge); --gf-ink: var(--c-feature-on); }
+.gf-type-bug     { --gf-fill: var(--c-bug);     --gf-line: var(--c-bug-edge);     --gf-ink: var(--c-bug-on); }
+.gf-type-hotfix  { --gf-fill: var(--c-hotfix);  --gf-line: var(--c-hotfix-edge);  --gf-ink: var(--c-hotfix-on); }
+.gf-type-test    { --gf-fill: var(--c-test);    --gf-line: var(--c-test-edge);    --gf-ink: var(--c-test-on); }
+
+.gf-type-feature.gf-tone-1 { --gf-fill: #3FAE7C; --gf-line: #17744C; --gf-ink: var(--ink); }
+.gf-type-feature.gf-tone-2 { --gf-fill: #146B4F; --gf-line: #146B4F; --gf-ink: #FFFFFF; }
+.gf-type-feature.gf-tone-3 { --gf-fill: #C4F5DF; --gf-line: #3E8C69; --gf-ink: var(--ink); }
+
+/* ---------- Contenedor ---------- */
+.git-flow {
+  margin: 0 0 var(--sp-5);
+  padding: var(--sp-4);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-m);
+}
+.git-flow:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+.gf-title { margin: 0 0 var(--sp-3); font-weight: 600; font-size: var(--fs-h3); line-height: 1.3; max-width: none; }
+
+/* ---------- Controles ---------- */
+.gf-controls { margin-bottom: var(--sp-3); }
+.gf-controls__buttons { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); margin-bottom: var(--sp-2); }
+.gf-btn {
+  min-height: 40px;
+  padding: 0 var(--sp-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-s);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.gf-btn:hover { border-color: var(--primary); color: var(--primary); }
+.gf-btn--primary { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+.gf-btn--primary:hover { background: var(--primary-hover); border-color: var(--primary-hover); color: var(--on-primary); }
+.gf-btn[aria-disabled="true"] { opacity: 0.45; cursor: default; }
+.gf-btn[aria-disabled="true"]:hover { border-color: var(--line-strong); color: var(--ink); }
+.gf-btn--primary[aria-disabled="true"]:hover { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+.gf-progress { margin-left: var(--sp-2); font-family: var(--font-mono); font-size: var(--fs-chip); color: var(--ink-muted); }
+
+.gf-jumps { display: flex; flex-wrap: wrap; gap: var(--sp-1); }
+.gf-jump {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 var(--sp-2);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-s);
+  background: var(--surface);
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: var(--fs-chip);
+  cursor: pointer;
+}
+.gf-jump:hover { border-color: var(--primary); color: var(--primary); }
+.gf-jump.is-done { background: var(--primary-tint); color: var(--primary); border-color: var(--primary-tint); }
+.gf-jump.is-active { background: var(--primary); border-color: var(--primary); color: var(--on-primary); font-weight: 500; }
+
+/* ---------- Lienzo ---------- */
+.gf-scroll {
+  overflow-x: auto;
+  margin: 0 calc(var(--sp-4) * -1);
+  padding: 0 var(--sp-4);
+  background: var(--bg);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.gf-svg { display: block; height: auto; }
+.gf-svg text { font-family: var(--font-mono); }
+
+.gf-lanes { pointer-events: none; }
+.gf-lanes__band { fill: var(--bg); stroke: none; opacity: 0; transition: opacity 0.2s ease; }
+.gf-lanes__band.is-pinned { opacity: 0.96; }
+.gf-lane rect { fill: var(--gf-fill); stroke: var(--gf-line); stroke-width: 1.5; transition: opacity 0.4s ease; }
+.gf-lane__text { font-size: 12px; font-weight: 500; fill: var(--gf-ink); }
+.gf-lane.is-ghost { opacity: 0.4; }
+.gf-lane.is-ghost rect { fill: none; stroke-dasharray: 4 3; }
+.gf-lane.is-ghost .gf-lane__text { fill: var(--ink-muted); }
+
+.gf-edge {
+  fill: none;
+  stroke: var(--gf-line);
+  stroke-width: 4;
+  stroke-linecap: round;
+  opacity: 0;
+  transition: opacity 0.4s ease, stroke-width 0.2s ease;
+}
+.gf-edge.is-visible { opacity: 1; }
+/* Promoción a un ambiente = trazo discontinuo (DESIGN.md §7.1); las puntas quedan cuadradas para que se vean los cortes. */
+.gf-edge--promotion { stroke-dasharray: 11 7; stroke-linecap: butt; }
+.gf-edge.is-current { stroke-width: 5.5; }
+
+.gf-node { opacity: 0; pointer-events: none; transition: opacity 0.4s ease; }
+.gf-node.is-visible { opacity: 1; pointer-events: auto; }
+.gf-node__shape { fill: var(--gf-fill); stroke: var(--gf-line); stroke-width: 2.5; }
+.gf-node__num { font-family: var(--font-sans); font-size: 11px; font-weight: 600; fill: var(--gf-ink); }
+.gf-svg .gf-node__num { font-family: var(--font-sans); }
+.gf-node__num--small { font-size: 8.5px; }
+.gf-node__ring { fill: none; stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; opacity: 0; transition: opacity 0.3s ease; }
+.gf-node--merge .gf-node__shape { stroke-linejoin: round; }
+.gf-node.is-current .gf-node__ring { opacity: 0.85; }
+
+.gf-node--revert .gf-node__shape { fill: var(--surface); stroke-width: 3; }
+.gf-node__cross { fill: none; stroke: var(--gf-line); stroke-width: 2.75; stroke-linecap: round; }
+.gf-node__badge { fill: var(--surface); stroke: var(--gf-line); stroke-width: 1.25; }
+.gf-svg .gf-node__badge-text { font-family: var(--font-sans); font-size: 9.5px; font-weight: 600; fill: var(--ink); }
+
+.gf-node__label {
+  font-size: 12px;
+  font-weight: 500;
+  fill: var(--ink);
+  stroke: var(--bg);
+  stroke-width: 4;
+  stroke-linejoin: round;
+  paint-order: stroke;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.gf-node.is-current .gf-node__label, .gf-node:hover .gf-node__label { opacity: 1; }
+
+.gf-tag__shape { fill: var(--surface); stroke: var(--primary); stroke-width: 1.5; stroke-linejoin: round; }
+.gf-tag text { font-size: 12px; font-weight: 500; fill: var(--ink); }
+.gf-tag__stem { stroke: var(--primary); stroke-width: 1.5; }
+.gf-node.is-current .gf-tag__shape { fill: var(--primary-tint); stroke-width: 2.25; }
+
+/* ---------- Leyenda ---------- */
+.gf-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1) var(--sp-4);
+  list-style: none;
+  margin: var(--sp-3) 0 var(--sp-4);
+  padding: 0;
+  max-width: none;
+  font-size: var(--fs-small);
+  color: var(--ink-muted);
+}
+.gf-legend li { display: inline-flex; align-items: center; gap: var(--sp-2); margin: 0; }
+.gf-legend__glyph { flex: none; }
+.gf-legend__fill { fill: var(--ink-muted); stroke: none; stroke-linejoin: round; }
+.gf-legend__ring { fill: var(--surface); stroke: var(--ink-muted); stroke-width: 2.5; }
+.gf-legend__cross { stroke: var(--ink-muted); stroke-width: 2.25; stroke-linecap: round; fill: none; }
+.gf-legend__tag { fill: none; stroke: var(--primary); stroke-width: 1.5; stroke-linejoin: round; }
+.gf-legend__line { fill: none; stroke: var(--ink-muted); stroke-width: 2.5; stroke-linecap: round; }
+.gf-legend__line--dash { stroke-dasharray: 5 3.5; stroke-linecap: butt; }
+
+/* ---------- Detalle del paso y estado de los ambientes ---------- */
+.gf-info { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--sp-5); }
+
+.gf-step__title { margin: 0 0 var(--sp-2); font-weight: 600; font-size: var(--fs-h3); line-height: 1.3; max-width: none; }
+.gf-fields { margin: 0; }
+.gf-field { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: var(--sp-3); padding: var(--sp-2) 0; border-top: 1px solid var(--line); }
+.gf-field dt { font-size: var(--fs-small); font-weight: 600; color: var(--ink-muted); }
+.gf-field dd { margin: 0; }
+.gf-field__branches { display: flex; flex-wrap: wrap; gap: var(--sp-1); }
+
+/* ---------- Comandos de Git y pasos en Azure DevOps ---------- */
+.gf-side { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-4); align-items: start; min-width: 0; }
+.gf-side--single { grid-template-columns: minmax(0, 1fr); }
+.gf-cmds, .gf-azure { padding: var(--sp-3) var(--sp-4); background: var(--bg); border: 1px solid var(--line); border-radius: var(--r-m); min-width: 0; }
+.gf-cmds__head { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); }
+.gf-cmds__title, .gf-azure__title { margin: 0; font-weight: 600; font-size: var(--fs-h3); line-height: 1.3; max-width: none; }
+.gf-cmds__hint, .gf-azure__hint { margin: 0 0 var(--sp-3); font-size: var(--fs-small); color: var(--ink-muted); max-width: none; }
+.gf-cmds__code { margin: 0; padding: var(--sp-3); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-s); font-size: var(--fs-code); line-height: 1.6; white-space: pre; overflow-x: auto; }
+.gf-cmds__code code { font-size: inherit; }
+.gf-cmd--comment { color: var(--ink-muted); }
+.gf-cmds__empty, .gf-azure__empty { margin: 0; font-size: var(--fs-small); color: var(--ink-muted); max-width: none; }
+.gf-cmds__recipes { margin: var(--sp-3) 0 0; font-size: var(--fs-small); color: var(--ink-muted); max-width: none; }
+.gf-cmds__code[hidden], .gf-cmds__copy[hidden], .gf-cmds__empty[hidden], .gf-cmds__recipes[hidden], .gf-azure__list[hidden], .gf-azure__empty[hidden] { display: none; }
+.gf-azure__list { margin: 0; padding-left: var(--sp-5); max-width: none; }
+.gf-azure__list li { margin: 0 0 var(--sp-2); }
+.gf-azure__list li:last-child { margin-bottom: 0; }
+.gf-btn--small { min-height: 30px; padding: 0 var(--sp-3); font-size: 0.8125rem; }
+.gf-visually-hidden { position: fixed; top: 0; left: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
+.gf-error { padding: var(--sp-3) var(--sp-4); border-left: 4px solid var(--error-bar); background: var(--error-bg); }
+.gf-error p { margin: 0 0 var(--sp-1); font-weight: 600; }
+.gf-error ul { margin: 0; }
+
+@media (max-width: 759px) {
+  .gf-side { grid-template-columns: minmax(0, 1fr); }
+  .gf-field { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .git-flow { padding: var(--sp-3); }
+  .gf-scroll { margin: 0 calc(var(--sp-3) * -1); padding: 0 var(--sp-3); }
+}

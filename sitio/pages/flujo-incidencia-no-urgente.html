@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Incidencia no urgente · Guía Git · SigDoc - MTI</title>
+<link rel="stylesheet" href="../vendor/fonts/fonts.css">
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+<div data-nav></div>
+
+<main class="content" id="contenido">
+  <div class="content__inner">
+    <div data-breadcrumbs></div>
+
+    <header class="page-header">
+      <h1>Incidencia no urgente</h1>
+      <p class="source-chip">Fuente: ESTRATEGIA-RAMAS §5.1</p>
+    </header>
+
+    <section class="block">
+      <h2>Cuándo</h2>
+      <p>Error reportado en producción que puede esperar a la próxima entrega.</p>
+    </section>
+
+    <section class="block">
+      <h2>Diagrama y pasos con comandos</h2>
+      <div data-git-flow="incidencia-no-urgente"></div>
+      <div class="callout">
+        <p class="callout__title">Sin comandos propios</p>
+        <p>La guía no trae tabla de pasos ni comandos para este caso, así que esta página no los detalla. El recorrido es el normal (PR a sbx → qa → stg → prod): los comandos y los pasos de Azure DevOps son los de <a href="flujo-requerimiento.html">Requerimiento</a> y <a href="flujo-defecto.html">Defecto</a>, con la rama <code>bug/glpi-&lt;ticket&gt;-&lt;descripcion&gt;-&lt;ini&gt;</code>.</p>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Avisos</h2>
+      <div class="callout callout--warn">
+        <p class="callout__title">Sale todo lo que ya esté en la cadena</p>
+        <p>La corrección sale junto con todo lo que ya esté en la cadena. Si algo de la cadena no debe salir todavía, aplica la sección 6.2 de la guía (versión certificada que espera al cliente).</p>
+      </div>
+      <div class="callout">
+        <p class="callout__title">Si la corrección no puede esperar</p>
+        <p>Es un hotfix: ver <a href="flujo-hotfix.html">Incidencia urgente: hotfix</a>.</p>
+      </div>
+      <div class="callout">
+        <p class="callout__title">Qué lleva la versión nueva</p>
+        <p>En el diagrama, prod tenía <code>v1.5.0</code> y el error se reportó allí. La corrección, sin embargo, nace del último tag (<code>v1.6.0</code>), así que <code>v1.6.1</code> lleva <strong>también</strong> el requerimiento de <code>v1.6.0</code>.</p>
+      </div>
+      <div class="callout">
+        <p class="callout__title">Versión del tag</p>
+        <p>Tag patch (o minor, si viaja junto con un requerimiento).</p>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2>Relacionados</h2>
+      <div data-related><p class="pending"><strong>[CONTENIDO PENDIENTE]</strong> De dos a cuatro enlaces a otras páginas.</p></div>
+    </section>
+
+    <div data-pager></div>
+    <footer data-footer></footer>
+  </div>
+</main>
+
+<script src="../js/boot.js"></script>
+</body>
+</html>

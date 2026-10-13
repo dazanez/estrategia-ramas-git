@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inicio · Guía Git · SigDoc - MTI</title>
+<link rel="stylesheet" href="vendor/fonts/fonts.css">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+<a class="skip-link" href="#contenido">Saltar al contenido</a>
+<div data-nav></div>
+
+<main class="content" id="contenido">
+  <div class="content__inner">
+    <div data-breadcrumbs></div>
+
+    <header class="page-header">
+      <h1>Inicio</h1>
+      <p class="source-chip">Fuente: ESTRATEGIA-RAMAS §0</p>
+    </header>
+
+    <section class="block">
+      <h2>Para qué sirve</h2>
+      <p>Esta guía complementa <strong>DES-EST-016 v2</strong> (Estándar control de código fuente) y <strong>ARQ-PRO-001 v1</strong> (Procedimiento control de versiones). Donde esos documentos se contradicen o no cubren un caso, se aplica lo que dice esta guía; las diferencias están en <a href="pages/por-que.html#diferencias">Por qué lo hacemos así</a>. Cada regla se probó en la prueba de concepto (<code>POC-RAMAS.md</code>), cuya evidencia está en <code>evidencia\&lt;escenario&gt;\</code>.</p>
+      <p>Elija en la tabla qué pasó: cada fila lleva a su flujo.</p>
+    </section>
+
+    <section class="block" id="resumen">
+      <h2>Resumen en una página</h2>
+      <div class="table-wrap table-wrap--wrap table-wrap--wide">
+        <table>
+          <thead><tr><th scope="col">¿Qué pasó?</th><th scope="col">Rama</th><th scope="col">Nace de</th><th scope="col">Versión del tag</th><th scope="col">Recorrido</th></tr></thead>
+          <tbody>
+            <tr><td><a href="pages/flujo-requerimiento.html"><strong>Requerimiento</strong></a> (historia de usuario nueva)</td><td><code>feature/az-&lt;idHU&gt;-&lt;descripcion&gt;-&lt;ini&gt;</code></td><td>Último tag</td><td>Sube el <strong>minor</strong>: <code>v1.5.0</code></td><td>PR a sbx → qa → stg → prod</td></tr>
+            <tr><td><a href="pages/flujo-defecto.html"><strong>Defecto</strong></a> (QA rechaza una versión; bug en Azure DevOps)</td><td><code>bug/az-&lt;idBug&gt;-&lt;descripcion&gt;-&lt;ini&gt;</code></td><td>Último tag</td><td>Sube el <strong>patch</strong>: <code>v1.5.1</code></td><td>PR a sbx → qa → stg → prod</td></tr>
+            <tr><td><a href="pages/flujo-incidencia-no-urgente.html"><strong>Incidencia no urgente</strong></a> (reportada en producción por GLPI, sale en la próxima entrega)</td><td><code>bug/glpi-&lt;ticket&gt;-&lt;descripcion&gt;-&lt;ini&gt;</code></td><td>Último tag</td><td>Patch</td><td>PR a sbx → qa → stg → prod</td></tr>
+            <tr><td><a href="pages/flujo-hotfix.html"><strong>Incidencia urgente — hotfix</strong></a></td><td><code>hotfix/glpi-&lt;ticket&gt;-&lt;descripcion&gt;-&lt;ini&gt;</code></td><td><strong>Tag de producción</strong></td><td><strong>Cuarta posición</strong>: <code>v1.4.0.1</code></td><td>stg → prod; después se re-etiqueta la cabeza de la cadena, PR a sbx y el tag re-etiquetado sube a qa</td></tr>
+            <tr><td><a href="pages/flujo-casos-poco-frecuentes.html#caso-6-1">Rechazo en stg</a></td><td><code>bug/az-&lt;idBug&gt;-&lt;descripcion&gt;-&lt;ini&gt;</code></td><td>Último tag</td><td>Patch</td><td>PR a sbx → qa → stg → prod</td></tr>
+            <tr><td><a href="pages/flujo-casos-poco-frecuentes.html#caso-6-2">Versión certificada que espera al cliente mientras otra debe salir</a></td><td><code>feature/az-&lt;id del ítem nuevo&gt;-&lt;descripcion&gt;-&lt;ini&gt;</code></td><td>Último tag</td><td>Según contenido</td><td>Retiro temporal con <code>git revert</code></td></tr>
+            <tr><td><a href="pages/flujo-casos-poco-frecuentes.html#caso-6-4">Requerimiento cancelado</a></td><td><code>feature/az-&lt;id del ítem nuevo&gt;-&lt;descripcion&gt;-&lt;ini&gt;</code></td><td>Último tag</td><td>Patch</td><td>PR a sbx → qa → stg → prod</td></tr>
+            <tr><td><a href="pages/flujo-casos-poco-frecuentes.html#caso-6-5">Rollback de producción</a></td><td><code>hotfix/glpi-&lt;ticket&gt;-&lt;descripcion&gt;-&lt;ini&gt;</code></td><td>Tag de producción</td><td>Cuarta posición</td><td>Igual que un hotfix</td></tr>
+            <tr><td><a href="pages/flujo-casos-poco-frecuentes.html#caso-6-11">Prueba automatizada</a></td><td><code>test/az-&lt;id&gt;-&lt;desk|web|serv&gt;-&lt;descripcion&gt;-&lt;ini&gt;</code></td><td>Último tag</td><td>Patch</td><td>PR a sbx (<a href="pages/flujo-casos-poco-frecuentes.html#caso-6-11">sección 6.11</a>)</td></tr>
+            <tr><td><a href="pages/guias.html#receta-promover-tag">Promoción de una versión</a></td><td><code>promote/&lt;tag&gt;-to-&lt;qa|stg|prod&gt;</code></td><td>El tag</td><td>—</td><td>PR al ambiente; la rama se borra al terminar</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="block" id="tres-reglas">
+      <h2>Tres reglas que sostienen todo lo demás</h2>
+      <ol class="rules-list">
+        <li><strong>Toda rama de trabajo nace de un tag</strong> (nunca de la rama <code>sbx</code>). El hotfix nace del tag que está en producción; el resto, del último tag. <a class="chip chip--rule" href="pages/referencia.html#r2" title="Ver la regla R2 en Referencia">R2</a></li>
+        <li><strong>Antes de crear un tag, la rama incorpora el último tag existente</strong> (regla de cadena). <a class="chip chip--rule" href="pages/referencia.html#r3" title="Ver la regla R3 en Referencia">R3</a></li>
+        <li><strong>El tag se crea en la rama de trabajo, antes de completar el PR a sbx.</strong> <a class="chip chip--rule" href="pages/referencia.html#r4" title="Ver la regla R4 en Referencia">R4</a></li>
+      </ol>
+    </section>
+
+    <section class="block">
+      <h2>Relacionados</h2>
+      <div data-related><p class="pending"><strong>[CONTENIDO PENDIENTE]</strong> De dos a cuatro enlaces a otras páginas.</p></div>
+    </section>
+
+    <div data-pager></div>
+    <footer data-footer></footer>
+  </div>
+</main>
+
+<script src="js/boot.js"></script>
+</body>
+</html>
