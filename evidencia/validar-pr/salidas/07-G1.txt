@@ -1,0 +1,12 @@
+# Caso 7 (G1): Hotfix v1.0.0.1 directo a stg
+# PR: promote/v1.0.0.1-to-stg -> stg   modo: build validation (commit de merge del PR)
+# Esperado: PASA EXCEPCION-HOTFIX   Obtenido: PASA
+
+Validar-PR  origen=promote/v1.0.0.1-to-stg  destino=stg
+OK     PROMOTE-NOMBRE   R6           Promocion de v1.0.0.1 hacia stg.
+OK     PROMOTE-TAG      R6           La rama apunta exactamente al tag anotado v1.0.0.1.
+AVISO  EXCEPCION-HOTFIX R7           Hotfix v1.0.0.1: entra directo a stg (excepcion R7).
+OK     HOTFIX-BASE      R2           El hotfix v1.0.0.1 nace del tag de produccion (v1.0.0).
+AVISO  HOTFIX-PENDIENTE 5.2          Al terminar: re-etiquetar la cabeza de la cadena con el hotfix, PR de la rama del hotfix a sbx y luego promover el tag nuevo a qa. Mientras tanto, nadie crea tags nuevos.
+OK     RESULTADO        I1           Tras el PR, stg sera identico a v1.0.0.1 (commit de merge del PR 85d2985d).
+RESULTADO: APROBADO (2 aviso(s))

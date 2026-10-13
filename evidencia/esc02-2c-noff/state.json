@@ -1,0 +1,262 @@
+﻿{
+    "escenario":  "02",
+    "variante":  "2c",
+    "mergeMode":  "noff",
+    "clones":  [
+                   "dev1",
+                   "dev2"
+               ],
+    "tags":  {
+                 "v1.0.0":  {
+                                "object":  "722da4f5dc710316599aee3b6d20a7203a4258f8",
+                                "commit":  "379e4abb53dff5a284f21dcb665bbefb7951771d",
+                                "dev":  "dev1"
+                            },
+                 "v1.2.0":  {
+                                "object":  "4ba723f6dd1ea2a32ef4b81f91069b0285b5583e",
+                                "commit":  "3fa40156cdb390d2dbd2fc0320e4d27990c73677",
+                                "dev":  "dev1"
+                            },
+                 "v1.3.0":  {
+                                "object":  "d59a9c0620ffee012c9e66205473b6a7169803e6",
+                                "commit":  "c5d1361d5ba42bf5f75cf744cdb8bac533498dcb",
+                                "dev":  "dev2"
+                            },
+                 "v1.2.0.1":  {
+                                  "object":  "15b63535a85b52aa4b588db3e78607beb00913dc",
+                                  "commit":  "5f82189fc063c20affcf184574aa50be3dd86a2a",
+                                  "dev":  "dev1"
+                              },
+                 "v1.3.1":  {
+                                "object":  "42f4ce5e57635451980bde18cabf6590eeb55902",
+                                "commit":  "59ddfdbda0e7728c957deed6401d8c2d3d2e65f9",
+                                "dev":  "dev1"
+                            }
+             },
+    "promotions":  [
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.2.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.2.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.2.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.3.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.2.0.1",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.2.0.1",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.3.1",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.3.1",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.3.1",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       }
+                   ],
+    "merges":  [
+                   {
+                       "source":  "HU_2.200_PC",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0-to-stg",
+                       "target":  "stg",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0-to-prod",
+                       "target":  "prod",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_2.300_DD",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_2.400_DD",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0.1-to-stg",
+                       "target":  "stg",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0.1-to-prod",
+                       "target":  "prod",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.1-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "BUG_GLPI_13487_PC",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  false,
+                       "kind":  "pr",
+                       "detail":  "CONFLICT (content): Merge conflict in modulo-a.txt | Automatic merge failed; fix conflicts and then commit the result."
+                   },
+                   {
+                       "source":  "BUG_GLPI_13487_PC",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.1-to-stg",
+                       "target":  "stg",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.1-to-prod",
+                       "target":  "prod",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   }
+               ],
+    "branches":  [
+                     "HU_2.200_PC",
+                     "promote/v1.2.0-to-qa",
+                     "promote/v1.2.0-to-stg",
+                     "promote/v1.2.0-to-prod",
+                     "HU_2.300_DD",
+                     "promote/v1.3.0-to-qa",
+                     "HU_2.400_DD",
+                     "BUG_GLPI_13487_PC",
+                     "promote/v1.2.0.1-to-stg",
+                     "promote/v1.2.0.1-to-prod",
+                     "promote/v1.3.1-to-qa",
+                     "promote/v1.3.1-to-stg",
+                     "promote/v1.3.1-to-prod"
+                 ],
+    "findings":  [
+                     "PR BUG_GLPI_13487_PC -\u003e sbx [noff] bloqueado: CONFLICT (content): Merge conflict in modulo-a.txt | Automatic merge failed; fix conflicts and then commit the result.",
+                     "Conflicto al actualizar BUG_GLPI_13487_PC con origin/sbx en: modulo-a.txt (se resuelve en la rama de trabajo)",
+                     "v1.3.1 contiene el hotfix: True ; contiene la HU no aprobada de sbx: False",
+                     "Contenido de v1.2.0.1: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-a.txt:L2=\u0027HOTFIX GLPI-13487\u0027",
+                     "Contenido de v1.3.1: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-a.txt:L2=\u0027HOTFIX GLPI-13487\u0027 ; modulo-b.txt:L1=\u0027pantalla v1.3\u0027",
+                     "Contenido de qa: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-a.txt:L2=\u0027HOTFIX GLPI-13487\u0027 ; modulo-b.txt:L1=\u0027pantalla v1.3\u0027",
+                     "Contenido de stg: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-a.txt:L2=\u0027HOTFIX GLPI-13487\u0027 ; modulo-b.txt:L1=\u0027pantalla v1.3\u0027",
+                     "Contenido de prod: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-a.txt:L2=\u0027HOTFIX GLPI-13487\u0027 ; modulo-b.txt:L1=\u0027pantalla v1.3\u0027",
+                     "Contenido de sbx: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-a.txt:L2=\u0027validacion v1.4 (en sbx, sin tag) + HOTFIX GLPI-13487\u0027 ; modulo-b.txt:L1=\u0027pantalla v1.3\u0027"
+                 ]
+}

@@ -1,0 +1,12 @@
+* 13fc75e (HEAD -> sbx, tag: v1.4.0, stg, qa, prod) Revert "Revert "feat(modulo-a): add HU 1001""
+* ff8e52c (tag: v1.3.0) Revert "feat(modulo-a): add HU 1001"
+*   1f8ce00 (tag: v1.2.0) Merge v1.1.1 en HU_12.1002_DD (actualizacion de rama de trabajo)
+|\  
+| *   8add881 (tag: v1.1.1) Merge v1.1.0 en v1.0.0_BUG_GLPI_20001_PC (actualizacion de rama de trabajo)
+| |\  
+| | * 429f9ab (tag: v1.1.0) feat(modulo-a): add HU 1001
+| * | 20ff078 (tag: v1.0.0.1) fix(comun): corrige bloqueo de sesion (GLPI 20001)
+| |/  
+* / cc522c8 feat(modulo-b): add HU 1002
+|/  
+* 70db534 (tag: v1.0.0) chore: estructura inicial del repositorio

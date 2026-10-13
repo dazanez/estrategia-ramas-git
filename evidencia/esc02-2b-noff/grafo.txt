@@ -1,0 +1,51 @@
+*   4e4da93 (HEAD -> sbx) Merge PR: BUG_GLPI_13487_PC -> sbx (--no-ff)
+|\  
+| *   6755c8e Merge origin/sbx en BUG_GLPI_13487_PC (actualizacion de rama de trabajo)
+| |\  
+| |/  
+|/|   
+* |   c28c178 Merge PR: HU_2.400_DD -> sbx (--no-ff)
+|\ \  
+| * | 6efc450 feat(modulo-a): add validacion v1.4
+|/ /  
+| | *   f9112ec (prod) Merge PR: promote/v1.2.0.1-to-prod -> prod (--no-ff)
+| | |\  
+| | |/  
+| |/|   
+| | *   762fdd5 Merge PR: promote/v1.2.0-to-prod -> prod (--no-ff)
+| | |\  
+| | | | *   e25042b (stg) Merge PR: promote/v1.2.0.1-to-stg -> stg (--no-ff)
+| | | | |\  
+| | |_|_|/  
+| |/| | |   
+| | | | * 7309d51 Merge PR: promote/v1.2.0-to-stg -> stg (--no-ff)
+| | | |/| 
+| | |/|/  
+| | | | *   b67f30f (qa) Merge PR: promote/v1.2.0.1-to-qa -> qa (--no-ff)
+| | | | |\  
+| | |_|_|/  
+| |/| | |   
+| * | | | ba29a96 (tag: v1.2.0.1) fix(modulo-a): corrige caida del login por token nulo (GLPI 13487)
+| | |/ /  
+| |/| |   
+| | | *   83597b9 Merge PR: promote/v1.3.0-to-qa -> qa (--no-ff)
+| | | |\  
+| |_|_|/  
+|/| | |   
+* | | |   a087fc0 (tag: v1.3.0) Merge PR: HU_2.300_DD -> sbx (--no-ff)
+|\ \ \ \  
+| |/ / /  
+|/| | |   
+| * | | 53731c8 feat(modulo-b): add pantalla v1.3
+|/ / /  
+| | * cc5b41c Merge PR: promote/v1.2.0-to-qa -> qa (--no-ff)
+| |/| 
+| |/  
+|/|   
+* |   6832701 (tag: v1.2.0) Merge PR: HU_2.200_PC -> sbx (--no-ff)
+|\ \  
+| |/  
+|/|   
+| * c6c79c2 feat(modulo-a): add login v1.2
+|/  
+* 05fbb93 (tag: v1.0.0) chore: estructura inicial del repositorio

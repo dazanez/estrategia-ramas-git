@@ -1,0 +1,7 @@
+# Caso 5 (G1): PR de qa hacia sbx (hacia abajo)
+# PR: qa -> sbx   modo: build validation (commit de merge del PR)
+# Esperado: FALLA DIRECCION   Obtenido: FALLA
+
+Validar-PR  origen=qa  destino=sbx
+ERROR  DIRECCION        R6/I3        'qa' es una rama de ambiente o de promocion: nunca se integra hacia sbx (de un ambiente superior a uno inferior). Los cambios entran a sbx desde ramas de trabajo.
+RESULTADO: RECHAZADO (1 error(es), 0 aviso(s))

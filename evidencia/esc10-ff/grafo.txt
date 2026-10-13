@@ -1,0 +1,9 @@
+*   910953e (HEAD -> sbx) Merge origin/sbx en BUG_GLPI_13500_PC (actualizacion de rama de trabajo)
+|\  
+| * cc1ea07 feat(modulo-b): add funcionalidad v1.4
+* | c9f9977 (tag: v1.3.1, stg, qa, prod) fix(comun): corrige bloqueo de sesion (GLPI 13500)
+|/  
+* 48e6090 (tag: v1.3.0.2) fix(modulo-a): corrige mensaje (AZ 65488)
+* ccc24bf (tag: v1.3.0.1) fix(modulo-a): corrige validacion (AZ 65487)
+* 631c950 (tag: v1.3.0) feat(modulo-a): add funcionalidad v1.3
+* 7c41527 (tag: v1.0.0) chore: estructura inicial del repositorio

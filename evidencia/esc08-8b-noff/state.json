@@ -1,0 +1,219 @@
+﻿{
+    "escenario":  "08",
+    "variante":  "8b",
+    "mergeMode":  "noff",
+    "clones":  [
+                   "dev1",
+                   "dev2"
+               ],
+    "tags":  {
+                 "v1.0.0":  {
+                                "object":  "cea88f318c7adb6ece549befc6b0649994bce02c",
+                                "commit":  "886875c387604c32c677da0652b3d07852997996",
+                                "dev":  "dev1"
+                            },
+                 "v1.1.0":  {
+                                "object":  "a519513dcb28288580a55f62711953b698c28279",
+                                "commit":  "382b87d035148aedd6b5dfb6e34ae1a8f5f81e41",
+                                "dev":  "dev1"
+                            },
+                 "v1.2.0":  {
+                                "object":  "ccdd6a5270ec797c6f2b49064f9869dbd88e2774",
+                                "commit":  "0f73352bf2fafbd452fbba968499234221a84587",
+                                "dev":  "dev1"
+                            },
+                 "v1.3.0":  {
+                                "object":  "5cd5b7e66f5c21a100790e877d8f0a5fce9fbbf0",
+                                "commit":  "a7d05a22259c65f15251ef3a3ce51679c0229765",
+                                "dev":  "dev2"
+                            }
+             },
+    "promotions":  [
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.1.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.2.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.2.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.2.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.3.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.3.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.3.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       }
+                   ],
+    "merges":  [
+                   {
+                       "source":  "HU_9.801_PC",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_9.802_DD",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.1.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_9.803_PC",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0-to-stg",
+                       "target":  "stg",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0-to-prod",
+                       "target":  "prod",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_9.804_DD",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0-to-stg",
+                       "target":  "stg",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0-to-prod",
+                       "target":  "prod",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   }
+               ],
+    "branches":  [
+                     "HU_9.801_PC",
+                     "HU_9.802_DD",
+                     "promote/v1.1.0-to-qa",
+                     "HU_9.803_PC",
+                     "promote/v1.2.0-to-qa",
+                     "promote/v1.2.0-to-stg",
+                     "promote/v1.2.0-to-prod",
+                     "HU_9.804_DD",
+                     "promote/v1.3.0-to-qa",
+                     "promote/v1.3.0-to-stg",
+                     "promote/v1.3.0-to-prod",
+                     "HU_9.805_PC"
+                 ],
+    "findings":  [
+                     "El cliente cancela HU 801",
+                     "HU 801 presente en v1.2.0: False",
+                     "HU 801 presente en v1.3.0: False",
+                     "HU 801 presente en qa: False",
+                     "HU 801 presente en prod: False",
+                     "Contenido de v1.1.0: modulo-a.txt:L1=\u0027HU 801 (luego CANCELADA)\u0027 ; modulo-b.txt:L1=\u0027HU 802\u0027",
+                     "Contenido de v1.2.0: modulo-b.txt:L1=\u0027HU 802\u0027",
+                     "Contenido de v1.3.0: modulo-b.txt:L1=\u0027HU 802\u0027 ; comun.txt:L1=\u0027HU 804\u0027",
+                     "Contenido de prod: modulo-b.txt:L1=\u0027HU 802\u0027 ; comun.txt:L1=\u0027HU 804\u0027",
+                     "Re-merge del commit original de HU 801: Already up to date. ; HU 801 presente en la rama: False"
+                 ]
+}

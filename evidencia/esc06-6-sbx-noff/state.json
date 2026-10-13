@@ -1,0 +1,103 @@
+﻿{
+    "escenario":  "06",
+    "variante":  "6-sbx",
+    "mergeMode":  "noff",
+    "clones":  [
+                   "dev1",
+                   "dev2"
+               ],
+    "tags":  {
+                 "v1.0.0":  {
+                                "object":  "3d4c25f1dd80616985a2ad152b8968c2bc93d64f",
+                                "commit":  "933f5bf6ee40089929f66ed95c12bd050a5166fe",
+                                "dev":  "dev1"
+                            },
+                 "v1.1.0":  {
+                                "object":  "f40c4ea660bed06b2962aada0cfb122e8456d9f7",
+                                "commit":  "847a30dee532814c02d9d8f2ea2d26a82e605f7e",
+                                "dev":  "dev1"
+                            },
+                 "v1.2.0":  {
+                                "object":  "708aec5db1e6d41bc531b7e629234151b76f0ff4",
+                                "commit":  "34874f1c3f5d70e8476a99ced320a654f4caaa20",
+                                "dev":  "dev2"
+                            }
+             },
+    "promotions":  [
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.2.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       }
+                   ],
+    "merges":  [
+                   {
+                       "source":  "HU_8.601_PC",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_8.602_DD",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  false,
+                       "kind":  "pr",
+                       "detail":  "CONFLICT (content): Merge conflict in comun.txt | Automatic merge failed; fix conflicts and then commit the result."
+                   },
+                   {
+                       "source":  "HU_8.602_DD",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   }
+               ],
+    "branches":  [
+                     "HU_8.601_PC",
+                     "HU_8.602_DD",
+                     "promote/v1.2.0-to-qa"
+                 ],
+    "findings":  [
+                     "PR HU_8.602_DD -\u003e sbx [noff]: bloqueado: CONFLICT (content): Merge conflict in comun.txt | Automatic merge failed; fix conflicts and then commit the result.",
+                     "Conflicto al actualizar HU_8.602_DD con origin/sbx en: comun.txt (se resuelve en la rama de trabajo)",
+                     "PR HU_8.602_DD -\u003e sbx [noff] tras actualizar desde origin/sbx: completado sin conflicto",
+                     "Contenido de v1.1.0: comun.txt:L3=\u0027regla de negocio segun HU 601\u0027",
+                     "Contenido de v1.2.0: comun.txt:L3=\u0027regla de negocio segun HU 601 + HU 602\u0027",
+                     "Contenido de qa: comun.txt:L3=\u0027regla de negocio segun HU 601 + HU 602\u0027"
+                 ]
+}

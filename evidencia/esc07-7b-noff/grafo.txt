@@ -1,0 +1,23 @@
+*   14c9ea4 (prod) Merge PR: promote/v1.3.0.1-to-prod -> prod (--no-ff)
+|\  
+| | *   cd46b6a (stg) Merge PR: promote/v1.3.0.1-to-stg -> stg (--no-ff)
+| | |\  
+| | |/  
+| |/|   
+| | * 1761473 Merge PR: promote/v1.3.0-to-stg -> stg (--no-ff)
+| |/| 
+|/| | 
+| | | * 99dde25 (HEAD -> sbx) Merge PR: BUG_AZ_70001_DD -> sbx (--no-ff)
+| | |/| 
+| | |/  
+| |/|   
+| * | 0dabd76 (tag: v1.3.0.1) fix(modulo-a): corrige integracion detectada en stg (AZ 70001)
+| |/  
+| | * 1400f05 (qa) Merge PR: promote/v1.3.0-to-qa -> qa (--no-ff)
+| |/| 
+|/|/  
+| * c999693 (tag: v1.3.0) Merge PR: HU_6.70000_PC -> sbx (--no-ff)
+|/| 
+| * 8660337 feat(modulo-a): add funcionalidad v1.3
+|/  
+* 08c75f6 (tag: v1.0.0) chore: estructura inicial del repositorio

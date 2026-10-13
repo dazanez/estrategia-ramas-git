@@ -1,0 +1,22 @@
+*   af88b14 (qa) Merge PR: promote/v1.2.0-to-qa -> qa (--no-ff)
+|\  
+* \   c77602f Merge PR: promote/v1.1.0-to-qa -> qa (--no-ff)
+|\ \  
+| | | *   49bd911 (HEAD -> sbx) Merge PR: HU_7.503_PC -> sbx (--no-ff)
+| | | |\  
+| | | | * 9ff67f3 (tag: v1.3.0) feat(comun): add HU 503
+| |_|_|/  
+|/| | |   
+| | | *   92220ac Merge PR: HU_7.502_DD -> sbx (--no-ff)
+| | | |\  
+| | | |/  
+| | |/|   
+| | * | 9be0f8b (tag: v1.2.0) feat(modulo-b): add HU 502
+| |/ /  
+|/| |   
+| | * dcab86d Merge PR: HU_7.501_PC -> sbx (--no-ff)
+| |/| 
+|/|/  
+| * 89d63dd (tag: v1.1.0) feat(modulo-a): add HU 501
+|/  
+* af31e0e (tag: v1.0.0, stg, prod) chore: estructura inicial del repositorio

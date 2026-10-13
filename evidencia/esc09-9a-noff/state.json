@@ -1,0 +1,192 @@
+﻿{
+    "escenario":  "09",
+    "variante":  "9a",
+    "mergeMode":  "noff",
+    "clones":  [
+                   "dev1",
+                   "dev2"
+               ],
+    "tags":  {
+                 "v1.0.0":  {
+                                "object":  "1045de7609c9522d2f29a86f7034b7aa08801e92",
+                                "commit":  "568fff049f44b3f8615a2e6fab32471e0f7fc6dc",
+                                "dev":  "dev1"
+                            },
+                 "v1.3.0":  {
+                                "object":  "ebd3529977dc697951d416af1a353b1e29cca494",
+                                "commit":  "798f6f3a4131803ff8ee5898808f351c79f43912",
+                                "dev":  "dev1"
+                            },
+                 "v1.4.0":  {
+                                "object":  "81f6d92d67c3005409e2cb8445b8dc4420563f27",
+                                "commit":  "903e9570a428238b2078656b2a0b2d8abf7027dd",
+                                "dev":  "dev2"
+                            }
+             },
+    "promotions":  [
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.3.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.3.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.3.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.4.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.4.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.4.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.3.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       }
+                   ],
+    "merges":  [
+                   {
+                       "source":  "HU_6.90000_PC",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0-to-stg",
+                       "target":  "stg",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0-to-prod",
+                       "target":  "prod",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_6.91000_DD",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.4.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.4.0-to-stg",
+                       "target":  "stg",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.4.0-to-prod",
+                       "target":  "prod",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0-to-prod",
+                       "target":  "prod",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   }
+               ],
+    "branches":  [
+                     "HU_6.90000_PC",
+                     "promote/v1.3.0-to-qa",
+                     "promote/v1.3.0-to-stg",
+                     "promote/v1.3.0-to-prod",
+                     "HU_6.91000_DD",
+                     "promote/v1.4.0-to-qa",
+                     "promote/v1.4.0-to-stg",
+                     "promote/v1.4.0-to-prod",
+                     "promote/v1.3.0-to-prod"
+                 ],
+    "findings":  [
+                     "v1.4.0 falla en produccion; se requiere volver a v1.3.0",
+                     "Tras promover v1.3.0 -\u003e prod [noff], prod NO es igual a v1.3.0 (contenido extra en: modulo-b.txt)",
+                     "Merge de promote/v1.3.0-to-prod: ok=True ; salida \u0027Already up to date\u0027 presente: True",
+                     "prod tras el \u0027rollback\u0027 contiene v1.4.0: True",
+                     "Contenido de v1.3.0: modulo-a.txt:L1=\u0027funcionalidad v1.3\u0027",
+                     "Contenido de v1.4.0: modulo-a.txt:L1=\u0027funcionalidad v1.3\u0027 ; modulo-b.txt:L1=\u0027funcionalidad v1.4 (FALLA en prod)\u0027",
+                     "Contenido de prod: modulo-a.txt:L1=\u0027funcionalidad v1.3\u0027 ; modulo-b.txt:L1=\u0027funcionalidad v1.4 (FALLA en prod)\u0027"
+                 ]
+}

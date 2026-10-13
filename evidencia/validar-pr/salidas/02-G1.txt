@@ -1,0 +1,10 @@
+# Caso 2 (G1): Promover v1.1.0 a qa antes del PR a sbx
+# PR: promote/v1.1.0-to-qa -> qa   modo: build validation (commit de merge del PR)
+# Esperado: FALLA SBX   Obtenido: FALLA
+
+Validar-PR  origen=promote/v1.1.0-to-qa  destino=qa
+OK     PROMOTE-NOMBRE   R6           Promocion de v1.1.0 hacia qa.
+OK     PROMOTE-TAG      R6           La rama apunta exactamente al tag anotado v1.1.0.
+ERROR  SBX              I2/R5        v1.1.0 no ha entrado a sbx: complete primero el PR de la rama de trabajo a sbx. Nada llega a un ambiente sin estar en la linea base.
+OK     RESULTADO        I1           Tras el PR, qa sera identico a v1.1.0 (commit de merge del PR f0107bc5).
+RESULTADO: RECHAZADO (1 error(es), 0 aviso(s))

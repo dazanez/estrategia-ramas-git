@@ -1,0 +1,10 @@
+# Caso 18 (G1): Promover v1.2.0 a prod saltando stg
+# PR: promote/v1.2.0-to-prod -> prod   modo: build validation (commit de merge del PR)
+# Esperado: FALLA ORDEN   Obtenido: FALLA
+
+Validar-PR  origen=promote/v1.2.0-to-prod  destino=prod
+OK     PROMOTE-NOMBRE   R6           Promocion de v1.2.0 hacia prod.
+OK     PROMOTE-TAG      R6           La rama apunta exactamente al tag anotado v1.2.0.
+ERROR  ORDEN            R6           A prod solo llega la version que esta en stg, y stg tiene v1.0.0.1. Promueva v1.2.0 a stg primero.
+OK     RESULTADO        I1           Tras el PR, prod sera identico a v1.2.0 (commit de merge del PR 7458c1f7).
+RESULTADO: RECHAZADO (1 error(es), 0 aviso(s))

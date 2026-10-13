@@ -1,0 +1,9 @@
+# Caso 40 (G3): Nombre feature/az-3004-descripcion-demasiado-larga-para-el-limite-pc
+# PR: feature/az-3004-descripcion-demasiado-larga-para-el-limite-pc -> sbx   modo: build validation (commit de merge del PR)
+# Esperado: FALLA NOMBRE   Obtenido: FALLA
+
+Validar-PR  origen=feature/az-3004-descripcion-demasiado-larga-para-el-limite-pc  destino=sbx
+ERROR  NOMBRE           Seccion 2    La rama tiene 61 caracteres; el maximo es 60. Acorte la descripcion.
+ERROR  TAG-FALTA        R4           El ultimo commit de la rama no tiene tag de version. Cree el tag en la rama antes de completar el PR: git tag -a vX.Y.Z -m "..." y git push origin vX.Y.Z
+OK     CADENA           R3           La rama contiene el ultimo tag (v1.1.0).
+RESULTADO: RECHAZADO (2 error(es), 0 aviso(s))

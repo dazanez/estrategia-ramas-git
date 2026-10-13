@@ -1,0 +1,166 @@
+﻿{
+    "escenario":  "05",
+    "variante":  "5c",
+    "mergeMode":  "ff",
+    "clones":  [
+                   "dev1",
+                   "dev2"
+               ],
+    "tags":  {
+                 "v1.0.0":  {
+                                "object":  "8fa575f8cc7193aaeed0f18b0e2e3d9664bf5f6c",
+                                "commit":  "56aca34b0140ff24ad799c97c910ccc1437dffcb",
+                                "dev":  "dev1"
+                            },
+                 "v1.1.0":  {
+                                "object":  "16c9be50c6b306e5de83ab0af7be1cb6c9aec809",
+                                "commit":  "7e704a93abe5bd7ec2244256a37fab40100af035",
+                                "dev":  "dev1"
+                            }
+             },
+    "promotions":  [
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.1.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.1.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.1.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       }
+                   ],
+    "merges":  [
+                   {
+                       "source":  "HU_7.501_PC",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_7.502_DD",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  false,
+                       "kind":  "pr",
+                       "detail":  "fatal: Not possible to fast-forward, aborting."
+                   },
+                   {
+                       "source":  "HU_7.502_DD",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_7.503_PC",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  false,
+                       "kind":  "pr",
+                       "detail":  "fatal: Not possible to fast-forward, aborting."
+                   },
+                   {
+                       "source":  "HU_7.503_PC",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "integracion/v1.1.0",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  false,
+                       "kind":  "pr",
+                       "detail":  "fatal: Not possible to fast-forward, aborting."
+                   },
+                   {
+                       "source":  "integracion/v1.1.0",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.1.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.1.0-to-stg",
+                       "target":  "stg",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.1.0-to-prod",
+                       "target":  "prod",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   }
+               ],
+    "branches":  [
+                     "HU_7.501_PC",
+                     "HU_7.502_DD",
+                     "HU_7.503_PC",
+                     "integracion/v1.1.0",
+                     "promote/v1.1.0-to-qa",
+                     "promote/v1.1.0-to-stg",
+                     "promote/v1.1.0-to-prod"
+                 ],
+    "findings":  [
+                     "PR HU_7.502_DD -\u003e sbx [ff] bloqueado: fatal: Not possible to fast-forward, aborting.",
+                     "PR HU_7.503_PC -\u003e sbx [ff] bloqueado: fatal: Not possible to fast-forward, aborting.",
+                     "El cliente aprueba solo A (HU_7.501) y B (HU_7.502); C (HU_7.503) no sale",
+                     "La rama de integracion contiene C: False",
+                     "PR integracion/v1.1.0 -\u003e sbx [ff] bloqueado: fatal: Not possible to fast-forward, aborting.",
+                     "C en qa: False ; C en sbx: True (el proximo tag de sbx lo arrastrara)",
+                     "Contenido de qa: modulo-a.txt:L1=\u0027A: HU 501 (aprobada)\u0027 ; modulo-b.txt:L1=\u0027B: HU 502 (aprobada)\u0027",
+                     "Contenido de sbx: modulo-a.txt:L1=\u0027A: HU 501 (aprobada)\u0027 ; modulo-b.txt:L1=\u0027B: HU 502 (aprobada)\u0027 ; comun.txt:L1=\u0027C: HU 503 (NO aprobada)\u0027"
+                 ]
+}

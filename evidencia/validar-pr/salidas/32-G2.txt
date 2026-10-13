@@ -1,0 +1,11 @@
+# Caso 32 (G2): PR de B sin regla de cadena
+# PR: feature/az-2002-firma-digital-dd -> sbx   modo: build validation (commit de merge del PR)
+# Esperado: FALLA CADENA   Obtenido: FALLA
+
+Validar-PR  origen=feature/az-2002-firma-digital-dd  destino=sbx
+OK     NOMBRE           Seccion 2    La rama cumple <tipo>/<sistema>-<id>-<descripcion>-<iniciales>.
+OK     TAG              R4           La punta tiene el tag anotado v1.2.0.
+OK     VERSION          Versionado   v1.2.0 es mayor que el ultimo tag existente (v1.1.0).
+ERROR  CADENA           R3           La rama no contiene el ultimo tag (v1.1.0). Aplique la regla de cadena: git merge v1.1.0 en la rama, resuelva conflictos y cree un tag nuevo sobre el resultado. v1.2.0 queda descartado: declarelo con una linea 'Descarta: v1.2.0' en el mensaje del tag nuevo.
+ERROR  RESULTADO        R5           Tras el PR, sbx NO seria igual a v1.2.0 (archivos distintos: modulo-a.txt).
+RESULTADO: RECHAZADO (2 error(es), 0 aviso(s))

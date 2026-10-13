@@ -1,0 +1,10 @@
+*   c23d896 (HEAD -> sbx, tag: v1.2.0, qa) Merge origin/sbx en HU_6.40001_DD (actualizacion de rama de trabajo)
+|\  
+| * 939d4d6 feat(modulo-b): add HU 40003
+* | 52f3a84 feat(modulo-a): add HU 40001 parte 2
+* | e9eca11 Merge v1.1.0 en HU_6.40001_DD (actualizacion de rama de trabajo)
+|\| 
+| * 1d94b14 (tag: v1.1.0) feat(modulo-a): add HU 40002
+* | d44b7b2 feat(modulo-a): add HU 40001 parte 1
+|/  
+* 070132d (tag: v1.0.0, stg, prod) chore: estructura inicial del repositorio

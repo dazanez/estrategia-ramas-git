@@ -1,0 +1,22 @@
+*   a1ecb73 (HEAD -> sbx) Merge origin/sbx en integracion/v1.1.0 (actualizacion de rama de trabajo)
+|\  
+| *   0f26255 Merge origin/sbx en HU_7.503_PC (actualizacion de rama de trabajo)
+| |\  
+| * | d18b0bf feat(comun): add HU 503
+* | |   7e704a9 (tag: v1.1.0, stg, qa, prod) Merge HU_7.502_DD en integracion/v1.1.0
+|\ \ \  
+| | |/  
+| |/|   
+| * |   13f1b9f Merge origin/sbx en HU_7.502_DD (actualizacion de rama de trabajo)
+| |\ \  
+| * | | 2b7affa feat(modulo-b): add HU 502
+| | |/  
+| |/|   
+* | |   c5b506a Merge HU_7.501_PC en integracion/v1.1.0
+|\ \ \  
+| |/ /  
+|/| /   
+| |/    
+| * 3e86eed feat(modulo-a): add HU 501
+|/  
+* 56aca34 (tag: v1.0.0) chore: estructura inicial del repositorio

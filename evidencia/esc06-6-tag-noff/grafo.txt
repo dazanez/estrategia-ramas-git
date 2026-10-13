@@ -1,0 +1,15 @@
+*   0a1c587 (qa) Merge PR: promote/v1.2.0-to-qa -> qa (--no-ff)
+|\  
+| *   4dfeeff (HEAD -> sbx, tag: v1.2.0) Merge PR: HU_8.602_DD -> sbx (--no-ff)
+| |\  
+| | *   e15676f Merge v1.1.0 en HU_8.602_DD (actualizacion de rama de trabajo)
+| | |\  
+| | |/  
+| |/|   
+| * | 4b486ab (tag: v1.1.0) Merge PR: HU_8.601_PC -> sbx (--no-ff)
+|/| | 
+| * | 163faa6 feat(comun): add regla HU 601
+|/ /  
+| * 50f4abf feat(comun): add regla HU 602
+|/  
+* 8fe949e (tag: v1.0.0, stg, prod) chore: estructura inicial del repositorio

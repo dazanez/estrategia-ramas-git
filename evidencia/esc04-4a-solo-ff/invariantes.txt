@@ -1,0 +1,53 @@
+INVARIANTES  escenario=04 variante=4a-solo merge=ff etapa=final
+[OK] I1
+      qa: git diff v1.3.0.2 qa -> vacio
+      stg: git diff v1.3.0.2 stg -> vacio
+      prod: git diff v1.3.0.2 prod -> vacio
+[OK] I2
+      v1.0.0 es ancestro de sbx
+      v1.3.0 es ancestro de sbx
+      v1.3.0.1 es ancestro de sbx
+      v1.3.0.2 es ancestro de sbx
+[OK] I3
+      auditoria: 12 operaciones de integracion revisadas
+      estructural: 0 commits propios de ambiente revisados, 0 fuera de lugar
+[OK] I4
+      rama BUG_AZ_65487_DD: OK
+      rama BUG_AZ_65488_DD: OK
+      rama HU_6.30000_PC: OK
+      rama prod: OK
+      rama promote/v1.3.0.1-to-qa: OK
+      rama promote/v1.3.0.2-to-prod: OK
+      rama promote/v1.3.0.2-to-qa: OK
+      rama promote/v1.3.0.2-to-stg: OK
+      rama promote/v1.3.0-to-qa: OK
+      rama qa: OK
+      rama sbx: OK
+      rama stg: OK
+      tag v1.0.0: nombre OK, tipo anotado OK
+      tag v1.3.0: nombre OK, tipo anotado OK
+      tag v1.3.0.1: nombre OK, tipo anotado OK (cuarta posicion)
+      tag v1.3.0.2: nombre OK, tipo anotado OK (cuarta posicion)
+[OK] I5
+      origin: solo ramas de ambiente (prod, qa, sbx, stg)
+      dev1: ramas locales OK (qa, sbx)
+      dev2: ramas locales OK (prod, qa, sbx, stg)
+[OK] I6
+      tag v1.0.0: intacto (3ae2bf87 -> commit 97fbf224)
+      tag v1.3.0: intacto (03379676 -> commit e5b0b48e)
+      tag v1.3.0.1: intacto (0cf93fca -> commit bdc01cbf)
+      tag v1.3.0.2: intacto (f4d28aa2 -> commit 54315973)
+      auditoria: sin 'tag -f/-d' ni force-push
+[OK] I7
+      tags vigentes: qa=v1.3.0.2  stg=v1.3.0.2  prod=v1.3.0.2
+      stg contiene todo lo de prod
+      stg contiene todo lo de qa
+      contenido stg == prod: True
+HECHOS registrados durante la ejecucion:
+  - QA rechaza v1.3.0 (bug AZ 65487)
+  - QA rechaza v1.3.0.1 (bug AZ 65488)
+  - Contenido de v1.3.0: modulo-a.txt:L1='funcionalidad v1.3'
+  - Contenido de v1.3.0.1: modulo-a.txt:L1='funcionalidad v1.3' ; modulo-a.txt:L2='fix iteracion 1 (AZ 65487)'
+  - Contenido de v1.3.0.2: modulo-a.txt:L1='funcionalidad v1.3' ; modulo-a.txt:L2='fix iteracion 1 (AZ 65487)' ; modulo-a.txt:L3='fix iteracion 2 (AZ 65488)'
+  - Contenido de prod: modulo-a.txt:L1='funcionalidad v1.3' ; modulo-a.txt:L2='fix iteracion 1 (AZ 65487)' ; modulo-a.txt:L3='fix iteracion 2 (AZ 65488)'
+  - Contenido de sbx: modulo-a.txt:L1='funcionalidad v1.3' ; modulo-a.txt:L2='fix iteracion 1 (AZ 65487)' ; modulo-a.txt:L3='fix iteracion 2 (AZ 65488)'

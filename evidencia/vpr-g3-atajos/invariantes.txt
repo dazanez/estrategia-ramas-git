@@ -1,0 +1,52 @@
+INVARIANTES  escenario=validar-pr-G3 variante=atajos merge=noff etapa=final
+[OK] I1
+      qa: git diff v1.3.1 qa -> vacio
+      stg: git diff v1.0.0 stg -> vacio
+      prod: git diff v1.0.0 prod -> vacio
+[OK] I2
+      v1.0.0 es ancestro de sbx
+      v1.1.0 es ancestro de sbx
+      v1.3.1 es ancestro de sbx
+[OK] I3
+      auditoria: 8 operaciones de integracion revisadas
+      estructural: 3 commits propios de ambiente revisados, 0 fuera de lugar
+[FAIL] I4
+      rama bug/az-3010-regulariza-sbx-dd: OK
+      rama feature/az-3001-consulta-expedientes-pc: OK
+      rama prod: OK
+      rama promote/v1.1.0-to-qa: OK
+      rama promote/v1.3.1-to-qa: OK
+      rama qa: OK
+      rama sbx: OK
+      rama stg: OK
+      tag v1.0.0: nombre OK, tipo anotado OK
+      tag v1.0.1: nombre OK, tipo anotado OK
+      tag v1.1.0: nombre OK, tipo anotado OK
+      tag v1.1.0.1: nombre OK, tipo anotado OK (cuarta posicion)
+      tag v1.2.0: nombre OK, tipo commit (NO anotado)
+      tag v1.2.0.1: nombre OK, tipo anotado OK (cuarta posicion)
+      tag v1.3.0: nombre OK, tipo anotado OK
+      tag v1.3.1: nombre OK, tipo anotado OK
+[OK] I5
+      origin: solo ramas de ambiente (prod, qa, sbx, stg)
+      dev1: ramas locales OK (qa, sbx)
+      dev2: ramas locales OK (qa, sbx)
+      ci: ramas locales OK (sbx)
+[OK] I6
+      tag v1.0.0: intacto (c7d10101 -> commit 152923de)
+      tag v1.1.0: intacto (111bdc71 -> commit a593b1f3)
+      tag v1.2.0.1: intacto (c4966ccb -> commit 6a88ded2)
+      tag v1.0.1: intacto (ed76365b -> commit 182dcb32)
+      tag v1.1.0.1: intacto (923db023 -> commit eebef4a9)
+      tag v1.3.0: intacto (9149e8d6 -> commit 74d96ac1)
+      tag v1.3.1: intacto (fbb43e94 -> commit 52a8013c)
+      tag v1.2.0: existe en remoto pero no fue registrado por el script
+      auditoria: sin 'tag -f/-d' ni force-push
+[OK] I7
+      tags vigentes: qa=v1.3.1  stg=v1.0.0  prod=v1.0.0
+      stg contiene todo lo de prod
+      stg no tiene 2 commit(s) de qa [normal si hay una version en pruebas]
+      contenido stg == prod: True
+HECHOS registrados durante la ejecucion:
+  - Push directo a sbx (simulacion de bypass): sbx tiene contenido que no esta en ningun tag
+  - sbx identico a v1.3.1: True

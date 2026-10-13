@@ -1,0 +1,99 @@
+﻿#POC escenario=autotest variante=violaciones inyectadas mergeMode=noff fecha=2026-09-25T16:21:16
+CMD	1	-	-	0	git init --bare --initial-branch=sbx origin.git
+   | Initialized empty Git repository in D:/Desarrollos/Git Migration/poc-ramas/runs/autotest/origin.git/
+CMD	2	origin	sbx	0	git config receive.denyNonFastForwards true
+#STEP	E0: clones de dos desarrolladores (PC = Pablo Castro, DD = Daniel Duran)
+CMD	3	-	-	0	git clone -q origin.git dev1
+   | warning: You appear to have cloned an empty repository.
+CMD	4	dev1	sbx	0	git config user.name "Pablo Castro"
+CMD	5	dev1	sbx	0	git config user.email pc@poc.local
+CMD	6	dev1	sbx	0	git config core.autocrlf false
+CMD	7	dev1	sbx	0	git config pull.ff only
+CMD	8	-	-	0	git clone -q origin.git dev2
+   | warning: You appear to have cloned an empty repository.
+CMD	9	dev2	sbx	0	git config user.name "Daniel Duran"
+CMD	10	dev2	sbx	0	git config user.email dd@poc.local
+CMD	11	dev2	sbx	0	git config core.autocrlf false
+CMD	12	dev2	sbx	0	git config pull.ff only
+#STEP	E0: commit inicial en sbx (arranque del repositorio: unica escritura directa en sbx)
+CMD	13	dev1	sbx	0	git checkout -q -b sbx
+CMD	14	dev1	sbx	0	git add .
+CMD	15	dev1	sbx	0	git commit -q -m "chore: estructura inicial del repositorio"
+CMD	16	dev1	sbx	0	git push -q -u origin sbx
+#STEP	E0: tag v1.0.0 sobre sbx
+CMD	17	dev1	sbx	0	git tag -a v1.0.0 HEAD -m "v1.0.0: linea base inicial"
+CMD	18	dev1	sbx	0	git push -q origin v1.0.0
+CMD	19	origin	sbx	0	git rev-parse refs/tags/v1.0.0
+   | 80e3f9339566eb9caa0ac20ae50167d3565411d5
+CMD	20	origin	sbx	0	git rev-parse refs/tags/v1.0.0^{commit}
+   | cbfd99165972e9efb15b0a510a7c914dfc86c2bd
+#STEP	E0: creacion de qa, stg y prod desde v1.0.0 (lo hace Soporte al crear el repo, DES-EST-016 4.4.1)
+CMD	21	origin	sbx	0	git branch qa v1.0.0^{commit}
+CMD	22	origin	sbx	0	git branch stg v1.0.0^{commit}
+CMD	23	origin	sbx	0	git branch prod v1.0.0^{commit}
+CMD	24	dev1	sbx	0	git fetch -q --tags origin
+CMD	25	dev2	sbx	0	git fetch -q --tags origin
+CMD	26	dev2	sbx	0	git checkout -q sbx
+#STEP	AT: commit directo en qa (debe romper I1 e I3)
+CMD	27	dev1	sbx	0	git checkout -q -b qa --track origin/qa
+CMD	28	dev1	qa	0	git add modulo-a.txt
+CMD	29	dev1	qa	0	git commit -q -m "fix: cambio directo en qa"
+CMD	30	dev1	qa	0	git symbolic-ref --short HEAD
+   | qa
+CMD	31	dev1	qa	0	git push -q origin qa
+#STEP	AT: merge de qa hacia sbx (integracion hacia abajo: debe romper I3)
+CMD	32	dev1	qa	0	git checkout -q sbx
+CMD	33	dev1	sbx	0	git pull -q origin sbx
+CMD	34	dev1	sbx	0	git merge --no-ff -m "merge qa en sbx" origin/qa
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	35	dev1	sbx	0	git push -q origin sbx
+#STEP	AT: tag sobre rama de trabajo nunca integrada a sbx y promovido a prod (debe romper I2 e I7)
+CMD	36	dev2	sbx	0	git fetch -q --tags origin
+CMD	37	dev2	sbx	0	git checkout -q tags/v1.0.0 -b HU_6.99999_DD
+CMD	38	dev2	HU_6.99999_DD	0	git push -q -u origin HU_6.99999_DD
+CMD	39	dev2	HU_6.99999_DD	0	git add modulo-b.txt
+CMD	40	dev2	HU_6.99999_DD	0	git commit -q -m "feat: HU nunca integrada"
+CMD	41	dev2	HU_6.99999_DD	0	git symbolic-ref --short HEAD
+   | HU_6.99999_DD
+CMD	42	dev2	HU_6.99999_DD	0	git push -q origin HU_6.99999_DD
+CMD	43	dev2	HU_6.99999_DD	0	git tag -a v9.9.9 HEAD -m "v9.9.9: tag fuera de la linea base"
+CMD	44	dev2	HU_6.99999_DD	0	git push -q origin v9.9.9
+CMD	45	origin	sbx	0	git rev-parse refs/tags/v9.9.9
+   | f55a3c9ff2cfb6decf6237d4b2f2ae5d5ea851a6
+CMD	46	origin	sbx	0	git rev-parse refs/tags/v9.9.9^{commit}
+   | 715e2706e8ce2453a52eaa5b706b66893d6462e9
+CMD	47	dev2	HU_6.99999_DD	0	git fetch -q --tags origin
+CMD	48	dev2	HU_6.99999_DD	0	git checkout -q tags/v9.9.9 -b promote/v9.9.9-to-prod
+CMD	49	dev2	promote/v9.9.9-to-prod	0	git push -q -u origin promote/v9.9.9-to-prod
+CMD	50	dev2	promote/v9.9.9-to-prod	0	git fetch -q --tags origin
+CMD	51	dev2	promote/v9.9.9-to-prod	1	git rev-parse -q --verify refs/heads/prod
+CMD	52	dev2	promote/v9.9.9-to-prod	0	git checkout -q -b prod --track origin/prod
+CMD	53	dev2	prod	0	git rev-parse -q --verify refs/remotes/origin/promote/v9.9.9-to-prod
+   | 715e2706e8ce2453a52eaa5b706b66893d6462e9
+CMD	54	dev2	prod	0	git merge --no-ff -m "Merge PR: promote/v9.9.9-to-prod -> prod (--no-ff)" origin/promote/v9.9.9-to-prod
+   | Merge made by the 'recursive' strategy.
+   |  modulo-b.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	55	dev2	prod	0	git push -q origin prod
+CMD	56	dev2	prod	0	git checkout -q sbx
+CMD	57	dev2	sbx	0	git branch -d promote/v9.9.9-to-prod
+   | warning: deleting branch 'promote/v9.9.9-to-prod' that has been merged to
+   |          'refs/remotes/origin/promote/v9.9.9-to-prod', but not yet merged to HEAD.
+   | Deleted branch promote/v9.9.9-to-prod (was 715e270).
+CMD	58	dev2	sbx	0	git push -q origin --delete promote/v9.9.9-to-prod
+#STEP	AT: rama con nombre fuera de norma y sin borrar (debe romper I4 e I5)
+CMD	59	dev1	sbx	0	git fetch -q --tags origin
+CMD	60	dev1	sbx	0	git checkout -q origin/sbx -b feature/login
+CMD	61	dev1	feature/login	0	git push -q -u origin feature/login
+CMD	62	origin	sbx	0	git log --oneline --graph --all --decorate
+   | *   8a5d66e (prod) Merge PR: promote/v9.9.9-to-prod -> prod (--no-ff)
+   | |\  
+   | | * 715e270 (tag: v9.9.9, HU_6.99999_DD) feat: HU nunca integrada
+   | |/  
+   | | * c825ae0 (HEAD -> sbx, feature/login) merge qa en sbx
+   | |/| 
+   | | * fb9dc67 (qa) fix: cambio directo en qa
+   | |/  
+   | * cbfd991 (tag: v1.0.0, stg) chore: estructura inicial del repositorio

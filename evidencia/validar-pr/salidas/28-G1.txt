@@ -1,0 +1,11 @@
+# Caso 28 (G1): PR de la prueba automatizada (v1.4.1)
+# PR: test/az-1001-web-consulta-expedientes-dd -> sbx   modo: build validation (commit de merge del PR)
+# Esperado: PASA    Obtenido: PASA
+
+Validar-PR  origen=test/az-1001-web-consulta-expedientes-dd  destino=sbx
+OK     NOMBRE           Seccion 2    La rama cumple <tipo>/<sistema>-<id>-<descripcion>-<iniciales>.
+OK     TAG              R4           La punta tiene el tag anotado v1.4.1.
+OK     VERSION          Versionado   v1.4.1 es mayor que el ultimo tag existente (v1.4.0).
+OK     CADENA           R3           La rama contiene el ultimo tag (v1.4.0).
+OK     RESULTADO        R5           Tras el PR, sbx sera identico a v1.4.1 (commit de merge del PR 9c94f562).
+RESULTADO: APROBADO (0 aviso(s))

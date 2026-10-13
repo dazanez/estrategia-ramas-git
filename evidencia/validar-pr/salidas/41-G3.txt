@@ -1,0 +1,11 @@
+# Caso 41 (G3): Tag liviano v1.2.0
+# PR: feature/az-3005-tag-liviano-pc -> sbx   modo: build validation (commit de merge del PR)
+# Esperado: FALLA TAG-ANOTADO   Obtenido: FALLA
+
+Validar-PR  origen=feature/az-3005-tag-liviano-pc  destino=sbx
+OK     NOMBRE           Seccion 2    La rama cumple <tipo>/<sistema>-<id>-<descripcion>-<iniciales>.
+ERROR  TAG-ANOTADO      R4           v1.2.0 es un tag liviano. Los tags se crean anotados (git tag -a v1.2.0 -m "..."). Como los tags no se mueven (R10), descartelo y cree uno nuevo.
+OK     VERSION          Versionado   v1.2.0 es mayor que el ultimo tag existente (v1.1.0).
+OK     CADENA           R3           La rama contiene el ultimo tag (v1.1.0).
+OK     RESULTADO        R5           Tras el PR, sbx sera identico a v1.2.0 (commit de merge del PR 84f25fd1).
+RESULTADO: RECHAZADO (1 error(es), 0 aviso(s))

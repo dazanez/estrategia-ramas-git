@@ -1,0 +1,122 @@
+﻿{
+    "escenario":  "02",
+    "variante":  "2a",
+    "mergeMode":  "noff",
+    "etapa":  "sondeo-v1.3.0",
+    "invariantes":  {
+                        "I1":  {
+                                   "status":  "FAIL",
+                                   "detail":  [
+                                                  "qa: git diff v1.2.0.1 qa -\u003e NO vacio:",
+                                                  "      diff --git a/modulo-b.txt b/modulo-b.txt",
+                                                  "      index c41c256..0e92af2 100644",
+                                                  "      --- a/modulo-b.txt",
+                                                  "      +++ b/modulo-b.txt",
+                                                  "      @@ -1,4 +1,4 @@",
+                                                  "      -modulo-b.txt L1: base",
+                                                  "      +pantalla v1.3",
+                                                  "       modulo-b.txt L2: base",
+                                                  "       modulo-b.txt L3: base",
+                                                  "       modulo-b.txt L4: base",
+                                                  "stg: git diff v1.3.0 stg -\u003e vacio",
+                                                  "prod: git diff v1.3.0 prod -\u003e NO vacio:",
+                                                  "      diff --git a/modulo-a.txt b/modulo-a.txt",
+                                                  "      index 73d5624..737cff0 100644",
+                                                  "      --- a/modulo-a.txt",
+                                                  "      +++ b/modulo-a.txt",
+                                                  "      @@ -1,5 +1,5 @@",
+                                                  "       login v1.2",
+                                                  "      -modulo-a.txt L2: base",
+                                                  "      +HOTFIX GLPI-13487",
+                                                  "       modulo-a.txt L3: base",
+                                                  "       modulo-a.txt L4: base",
+                                                  "       modulo-a.txt L5: base"
+                                              ]
+                               },
+                        "I2":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "v1.0.0 es ancestro de sbx",
+                                                  "v1.2.0 es ancestro de sbx",
+                                                  "v1.2.0.1 es ancestro de sbx",
+                                                  "v1.3.0 es ancestro de sbx"
+                                              ]
+                               },
+                        "I3":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "auditoria: 19 operaciones de integracion revisadas",
+                                                  "estructural: 10 commits propios de ambiente revisados, 0 fuera de lugar"
+                                              ]
+                               },
+                        "I4":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "rama BUG_GLPI_13487_PC: OK",
+                                                  "rama HU_2.200_PC: OK",
+                                                  "rama HU_2.300_DD: OK",
+                                                  "rama HU_2.400_DD: OK",
+                                                  "rama prod: OK",
+                                                  "rama promote/v1.2.0.1-to-prod: OK",
+                                                  "rama promote/v1.2.0.1-to-qa: OK",
+                                                  "rama promote/v1.2.0-to-prod: OK",
+                                                  "rama promote/v1.2.0-to-qa: OK",
+                                                  "rama promote/v1.2.0-to-stg: OK",
+                                                  "rama promote/v1.3.0-to-prod: OK",
+                                                  "rama promote/v1.3.0-to-qa: OK",
+                                                  "rama promote/v1.3.0-to-stg: OK",
+                                                  "rama qa: OK",
+                                                  "rama sbx: OK",
+                                                  "rama stg: OK",
+                                                  "tag v1.0.0: nombre OK, tipo anotado OK",
+                                                  "tag v1.2.0: nombre OK, tipo anotado OK",
+                                                  "tag v1.2.0.1: nombre OK, tipo anotado OK (cuarta posicion)",
+                                                  "tag v1.3.0: nombre OK, tipo anotado OK"
+                                              ]
+                               },
+                        "I5":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "origin: solo ramas de ambiente (prod, qa, sbx, stg)",
+                                                  "dev1: ramas locales OK (prod, qa, sbx, stg)",
+                                                  "dev2: ramas locales OK (prod, qa, sbx, stg)"
+                                              ]
+                               },
+                        "I6":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "tag v1.0.0: intacto (a42c1f32 -\u003e commit 6ea975d3)",
+                                                  "tag v1.2.0: intacto (44f9cf13 -\u003e commit 87f31b49)",
+                                                  "tag v1.3.0: intacto (208a7f56 -\u003e commit 142af1dd)",
+                                                  "tag v1.2.0.1: intacto (51433b59 -\u003e commit 78758590)",
+                                                  "auditoria: sin \u0027tag -f/-d\u0027 ni force-push"
+                                              ]
+                               },
+                        "I7":  {
+                                   "status":  "FAIL",
+                                   "detail":  [
+                                                  "tags vigentes: qa=v1.2.0.1  stg=v1.3.0  prod=v1.3.0",
+                                                  "stg DESACTUALIZADA respecto a prod: le faltan 1 commit(s) que estan en prod",
+                                                  "      7875859 fix(modulo-a): corrige caida del login por token nulo (GLPI 13487)",
+                                                  "stg no tiene 1 commit(s) de qa [normal si hay una version en pruebas]",
+                                                  "contenido stg == prod: False"
+                                              ]
+                               }
+                    },
+    "hechos":  [
+                   "Tras promover v1.2.0.1 -\u003e qa [noff], qa NO es igual a v1.2.0.1 (contenido extra en: modulo-b.txt)",
+                   "Contenido de qa: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-a.txt:L2=\u0027HOTFIX GLPI-13487\u0027 ; modulo-b.txt:L1=\u0027pantalla v1.3\u0027",
+                   "PR BUG_GLPI_13487_PC -\u003e sbx [noff] bloqueado: CONFLICT (content): Merge conflict in modulo-a.txt | Automatic merge failed; fix conflicts and then commit the result.",
+                   "Conflicto al actualizar BUG_GLPI_13487_PC con origin/sbx en: modulo-a.txt (se resuelve en la rama de trabajo)",
+                   "Contenido de v1.2.0.1: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-a.txt:L2=\u0027HOTFIX GLPI-13487\u0027",
+                   "Contenido de v1.3.0: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-b.txt:L1=\u0027pantalla v1.3\u0027",
+                   "Contenido de qa: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-a.txt:L2=\u0027HOTFIX GLPI-13487\u0027 ; modulo-b.txt:L1=\u0027pantalla v1.3\u0027",
+                   "Contenido de stg: modulo-a.txt:L1=\u0027login v1.2\u0027",
+                   "Contenido de prod: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-a.txt:L2=\u0027HOTFIX GLPI-13487\u0027",
+                   "Contenido de sbx: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-a.txt:L2=\u0027validacion v1.4 (en sbx, sin tag) + HOTFIX GLPI-13487\u0027 ; modulo-b.txt:L1=\u0027pantalla v1.3\u0027",
+                   "Tras promover v1.3.0 -\u003e prod [noff], prod NO es igual a v1.3.0 (contenido extra en: modulo-a.txt)",
+                   "Tras el sondeo, el hotfix sigue en prod: True ; v1.3.0 contiene el hotfix: False",
+                   "Contenido de stg: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-b.txt:L1=\u0027pantalla v1.3\u0027",
+                   "Contenido de prod: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-a.txt:L2=\u0027HOTFIX GLPI-13487\u0027 ; modulo-b.txt:L1=\u0027pantalla v1.3\u0027"
+               ]
+}

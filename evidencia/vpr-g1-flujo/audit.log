@@ -1,0 +1,784 @@
+﻿#POC escenario=validar-pr-G1 variante=flujo mergeMode=noff fecha=2026-10-09T15:04:43
+CMD	1	-	-	0	git init --bare --initial-branch=sbx origin.git
+   | Initialized empty Git repository in D:/Desarrollos/Git Migration/poc-ramas/runs/vpr-g1-flujo/origin.git/
+CMD	2	origin	sbx	0	git config receive.denyNonFastForwards true
+#STEP	E0: clones de dos desarrolladores (PC = Pablo Castro, DD = Daniel Duran)
+CMD	3	-	-	0	git clone -q origin.git dev1
+   | warning: You appear to have cloned an empty repository.
+CMD	4	dev1	sbx	0	git config user.name "Pablo Castro"
+CMD	5	dev1	sbx	0	git config user.email pc@poc.local
+CMD	6	dev1	sbx	0	git config core.autocrlf false
+CMD	7	dev1	sbx	0	git config pull.ff only
+CMD	8	-	-	0	git clone -q origin.git dev2
+   | warning: You appear to have cloned an empty repository.
+CMD	9	dev2	sbx	0	git config user.name "Daniel Duran"
+CMD	10	dev2	sbx	0	git config user.email dd@poc.local
+CMD	11	dev2	sbx	0	git config core.autocrlf false
+CMD	12	dev2	sbx	0	git config pull.ff only
+#STEP	E0: commit inicial en sbx (arranque del repositorio: unica escritura directa en sbx)
+CMD	13	dev1	sbx	0	git checkout -q -b sbx
+CMD	14	dev1	sbx	0	git add .
+CMD	15	dev1	sbx	0	git commit -q -m "chore: estructura inicial del repositorio"
+CMD	16	dev1	sbx	0	git push -q -u origin sbx
+#STEP	E0: tag v1.0.0 sobre sbx
+CMD	17	dev1	sbx	0	git tag -a v1.0.0 HEAD -m "v1.0.0: linea base inicial"
+CMD	18	dev1	sbx	0	git push -q origin v1.0.0
+CMD	19	origin	sbx	0	git rev-parse refs/tags/v1.0.0
+   | cd98f2f27fb8ac9b5d55e0898d1389d42ec0a528
+CMD	20	origin	sbx	0	git rev-parse refs/tags/v1.0.0^{commit}
+   | f4bb4d9d7170d84459dce026a95e1cb728030839
+#STEP	E0: creacion de qa, stg y prod desde v1.0.0 (lo hace Soporte al crear el repo, DES-EST-016 4.4.1)
+CMD	21	origin	sbx	0	git branch qa v1.0.0^{commit}
+CMD	22	origin	sbx	0	git branch stg v1.0.0^{commit}
+CMD	23	origin	sbx	0	git branch prod v1.0.0^{commit}
+CMD	24	dev1	sbx	0	git fetch -q --tags origin
+CMD	25	dev2	sbx	0	git fetch -q --tags origin
+CMD	26	dev2	sbx	0	git checkout -q sbx
+CMD	27	-	-	0	git clone -q -c core.autocrlf=false origin.git ci
+CMD	28	ci	sbx	0	git config user.name "Azure DevOps (build validation)"
+CMD	29	ci	sbx	0	git config user.email ci@poc.local
+CMD	30	ci	sbx	0	git checkout -q --detach origin/sbx
+#STEP	G1.1 A y B arrancan en paralelo desde v1.0.0
+CMD	31	dev1	sbx	0	git fetch -q --tags origin
+CMD	32	dev1	sbx	0	git checkout -q tags/v1.0.0 -b feature/az-1001-consulta-expedientes-pc
+CMD	33	dev1	feature/az-1001-consulta-expedientes-pc	0	git push -q -u origin feature/az-1001-consulta-expedientes-pc
+CMD	34	dev1	feature/az-1001-consulta-expedientes-pc	0	git add modulo-a.txt
+CMD	35	dev1	feature/az-1001-consulta-expedientes-pc	0	git commit -q -m "feat(modulo-a): add HU 1001"
+CMD	36	dev1	feature/az-1001-consulta-expedientes-pc	0	git symbolic-ref --short HEAD
+   | feature/az-1001-consulta-expedientes-pc
+CMD	37	dev1	feature/az-1001-consulta-expedientes-pc	0	git push -q origin feature/az-1001-consulta-expedientes-pc
+CMD	38	dev2	sbx	0	git fetch -q --tags origin
+CMD	39	dev2	sbx	0	git checkout -q tags/v1.0.0 -b feature/az-1002-firma-digital-dd
+CMD	40	dev2	feature/az-1002-firma-digital-dd	0	git push -q -u origin feature/az-1002-firma-digital-dd
+CMD	41	dev2	feature/az-1002-firma-digital-dd	0	git add modulo-b.txt
+CMD	42	dev2	feature/az-1002-firma-digital-dd	0	git commit -q -m "feat(modulo-b): add HU 1002"
+CMD	43	dev2	feature/az-1002-firma-digital-dd	0	git symbolic-ref --short HEAD
+   | feature/az-1002-firma-digital-dd
+CMD	44	dev2	feature/az-1002-firma-digital-dd	0	git push -q origin feature/az-1002-firma-digital-dd
+#STEP	G1.2 A: PR sin tag, promocion antes de sbx, PR con tag, qa
+CMD	45	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	46	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	47	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: feature/az-1001-consulta-expedientes-pc into sbx" origin/feature/az-1001-consulta-expedientes-pc
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	48	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	49	dev1	feature/az-1001-consulta-expedientes-pc	0	git tag -a v1.1.0 HEAD -m "v1.1.0: HU 1001 consulta de expedientes. Version para pruebas QA"
+CMD	50	dev1	feature/az-1001-consulta-expedientes-pc	0	git push -q origin v1.1.0
+CMD	51	origin	sbx	0	git rev-parse refs/tags/v1.1.0
+   | d269e4093a763cc95e258764ad712cac73420857
+CMD	52	origin	sbx	0	git rev-parse refs/tags/v1.1.0^{commit}
+   | 98f225d45f325445b0a4f458cd18b811cd270e85
+CMD	53	dev1	feature/az-1001-consulta-expedientes-pc	0	git fetch -q --tags origin
+CMD	54	dev1	feature/az-1001-consulta-expedientes-pc	0	git checkout -q tags/v1.1.0 -b promote/v1.1.0-to-qa
+CMD	55	dev1	promote/v1.1.0-to-qa	0	git push -q -u origin promote/v1.1.0-to-qa
+CMD	56	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	57	ci	(detached)	0	git checkout -q --detach origin/qa
+CMD	58	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: promote/v1.1.0-to-qa into qa" origin/promote/v1.1.0-to-qa
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	59	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	60	dev1	promote/v1.1.0-to-qa	0	git checkout -q sbx
+CMD	61	dev1	sbx	0	git branch -D promote/v1.1.0-to-qa
+   | Deleted branch promote/v1.1.0-to-qa (was 98f225d).
+CMD	62	dev1	sbx	0	git push -q origin --delete promote/v1.1.0-to-qa
+CMD	63	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	64	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	65	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: feature/az-1001-consulta-expedientes-pc into sbx" origin/feature/az-1001-consulta-expedientes-pc
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	66	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	67	dev1	sbx	0	git fetch -q --tags origin
+CMD	68	dev1	sbx	0	git rev-parse -q --verify refs/heads/sbx
+   | f4bb4d9d7170d84459dce026a95e1cb728030839
+CMD	69	dev1	sbx	0	git checkout -q sbx
+CMD	70	dev1	sbx	0	git pull -q --ff-only origin sbx
+CMD	71	dev1	sbx	0	git rev-parse -q --verify refs/remotes/origin/feature/az-1001-consulta-expedientes-pc
+   | 98f225d45f325445b0a4f458cd18b811cd270e85
+CMD	72	dev1	sbx	0	git merge --no-ff -m "Merge PR: feature/az-1001-consulta-expedientes-pc -> sbx (--no-ff)" origin/feature/az-1001-consulta-expedientes-pc
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	73	dev1	sbx	0	git push -q origin sbx
+CMD	74	dev1	sbx	0	git checkout -q sbx
+CMD	75	dev1	sbx	0	git branch -d feature/az-1001-consulta-expedientes-pc
+   | Deleted branch feature/az-1001-consulta-expedientes-pc (was 98f225d).
+CMD	76	dev1	sbx	0	git push -q origin --delete feature/az-1001-consulta-expedientes-pc
+CMD	77	dev1	sbx	0	git fetch -q --tags origin
+CMD	78	dev1	sbx	0	git checkout -q tags/v1.1.0 -b promote/v1.1.0-to-qa
+CMD	79	dev1	promote/v1.1.0-to-qa	0	git push -q -u origin promote/v1.1.0-to-qa
+CMD	80	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	81	ci	(detached)	0	git checkout -q --detach origin/qa
+CMD	82	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: promote/v1.1.0-to-qa into qa" origin/promote/v1.1.0-to-qa
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	83	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	84	dev1	promote/v1.1.0-to-qa	0	git fetch -q --tags origin
+CMD	85	dev1	promote/v1.1.0-to-qa	1	git rev-parse -q --verify refs/heads/qa
+CMD	86	dev1	promote/v1.1.0-to-qa	0	git checkout -q -b qa --track origin/qa
+CMD	87	dev1	qa	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.1.0-to-qa
+   | 98f225d45f325445b0a4f458cd18b811cd270e85
+CMD	88	dev1	qa	0	git merge --no-ff -m "Merge PR: promote/v1.1.0-to-qa -> qa (--no-ff)" origin/promote/v1.1.0-to-qa
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	89	dev1	qa	0	git push -q origin qa
+CMD	90	dev1	qa	0	git checkout -q sbx
+CMD	91	dev1	sbx	0	git branch -d promote/v1.1.0-to-qa
+   | Deleted branch promote/v1.1.0-to-qa (was 98f225d).
+CMD	92	dev1	sbx	0	git push -q origin --delete promote/v1.1.0-to-qa
+#STEP	G1.3 Sondas: PR de qa hacia sbx; promote/ con nombre de otro ambiente
+CMD	93	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	94	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	95	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: qa into sbx" origin/qa
+   | Already up to date.
+   | Merge made by the 'recursive' strategy.
+CMD	96	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	97	dev1	sbx	0	git fetch -q --tags origin
+CMD	98	dev1	sbx	0	git checkout -q tags/v1.1.0 -b promote/v1.1.0-to-qa
+CMD	99	dev1	promote/v1.1.0-to-qa	0	git push -q -u origin promote/v1.1.0-to-qa
+CMD	100	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	101	ci	(detached)	0	git checkout -q --detach origin/stg
+CMD	102	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: promote/v1.1.0-to-qa into stg" origin/promote/v1.1.0-to-qa
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	103	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	104	dev1	promote/v1.1.0-to-qa	0	git checkout -q sbx
+CMD	105	dev1	sbx	0	git branch -D promote/v1.1.0-to-qa
+   | Deleted branch promote/v1.1.0-to-qa (was 98f225d).
+CMD	106	dev1	sbx	0	git push -q origin --delete promote/v1.1.0-to-qa
+#STEP	G1.4 Hotfix sobre prod (v1.0.0) con qa ocupado (v1.1.0)
+CMD	107	dev1	sbx	0	git fetch -q --tags origin
+CMD	108	dev1	sbx	0	git checkout -q tags/v1.0.0 -b hotfix/glpi-20001-bloqueo-sesion-pc
+CMD	109	dev1	hotfix/glpi-20001-bloqueo-sesion-pc	0	git push -q -u origin hotfix/glpi-20001-bloqueo-sesion-pc
+CMD	110	dev1	hotfix/glpi-20001-bloqueo-sesion-pc	0	git add comun.txt
+CMD	111	dev1	hotfix/glpi-20001-bloqueo-sesion-pc	0	git commit -q -m "fix(comun): corrige bloqueo de sesion por token nulo (GLPI 20001)"
+CMD	112	dev1	hotfix/glpi-20001-bloqueo-sesion-pc	0	git symbolic-ref --short HEAD
+   | hotfix/glpi-20001-bloqueo-sesion-pc
+CMD	113	dev1	hotfix/glpi-20001-bloqueo-sesion-pc	0	git push -q origin hotfix/glpi-20001-bloqueo-sesion-pc
+CMD	114	dev1	hotfix/glpi-20001-bloqueo-sesion-pc	0	git tag -a v1.0.0.1 HEAD -m "v1.0.0.1: Hotfix GLPI 20001 sobre v1.0.0 (produccion)"
+CMD	115	dev1	hotfix/glpi-20001-bloqueo-sesion-pc	0	git push -q origin v1.0.0.1
+CMD	116	origin	sbx	0	git rev-parse refs/tags/v1.0.0.1
+   | f6ee72ab753a8cea0e9b1e91abd590ad01b278df
+CMD	117	origin	sbx	0	git rev-parse refs/tags/v1.0.0.1^{commit}
+   | a42ff13cdcd81658397283dbbffce8fbb72f0820
+CMD	118	dev1	hotfix/glpi-20001-bloqueo-sesion-pc	0	git fetch -q --tags origin
+CMD	119	dev1	hotfix/glpi-20001-bloqueo-sesion-pc	0	git checkout -q tags/v1.0.0.1 -b promote/v1.0.0.1-to-stg
+CMD	120	dev1	promote/v1.0.0.1-to-stg	0	git push -q -u origin promote/v1.0.0.1-to-stg
+CMD	121	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	122	ci	(detached)	0	git checkout -q --detach origin/stg
+CMD	123	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: promote/v1.0.0.1-to-stg into stg" origin/promote/v1.0.0.1-to-stg
+   | Merge made by the 'recursive' strategy.
+   |  comun.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	124	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	125	dev1	promote/v1.0.0.1-to-stg	0	git fetch -q --tags origin
+CMD	126	dev1	promote/v1.0.0.1-to-stg	1	git rev-parse -q --verify refs/heads/stg
+CMD	127	dev1	promote/v1.0.0.1-to-stg	0	git checkout -q -b stg --track origin/stg
+CMD	128	dev1	stg	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.0.0.1-to-stg
+   | a42ff13cdcd81658397283dbbffce8fbb72f0820
+CMD	129	dev1	stg	0	git merge --no-ff -m "Merge PR: promote/v1.0.0.1-to-stg -> stg (--no-ff)" origin/promote/v1.0.0.1-to-stg
+   | Merge made by the 'recursive' strategy.
+   |  comun.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	130	dev1	stg	0	git push -q origin stg
+CMD	131	dev1	stg	0	git checkout -q sbx
+CMD	132	dev1	sbx	0	git branch -d promote/v1.0.0.1-to-stg
+   | warning: deleting branch 'promote/v1.0.0.1-to-stg' that has been merged to
+   |          'refs/remotes/origin/promote/v1.0.0.1-to-stg', but not yet merged to HEAD.
+   | Deleted branch promote/v1.0.0.1-to-stg (was a42ff13).
+CMD	133	dev1	sbx	0	git push -q origin --delete promote/v1.0.0.1-to-stg
+CMD	134	dev1	sbx	0	git fetch -q --tags origin
+CMD	135	dev1	sbx	0	git checkout -q tags/v1.0.0.1 -b promote/v1.0.0.1-to-prod
+CMD	136	dev1	promote/v1.0.0.1-to-prod	0	git push -q -u origin promote/v1.0.0.1-to-prod
+CMD	137	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	138	ci	(detached)	0	git checkout -q --detach origin/prod
+CMD	139	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: promote/v1.0.0.1-to-prod into prod" origin/promote/v1.0.0.1-to-prod
+   | Merge made by the 'recursive' strategy.
+   |  comun.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	140	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	141	dev1	promote/v1.0.0.1-to-prod	0	git fetch -q --tags origin
+CMD	142	dev1	promote/v1.0.0.1-to-prod	1	git rev-parse -q --verify refs/heads/prod
+CMD	143	dev1	promote/v1.0.0.1-to-prod	0	git checkout -q -b prod --track origin/prod
+CMD	144	dev1	prod	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.0.0.1-to-prod
+   | a42ff13cdcd81658397283dbbffce8fbb72f0820
+CMD	145	dev1	prod	0	git merge --no-ff -m "Merge PR: promote/v1.0.0.1-to-prod -> prod (--no-ff)" origin/promote/v1.0.0.1-to-prod
+   | Merge made by the 'recursive' strategy.
+   |  comun.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	146	dev1	prod	0	git push -q origin prod
+CMD	147	dev1	prod	0	git checkout -q sbx
+CMD	148	dev1	sbx	0	git branch -d promote/v1.0.0.1-to-prod
+   | warning: deleting branch 'promote/v1.0.0.1-to-prod' that has been merged to
+   |          'refs/remotes/origin/promote/v1.0.0.1-to-prod', but not yet merged to HEAD.
+   | Deleted branch promote/v1.0.0.1-to-prod (was a42ff13).
+CMD	149	dev1	sbx	0	git push -q origin --delete promote/v1.0.0.1-to-prod
+CMD	150	dev1	sbx	0	git fetch -q --tags origin
+CMD	151	dev1	sbx	0	git checkout -q hotfix/glpi-20001-bloqueo-sesion-pc
+CMD	152	dev1	hotfix/glpi-20001-bloqueo-sesion-pc	0	git merge --no-ff -m "Merge v1.1.0 en hotfix/glpi-20001-bloqueo-sesion-pc (actualizacion de rama de trabajo)" v1.1.0
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	153	dev1	hotfix/glpi-20001-bloqueo-sesion-pc	0	git push -q origin hotfix/glpi-20001-bloqueo-sesion-pc
+CMD	154	dev1	hotfix/glpi-20001-bloqueo-sesion-pc	0	git tag -a v1.1.1 HEAD -m "v1.1.1: v1.1.0 (en qa) + hotfix GLPI 20001"
+CMD	155	dev1	hotfix/glpi-20001-bloqueo-sesion-pc	0	git push -q origin v1.1.1
+CMD	156	origin	sbx	0	git rev-parse refs/tags/v1.1.1
+   | f3430d3b4ff4aff1fea38269efe975eaa03c9d5b
+CMD	157	origin	sbx	0	git rev-parse refs/tags/v1.1.1^{commit}
+   | fbddd38839874213be3b2143724800b60c6381cb
+CMD	158	dev1	hotfix/glpi-20001-bloqueo-sesion-pc	0	git fetch -q --tags origin
+CMD	159	dev1	hotfix/glpi-20001-bloqueo-sesion-pc	0	git checkout -q tags/v1.1.1 -b promote/v1.1.1-to-qa
+CMD	160	dev1	promote/v1.1.1-to-qa	0	git push -q -u origin promote/v1.1.1-to-qa
+CMD	161	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	162	ci	(detached)	0	git checkout -q --detach origin/qa
+CMD	163	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: promote/v1.1.1-to-qa into qa" origin/promote/v1.1.1-to-qa
+   | Merge made by the 'recursive' strategy.
+   |  comun.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	164	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	165	dev1	promote/v1.1.1-to-qa	0	git checkout -q sbx
+CMD	166	dev1	sbx	0	git branch -D promote/v1.1.1-to-qa
+   | Deleted branch promote/v1.1.1-to-qa (was fbddd38).
+CMD	167	dev1	sbx	0	git push -q origin --delete promote/v1.1.1-to-qa
+CMD	168	dev1	sbx	0	git fetch -q --tags origin
+CMD	169	dev1	sbx	0	git checkout -q tags/v1.0.0.1 -b promote/v1.0.0.1-to-qa
+CMD	170	dev1	promote/v1.0.0.1-to-qa	0	git push -q -u origin promote/v1.0.0.1-to-qa
+CMD	171	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	172	ci	(detached)	0	git checkout -q --detach origin/qa
+CMD	173	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: promote/v1.0.0.1-to-qa into qa" origin/promote/v1.0.0.1-to-qa
+   | Merge made by the 'recursive' strategy.
+   |  comun.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	174	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	175	dev1	promote/v1.0.0.1-to-qa	0	git checkout -q sbx
+CMD	176	dev1	sbx	0	git branch -D promote/v1.0.0.1-to-qa
+   | Deleted branch promote/v1.0.0.1-to-qa (was a42ff13).
+CMD	177	dev1	sbx	0	git push -q origin --delete promote/v1.0.0.1-to-qa
+CMD	178	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	179	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	180	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: hotfix/glpi-20001-bloqueo-sesion-pc into sbx" origin/hotfix/glpi-20001-bloqueo-sesion-pc
+   | Merge made by the 'recursive' strategy.
+   |  comun.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	181	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	182	dev1	sbx	0	git fetch -q --tags origin
+CMD	183	dev1	sbx	0	git rev-parse -q --verify refs/heads/sbx
+   | 6ebae25db5a1d79ff73fb1dd3de3e1465e90228f
+CMD	184	dev1	sbx	0	git checkout -q sbx
+CMD	185	dev1	sbx	0	git pull -q --ff-only origin sbx
+CMD	186	dev1	sbx	0	git rev-parse -q --verify refs/remotes/origin/hotfix/glpi-20001-bloqueo-sesion-pc
+   | fbddd38839874213be3b2143724800b60c6381cb
+CMD	187	dev1	sbx	0	git merge --no-ff -m "Merge PR: hotfix/glpi-20001-bloqueo-sesion-pc -> sbx (--no-ff)" origin/hotfix/glpi-20001-bloqueo-sesion-pc
+   | Merge made by the 'recursive' strategy.
+   |  comun.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	188	dev1	sbx	0	git push -q origin sbx
+CMD	189	dev1	sbx	0	git checkout -q sbx
+CMD	190	dev1	sbx	0	git branch -d hotfix/glpi-20001-bloqueo-sesion-pc
+   | Deleted branch hotfix/glpi-20001-bloqueo-sesion-pc (was fbddd38).
+CMD	191	dev1	sbx	0	git push -q origin --delete hotfix/glpi-20001-bloqueo-sesion-pc
+CMD	192	dev1	sbx	0	git fetch -q --tags origin
+CMD	193	dev1	sbx	0	git checkout -q tags/v1.1.1 -b promote/v1.1.1-to-qa
+CMD	194	dev1	promote/v1.1.1-to-qa	0	git push -q -u origin promote/v1.1.1-to-qa
+CMD	195	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	196	ci	(detached)	0	git checkout -q --detach origin/qa
+CMD	197	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: promote/v1.1.1-to-qa into qa" origin/promote/v1.1.1-to-qa
+   | Merge made by the 'recursive' strategy.
+   |  comun.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	198	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	199	dev1	promote/v1.1.1-to-qa	0	git fetch -q --tags origin
+CMD	200	dev1	promote/v1.1.1-to-qa	0	git rev-parse -q --verify refs/heads/qa
+   | c5cfe45e3d28cdde2e6cf58b562acc0768670f55
+CMD	201	dev1	promote/v1.1.1-to-qa	0	git checkout -q qa
+CMD	202	dev1	qa	0	git pull -q --ff-only origin qa
+CMD	203	dev1	qa	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.1.1-to-qa
+   | fbddd38839874213be3b2143724800b60c6381cb
+CMD	204	dev1	qa	0	git merge --no-ff -m "Merge PR: promote/v1.1.1-to-qa -> qa (--no-ff)" origin/promote/v1.1.1-to-qa
+   | Merge made by the 'recursive' strategy.
+   |  comun.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	205	dev1	qa	0	git push -q origin qa
+CMD	206	dev1	qa	0	git checkout -q sbx
+CMD	207	dev1	sbx	0	git branch -d promote/v1.1.1-to-qa
+   | Deleted branch promote/v1.1.1-to-qa (was fbddd38).
+CMD	208	dev1	sbx	0	git push -q origin --delete promote/v1.1.1-to-qa
+#STEP	G1.5 B: validacion manual antes y despues de la regla de cadena; PR; sondas de orden
+CMD	209	dev2	feature/az-1002-firma-digital-dd	0	git fetch -q --tags origin
+CMD	210	dev2	feature/az-1002-firma-digital-dd	0	git fetch -q --tags origin
+CMD	211	dev2	feature/az-1002-firma-digital-dd	0	git checkout -q feature/az-1002-firma-digital-dd
+CMD	212	dev2	feature/az-1002-firma-digital-dd	0	git merge --no-ff -m "Merge v1.1.1 en feature/az-1002-firma-digital-dd (actualizacion de rama de trabajo)" v1.1.1
+   | Merge made by the 'recursive' strategy.
+   |  comun.txt    | 2 +-
+   |  modulo-a.txt | 2 +-
+   |  2 files changed, 2 insertions(+), 2 deletions(-)
+CMD	213	dev2	feature/az-1002-firma-digital-dd	0	git push -q origin feature/az-1002-firma-digital-dd
+CMD	214	dev2	feature/az-1002-firma-digital-dd	0	git tag -a v1.2.0 HEAD -m "v1.2.0: HU 1002 firma digital. Version para pruebas QA"
+CMD	215	dev2	feature/az-1002-firma-digital-dd	0	git push -q origin v1.2.0
+CMD	216	origin	sbx	0	git rev-parse refs/tags/v1.2.0
+   | 297f4bc37fc57e32b8bb37c9d8dc811617d1c164
+CMD	217	origin	sbx	0	git rev-parse refs/tags/v1.2.0^{commit}
+   | 9c52d084e786b27abe73c75589d404c314d583e9
+CMD	218	dev2	feature/az-1002-firma-digital-dd	0	git fetch -q --tags origin
+CMD	219	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	220	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	221	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: feature/az-1002-firma-digital-dd into sbx" origin/feature/az-1002-firma-digital-dd
+   | Merge made by the 'recursive' strategy.
+   |  modulo-b.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	222	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	223	dev2	feature/az-1002-firma-digital-dd	0	git fetch -q --tags origin
+CMD	224	dev2	feature/az-1002-firma-digital-dd	0	git rev-parse -q --verify refs/heads/sbx
+   | f4bb4d9d7170d84459dce026a95e1cb728030839
+CMD	225	dev2	feature/az-1002-firma-digital-dd	0	git checkout -q sbx
+CMD	226	dev2	sbx	0	git pull -q --ff-only origin sbx
+CMD	227	dev2	sbx	0	git rev-parse -q --verify refs/remotes/origin/feature/az-1002-firma-digital-dd
+   | 9c52d084e786b27abe73c75589d404c314d583e9
+CMD	228	dev2	sbx	0	git merge --no-ff -m "Merge PR: feature/az-1002-firma-digital-dd -> sbx (--no-ff)" origin/feature/az-1002-firma-digital-dd
+   | Merge made by the 'recursive' strategy.
+   |  modulo-b.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	229	dev2	sbx	0	git push -q origin sbx
+CMD	230	dev2	sbx	0	git checkout -q sbx
+CMD	231	dev2	sbx	0	git branch -d feature/az-1002-firma-digital-dd
+   | Deleted branch feature/az-1002-firma-digital-dd (was 9c52d08).
+CMD	232	dev2	sbx	0	git push -q origin --delete feature/az-1002-firma-digital-dd
+CMD	233	dev2	sbx	0	git fetch -q --tags origin
+CMD	234	dev2	sbx	0	git checkout -q tags/v1.2.0 -b promote/v1.2.0-to-stg
+CMD	235	dev2	promote/v1.2.0-to-stg	0	git push -q -u origin promote/v1.2.0-to-stg
+CMD	236	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	237	ci	(detached)	0	git checkout -q --detach origin/stg
+CMD	238	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: promote/v1.2.0-to-stg into stg" origin/promote/v1.2.0-to-stg
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  modulo-b.txt | 2 +-
+   |  2 files changed, 2 insertions(+), 2 deletions(-)
+CMD	239	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	240	dev2	promote/v1.2.0-to-stg	0	git checkout -q sbx
+CMD	241	dev2	sbx	0	git branch -D promote/v1.2.0-to-stg
+   | Deleted branch promote/v1.2.0-to-stg (was 9c52d08).
+CMD	242	dev2	sbx	0	git push -q origin --delete promote/v1.2.0-to-stg
+CMD	243	dev2	sbx	0	git fetch -q --tags origin
+CMD	244	dev2	sbx	0	git checkout -q tags/v1.2.0 -b promote/v1.2.0-to-qa
+CMD	245	dev2	promote/v1.2.0-to-qa	0	git push -q -u origin promote/v1.2.0-to-qa
+CMD	246	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	247	ci	(detached)	0	git checkout -q --detach origin/qa
+CMD	248	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: promote/v1.2.0-to-qa into qa" origin/promote/v1.2.0-to-qa
+   | Merge made by the 'recursive' strategy.
+   |  modulo-b.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	249	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	250	dev2	promote/v1.2.0-to-qa	0	git fetch -q --tags origin
+CMD	251	dev2	promote/v1.2.0-to-qa	1	git rev-parse -q --verify refs/heads/qa
+CMD	252	dev2	promote/v1.2.0-to-qa	0	git checkout -q -b qa --track origin/qa
+CMD	253	dev2	qa	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.2.0-to-qa
+   | 9c52d084e786b27abe73c75589d404c314d583e9
+CMD	254	dev2	qa	0	git merge --no-ff -m "Merge PR: promote/v1.2.0-to-qa -> qa (--no-ff)" origin/promote/v1.2.0-to-qa
+   | Merge made by the 'recursive' strategy.
+   |  modulo-b.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	255	dev2	qa	0	git push -q origin qa
+CMD	256	dev2	qa	0	git checkout -q sbx
+CMD	257	dev2	sbx	0	git branch -d promote/v1.2.0-to-qa
+   | Deleted branch promote/v1.2.0-to-qa (was 9c52d08).
+CMD	258	dev2	sbx	0	git push -q origin --delete promote/v1.2.0-to-qa
+CMD	259	dev2	sbx	0	git fetch -q --tags origin
+CMD	260	dev2	sbx	0	git checkout -q tags/v1.2.0 -b promote/v1.2.0-to-prod
+CMD	261	dev2	promote/v1.2.0-to-prod	0	git push -q -u origin promote/v1.2.0-to-prod
+CMD	262	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	263	ci	(detached)	0	git checkout -q --detach origin/prod
+CMD	264	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: promote/v1.2.0-to-prod into prod" origin/promote/v1.2.0-to-prod
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  modulo-b.txt | 2 +-
+   |  2 files changed, 2 insertions(+), 2 deletions(-)
+CMD	265	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	266	dev2	promote/v1.2.0-to-prod	0	git checkout -q sbx
+CMD	267	dev2	sbx	0	git branch -D promote/v1.2.0-to-prod
+   | Deleted branch promote/v1.2.0-to-prod (was 9c52d08).
+CMD	268	dev2	sbx	0	git push -q origin --delete promote/v1.2.0-to-prod
+CMD	269	dev2	sbx	0	git fetch -q --tags origin
+CMD	270	dev2	sbx	0	git checkout -q tags/v1.2.0 -b promote/v1.2.0-to-stg
+CMD	271	dev2	promote/v1.2.0-to-stg	0	git commit -q -am "fix: ajuste de ultimo momento en la rama promote/"
+CMD	272	dev2	promote/v1.2.0-to-stg	0	git push -q -u origin promote/v1.2.0-to-stg
+CMD	273	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	274	ci	(detached)	0	git checkout -q --detach origin/stg
+CMD	275	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: promote/v1.2.0-to-stg into stg" origin/promote/v1.2.0-to-stg
+   | Merge made by the 'recursive' strategy.
+   |  comun.txt    | 2 +-
+   |  modulo-a.txt | 2 +-
+   |  modulo-b.txt | 2 +-
+   |  3 files changed, 3 insertions(+), 3 deletions(-)
+CMD	276	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	277	dev2	promote/v1.2.0-to-stg	0	git checkout -q sbx
+CMD	278	dev2	sbx	0	git branch -D promote/v1.2.0-to-stg
+   | Deleted branch promote/v1.2.0-to-stg (was 2d0acf7).
+CMD	279	dev2	sbx	0	git push -q origin --delete promote/v1.2.0-to-stg
+#STEP	G1.6 B debe salir sin A: retiro temporal (revert) -> v1.3.0 -> qa -> stg -> prod
+CMD	280	dev1	sbx	0	git fetch -q --tags origin
+CMD	281	dev1	sbx	0	git checkout -q tags/v1.2.0 -b feature/az-1003-retiro-temporal-hu-1001-pc
+CMD	282	dev1	feature/az-1003-retiro-temporal-hu-1001-pc	0	git push -q -u origin feature/az-1003-retiro-temporal-hu-1001-pc
+CMD	283	dev1	feature/az-1003-retiro-temporal-hu-1001-pc	0	git log -1 --format=%H "--grep=add HU 1001" v1.2.0
+   | 98f225d45f325445b0a4f458cd18b811cd270e85
+CMD	284	dev1	feature/az-1003-retiro-temporal-hu-1001-pc	0	git revert --no-edit 98f225d45f325445b0a4f458cd18b811cd270e85
+   | [feature/az-1003-retiro-temporal-hu-1001-pc 2b1559a] Revert "feat(modulo-a): add HU 1001"
+   |  Date: Fri Oct 9 15:05:53 2026 -0500
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	285	dev1	feature/az-1003-retiro-temporal-hu-1001-pc	0	git push -q origin feature/az-1003-retiro-temporal-hu-1001-pc
+CMD	286	dev1	feature/az-1003-retiro-temporal-hu-1001-pc	0	git tag -a v1.3.0 HEAD -m "v1.3.0: sale B; HU 1001 retirada temporalmente (pendiente aprobacion del cliente)"
+CMD	287	dev1	feature/az-1003-retiro-temporal-hu-1001-pc	0	git push -q origin v1.3.0
+CMD	288	origin	sbx	0	git rev-parse refs/tags/v1.3.0
+   | c458f71174213ddfba1b772be903dd52a9876b79
+CMD	289	origin	sbx	0	git rev-parse refs/tags/v1.3.0^{commit}
+   | 2b1559ad604b3bf5462bfef0be2aabe852c83388
+CMD	290	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	291	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	292	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: feature/az-1003-retiro-temporal-hu-1001-pc into sbx" origin/feature/az-1003-retiro-temporal-hu-1001-pc
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	293	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	294	dev1	feature/az-1003-retiro-temporal-hu-1001-pc	0	git fetch -q --tags origin
+CMD	295	dev1	feature/az-1003-retiro-temporal-hu-1001-pc	0	git rev-parse -q --verify refs/heads/sbx
+   | 2a2ff2b0936468db860495e10031f501cd856536
+CMD	296	dev1	feature/az-1003-retiro-temporal-hu-1001-pc	0	git checkout -q sbx
+CMD	297	dev1	sbx	0	git pull -q --ff-only origin sbx
+CMD	298	dev1	sbx	0	git rev-parse -q --verify refs/remotes/origin/feature/az-1003-retiro-temporal-hu-1001-pc
+   | 2b1559ad604b3bf5462bfef0be2aabe852c83388
+CMD	299	dev1	sbx	0	git merge --no-ff -m "Merge PR: feature/az-1003-retiro-temporal-hu-1001-pc -> sbx (--no-ff)" origin/feature/az-1003-retiro-temporal-hu-1001-pc
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	300	dev1	sbx	0	git push -q origin sbx
+CMD	301	dev1	sbx	0	git checkout -q sbx
+CMD	302	dev1	sbx	0	git branch -d feature/az-1003-retiro-temporal-hu-1001-pc
+   | Deleted branch feature/az-1003-retiro-temporal-hu-1001-pc (was 2b1559a).
+CMD	303	dev1	sbx	0	git push -q origin --delete feature/az-1003-retiro-temporal-hu-1001-pc
+CMD	304	dev1	sbx	0	git fetch -q --tags origin
+CMD	305	dev1	sbx	0	git checkout -q tags/v1.3.0 -b promote/v1.3.0-to-qa
+CMD	306	dev1	promote/v1.3.0-to-qa	0	git push -q -u origin promote/v1.3.0-to-qa
+CMD	307	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	308	ci	(detached)	0	git checkout -q --detach origin/qa
+CMD	309	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: promote/v1.3.0-to-qa into qa" origin/promote/v1.3.0-to-qa
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	310	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	311	dev1	promote/v1.3.0-to-qa	0	git fetch -q --tags origin
+CMD	312	dev1	promote/v1.3.0-to-qa	0	git rev-parse -q --verify refs/heads/qa
+   | a6b4e1ab7659ff6e8266914426abd0bc6f093418
+CMD	313	dev1	promote/v1.3.0-to-qa	0	git checkout -q qa
+CMD	314	dev1	qa	0	git pull -q --ff-only origin qa
+CMD	315	dev1	qa	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.3.0-to-qa
+   | 2b1559ad604b3bf5462bfef0be2aabe852c83388
+CMD	316	dev1	qa	0	git merge --no-ff -m "Merge PR: promote/v1.3.0-to-qa -> qa (--no-ff)" origin/promote/v1.3.0-to-qa
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	317	dev1	qa	0	git push -q origin qa
+CMD	318	dev1	qa	0	git checkout -q sbx
+CMD	319	dev1	sbx	0	git branch -d promote/v1.3.0-to-qa
+   | Deleted branch promote/v1.3.0-to-qa (was 2b1559a).
+CMD	320	dev1	sbx	0	git push -q origin --delete promote/v1.3.0-to-qa
+CMD	321	dev1	sbx	0	git fetch -q --tags origin
+CMD	322	dev1	sbx	0	git checkout -q tags/v1.3.0 -b promote/v1.3.0-to-stg
+CMD	323	dev1	promote/v1.3.0-to-stg	0	git push -q -u origin promote/v1.3.0-to-stg
+CMD	324	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	325	ci	(detached)	0	git checkout -q --detach origin/stg
+CMD	326	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: promote/v1.3.0-to-stg into stg" origin/promote/v1.3.0-to-stg
+   | Merge made by the 'recursive' strategy.
+   |  modulo-b.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	327	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	328	dev1	promote/v1.3.0-to-stg	0	git fetch -q --tags origin
+CMD	329	dev1	promote/v1.3.0-to-stg	0	git rev-parse -q --verify refs/heads/stg
+   | 8c660e7fd863ed4c253d4a668338045420cfcc22
+CMD	330	dev1	promote/v1.3.0-to-stg	0	git checkout -q stg
+CMD	331	dev1	stg	0	git pull -q --ff-only origin stg
+CMD	332	dev1	stg	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.3.0-to-stg
+   | 2b1559ad604b3bf5462bfef0be2aabe852c83388
+CMD	333	dev1	stg	0	git merge --no-ff -m "Merge PR: promote/v1.3.0-to-stg -> stg (--no-ff)" origin/promote/v1.3.0-to-stg
+   | Merge made by the 'recursive' strategy.
+   |  modulo-b.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	334	dev1	stg	0	git push -q origin stg
+CMD	335	dev1	stg	0	git checkout -q sbx
+CMD	336	dev1	sbx	0	git branch -d promote/v1.3.0-to-stg
+   | Deleted branch promote/v1.3.0-to-stg (was 2b1559a).
+CMD	337	dev1	sbx	0	git push -q origin --delete promote/v1.3.0-to-stg
+CMD	338	dev1	sbx	0	git fetch -q --tags origin
+CMD	339	dev1	sbx	0	git checkout -q tags/v1.3.0 -b promote/v1.3.0-to-prod
+CMD	340	dev1	promote/v1.3.0-to-prod	0	git push -q -u origin promote/v1.3.0-to-prod
+CMD	341	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	342	ci	(detached)	0	git checkout -q --detach origin/prod
+CMD	343	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: promote/v1.3.0-to-prod into prod" origin/promote/v1.3.0-to-prod
+   | Merge made by the 'recursive' strategy.
+   |  modulo-b.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	344	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	345	dev1	promote/v1.3.0-to-prod	0	git fetch -q --tags origin
+CMD	346	dev1	promote/v1.3.0-to-prod	0	git rev-parse -q --verify refs/heads/prod
+   | 82020466d3921217032a55b9900934dba32262dd
+CMD	347	dev1	promote/v1.3.0-to-prod	0	git checkout -q prod
+CMD	348	dev1	prod	0	git pull -q --ff-only origin prod
+CMD	349	dev1	prod	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.3.0-to-prod
+   | 2b1559ad604b3bf5462bfef0be2aabe852c83388
+CMD	350	dev1	prod	0	git merge --no-ff -m "Merge PR: promote/v1.3.0-to-prod -> prod (--no-ff)" origin/promote/v1.3.0-to-prod
+   | Merge made by the 'recursive' strategy.
+   |  modulo-b.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	351	dev1	prod	0	git push -q origin prod
+CMD	352	dev1	prod	0	git checkout -q sbx
+CMD	353	dev1	sbx	0	git branch -d promote/v1.3.0-to-prod
+   | Deleted branch promote/v1.3.0-to-prod (was 2b1559a).
+CMD	354	dev1	sbx	0	git push -q origin --delete promote/v1.3.0-to-prod
+#STEP	G1.7 El cliente aprueba A: revert del revert -> v1.4.0 -> qa -> stg -> prod
+CMD	355	dev1	sbx	0	git fetch -q --tags origin
+CMD	356	dev1	sbx	0	git checkout -q tags/v1.3.0 -b feature/az-1004-reintroduce-hu-1001-pc
+CMD	357	dev1	feature/az-1004-reintroduce-hu-1001-pc	0	git push -q -u origin feature/az-1004-reintroduce-hu-1001-pc
+CMD	358	dev1	feature/az-1004-reintroduce-hu-1001-pc	0	git log -1 --format=%H --grep=^Revert "--grep=HU 1001" --all-match v1.3.0
+   | 2b1559ad604b3bf5462bfef0be2aabe852c83388
+CMD	359	dev1	feature/az-1004-reintroduce-hu-1001-pc	0	git revert --no-edit 2b1559ad604b3bf5462bfef0be2aabe852c83388
+   | [feature/az-1004-reintroduce-hu-1001-pc 9a310e5] Revert "Revert "feat(modulo-a): add HU 1001""
+   |  Date: Fri Oct 9 15:06:10 2026 -0500
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	360	dev1	feature/az-1004-reintroduce-hu-1001-pc	0	git push -q origin feature/az-1004-reintroduce-hu-1001-pc
+CMD	361	dev1	feature/az-1004-reintroduce-hu-1001-pc	0	git tag -a v1.4.0 HEAD -m "v1.4.0: reintroduce HU 1001 aprobada por el cliente"
+CMD	362	dev1	feature/az-1004-reintroduce-hu-1001-pc	0	git push -q origin v1.4.0
+CMD	363	origin	sbx	0	git rev-parse refs/tags/v1.4.0
+   | 1efc37deae54b11777b49f7dfe0fe4cbd53da579
+CMD	364	origin	sbx	0	git rev-parse refs/tags/v1.4.0^{commit}
+   | 9a310e53d32a03eb84dcbaaeef6f0e88317a9d0e
+CMD	365	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	366	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	367	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: feature/az-1004-reintroduce-hu-1001-pc into sbx" origin/feature/az-1004-reintroduce-hu-1001-pc
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	368	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	369	dev1	feature/az-1004-reintroduce-hu-1001-pc	0	git fetch -q --tags origin
+CMD	370	dev1	feature/az-1004-reintroduce-hu-1001-pc	0	git rev-parse -q --verify refs/heads/sbx
+   | b70f39c72048601ae0600ab723e5e10742ccb040
+CMD	371	dev1	feature/az-1004-reintroduce-hu-1001-pc	0	git checkout -q sbx
+CMD	372	dev1	sbx	0	git pull -q --ff-only origin sbx
+CMD	373	dev1	sbx	0	git rev-parse -q --verify refs/remotes/origin/feature/az-1004-reintroduce-hu-1001-pc
+   | 9a310e53d32a03eb84dcbaaeef6f0e88317a9d0e
+CMD	374	dev1	sbx	0	git merge --no-ff -m "Merge PR: feature/az-1004-reintroduce-hu-1001-pc -> sbx (--no-ff)" origin/feature/az-1004-reintroduce-hu-1001-pc
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	375	dev1	sbx	0	git push -q origin sbx
+CMD	376	dev1	sbx	0	git checkout -q sbx
+CMD	377	dev1	sbx	0	git branch -d feature/az-1004-reintroduce-hu-1001-pc
+   | Deleted branch feature/az-1004-reintroduce-hu-1001-pc (was 9a310e5).
+CMD	378	dev1	sbx	0	git push -q origin --delete feature/az-1004-reintroduce-hu-1001-pc
+CMD	379	dev1	sbx	0	git fetch -q --tags origin
+CMD	380	dev1	sbx	0	git checkout -q tags/v1.4.0 -b promote/v1.4.0-to-qa
+CMD	381	dev1	promote/v1.4.0-to-qa	0	git push -q -u origin promote/v1.4.0-to-qa
+CMD	382	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	383	ci	(detached)	0	git checkout -q --detach origin/qa
+CMD	384	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: promote/v1.4.0-to-qa into qa" origin/promote/v1.4.0-to-qa
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	385	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	386	dev1	promote/v1.4.0-to-qa	0	git fetch -q --tags origin
+CMD	387	dev1	promote/v1.4.0-to-qa	0	git rev-parse -q --verify refs/heads/qa
+   | 700763ff15f0cb4507508bbd191091a2dc340b5e
+CMD	388	dev1	promote/v1.4.0-to-qa	0	git checkout -q qa
+CMD	389	dev1	qa	0	git pull -q --ff-only origin qa
+CMD	390	dev1	qa	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.4.0-to-qa
+   | 9a310e53d32a03eb84dcbaaeef6f0e88317a9d0e
+CMD	391	dev1	qa	0	git merge --no-ff -m "Merge PR: promote/v1.4.0-to-qa -> qa (--no-ff)" origin/promote/v1.4.0-to-qa
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	392	dev1	qa	0	git push -q origin qa
+CMD	393	dev1	qa	0	git checkout -q sbx
+CMD	394	dev1	sbx	0	git branch -d promote/v1.4.0-to-qa
+   | Deleted branch promote/v1.4.0-to-qa (was 9a310e5).
+CMD	395	dev1	sbx	0	git push -q origin --delete promote/v1.4.0-to-qa
+CMD	396	dev1	sbx	0	git fetch -q --tags origin
+CMD	397	dev1	sbx	0	git checkout -q tags/v1.4.0 -b promote/v1.4.0-to-stg
+CMD	398	dev1	promote/v1.4.0-to-stg	0	git push -q -u origin promote/v1.4.0-to-stg
+CMD	399	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	400	ci	(detached)	0	git checkout -q --detach origin/stg
+CMD	401	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: promote/v1.4.0-to-stg into stg" origin/promote/v1.4.0-to-stg
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	402	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	403	dev1	promote/v1.4.0-to-stg	0	git fetch -q --tags origin
+CMD	404	dev1	promote/v1.4.0-to-stg	0	git rev-parse -q --verify refs/heads/stg
+   | 7a10c98665624dc5d6346e70ffa0b2e3ce302c3f
+CMD	405	dev1	promote/v1.4.0-to-stg	0	git checkout -q stg
+CMD	406	dev1	stg	0	git pull -q --ff-only origin stg
+CMD	407	dev1	stg	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.4.0-to-stg
+   | 9a310e53d32a03eb84dcbaaeef6f0e88317a9d0e
+CMD	408	dev1	stg	0	git merge --no-ff -m "Merge PR: promote/v1.4.0-to-stg -> stg (--no-ff)" origin/promote/v1.4.0-to-stg
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	409	dev1	stg	0	git push -q origin stg
+CMD	410	dev1	stg	0	git checkout -q sbx
+CMD	411	dev1	sbx	0	git branch -d promote/v1.4.0-to-stg
+   | Deleted branch promote/v1.4.0-to-stg (was 9a310e5).
+CMD	412	dev1	sbx	0	git push -q origin --delete promote/v1.4.0-to-stg
+CMD	413	dev1	sbx	0	git fetch -q --tags origin
+CMD	414	dev1	sbx	0	git checkout -q tags/v1.4.0 -b promote/v1.4.0-to-prod
+CMD	415	dev1	promote/v1.4.0-to-prod	0	git push -q -u origin promote/v1.4.0-to-prod
+CMD	416	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	417	ci	(detached)	0	git checkout -q --detach origin/prod
+CMD	418	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: promote/v1.4.0-to-prod into prod" origin/promote/v1.4.0-to-prod
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	419	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	420	dev1	promote/v1.4.0-to-prod	0	git fetch -q --tags origin
+CMD	421	dev1	promote/v1.4.0-to-prod	0	git rev-parse -q --verify refs/heads/prod
+   | 51d693ca49ff0e35f0702da0b8531023c7e18be6
+CMD	422	dev1	promote/v1.4.0-to-prod	0	git checkout -q prod
+CMD	423	dev1	prod	0	git pull -q --ff-only origin prod
+CMD	424	dev1	prod	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.4.0-to-prod
+   | 9a310e53d32a03eb84dcbaaeef6f0e88317a9d0e
+CMD	425	dev1	prod	0	git merge --no-ff -m "Merge PR: promote/v1.4.0-to-prod -> prod (--no-ff)" origin/promote/v1.4.0-to-prod
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	426	dev1	prod	0	git push -q origin prod
+CMD	427	dev1	prod	0	git checkout -q sbx
+CMD	428	dev1	sbx	0	git branch -d promote/v1.4.0-to-prod
+   | Deleted branch promote/v1.4.0-to-prod (was 9a310e5).
+CMD	429	dev1	sbx	0	git push -q origin --delete promote/v1.4.0-to-prod
+#STEP	G1.8 Prueba automatizada (test/) y sonda de rollback
+CMD	430	dev2	sbx	0	git fetch -q --tags origin
+CMD	431	dev2	sbx	0	git checkout -q tags/v1.4.0 -b test/az-1001-web-consulta-expedientes-dd
+CMD	432	dev2	test/az-1001-web-consulta-expedientes-dd	0	git push -q -u origin test/az-1001-web-consulta-expedientes-dd
+CMD	433	dev2	test/az-1001-web-consulta-expedientes-dd	0	git add comun.txt
+CMD	434	dev2	test/az-1001-web-consulta-expedientes-dd	0	git commit -q -m "test(web): add prueba automatizada consulta de expedientes"
+CMD	435	dev2	test/az-1001-web-consulta-expedientes-dd	0	git symbolic-ref --short HEAD
+   | test/az-1001-web-consulta-expedientes-dd
+CMD	436	dev2	test/az-1001-web-consulta-expedientes-dd	0	git push -q origin test/az-1001-web-consulta-expedientes-dd
+CMD	437	dev2	test/az-1001-web-consulta-expedientes-dd	0	git tag -a v1.4.1 HEAD -m "v1.4.1: prueba automatizada web de consulta de expedientes"
+CMD	438	dev2	test/az-1001-web-consulta-expedientes-dd	0	git push -q origin v1.4.1
+CMD	439	origin	sbx	0	git rev-parse refs/tags/v1.4.1
+   | 5d18d110f1dcd5cdb08b152d023567c250a771a7
+CMD	440	origin	sbx	0	git rev-parse refs/tags/v1.4.1^{commit}
+   | 4138b5b7323353bb1d2030825b85dc3423647566
+CMD	441	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	442	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	443	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: test/az-1001-web-consulta-expedientes-dd into sbx" origin/test/az-1001-web-consulta-expedientes-dd
+   | Merge made by the 'recursive' strategy.
+   |  comun.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	444	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	445	dev2	test/az-1001-web-consulta-expedientes-dd	0	git fetch -q --tags origin
+CMD	446	dev2	test/az-1001-web-consulta-expedientes-dd	0	git rev-parse -q --verify refs/heads/sbx
+   | aa101273040ac061831d1076c96018ae49d5b6f7
+CMD	447	dev2	test/az-1001-web-consulta-expedientes-dd	0	git checkout -q sbx
+CMD	448	dev2	sbx	0	git pull -q --ff-only origin sbx
+CMD	449	dev2	sbx	0	git rev-parse -q --verify refs/remotes/origin/test/az-1001-web-consulta-expedientes-dd
+   | 4138b5b7323353bb1d2030825b85dc3423647566
+CMD	450	dev2	sbx	0	git merge --no-ff -m "Merge PR: test/az-1001-web-consulta-expedientes-dd -> sbx (--no-ff)" origin/test/az-1001-web-consulta-expedientes-dd
+   | Merge made by the 'recursive' strategy.
+   |  comun.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	451	dev2	sbx	0	git push -q origin sbx
+CMD	452	dev2	sbx	0	git checkout -q sbx
+CMD	453	dev2	sbx	0	git branch -d test/az-1001-web-consulta-expedientes-dd
+   | Deleted branch test/az-1001-web-consulta-expedientes-dd (was 4138b5b).
+CMD	454	dev2	sbx	0	git push -q origin --delete test/az-1001-web-consulta-expedientes-dd
+CMD	455	dev1	sbx	0	git fetch -q --tags origin
+CMD	456	dev1	sbx	0	git checkout -q tags/v1.3.0 -b promote/v1.3.0-to-prod
+CMD	457	dev1	promote/v1.3.0-to-prod	0	git push -q -u origin promote/v1.3.0-to-prod
+CMD	458	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	459	ci	(detached)	0	git checkout -q --detach origin/prod
+CMD	460	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: promote/v1.3.0-to-prod into prod" origin/promote/v1.3.0-to-prod
+   | Already up to date.
+CMD	461	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	462	dev1	promote/v1.3.0-to-prod	0	git checkout -q sbx
+CMD	463	dev1	sbx	0	git branch -D promote/v1.3.0-to-prod
+   | Deleted branch promote/v1.3.0-to-prod (was 2b1559a).
+CMD	464	dev1	sbx	0	git push -q origin --delete promote/v1.3.0-to-prod
+CMD	465	origin	sbx	0	git log --oneline --graph --all --decorate
+   | *   222d436 (HEAD -> sbx) Merge PR: test/az-1001-web-consulta-expedientes-dd -> sbx (--no-ff)
+   | |\  
+   | | * 4138b5b (tag: v1.4.1) test(web): add prueba automatizada consulta de expedientes
+   | * | aa8ecf8 Merge PR: feature/az-1004-reintroduce-hu-1001-pc -> sbx (--no-ff)
+   | |\| 
+   | * |   b70f39c Merge PR: feature/az-1003-retiro-temporal-hu-1001-pc -> sbx (--no-ff)
+   | |\ \  
+   | * \ \   aa10127 Merge PR: feature/az-1002-firma-digital-dd -> sbx (--no-ff)
+   | |\ \ \  
+   | * \ \ \   2a2ff2b Merge PR: hotfix/glpi-20001-bloqueo-sesion-pc -> sbx (--no-ff)
+   | |\ \ \ \  
+   | * \ \ \ \   6ebae25 Merge PR: feature/az-1001-consulta-expedientes-pc -> sbx (--no-ff)
+   | |\ \ \ \ \  
+   | | | | | | | *   72d871d (prod) Merge PR: promote/v1.4.0-to-prod -> prod (--no-ff)
+   | | | | | | | |\  
+   | | | | | | | |/  
+   | | | | | | |/|   
+   | | | | | | | *   51d693c Merge PR: promote/v1.3.0-to-prod -> prod (--no-ff)
+   | | | | | | | |\  
+   | | | | | | |_|/  
+   | | | | | |/| |   
+   | | | | | | | * 8202046 Merge PR: promote/v1.0.0.1-to-prod -> prod (--no-ff)
+   | | |_|_|_|_|/| 
+   | |/| | | | | | 
+   | | | | | | | | *   3c7b7cc (stg) Merge PR: promote/v1.4.0-to-stg -> stg (--no-ff)
+   | | | | | | | | |\  
+   | | | | | | | |_|/  
+   | | | | | | |/| |   
+   | | | | | | | | *   7a10c98 Merge PR: promote/v1.3.0-to-stg -> stg (--no-ff)
+   | | | | | | | | |\  
+   | | | | | | |_|_|/  
+   | | | | | |/| | |   
+   | | | | | | | | * 8c660e7 Merge PR: promote/v1.0.0.1-to-stg -> stg (--no-ff)
+   | | |_|_|_|_|_|/| 
+   | |/| | | | | |/  
+   | | | | | | | | *   ab09fda (qa) Merge PR: promote/v1.4.0-to-qa -> qa (--no-ff)
+   | | | | | | | | |\  
+   | | | | | | | |_|/  
+   | | | | | | |/| |   
+   | | | | | | * | | 9a310e5 (tag: v1.4.0) Revert "Revert "feat(modulo-a): add HU 1001""
+   | | | | | |/ / /  
+   | | | | | | | *   700763f Merge PR: promote/v1.3.0-to-qa -> qa (--no-ff)
+   | | | | | | | |\  
+   | | | | | | |_|/  
+   | | | | | |/| |   
+   | | | | | * | | 2b1559a (tag: v1.3.0) Revert "feat(modulo-a): add HU 1001"
+   | | | | |/ / /  
+   | | | | | | *   85eed57 Merge PR: promote/v1.2.0-to-qa -> qa (--no-ff)
+   | | | | | | |\  
+   | | | | | |_|/  
+   | | | | |/| |   
+   | | | | * | |   9c52d08 (tag: v1.2.0) Merge v1.1.1 en feature/az-1002-firma-digital-dd (actualizacion de rama de trabajo)
+   | | | | |\ \ \  
+   | | | | |/ / /  
+   | | | |/| | |   
+   | | | | * | | adcbb0f feat(modulo-b): add HU 1002
+   | | |_|/ / /  
+   | |/| | | |   
+   | | | | | *   a6b4e1a Merge PR: promote/v1.1.1-to-qa -> qa (--no-ff)
+   | | | | | |\  
+   | | | | |_|/  
+   | | | |/| |   
+   | | | * | |   fbddd38 (tag: v1.1.1) Merge v1.1.0 en hotfix/glpi-20001-bloqueo-sesion-pc (actualizacion de rama de trabajo)
+   | | | |\ \ \  
+   | | | |/ / /  
+   | | |/| / /   
+   | | | |/ /    
+   | | | * / a42ff13 (tag: v1.0.0.1) fix(comun): corrige bloqueo de sesion por token nulo (GLPI 20001)
+   | | |/ /  
+   | |/| |   
+   | | | * c5cfe45 Merge PR: promote/v1.1.0-to-qa -> qa (--no-ff)
+   | | |/| 
+   | |/|/  
+   | | * 98f225d (tag: v1.1.0) feat(modulo-a): add HU 1001
+   | |/  
+   | * f4bb4d9 (tag: v1.0.0) chore: estructura inicial del repositorio

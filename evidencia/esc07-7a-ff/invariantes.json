@@ -1,0 +1,82 @@
+﻿{
+    "escenario":  "07",
+    "variante":  "7a",
+    "mergeMode":  "ff",
+    "etapa":  "final",
+    "invariantes":  {
+                        "I1":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "qa: git diff v1.3.0.1 qa -\u003e vacio",
+                                                  "stg: git diff v1.3.0.1 stg -\u003e vacio",
+                                                  "prod: git diff v1.3.0.1 prod -\u003e vacio"
+                                              ]
+                               },
+                        "I2":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "v1.0.0 es ancestro de sbx",
+                                                  "v1.3.0 es ancestro de sbx",
+                                                  "v1.3.0.1 es ancestro de sbx"
+                                              ]
+                               },
+                        "I3":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "auditoria: 9 operaciones de integracion revisadas",
+                                                  "estructural: 0 commits propios de ambiente revisados, 0 fuera de lugar"
+                                              ]
+                               },
+                        "I4":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "rama BUG_AZ_70001_DD: OK",
+                                                  "rama HU_6.70000_PC: OK",
+                                                  "rama prod: OK",
+                                                  "rama promote/v1.3.0.1-to-prod: OK",
+                                                  "rama promote/v1.3.0.1-to-qa: OK",
+                                                  "rama promote/v1.3.0.1-to-stg: OK",
+                                                  "rama promote/v1.3.0-to-qa: OK",
+                                                  "rama promote/v1.3.0-to-stg: OK",
+                                                  "rama qa: OK",
+                                                  "rama sbx: OK",
+                                                  "rama stg: OK",
+                                                  "tag v1.0.0: nombre OK, tipo anotado OK",
+                                                  "tag v1.3.0: nombre OK, tipo anotado OK",
+                                                  "tag v1.3.0.1: nombre OK, tipo anotado OK (cuarta posicion)"
+                                              ]
+                               },
+                        "I5":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "origin: solo ramas de ambiente (prod, qa, sbx, stg)",
+                                                  "dev1: ramas locales OK (qa, sbx, stg)",
+                                                  "dev2: ramas locales OK (prod, qa, sbx, stg)"
+                                              ]
+                               },
+                        "I6":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "tag v1.0.0: intacto (ae93bf0c -\u003e commit 463ed3e8)",
+                                                  "tag v1.3.0: intacto (243c09f3 -\u003e commit 462dfdb0)",
+                                                  "tag v1.3.0.1: intacto (2532c0f8 -\u003e commit 99e3eba7)",
+                                                  "auditoria: sin \u0027tag -f/-d\u0027 ni force-push"
+                                              ]
+                               },
+                        "I7":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "tags vigentes: qa=v1.3.0.1  stg=v1.3.0.1  prod=v1.3.0.1",
+                                                  "stg contiene todo lo de prod",
+                                                  "stg contiene todo lo de qa",
+                                                  "contenido stg == prod: True"
+                                              ]
+                               }
+                    },
+    "hechos":  [
+                   "v1.3.0 aprobada en qa; falla en stg (bug AZ 70001)",
+                   "Contenido de qa: modulo-a.txt:L1=\u0027funcionalidad v1.3\u0027 ; modulo-a.txt:L2=\u0027fix detectado en stg (AZ 70001)\u0027",
+                   "Contenido de stg: modulo-a.txt:L1=\u0027funcionalidad v1.3\u0027 ; modulo-a.txt:L2=\u0027fix detectado en stg (AZ 70001)\u0027",
+                   "Contenido de prod: modulo-a.txt:L1=\u0027funcionalidad v1.3\u0027 ; modulo-a.txt:L2=\u0027fix detectado en stg (AZ 70001)\u0027"
+               ]
+}

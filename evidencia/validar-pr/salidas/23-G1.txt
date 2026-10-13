@@ -1,0 +1,10 @@
+# Caso 23 (G1): Promover v1.3.0 a prod
+# PR: promote/v1.3.0-to-prod -> prod   modo: build validation (commit de merge del PR)
+# Esperado: PASA    Obtenido: PASA
+
+Validar-PR  origen=promote/v1.3.0-to-prod  destino=prod
+OK     PROMOTE-NOMBRE   R6           Promocion de v1.3.0 hacia prod.
+OK     PROMOTE-TAG      R6           La rama apunta exactamente al tag anotado v1.3.0.
+OK     ORDEN            R6           v1.3.0 es la version que esta en stg.
+OK     RESULTADO        I1           Tras el PR, prod sera identico a v1.3.0 (commit de merge del PR d92f271d).
+RESULTADO: APROBADO (0 aviso(s))

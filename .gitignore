@@ -1,0 +1,16 @@
+# Repos de prueba que generan los esc*.ps1 (se regeneran con Ejecutar-Todo.ps1)
+runs/
+
+# Salida cruda de consola de cada corrida
+evidencia/_salidas/
+
+# Estandares de referencia (documentos controlados, no versionar aqui)
+ARQ-PRO-001.pdf
+DES-EST-016.pdf
+
+# Sistema / editor / herramientas locales
+Thumbs.db
+desktop.ini
+.vscode/
+.claude/
+*.tmp

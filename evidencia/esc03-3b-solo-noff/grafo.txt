@@ -1,0 +1,14 @@
+*   a90ff5a (prod) Merge PR: promote/v1.1.0-to-prod -> prod (--no-ff)
+|\  
+| | * 91c1356 (stg) Merge PR: promote/v1.1.0-to-stg -> stg (--no-ff)
+| |/| 
+|/|/  
+| | * c10861a (qa) Merge PR: promote/v1.1.0-to-qa -> qa (--no-ff)
+| |/| 
+|/|/  
+| | * 272205b (HEAD -> sbx) Merge PR: HU_6.32154_PC -> sbx (--no-ff)
+| |/| 
+|/|/  
+| * 6806b6e (tag: v1.1.0) feat(modulo-a): add validacion de tokens
+|/  
+* 51706fe (tag: v1.0.0) chore: estructura inicial del repositorio

@@ -1,0 +1,13 @@
+* d4a007f (HEAD -> sbx, tag: v1.4.1) test(web): add prueba automatizada consulta de expedientes
+* 3c8a334 (tag: v1.4.0, stg, qa, prod) Revert "Revert "feat(modulo-a): add HU 1001""
+* ce16a89 (tag: v1.3.0) Revert "feat(modulo-a): add HU 1001"
+*   82f4da7 (tag: v1.2.0) Merge v1.1.1 en feature/az-1002-firma-digital-dd (actualizacion de rama de trabajo)
+|\  
+| *   105ad7b (tag: v1.1.1) Merge v1.1.0 en hotfix/glpi-20001-bloqueo-sesion-pc (actualizacion de rama de trabajo)
+| |\  
+| | * 88aba91 (tag: v1.1.0) feat(modulo-a): add HU 1001
+| * | 3bf044f (tag: v1.0.0.1) fix(comun): corrige bloqueo de sesion (GLPI 20001)
+| |/  
+* / 6c1954f feat(modulo-b): add HU 1002
+|/  
+* c1f0347 (tag: v1.0.0) chore: estructura inicial del repositorio

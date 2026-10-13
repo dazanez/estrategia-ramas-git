@@ -1,0 +1,312 @@
+﻿{
+    "escenario":  "validar-pr-G1",
+    "variante":  "flujo",
+    "mergeMode":  "noff",
+    "clones":  [
+                   "dev1",
+                   "dev2",
+                   "ci"
+               ],
+    "tags":  {
+                 "v1.0.0":  {
+                                "object":  "cd98f2f27fb8ac9b5d55e0898d1389d42ec0a528",
+                                "commit":  "f4bb4d9d7170d84459dce026a95e1cb728030839",
+                                "dev":  "dev1"
+                            },
+                 "v1.1.0":  {
+                                "object":  "d269e4093a763cc95e258764ad712cac73420857",
+                                "commit":  "98f225d45f325445b0a4f458cd18b811cd270e85",
+                                "dev":  "dev1"
+                            },
+                 "v1.0.0.1":  {
+                                  "object":  "f6ee72ab753a8cea0e9b1e91abd590ad01b278df",
+                                  "commit":  "a42ff13cdcd81658397283dbbffce8fbb72f0820",
+                                  "dev":  "dev1"
+                              },
+                 "v1.1.1":  {
+                                "object":  "f3430d3b4ff4aff1fea38269efe975eaa03c9d5b",
+                                "commit":  "fbddd38839874213be3b2143724800b60c6381cb",
+                                "dev":  "dev1"
+                            },
+                 "v1.2.0":  {
+                                "object":  "297f4bc37fc57e32b8bb37c9d8dc811617d1c164",
+                                "commit":  "9c52d084e786b27abe73c75589d404c314d583e9",
+                                "dev":  "dev2"
+                            },
+                 "v1.3.0":  {
+                                "object":  "c458f71174213ddfba1b772be903dd52a9876b79",
+                                "commit":  "2b1559ad604b3bf5462bfef0be2aabe852c83388",
+                                "dev":  "dev1"
+                            },
+                 "v1.4.0":  {
+                                "object":  "1efc37deae54b11777b49f7dfe0fe4cbd53da579",
+                                "commit":  "9a310e53d32a03eb84dcbaaeef6f0e88317a9d0e",
+                                "dev":  "dev1"
+                            },
+                 "v1.4.1":  {
+                                "object":  "5d18d110f1dcd5cdb08b152d023567c250a771a7",
+                                "commit":  "4138b5b7323353bb1d2030825b85dc3423647566",
+                                "dev":  "dev2"
+                            }
+             },
+    "promotions":  [
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.1.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0.1",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0.1",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.1.1",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.2.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.3.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.3.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.3.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.4.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.4.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.4.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       }
+                   ],
+    "merges":  [
+                   {
+                       "source":  "feature/az-1001-consulta-expedientes-pc",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.1.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.0.0.1-to-stg",
+                       "target":  "stg",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.0.0.1-to-prod",
+                       "target":  "prod",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "hotfix/glpi-20001-bloqueo-sesion-pc",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.1.1-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "feature/az-1002-firma-digital-dd",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "feature/az-1003-retiro-temporal-hu-1001-pc",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0-to-stg",
+                       "target":  "stg",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0-to-prod",
+                       "target":  "prod",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "feature/az-1004-reintroduce-hu-1001-pc",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.4.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.4.0-to-stg",
+                       "target":  "stg",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.4.0-to-prod",
+                       "target":  "prod",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "test/az-1001-web-consulta-expedientes-dd",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   }
+               ],
+    "branches":  [
+                     "feature/az-1001-consulta-expedientes-pc",
+                     "feature/az-1002-firma-digital-dd",
+                     "promote/v1.1.0-to-qa",
+                     "hotfix/glpi-20001-bloqueo-sesion-pc",
+                     "promote/v1.0.0.1-to-stg",
+                     "promote/v1.0.0.1-to-prod",
+                     "promote/v1.1.1-to-qa",
+                     "promote/v1.2.0-to-qa",
+                     "feature/az-1003-retiro-temporal-hu-1001-pc",
+                     "promote/v1.3.0-to-qa",
+                     "promote/v1.3.0-to-stg",
+                     "promote/v1.3.0-to-prod",
+                     "feature/az-1004-reintroduce-hu-1001-pc",
+                     "promote/v1.4.0-to-qa",
+                     "promote/v1.4.0-to-stg",
+                     "promote/v1.4.0-to-prod",
+                     "test/az-1001-web-consulta-expedientes-dd"
+                 ],
+    "findings":  [
+                     "QA certifica v1.1.0 (A); falta la aprobacion del cliente: A se queda en qa"
+                 ]
+}

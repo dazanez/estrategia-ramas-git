@@ -1,0 +1,11 @@
+# Caso 10 (G1): Hotfix v1.0.0.1 (cuarta posicion) a qa ANTES del PR del hotfix a sbx: solo stg y prod lo aceptan
+# PR: promote/v1.0.0.1-to-qa -> qa   modo: build validation (commit de merge del PR)
+# Esperado: FALLA SBX   Obtenido: FALLA
+
+Validar-PR  origen=promote/v1.0.0.1-to-qa  destino=qa
+OK     PROMOTE-NOMBRE   R6           Promocion de v1.0.0.1 hacia qa.
+OK     PROMOTE-TAG      R6           La rama apunta exactamente al tag anotado v1.0.0.1.
+ERROR  SBX              I2           El hotfix v1.0.0.1 no ha entrado a sbx: haga primero el PR de la rama del hotfix a sbx (seccion 5.2). Solo stg y prod aceptan un hotfix antes de que pase por sbx (por urgencia); a qa no llega nada que no este en la linea base.
+ERROR  HOTFIX-BASE      Versionado   La cuarta posicion se pone sobre el tag de produccion (v1.0.0.1); v1.0.0.1 no corresponde.
+ERROR  RESULTADO        I1           Tras el PR, qa NO seria igual a v1.0.0.1: quedaria una mezcla que no es ninguna version (archivos: modulo-a.txt). qa tiene cambios que v1.0.0.1 no contiene: 98f225d feat(modulo-a): add HU 1001. Causa probable: el tag no incorpora lo que ya tiene qa (regla de cadena, R3).
+RESULTADO: RECHAZADO (3 error(es), 0 aviso(s))

@@ -1,0 +1,262 @@
+﻿{
+    "escenario":  "02",
+    "variante":  "2c",
+    "mergeMode":  "ff",
+    "clones":  [
+                   "dev1",
+                   "dev2"
+               ],
+    "tags":  {
+                 "v1.0.0":  {
+                                "object":  "2f201eaf2b7d2a8e6c2a76cb23ce25734efd9354",
+                                "commit":  "6c755ac0f0b9c85ec2d21a387d3106a864aa52af",
+                                "dev":  "dev1"
+                            },
+                 "v1.2.0":  {
+                                "object":  "ec70b99bad47a4360ca8e014c4a1de1a873368b5",
+                                "commit":  "7a7886ffe783e40d241e851a0e5be1a9b90a739d",
+                                "dev":  "dev1"
+                            },
+                 "v1.3.0":  {
+                                "object":  "8974cda6bed6d1ea5500983db152cb9cf2f6ea2e",
+                                "commit":  "aece85d600102a2dafcd6385bdd7f382ea7f629c",
+                                "dev":  "dev2"
+                            },
+                 "v1.2.0.1":  {
+                                  "object":  "d6762d457e47fd6cfa5bdf74d848e84155939824",
+                                  "commit":  "ec6d3c362814ea6a3687f174286d670e8b680d2a",
+                                  "dev":  "dev1"
+                              },
+                 "v1.3.1":  {
+                                "object":  "d4c443cb23ef39c56b344156d511e81508b9ea4d",
+                                "commit":  "501ef5f2aa27c3803c2fceab1b28569fc18d1c9a",
+                                "dev":  "dev1"
+                            }
+             },
+    "promotions":  [
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.2.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.2.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.2.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.3.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.2.0.1",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.2.0.1",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.3.1",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.3.1",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.3.1",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       }
+                   ],
+    "merges":  [
+                   {
+                       "source":  "HU_2.200_PC",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0-to-stg",
+                       "target":  "stg",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0-to-prod",
+                       "target":  "prod",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_2.300_DD",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_2.400_DD",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0.1-to-stg",
+                       "target":  "stg",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0.1-to-prod",
+                       "target":  "prod",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.1-to-qa",
+                       "target":  "qa",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "BUG_GLPI_13487_PC",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  false,
+                       "kind":  "pr",
+                       "detail":  "fatal: Not possible to fast-forward, aborting."
+                   },
+                   {
+                       "source":  "BUG_GLPI_13487_PC",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.1-to-stg",
+                       "target":  "stg",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.1-to-prod",
+                       "target":  "prod",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   }
+               ],
+    "branches":  [
+                     "HU_2.200_PC",
+                     "promote/v1.2.0-to-qa",
+                     "promote/v1.2.0-to-stg",
+                     "promote/v1.2.0-to-prod",
+                     "HU_2.300_DD",
+                     "promote/v1.3.0-to-qa",
+                     "HU_2.400_DD",
+                     "BUG_GLPI_13487_PC",
+                     "promote/v1.2.0.1-to-stg",
+                     "promote/v1.2.0.1-to-prod",
+                     "promote/v1.3.1-to-qa",
+                     "promote/v1.3.1-to-stg",
+                     "promote/v1.3.1-to-prod"
+                 ],
+    "findings":  [
+                     "PR BUG_GLPI_13487_PC -\u003e sbx [ff] bloqueado: fatal: Not possible to fast-forward, aborting.",
+                     "Conflicto al actualizar BUG_GLPI_13487_PC con origin/sbx en: modulo-a.txt (se resuelve en la rama de trabajo)",
+                     "v1.3.1 contiene el hotfix: True ; contiene la HU no aprobada de sbx: False",
+                     "Contenido de v1.2.0.1: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-a.txt:L2=\u0027HOTFIX GLPI-13487\u0027",
+                     "Contenido de v1.3.1: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-a.txt:L2=\u0027HOTFIX GLPI-13487\u0027 ; modulo-b.txt:L1=\u0027pantalla v1.3\u0027",
+                     "Contenido de qa: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-a.txt:L2=\u0027HOTFIX GLPI-13487\u0027 ; modulo-b.txt:L1=\u0027pantalla v1.3\u0027",
+                     "Contenido de stg: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-a.txt:L2=\u0027HOTFIX GLPI-13487\u0027 ; modulo-b.txt:L1=\u0027pantalla v1.3\u0027",
+                     "Contenido de prod: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-a.txt:L2=\u0027HOTFIX GLPI-13487\u0027 ; modulo-b.txt:L1=\u0027pantalla v1.3\u0027",
+                     "Contenido de sbx: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-a.txt:L2=\u0027validacion v1.4 (en sbx, sin tag) + HOTFIX GLPI-13487\u0027 ; modulo-b.txt:L1=\u0027pantalla v1.3\u0027"
+                 ]
+}

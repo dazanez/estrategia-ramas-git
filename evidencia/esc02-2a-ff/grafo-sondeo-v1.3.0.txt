@@ -1,0 +1,8 @@
+*   896aace (HEAD -> sbx) Merge origin/sbx en BUG_GLPI_13487_PC (actualizacion de rama de trabajo)
+|\  
+| * f769ef6 feat(modulo-a): add validacion v1.4
+| * 412f826 (tag: v1.3.0, stg, qa) feat(modulo-b): add pantalla v1.3
+* | 1020d5f (tag: v1.2.0.1, prod) fix(modulo-a): corrige caida del login por token nulo (GLPI 13487)
+|/  
+* 5a14d4a (tag: v1.2.0) feat(modulo-a): add login v1.2
+* 231e8d4 (tag: v1.0.0) chore: estructura inicial del repositorio

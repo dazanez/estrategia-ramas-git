@@ -1,0 +1,47 @@
+INVARIANTES  escenario=autotest variante=violaciones inyectadas merge=noff
+[FAIL] I1
+      qa: git diff v1.0.0 qa -> NO vacio:
+            diff --git a/modulo-a.txt b/modulo-a.txt
+            index 4284194..53ede2a 100644
+            --- a/modulo-a.txt
+            +++ b/modulo-a.txt
+            @@ -1,4 +1,4 @@
+            -modulo-a.txt L1: base
+            +cambio directo en qa
+             modulo-a.txt L2: base
+             modulo-a.txt L3: base
+             modulo-a.txt L4: base
+      stg: git diff v1.0.0 stg -> vacio
+      prod: git diff v9.9.9 prod -> vacio
+[FAIL] I2
+      v1.0.0 es ancestro de sbx
+      v9.9.9 NO es ancestro de sbx (existe en un ambiente sin existir en la linea base)
+[FAIL] I3
+      VIOLACION (auditoria): 'git merge --no-ff -m "merge qa en sbx" origin/qa' en dev1 sobre 'sbx' integra 'origin/qa' (rango 1) en rango 0
+      auditoria: 3 operaciones de integracion revisadas
+      VIOLACION (estructural): commit de ambiente superior 'fb9dc67 fix: cambio directo en qa' es alcanzable desde sbx
+      estructural: 3 commits propios de ambiente revisados, 1 fuera de lugar
+[FAIL] I4
+      rama feature/login: NO cumple nomenclatura
+      rama HU_6.99999_DD: OK
+      rama prod: OK
+      rama promote/v9.9.9-to-prod: OK
+      rama qa: OK
+      rama sbx: OK
+      rama stg: OK
+      tag v1.0.0: nombre OK, tipo anotado OK
+      tag v9.9.9: nombre OK, tipo anotado OK
+[FAIL] I5
+      origin: ramas temporales sin borrar: HU_6.99999_DD, feature/login
+      dev1: ramas locales temporales sin borrar: feature/login
+      dev2: ramas locales temporales sin borrar: HU_6.99999_DD
+[OK] I6
+      tag v1.0.0: intacto (80e3f933 -> commit cbfd9916)
+      tag v9.9.9: intacto (f55a3c9f -> commit 715e2706)
+      auditoria: sin 'tag -f/-d' ni force-push
+[FAIL] I7
+      tags vigentes: qa=v1.0.0  stg=v1.0.0  prod=v9.9.9
+      stg DESACTUALIZADA respecto a prod: le faltan 1 commit(s) de v9.9.9
+            715e270 feat: HU nunca integrada
+      stg contiene todo lo de qa (v1.0.0)
+      contenido stg == prod: False

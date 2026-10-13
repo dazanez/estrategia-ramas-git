@@ -1,0 +1,19 @@
+*   dddf738 (prod) Merge PR: promote/v1.1.0-to-prod -> prod (--no-ff)
+|\  
+| | * ebb8d54 (stg) Merge PR: promote/v1.1.0-to-stg -> stg (--no-ff)
+| |/| 
+|/|/  
+| | * 832d1c8 (qa) Merge PR: promote/v1.1.0-to-qa -> qa (--no-ff)
+| |/| 
+|/|/  
+| | *   8426035 (HEAD -> sbx) Merge PR: HU_6.32154_PC -> sbx (--no-ff)
+| | |\  
+| | |/  
+| |/|   
+| * | 2f124c3 (tag: v1.1.0) feat(modulo-a): add validacion de tokens
+|/ /  
+| * a59716e Merge PR: HU_6.32100_DD -> sbx (--no-ff)
+|/| 
+| * 3fd37f6 feat(modulo-b): add cambio HU 32100
+|/  
+* 8fe8ab7 (tag: v1.0.0) chore: estructura inicial del repositorio

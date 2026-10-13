@@ -1,0 +1,247 @@
+﻿#POC escenario=validar-pr-G2 variante=cadena mergeMode=noff fecha=2026-10-09T15:06:39
+CMD	1	-	-	0	git init --bare --initial-branch=sbx origin.git
+   | Initialized empty Git repository in D:/Desarrollos/Git Migration/poc-ramas/runs/vpr-g2-cadena/origin.git/
+CMD	2	origin	sbx	0	git config receive.denyNonFastForwards true
+#STEP	E0: clones de dos desarrolladores (PC = Pablo Castro, DD = Daniel Duran)
+CMD	3	-	-	0	git clone -q origin.git dev1
+   | warning: You appear to have cloned an empty repository.
+CMD	4	dev1	sbx	0	git config user.name "Pablo Castro"
+CMD	5	dev1	sbx	0	git config user.email pc@poc.local
+CMD	6	dev1	sbx	0	git config core.autocrlf false
+CMD	7	dev1	sbx	0	git config pull.ff only
+CMD	8	-	-	0	git clone -q origin.git dev2
+   | warning: You appear to have cloned an empty repository.
+CMD	9	dev2	sbx	0	git config user.name "Daniel Duran"
+CMD	10	dev2	sbx	0	git config user.email dd@poc.local
+CMD	11	dev2	sbx	0	git config core.autocrlf false
+CMD	12	dev2	sbx	0	git config pull.ff only
+#STEP	E0: commit inicial en sbx (arranque del repositorio: unica escritura directa en sbx)
+CMD	13	dev1	sbx	0	git checkout -q -b sbx
+CMD	14	dev1	sbx	0	git add .
+CMD	15	dev1	sbx	0	git commit -q -m "chore: estructura inicial del repositorio"
+CMD	16	dev1	sbx	0	git push -q -u origin sbx
+#STEP	E0: tag v1.0.0 sobre sbx
+CMD	17	dev1	sbx	0	git tag -a v1.0.0 HEAD -m "v1.0.0: linea base inicial"
+CMD	18	dev1	sbx	0	git push -q origin v1.0.0
+CMD	19	origin	sbx	0	git rev-parse refs/tags/v1.0.0
+   | b177db8b4468dd67be7332ac5e9da316ade73706
+CMD	20	origin	sbx	0	git rev-parse refs/tags/v1.0.0^{commit}
+   | 8e30dc2650e4841f9f33a5595bd3adae09bad4ad
+#STEP	E0: creacion de qa, stg y prod desde v1.0.0 (lo hace Soporte al crear el repo, DES-EST-016 4.4.1)
+CMD	21	origin	sbx	0	git branch qa v1.0.0^{commit}
+CMD	22	origin	sbx	0	git branch stg v1.0.0^{commit}
+CMD	23	origin	sbx	0	git branch prod v1.0.0^{commit}
+CMD	24	dev1	sbx	0	git fetch -q --tags origin
+CMD	25	dev2	sbx	0	git fetch -q --tags origin
+CMD	26	dev2	sbx	0	git checkout -q sbx
+CMD	27	-	-	0	git clone -q -c core.autocrlf=false origin.git ci
+CMD	28	ci	sbx	0	git config user.name "Azure DevOps (build validation)"
+CMD	29	ci	sbx	0	git config user.email ci@poc.local
+CMD	30	ci	sbx	0	git checkout -q --detach origin/sbx
+#STEP	G2.1 A (formato anterior) y B (formato nuevo) desde v1.0.0; A sale a qa
+CMD	31	dev1	sbx	0	git fetch -q --tags origin
+CMD	32	dev1	sbx	0	git checkout -q tags/v1.0.0 -b HU_12.2001_PC
+CMD	33	dev1	HU_12.2001_PC	0	git push -q -u origin HU_12.2001_PC
+CMD	34	dev1	HU_12.2001_PC	0	git add modulo-a.txt
+CMD	35	dev1	HU_12.2001_PC	0	git commit -q -m "feat(modulo-a): add HU 2001"
+CMD	36	dev1	HU_12.2001_PC	0	git symbolic-ref --short HEAD
+   | HU_12.2001_PC
+CMD	37	dev1	HU_12.2001_PC	0	git push -q origin HU_12.2001_PC
+CMD	38	dev2	sbx	0	git fetch -q --tags origin
+CMD	39	dev2	sbx	0	git checkout -q tags/v1.0.0 -b feature/az-2002-firma-digital-dd
+CMD	40	dev2	feature/az-2002-firma-digital-dd	0	git push -q -u origin feature/az-2002-firma-digital-dd
+CMD	41	dev2	feature/az-2002-firma-digital-dd	0	git add modulo-b.txt
+CMD	42	dev2	feature/az-2002-firma-digital-dd	0	git commit -q -m "feat(modulo-b): add HU 2002"
+CMD	43	dev2	feature/az-2002-firma-digital-dd	0	git symbolic-ref --short HEAD
+   | feature/az-2002-firma-digital-dd
+CMD	44	dev2	feature/az-2002-firma-digital-dd	0	git push -q origin feature/az-2002-firma-digital-dd
+CMD	45	dev1	HU_12.2001_PC	0	git tag -a v1.1.0 HEAD -m "v1.1.0: HU 2001"
+CMD	46	dev1	HU_12.2001_PC	0	git push -q origin v1.1.0
+CMD	47	origin	sbx	0	git rev-parse refs/tags/v1.1.0
+   | f860324750675728baaef90ed9fe92371b5a23aa
+CMD	48	origin	sbx	0	git rev-parse refs/tags/v1.1.0^{commit}
+   | 6838e4681cbb6715f6ea3bdf2ec612ddcdd86089
+CMD	49	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	50	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	51	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: HU_12.2001_PC into sbx" origin/HU_12.2001_PC
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	52	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	53	dev1	HU_12.2001_PC	0	git fetch -q --tags origin
+CMD	54	dev1	HU_12.2001_PC	0	git rev-parse -q --verify refs/heads/sbx
+   | 8e30dc2650e4841f9f33a5595bd3adae09bad4ad
+CMD	55	dev1	HU_12.2001_PC	0	git checkout -q sbx
+CMD	56	dev1	sbx	0	git pull -q --ff-only origin sbx
+CMD	57	dev1	sbx	0	git rev-parse -q --verify refs/remotes/origin/HU_12.2001_PC
+   | 6838e4681cbb6715f6ea3bdf2ec612ddcdd86089
+CMD	58	dev1	sbx	0	git merge --no-ff -m "Merge PR: HU_12.2001_PC -> sbx (--no-ff)" origin/HU_12.2001_PC
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	59	dev1	sbx	0	git push -q origin sbx
+CMD	60	dev1	sbx	0	git checkout -q sbx
+CMD	61	dev1	sbx	0	git branch -d HU_12.2001_PC
+   | Deleted branch HU_12.2001_PC (was 6838e46).
+CMD	62	dev1	sbx	0	git push -q origin --delete HU_12.2001_PC
+CMD	63	dev1	sbx	0	git fetch -q --tags origin
+CMD	64	dev1	sbx	0	git checkout -q tags/v1.1.0 -b promote/v1.1.0-to-qa
+CMD	65	dev1	promote/v1.1.0-to-qa	0	git push -q -u origin promote/v1.1.0-to-qa
+CMD	66	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	67	ci	(detached)	0	git checkout -q --detach origin/qa
+CMD	68	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: promote/v1.1.0-to-qa into qa" origin/promote/v1.1.0-to-qa
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	69	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	70	dev1	promote/v1.1.0-to-qa	0	git fetch -q --tags origin
+CMD	71	dev1	promote/v1.1.0-to-qa	1	git rev-parse -q --verify refs/heads/qa
+CMD	72	dev1	promote/v1.1.0-to-qa	0	git checkout -q -b qa --track origin/qa
+CMD	73	dev1	qa	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.1.0-to-qa
+   | 6838e4681cbb6715f6ea3bdf2ec612ddcdd86089
+CMD	74	dev1	qa	0	git merge --no-ff -m "Merge PR: promote/v1.1.0-to-qa -> qa (--no-ff)" origin/promote/v1.1.0-to-qa
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	75	dev1	qa	0	git push -q origin qa
+CMD	76	dev1	qa	0	git checkout -q sbx
+CMD	77	dev1	sbx	0	git branch -d promote/v1.1.0-to-qa
+   | Deleted branch promote/v1.1.0-to-qa (was 6838e46).
+CMD	78	dev1	sbx	0	git push -q origin --delete promote/v1.1.0-to-qa
+#STEP	G2.2 B se etiqueta sin aplicar la regla de cadena
+CMD	79	dev2	feature/az-2002-firma-digital-dd	0	git tag -a v1.2.0 HEAD -m "v1.2.0: HU 2002 (sin regla de cadena)"
+CMD	80	dev2	feature/az-2002-firma-digital-dd	0	git push -q origin v1.2.0
+CMD	81	origin	sbx	0	git rev-parse refs/tags/v1.2.0
+   | 617baff9e924d22e32cd0e6fc670078c4d0d1e3e
+CMD	82	origin	sbx	0	git rev-parse refs/tags/v1.2.0^{commit}
+   | e2dd4f457d900e217f791c01c8a7f514b6af09cb
+CMD	83	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	84	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	85	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: feature/az-2002-firma-digital-dd into sbx" origin/feature/az-2002-firma-digital-dd
+   | Merge made by the 'recursive' strategy.
+   |  modulo-b.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	86	ci	(detached)	0	git checkout -q --detach origin/sbx
+#STEP	G2.3 Alguien se salta la validacion y completa el PR igual (bypass de politicas)
+CMD	87	dev2	feature/az-2002-firma-digital-dd	0	git fetch -q --tags origin
+CMD	88	dev2	feature/az-2002-firma-digital-dd	0	git rev-parse -q --verify refs/heads/sbx
+   | 8e30dc2650e4841f9f33a5595bd3adae09bad4ad
+CMD	89	dev2	feature/az-2002-firma-digital-dd	0	git checkout -q sbx
+CMD	90	dev2	sbx	0	git pull -q --ff-only origin sbx
+CMD	91	dev2	sbx	0	git rev-parse -q --verify refs/remotes/origin/feature/az-2002-firma-digital-dd
+   | e2dd4f457d900e217f791c01c8a7f514b6af09cb
+CMD	92	dev2	sbx	0	git merge --no-ff -m "Merge PR: feature/az-2002-firma-digital-dd -> sbx (--no-ff)" origin/feature/az-2002-firma-digital-dd
+   | Merge made by the 'recursive' strategy.
+   |  modulo-b.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	93	dev2	sbx	0	git push -q origin sbx
+CMD	94	dev2	sbx	0	git checkout -q sbx
+CMD	95	dev2	sbx	0	git branch -d feature/az-2002-firma-digital-dd
+   | Deleted branch feature/az-2002-firma-digital-dd (was e2dd4f4).
+CMD	96	dev2	sbx	0	git push -q origin --delete feature/az-2002-firma-digital-dd
+CMD	97	dev2	sbx	0	git fetch -q --tags origin
+CMD	98	dev2	sbx	0	git checkout -q tags/v1.2.0 -b promote/v1.2.0-to-qa
+CMD	99	dev2	promote/v1.2.0-to-qa	0	git push -q -u origin promote/v1.2.0-to-qa
+CMD	100	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	101	ci	(detached)	0	git checkout -q --detach origin/qa
+CMD	102	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: promote/v1.2.0-to-qa into qa" origin/promote/v1.2.0-to-qa
+   | Merge made by the 'recursive' strategy.
+   |  modulo-b.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	103	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	104	dev2	promote/v1.2.0-to-qa	0	git checkout -q sbx
+CMD	105	dev2	sbx	0	git branch -D promote/v1.2.0-to-qa
+   | Deleted branch promote/v1.2.0-to-qa (was e2dd4f4).
+CMD	106	dev2	sbx	0	git push -q origin --delete promote/v1.2.0-to-qa
+#STEP	G2.4 Regularizacion: rama desde v1.2.0 que incorpora v1.1.0, tag v1.2.1
+CMD	107	dev2	sbx	0	git fetch -q --tags origin
+CMD	108	dev2	sbx	0	git checkout -q tags/v1.2.0 -b bug/az-2003-regulariza-cadena-dd
+CMD	109	dev2	bug/az-2003-regulariza-cadena-dd	0	git push -q -u origin bug/az-2003-regulariza-cadena-dd
+CMD	110	dev2	bug/az-2003-regulariza-cadena-dd	0	git fetch -q --tags origin
+CMD	111	dev2	bug/az-2003-regulariza-cadena-dd	0	git checkout -q bug/az-2003-regulariza-cadena-dd
+CMD	112	dev2	bug/az-2003-regulariza-cadena-dd	0	git merge --no-ff -m "Merge v1.1.0 en bug/az-2003-regulariza-cadena-dd (actualizacion de rama de trabajo)" v1.1.0
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	113	dev2	bug/az-2003-regulariza-cadena-dd	0	git push -q origin bug/az-2003-regulariza-cadena-dd
+CMD	114	dev2	bug/az-2003-regulariza-cadena-dd	0	git tag -a v1.2.1 HEAD -m "v1.2.1: regulariza la cadena (v1.2.0 + v1.1.0)
+
+Descarta: v1.2.0"
+CMD	115	dev2	bug/az-2003-regulariza-cadena-dd	0	git push -q origin v1.2.1
+CMD	116	origin	sbx	0	git rev-parse refs/tags/v1.2.1
+   | 37821daa353c76cbce0245345a7bf49ab706edfa
+CMD	117	origin	sbx	0	git rev-parse refs/tags/v1.2.1^{commit}
+   | 8b9f535fd3ce2746c0ec9fda884ead4c561b321e
+CMD	118	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	119	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	120	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: bug/az-2003-regulariza-cadena-dd into sbx" origin/bug/az-2003-regulariza-cadena-dd
+   | Already up to date.
+   | Merge made by the 'recursive' strategy.
+CMD	121	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	122	dev2	bug/az-2003-regulariza-cadena-dd	0	git fetch -q --tags origin
+CMD	123	dev2	bug/az-2003-regulariza-cadena-dd	0	git rev-parse -q --verify refs/heads/sbx
+   | 79303aea960c29c1bb080c1cb7d96bdeddd83be7
+CMD	124	dev2	bug/az-2003-regulariza-cadena-dd	0	git checkout -q sbx
+CMD	125	dev2	sbx	0	git pull -q --ff-only origin sbx
+CMD	126	dev2	sbx	0	git rev-parse -q --verify refs/remotes/origin/bug/az-2003-regulariza-cadena-dd
+   | 8b9f535fd3ce2746c0ec9fda884ead4c561b321e
+CMD	127	dev2	sbx	0	git merge --no-ff -m "Merge PR: bug/az-2003-regulariza-cadena-dd -> sbx (--no-ff)" origin/bug/az-2003-regulariza-cadena-dd
+   | Already up to date.
+   | Merge made by the 'recursive' strategy.
+CMD	128	dev2	sbx	0	git push -q origin sbx
+CMD	129	dev2	sbx	0	git checkout -q sbx
+CMD	130	dev2	sbx	0	git branch -d bug/az-2003-regulariza-cadena-dd
+   | Deleted branch bug/az-2003-regulariza-cadena-dd (was 8b9f535).
+CMD	131	dev2	sbx	0	git push -q origin --delete bug/az-2003-regulariza-cadena-dd
+CMD	132	dev2	sbx	0	git fetch -q --tags origin
+CMD	133	dev2	sbx	0	git checkout -q tags/v1.2.1 -b promote/v1.2.1-to-qa
+CMD	134	dev2	promote/v1.2.1-to-qa	0	git push -q -u origin promote/v1.2.1-to-qa
+CMD	135	ci	(detached)	0	git fetch -q --tags --prune origin
+CMD	136	ci	(detached)	0	git checkout -q --detach origin/qa
+CMD	137	ci	(detached)	0	git -c user.name=AzureDevOps -c user.email=azure@poc.local merge --no-ff --no-edit -m "Merged PR: promote/v1.2.1-to-qa into qa" origin/promote/v1.2.1-to-qa
+   | Merge made by the 'recursive' strategy.
+   |  modulo-b.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	138	ci	(detached)	0	git checkout -q --detach origin/sbx
+CMD	139	dev2	promote/v1.2.1-to-qa	0	git fetch -q --tags origin
+CMD	140	dev2	promote/v1.2.1-to-qa	1	git rev-parse -q --verify refs/heads/qa
+CMD	141	dev2	promote/v1.2.1-to-qa	0	git checkout -q -b qa --track origin/qa
+CMD	142	dev2	qa	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.2.1-to-qa
+   | 8b9f535fd3ce2746c0ec9fda884ead4c561b321e
+CMD	143	dev2	qa	0	git merge --no-ff -m "Merge PR: promote/v1.2.1-to-qa -> qa (--no-ff)" origin/promote/v1.2.1-to-qa
+   | Merge made by the 'recursive' strategy.
+   |  modulo-b.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	144	dev2	qa	0	git push -q origin qa
+CMD	145	dev2	qa	0	git checkout -q sbx
+CMD	146	dev2	sbx	0	git branch -d promote/v1.2.1-to-qa
+   | Deleted branch promote/v1.2.1-to-qa (was 8b9f535).
+CMD	147	dev2	sbx	0	git push -q origin --delete promote/v1.2.1-to-qa
+CMD	148	origin	sbx	0	git diff --quiet v1.2.1 qa
+CMD	149	origin	sbx	0	git diff --quiet v1.2.1 sbx
+CMD	150	origin	sbx	0	git log --oneline --graph --all --decorate
+   | *   fae1305 (qa) Merge PR: promote/v1.2.1-to-qa -> qa (--no-ff)
+   | |\  
+   | * \   8e6a579 Merge PR: promote/v1.1.0-to-qa -> qa (--no-ff)
+   | |\ \  
+   | | | | *   45796cd (HEAD -> sbx) Merge PR: bug/az-2003-regulariza-cadena-dd -> sbx (--no-ff)
+   | | | | |\  
+   | | | | |/  
+   | | | |/|   
+   | | | * |   8b9f535 (tag: v1.2.1) Merge v1.1.0 en bug/az-2003-regulariza-cadena-dd (actualizacion de rama de trabajo)
+   | | | |\ \  
+   | | | |/ /  
+   | | |/| |   
+   | | | | *   79303ae Merge PR: feature/az-2002-firma-digital-dd -> sbx (--no-ff)
+   | | | | |\  
+   | | | | |/  
+   | | | |/|   
+   | | | * | e2dd4f4 (tag: v1.2.0) feat(modulo-b): add HU 2002
+   | | |/ /  
+   | |/| |   
+   | | | * 1343bb9 Merge PR: HU_12.2001_PC -> sbx (--no-ff)
+   | | |/| 
+   | |/|/  
+   | | * 6838e46 (tag: v1.1.0) feat(modulo-a): add HU 2001
+   | |/  
+   | * 8e30dc2 (tag: v1.0.0, stg, prod) chore: estructura inicial del repositorio

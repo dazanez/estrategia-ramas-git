@@ -1,0 +1,49 @@
+﻿#POC escenario=00 variante=arranque mergeMode=n/a fecha=2026-09-28T10:29:38
+CMD	1	-	-	0	git init --bare --initial-branch=sbx origin.git
+   | Initialized empty Git repository in D:/Desarrollos/Git Migration/poc-ramas/runs/esc00/origin.git/
+CMD	2	origin	sbx	0	git config receive.denyNonFastForwards true
+#STEP	E0: clones de dos desarrolladores (PC = Pablo Castro, DD = Daniel Duran)
+CMD	3	-	-	0	git clone -q origin.git dev1
+   | warning: You appear to have cloned an empty repository.
+CMD	4	dev1	sbx	0	git config user.name "Pablo Castro"
+CMD	5	dev1	sbx	0	git config user.email pc@poc.local
+CMD	6	dev1	sbx	0	git config core.autocrlf false
+CMD	7	dev1	sbx	0	git config pull.ff only
+CMD	8	-	-	0	git clone -q origin.git dev2
+   | warning: You appear to have cloned an empty repository.
+CMD	9	dev2	sbx	0	git config user.name "Daniel Duran"
+CMD	10	dev2	sbx	0	git config user.email dd@poc.local
+CMD	11	dev2	sbx	0	git config core.autocrlf false
+CMD	12	dev2	sbx	0	git config pull.ff only
+#STEP	E0: commit inicial en sbx (arranque del repositorio: unica escritura directa en sbx)
+CMD	13	dev1	sbx	0	git checkout -q -b sbx
+CMD	14	dev1	sbx	0	git add .
+CMD	15	dev1	sbx	0	git commit -q -m "chore: estructura inicial del repositorio"
+CMD	16	dev1	sbx	0	git push -q -u origin sbx
+#STEP	E0: tag v1.0.0 sobre sbx
+CMD	17	dev1	sbx	0	git tag -a v1.0.0 HEAD -m "v1.0.0: linea base inicial"
+CMD	18	dev1	sbx	0	git push -q origin v1.0.0
+CMD	19	origin	sbx	0	git rev-parse refs/tags/v1.0.0
+   | 8aaa767e63201d6e9d184d92dd82b11229f81d42
+CMD	20	origin	sbx	0	git rev-parse refs/tags/v1.0.0^{commit}
+   | 27692c1d12f1ec93e530121ff3738804fa8fd473
+#STEP	E0: creacion de qa, stg y prod desde v1.0.0 (lo hace Soporte al crear el repo, DES-EST-016 4.4.1)
+CMD	21	origin	sbx	0	git branch qa v1.0.0^{commit}
+CMD	22	origin	sbx	0	git branch stg v1.0.0^{commit}
+CMD	23	origin	sbx	0	git branch prod v1.0.0^{commit}
+CMD	24	dev1	sbx	0	git fetch -q --tags origin
+CMD	25	dev2	sbx	0	git fetch -q --tags origin
+CMD	26	dev2	sbx	0	git checkout -q sbx
+#STEP	E0: comprobaciones de estado
+CMD	27	origin	sbx	0	git log -1 "--format=%h %d %s" sbx
+   | 27692c1  (HEAD -> sbx, tag: v1.0.0, stg, qa, prod) chore: estructura inicial del repositorio
+CMD	28	origin	sbx	0	git log -1 "--format=%h %d %s" qa
+   | 27692c1  (HEAD -> sbx, tag: v1.0.0, stg, qa, prod) chore: estructura inicial del repositorio
+CMD	29	origin	sbx	0	git log -1 "--format=%h %d %s" stg
+   | 27692c1  (HEAD -> sbx, tag: v1.0.0, stg, qa, prod) chore: estructura inicial del repositorio
+CMD	30	origin	sbx	0	git log -1 "--format=%h %d %s" prod
+   | 27692c1  (HEAD -> sbx, tag: v1.0.0, stg, qa, prod) chore: estructura inicial del repositorio
+CMD	31	origin	sbx	0	git symbolic-ref HEAD
+   | refs/heads/sbx
+CMD	32	origin	sbx	0	git log --oneline --graph --all --decorate
+   | * 27692c1 (HEAD -> sbx, tag: v1.0.0, stg, qa, prod) chore: estructura inicial del repositorio

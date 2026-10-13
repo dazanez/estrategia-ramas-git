@@ -1,0 +1,194 @@
+﻿{
+    "escenario":  "04",
+    "variante":  "4a-otro",
+    "mergeMode":  "ff",
+    "clones":  [
+                   "dev1",
+                   "dev2"
+               ],
+    "tags":  {
+                 "v1.0.0":  {
+                                "object":  "0504cbb8e5a12e053803d147ac88c403b912d670",
+                                "commit":  "f2fa6b90f450c895e62ea0ef074f2c12bd34e26e",
+                                "dev":  "dev1"
+                            },
+                 "v1.3.0":  {
+                                "object":  "d32fbc89313c58a94d3b61fc37971227fc396dc7",
+                                "commit":  "491b866a36be738ff5d61a49a09373a25d80b207",
+                                "dev":  "dev1"
+                            },
+                 "v1.3.0.1":  {
+                                  "object":  "1da431de6ba1ef9331de877bac982f5a4a370c93",
+                                  "commit":  "dcbed1a322477af79dc8707886117bdcb5bf1e67",
+                                  "dev":  "dev2"
+                              },
+                 "v1.3.0.2":  {
+                                  "object":  "fc48bc8335c1eb4784b6194d8dbfb9a46eb15824",
+                                  "commit":  "2b9ee1b897464f4bfa2e5986d8ebbb14f7d560f5",
+                                  "dev":  "dev2"
+                              }
+             },
+    "promotions":  [
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.3.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.3.0.1",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.3.0.2",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.3.0.2",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.3.0.2",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       }
+                   ],
+    "merges":  [
+                   {
+                       "source":  "HU_6.30000_PC",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_6.30500_PC",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "BUG_AZ_65487_DD",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  false,
+                       "kind":  "pr",
+                       "detail":  "fatal: Not possible to fast-forward, aborting."
+                   },
+                   {
+                       "source":  "BUG_AZ_65487_DD",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0.1-to-qa",
+                       "target":  "qa",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "BUG_AZ_65488_DD",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0.2-to-qa",
+                       "target":  "qa",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0.2-to-stg",
+                       "target":  "stg",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0.2-to-prod",
+                       "target":  "prod",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   }
+               ],
+    "branches":  [
+                     "HU_6.30000_PC",
+                     "promote/v1.3.0-to-qa",
+                     "HU_6.30500_PC",
+                     "BUG_AZ_65487_DD",
+                     "promote/v1.3.0.1-to-qa",
+                     "BUG_AZ_65488_DD",
+                     "promote/v1.3.0.2-to-qa",
+                     "promote/v1.3.0.2-to-stg",
+                     "promote/v1.3.0.2-to-prod"
+                 ],
+    "findings":  [
+                     "QA rechaza v1.3.0 (bug AZ 65487)",
+                     "PR BUG_AZ_65487_DD -\u003e sbx [ff] bloqueado: fatal: Not possible to fast-forward, aborting.",
+                     "QA rechaza v1.3.0.1 (bug AZ 65488)",
+                     "El cambio ajeno HU_6.30500_PC se cuela en v1.3.0.1: True",
+                     "El cambio ajeno HU_6.30500_PC se cuela en v1.3.0.2: True",
+                     "Contenido de v1.3.0: modulo-a.txt:L1=\u0027funcionalidad v1.3\u0027",
+                     "Contenido de v1.3.0.1: modulo-a.txt:L1=\u0027funcionalidad v1.3\u0027 ; modulo-a.txt:L2=\u0027fix iteracion 1 (AZ 65487)\u0027 ; modulo-b.txt:L1=\u0027cambio ajeno NO aprobado (HU 30500)\u0027",
+                     "Contenido de v1.3.0.2: modulo-a.txt:L1=\u0027funcionalidad v1.3\u0027 ; modulo-a.txt:L2=\u0027fix iteracion 1 (AZ 65487)\u0027 ; modulo-a.txt:L3=\u0027fix iteracion 2 (AZ 65488)\u0027 ; modulo-b.txt:L1=\u0027cambio ajeno NO aprobado (HU 30500)\u0027",
+                     "Contenido de prod: modulo-a.txt:L1=\u0027funcionalidad v1.3\u0027 ; modulo-a.txt:L2=\u0027fix iteracion 1 (AZ 65487)\u0027 ; modulo-a.txt:L3=\u0027fix iteracion 2 (AZ 65488)\u0027 ; modulo-b.txt:L1=\u0027cambio ajeno NO aprobado (HU 30500)\u0027",
+                     "Contenido de sbx: modulo-a.txt:L1=\u0027funcionalidad v1.3\u0027 ; modulo-a.txt:L2=\u0027fix iteracion 1 (AZ 65487)\u0027 ; modulo-a.txt:L3=\u0027fix iteracion 2 (AZ 65488)\u0027 ; modulo-b.txt:L1=\u0027cambio ajeno NO aprobado (HU 30500)\u0027"
+                 ]
+}

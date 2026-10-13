@@ -1,0 +1,13 @@
+# Caso 42 (G3): Cuarta posicion v1.2.0.1 en feature/
+# PR: feature/az-3006-cuarta-posicion-pc -> sbx   modo: build validation (commit de merge del PR)
+# Esperado: FALLA CUARTA-POSICION   Obtenido: FALLA
+
+Validar-PR  origen=feature/az-3006-cuarta-posicion-pc  destino=sbx
+OK     NOMBRE           Seccion 2    La rama cumple <tipo>/<sistema>-<id>-<descripcion>-<iniciales>.
+OK     TAG              R4           La punta tiene el tag anotado v1.2.0.1.
+ERROR  CUARTA-POSICION  Versionado   v1.2.0.1 usa cuarta posicion, que es solo para hotfix (rama hotfix/). Un requerimiento sube el minor y una correccion sube el patch.
+OK     VERSION          Versionado   v1.2.0.1 es mayor que el ultimo tag existente (v1.2.0).
+AVISO  DESCARTADOS      R10          Tags descartados que no se exigen en la cadena: v1.2.0.
+OK     CADENA           R3           La rama contiene el ultimo tag (v1.1.0).
+OK     RESULTADO        R5           Tras el PR, sbx sera identico a v1.2.0.1 (commit de merge del PR 7752d38b).
+RESULTADO: RECHAZADO (1 error(es), 1 aviso(s))

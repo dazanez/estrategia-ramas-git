@@ -1,0 +1,58 @@
+INVARIANTES  escenario=05 variante=5b merge=noff etapa=final
+[FAIL] I1
+      qa: git diff v1.2.0 qa -> NO vacio:
+            diff --git a/modulo-a.txt b/modulo-a.txt
+            index 4284194..4ece1ff 100644
+            --- a/modulo-a.txt
+            +++ b/modulo-a.txt
+            @@ -1,4 +1,4 @@
+            -modulo-a.txt L1: base
+            +A: HU 501 (aprobada)
+             modulo-a.txt L2: base
+             modulo-a.txt L3: base
+             modulo-a.txt L4: base
+      stg: git diff v1.0.0 stg -> vacio
+      prod: git diff v1.0.0 prod -> vacio
+[OK] I2
+      v1.0.0 es ancestro de sbx
+      v1.1.0 es ancestro de sbx
+      v1.2.0 es ancestro de sbx
+[OK] I3
+      auditoria: 9 operaciones de integracion revisadas
+      estructural: 5 commits propios de ambiente revisados, 0 fuera de lugar
+[OK] I4
+      rama HU_7.501_PC: OK
+      rama HU_7.502_DD: OK
+      rama HU_7.503_PC: OK
+      rama prod: OK
+      rama promote/v1.1.0-to-qa: OK
+      rama promote/v1.2.0-to-qa: OK
+      rama qa: OK
+      rama sbx: OK
+      rama stg: OK
+      tag v1.0.0: nombre OK, tipo anotado OK
+      tag v1.1.0: nombre OK, tipo anotado OK
+      tag v1.2.0: nombre OK, tipo anotado OK
+      tag v1.3.0: nombre OK, tipo anotado OK
+[OK] I5
+      origin: solo ramas de ambiente (prod, qa, sbx, stg)
+      dev1: ramas locales OK (qa, sbx)
+      dev2: ramas locales OK (sbx)
+[OK] I6
+      tag v1.0.0: intacto (e9d7e962 -> commit af31e0e7)
+      tag v1.1.0: intacto (35fbaa40 -> commit 89d63dd1)
+      tag v1.2.0: intacto (a50e5ec2 -> commit 9be0f8bf)
+      tag v1.3.0: intacto (ff43b83a -> commit 9ff67f3c)
+      auditoria: sin 'tag -f/-d' ni force-push
+[OK] I7
+      tags vigentes: qa=v1.2.0  stg=v1.0.0  prod=v1.0.0
+      stg contiene todo lo de prod
+      stg no tiene 2 commit(s) de qa [normal si hay una version en pruebas]
+      contenido stg == prod: True
+HECHOS registrados durante la ejecucion:
+  - El cliente aprueba solo A (HU_7.501) y B (HU_7.502); C (HU_7.503) no sale
+  - Tras promover v1.2.0 -> qa [noff], qa NO es igual a v1.2.0 (contenido extra en: modulo-a.txt)
+  - Tags que contienen exactamente A+B sin C: NINGUNO
+  - C en qa: False ; C en sbx: True (el proximo tag de sbx lo arrastrara)
+  - Contenido de qa: modulo-a.txt:L1='A: HU 501 (aprobada)' ; modulo-b.txt:L1='B: HU 502 (aprobada)'
+  - Contenido de sbx: modulo-a.txt:L1='A: HU 501 (aprobada)' ; modulo-b.txt:L1='B: HU 502 (aprobada)' ; comun.txt:L1='C: HU 503 (NO aprobada)'

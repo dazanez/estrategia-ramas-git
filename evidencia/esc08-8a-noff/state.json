@@ -1,0 +1,203 @@
+﻿{
+    "escenario":  "08",
+    "variante":  "8a",
+    "mergeMode":  "noff",
+    "clones":  [
+                   "dev1",
+                   "dev2"
+               ],
+    "tags":  {
+                 "v1.0.0":  {
+                                "object":  "1c2a7a40bc54bfd2b43c7f2d5c7514d6388b85ca",
+                                "commit":  "a337da7472cfb2466ae67ed6b88b5353dd051309",
+                                "dev":  "dev1"
+                            },
+                 "v1.1.0":  {
+                                "object":  "e8c5a360af5e31786568e6b77cf966f2f03dea76",
+                                "commit":  "49213344037737359ba5fe14a443d53b21f5a5bc",
+                                "dev":  "dev1"
+                            },
+                 "v1.2.0":  {
+                                "object":  "ffae5f6fb860aa2cc3a48413dc3e9b07ebb2c01f",
+                                "commit":  "2c7a8950e31cb0da54f777de0afee907c23ce2d7",
+                                "dev":  "dev1"
+                            },
+                 "v1.3.0":  {
+                                "object":  "ffb04c4e17334e884cbc8200f8beecfc600a3856",
+                                "commit":  "7993833a66837543a3503fef9691ca170ce4666b",
+                                "dev":  "dev2"
+                            }
+             },
+    "promotions":  [
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.2.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.2.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.2.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.3.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.3.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.3.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       }
+                   ],
+    "merges":  [
+                   {
+                       "source":  "HU_9.801_PC",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_9.802_DD",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_9.803_PC",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0-to-stg",
+                       "target":  "stg",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0-to-prod",
+                       "target":  "prod",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_9.804_DD",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0-to-stg",
+                       "target":  "stg",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0-to-prod",
+                       "target":  "prod",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   }
+               ],
+    "branches":  [
+                     "HU_9.801_PC",
+                     "HU_9.802_DD",
+                     "HU_9.803_PC",
+                     "promote/v1.2.0-to-qa",
+                     "promote/v1.2.0-to-stg",
+                     "promote/v1.2.0-to-prod",
+                     "HU_9.804_DD",
+                     "promote/v1.3.0-to-qa",
+                     "promote/v1.3.0-to-stg",
+                     "promote/v1.3.0-to-prod",
+                     "HU_9.805_PC"
+                 ],
+    "findings":  [
+                     "El cliente cancela HU 801",
+                     "HU 801 presente en v1.2.0: False",
+                     "HU 801 presente en v1.3.0: False",
+                     "HU 801 presente en qa: False",
+                     "HU 801 presente en prod: False",
+                     "Contenido de v1.1.0: modulo-a.txt:L1=\u0027HU 801 (luego CANCELADA)\u0027 ; modulo-b.txt:L1=\u0027HU 802\u0027",
+                     "Contenido de v1.2.0: modulo-b.txt:L1=\u0027HU 802\u0027",
+                     "Contenido de v1.3.0: modulo-b.txt:L1=\u0027HU 802\u0027 ; comun.txt:L1=\u0027HU 804\u0027",
+                     "Contenido de prod: modulo-b.txt:L1=\u0027HU 802\u0027 ; comun.txt:L1=\u0027HU 804\u0027",
+                     "Re-merge del commit original de HU 801: Already up to date. ; HU 801 presente en la rama: False"
+                 ]
+}

@@ -1,0 +1,69 @@
+﻿{
+    "escenario":  "autotest",
+    "variante":  "violaciones inyectadas",
+    "mergeMode":  "noff",
+    "clones":  [
+                   "dev1",
+                   "dev2"
+               ],
+    "tags":  {
+                 "v1.0.0":  {
+                                "object":  "80e3f9339566eb9caa0ac20ae50167d3565411d5",
+                                "commit":  "cbfd99165972e9efb15b0a510a7c914dfc86c2bd",
+                                "dev":  "dev1"
+                            },
+                 "v9.9.9":  {
+                                "object":  "f55a3c9ff2cfb6decf6237d4b2f2ae5d5ea851a6",
+                                "commit":  "715e2706e8ce2453a52eaa5b706b66893d6462e9",
+                                "dev":  "dev2"
+                            }
+             },
+    "promotions":  [
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v9.9.9",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       }
+                   ],
+    "merges":  [
+                   {
+                       "source":  "promote/v9.9.9-to-prod",
+                       "target":  "prod",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   }
+               ],
+    "branches":  [
+                     "HU_6.99999_DD",
+                     "promote/v9.9.9-to-prod",
+                     "feature/login"
+                 ],
+    "findings":  [
+
+                 ]
+}

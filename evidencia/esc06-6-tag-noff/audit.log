@@ -1,0 +1,215 @@
+﻿#POC escenario=06 variante=6-tag mergeMode=noff fecha=2026-09-28T10:50:53
+CMD	1	-	-	0	git init --bare --initial-branch=sbx origin.git
+   | Initialized empty Git repository in D:/Desarrollos/Git Migration/poc-ramas/runs/esc06-6-tag-noff/origin.git/
+CMD	2	origin	sbx	0	git config receive.denyNonFastForwards true
+#STEP	E0: clones de dos desarrolladores (PC = Pablo Castro, DD = Daniel Duran)
+CMD	3	-	-	0	git clone -q origin.git dev1
+   | warning: You appear to have cloned an empty repository.
+CMD	4	dev1	sbx	0	git config user.name "Pablo Castro"
+CMD	5	dev1	sbx	0	git config user.email pc@poc.local
+CMD	6	dev1	sbx	0	git config core.autocrlf false
+CMD	7	dev1	sbx	0	git config pull.ff only
+CMD	8	-	-	0	git clone -q origin.git dev2
+   | warning: You appear to have cloned an empty repository.
+CMD	9	dev2	sbx	0	git config user.name "Daniel Duran"
+CMD	10	dev2	sbx	0	git config user.email dd@poc.local
+CMD	11	dev2	sbx	0	git config core.autocrlf false
+CMD	12	dev2	sbx	0	git config pull.ff only
+#STEP	E0: commit inicial en sbx (arranque del repositorio: unica escritura directa en sbx)
+CMD	13	dev1	sbx	0	git checkout -q -b sbx
+CMD	14	dev1	sbx	0	git add .
+CMD	15	dev1	sbx	0	git commit -q -m "chore: estructura inicial del repositorio"
+CMD	16	dev1	sbx	0	git push -q -u origin sbx
+#STEP	E0: tag v1.0.0 sobre sbx
+CMD	17	dev1	sbx	0	git tag -a v1.0.0 HEAD -m "v1.0.0: linea base inicial"
+CMD	18	dev1	sbx	0	git push -q origin v1.0.0
+CMD	19	origin	sbx	0	git rev-parse refs/tags/v1.0.0
+   | 9ea9410dc328cea86b4f9fb8f047fbb764542c3c
+CMD	20	origin	sbx	0	git rev-parse refs/tags/v1.0.0^{commit}
+   | 8fe949e44e0af9614b37e8209cbd15f6d6fd8972
+#STEP	E0: creacion de qa, stg y prod desde v1.0.0 (lo hace Soporte al crear el repo, DES-EST-016 4.4.1)
+CMD	21	origin	sbx	0	git branch qa v1.0.0^{commit}
+CMD	22	origin	sbx	0	git branch stg v1.0.0^{commit}
+CMD	23	origin	sbx	0	git branch prod v1.0.0^{commit}
+CMD	24	dev1	sbx	0	git fetch -q --tags origin
+CMD	25	dev2	sbx	0	git fetch -q --tags origin
+CMD	26	dev2	sbx	0	git checkout -q sbx
+#STEP	Dos desarrolladores trabajan en paralelo desde v1.0.0
+CMD	27	dev1	sbx	0	git fetch -q --tags origin
+CMD	28	dev1	sbx	0	git checkout -q tags/v1.0.0 -b HU_8.601_PC
+CMD	29	dev1	HU_8.601_PC	0	git push -q -u origin HU_8.601_PC
+CMD	30	dev1	HU_8.601_PC	0	git add comun.txt
+CMD	31	dev1	HU_8.601_PC	0	git commit -q -m "feat(comun): add regla HU 601"
+CMD	32	dev1	HU_8.601_PC	0	git symbolic-ref --short HEAD
+   | HU_8.601_PC
+CMD	33	dev1	HU_8.601_PC	0	git push -q origin HU_8.601_PC
+CMD	34	dev2	sbx	0	git fetch -q --tags origin
+CMD	35	dev2	sbx	0	git checkout -q tags/v1.0.0 -b HU_8.602_DD
+CMD	36	dev2	HU_8.602_DD	0	git push -q -u origin HU_8.602_DD
+CMD	37	dev2	HU_8.602_DD	0	git add comun.txt
+CMD	38	dev2	HU_8.602_DD	0	git commit -q -m "feat(comun): add regla HU 602"
+CMD	39	dev2	HU_8.602_DD	0	git symbolic-ref --short HEAD
+   | HU_8.602_DD
+CMD	40	dev2	HU_8.602_DD	0	git push -q origin HU_8.602_DD
+#STEP	PR de HU_8.601_PC a sbx y tag v1.1.0
+CMD	41	dev1	HU_8.601_PC	0	git fetch -q --tags origin
+CMD	42	dev1	HU_8.601_PC	0	git rev-parse -q --verify refs/heads/sbx
+   | 8fe949e44e0af9614b37e8209cbd15f6d6fd8972
+CMD	43	dev1	HU_8.601_PC	0	git checkout -q sbx
+CMD	44	dev1	sbx	0	git pull -q --ff-only origin sbx
+CMD	45	dev1	sbx	0	git rev-parse -q --verify refs/remotes/origin/HU_8.601_PC
+   | 163faa62c02cf9d1d2399e4085204e5c575eb1f2
+CMD	46	dev1	sbx	0	git merge --no-ff -m "Merge PR: HU_8.601_PC -> sbx (--no-ff)" origin/HU_8.601_PC
+   | Merge made by the 'recursive' strategy.
+   |  comun.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	47	dev1	sbx	0	git push -q origin sbx
+CMD	48	dev1	sbx	0	git tag -a v1.1.0 sbx -m "v1.1.0: sbx tras integrar HU_8.601_PC"
+CMD	49	dev1	sbx	0	git push -q origin v1.1.0
+CMD	50	origin	sbx	0	git rev-parse refs/tags/v1.1.0
+   | be41de75e8a7f5b950cb6411d83cf9e432f61ab5
+CMD	51	origin	sbx	0	git rev-parse refs/tags/v1.1.0^{commit}
+   | 4b486ab74f14d1240452fc8e12b6fd35c8c42116
+CMD	52	dev1	sbx	0	git checkout -q sbx
+CMD	53	dev1	sbx	0	git branch -d HU_8.601_PC
+   | Deleted branch HU_8.601_PC (was 163faa6).
+CMD	54	dev1	sbx	0	git push -q origin --delete HU_8.601_PC
+#STEP	PR de HU_8.602_DD a sbx
+CMD	55	dev2	HU_8.602_DD	0	git fetch -q --tags origin
+CMD	56	dev2	HU_8.602_DD	0	git rev-parse -q --verify refs/heads/sbx
+   | 8fe949e44e0af9614b37e8209cbd15f6d6fd8972
+CMD	57	dev2	HU_8.602_DD	0	git checkout -q sbx
+CMD	58	dev2	sbx	0	git pull -q --ff-only origin sbx
+CMD	59	dev2	sbx	0	git rev-parse -q --verify refs/remotes/origin/HU_8.602_DD
+   | 50f4abfa735b90ff566321a0920ae2a846c9f8db
+CMD	60	dev2	sbx	1	git merge --no-ff -m "Merge PR: HU_8.602_DD -> sbx (--no-ff)" origin/HU_8.602_DD
+   | Auto-merging comun.txt
+   | CONFLICT (content): Merge conflict in comun.txt
+   | Automatic merge failed; fix conflicts and then commit the result.
+CMD	61	dev2	sbx	0	git rev-parse -q --verify MERGE_HEAD
+   | 50f4abfa735b90ff566321a0920ae2a846c9f8db
+CMD	62	dev2	sbx	0	git merge --abort
+CMD	63	dev2	sbx	0	git fetch -q --tags origin
+CMD	64	dev2	sbx	0	git checkout -q HU_8.602_DD
+CMD	65	dev2	HU_8.602_DD	1	git merge --no-ff -m "Merge v1.1.0 en HU_8.602_DD (actualizacion de rama de trabajo)" v1.1.0
+   | Auto-merging comun.txt
+   | CONFLICT (content): Merge conflict in comun.txt
+   | Automatic merge failed; fix conflicts and then commit the result.
+CMD	66	dev2	HU_8.602_DD	0	git diff --name-only --diff-filter=U
+   | comun.txt
+CMD	67	dev2	HU_8.602_DD	0	git checkout --ours comun.txt
+   | Updated 1 path from the index
+CMD	68	dev2	HU_8.602_DD	0	git add comun.txt
+CMD	69	dev2	HU_8.602_DD	0	git commit -q --no-edit
+CMD	70	dev2	HU_8.602_DD	0	git push -q origin HU_8.602_DD
+CMD	71	dev2	HU_8.602_DD	0	git fetch -q --tags origin
+CMD	72	dev2	HU_8.602_DD	0	git rev-parse -q --verify refs/heads/sbx
+   | 4b486ab74f14d1240452fc8e12b6fd35c8c42116
+CMD	73	dev2	HU_8.602_DD	0	git checkout -q sbx
+CMD	74	dev2	sbx	0	git pull -q --ff-only origin sbx
+CMD	75	dev2	sbx	0	git rev-parse -q --verify refs/remotes/origin/HU_8.602_DD
+   | e15676f6727ef112c92e1e7d5d9c52f08243973a
+CMD	76	dev2	sbx	0	git merge --no-ff -m "Merge PR: HU_8.602_DD -> sbx (--no-ff)" origin/HU_8.602_DD
+   | Merge made by the 'recursive' strategy.
+   |  comun.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	77	dev2	sbx	0	git push -q origin sbx
+CMD	78	dev2	sbx	0	git tag -a v1.2.0 sbx -m "v1.2.0: sbx tras integrar HU_8.602_DD"
+CMD	79	dev2	sbx	0	git push -q origin v1.2.0
+CMD	80	origin	sbx	0	git rev-parse refs/tags/v1.2.0
+   | 3ad8877b15ed67dfd79a3c5744ff8cffed930293
+CMD	81	origin	sbx	0	git rev-parse refs/tags/v1.2.0^{commit}
+   | 4dfeeffc156ee90875e482659ee68089af8411fd
+CMD	82	dev2	sbx	0	git checkout -q sbx
+CMD	83	dev2	sbx	0	git branch -d HU_8.602_DD
+   | Deleted branch HU_8.602_DD (was e15676f).
+CMD	84	dev2	sbx	0	git push -q origin --delete HU_8.602_DD
+#STEP	Promocion v1.2.0 -> qa
+CMD	85	dev2	sbx	0	git fetch -q --tags origin
+CMD	86	dev2	sbx	0	git checkout -q tags/v1.2.0 -b promote/v1.2.0-to-qa
+CMD	87	dev2	promote/v1.2.0-to-qa	0	git push -q -u origin promote/v1.2.0-to-qa
+CMD	88	dev2	promote/v1.2.0-to-qa	0	git fetch -q --tags origin
+CMD	89	dev2	promote/v1.2.0-to-qa	1	git rev-parse -q --verify refs/heads/qa
+CMD	90	dev2	promote/v1.2.0-to-qa	0	git checkout -q -b qa --track origin/qa
+CMD	91	dev2	qa	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.2.0-to-qa
+   | 4dfeeffc156ee90875e482659ee68089af8411fd
+CMD	92	dev2	qa	0	git merge --no-ff -m "Merge PR: promote/v1.2.0-to-qa -> qa (--no-ff)" origin/promote/v1.2.0-to-qa
+   | Merge made by the 'recursive' strategy.
+   |  comun.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	93	dev2	qa	0	git push -q origin qa
+CMD	94	dev2	qa	0	git checkout -q sbx
+CMD	95	dev2	sbx	0	git branch -d promote/v1.2.0-to-qa
+   | Deleted branch promote/v1.2.0-to-qa (was 4dfeeff).
+CMD	96	dev2	sbx	0	git push -q origin --delete promote/v1.2.0-to-qa
+CMD	97	origin	sbx	0	git diff --stat v1.2.0 qa
+CMD	98	origin	sbx	0	git show v1.1.0:modulo-a.txt
+   | modulo-a.txt L1: base
+   | modulo-a.txt L2: base
+   | modulo-a.txt L3: base
+   | modulo-a.txt L4: base
+   | modulo-a.txt L5: base
+CMD	99	origin	sbx	0	git show v1.1.0:modulo-b.txt
+   | modulo-b.txt L1: base
+   | modulo-b.txt L2: base
+   | modulo-b.txt L3: base
+   | modulo-b.txt L4: base
+   | modulo-b.txt L5: base
+CMD	100	origin	sbx	0	git show v1.1.0:comun.txt
+   | comun.txt L1: base
+   | comun.txt L2: base
+   | regla de negocio segun HU 601
+   | comun.txt L4: base
+   | comun.txt L5: base
+CMD	101	origin	sbx	0	git show v1.2.0:modulo-a.txt
+   | modulo-a.txt L1: base
+   | modulo-a.txt L2: base
+   | modulo-a.txt L3: base
+   | modulo-a.txt L4: base
+   | modulo-a.txt L5: base
+CMD	102	origin	sbx	0	git show v1.2.0:modulo-b.txt
+   | modulo-b.txt L1: base
+   | modulo-b.txt L2: base
+   | modulo-b.txt L3: base
+   | modulo-b.txt L4: base
+   | modulo-b.txt L5: base
+CMD	103	origin	sbx	0	git show v1.2.0:comun.txt
+   | comun.txt L1: base
+   | comun.txt L2: base
+   | regla de negocio segun HU 601 + HU 602
+   | comun.txt L4: base
+   | comun.txt L5: base
+CMD	104	origin	sbx	0	git show qa:modulo-a.txt
+   | modulo-a.txt L1: base
+   | modulo-a.txt L2: base
+   | modulo-a.txt L3: base
+   | modulo-a.txt L4: base
+   | modulo-a.txt L5: base
+CMD	105	origin	sbx	0	git show qa:modulo-b.txt
+   | modulo-b.txt L1: base
+   | modulo-b.txt L2: base
+   | modulo-b.txt L3: base
+   | modulo-b.txt L4: base
+   | modulo-b.txt L5: base
+CMD	106	origin	sbx	0	git show qa:comun.txt
+   | comun.txt L1: base
+   | comun.txt L2: base
+   | regla de negocio segun HU 601 + HU 602
+   | comun.txt L4: base
+   | comun.txt L5: base
+CMD	107	origin	sbx	0	git log --oneline --graph --all --decorate
+   | *   0a1c587 (qa) Merge PR: promote/v1.2.0-to-qa -> qa (--no-ff)
+   | |\  
+   | | *   4dfeeff (HEAD -> sbx, tag: v1.2.0) Merge PR: HU_8.602_DD -> sbx (--no-ff)
+   | | |\  
+   | | | *   e15676f Merge v1.1.0 en HU_8.602_DD (actualizacion de rama de trabajo)
+   | | | |\  
+   | | | |/  
+   | | |/|   
+   | | * | 4b486ab (tag: v1.1.0) Merge PR: HU_8.601_PC -> sbx (--no-ff)
+   | |/| | 
+   | | * | 163faa6 feat(comun): add regla HU 601
+   | |/ /  
+   | | * 50f4abf feat(comun): add regla HU 602
+   | |/  
+   | * 8fe949e (tag: v1.0.0, stg, prod) chore: estructura inicial del repositorio

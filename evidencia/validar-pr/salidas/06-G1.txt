@@ -1,0 +1,7 @@
+# Caso 6 (G1): promote/v1.1.0-to-qa con PR hacia stg
+# PR: promote/v1.1.0-to-qa -> stg   modo: build validation (commit de merge del PR)
+# Esperado: FALLA PROMOTE-NOMBRE   Obtenido: FALLA
+
+Validar-PR  origen=promote/v1.1.0-to-qa  destino=stg
+ERROR  PROMOTE-NOMBRE   R6           La rama dice '-to-qa' pero el PR va hacia 'stg'.
+RESULTADO: RECHAZADO (1 error(es), 0 aviso(s))

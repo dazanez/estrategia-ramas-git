@@ -1,0 +1,4 @@
+* 4597869 (HEAD -> sbx, tag: v1.3.0.2, stg, qa, prod) fix(modulo-a): corrige mensaje de error (AZ 65488)
+* f5281b6 (tag: v1.3.0.1) fix(modulo-a): corrige validacion (AZ 65487)
+* fb2fae3 (tag: v1.3.0) feat(modulo-a): add funcionalidad v1.3
+* 2dc0b75 (tag: v1.0.0) chore: estructura inicial del repositorio

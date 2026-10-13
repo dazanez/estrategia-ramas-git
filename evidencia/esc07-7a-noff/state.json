@@ -1,0 +1,157 @@
+﻿{
+    "escenario":  "07",
+    "variante":  "7a",
+    "mergeMode":  "noff",
+    "clones":  [
+                   "dev1",
+                   "dev2"
+               ],
+    "tags":  {
+                 "v1.0.0":  {
+                                "object":  "35131c554dddeddd08852a73e559d1e3f7a9b044",
+                                "commit":  "ec4eb76eeae3ffbff37283ef7f812dc42929b641",
+                                "dev":  "dev1"
+                            },
+                 "v1.3.0":  {
+                                "object":  "ac2e9d37944952730875a19869372be53ffbfe8f",
+                                "commit":  "6aebf4d82d4ab53bd47683694fd23d7d60feaf9f",
+                                "dev":  "dev1"
+                            },
+                 "v1.3.0.1":  {
+                                  "object":  "2af26454bd759c658a39324d33b6d0d5154ea072",
+                                  "commit":  "1ad062f0d6b97d0e74a05f2c25f81ebe65f04a7a",
+                                  "dev":  "dev2"
+                              }
+             },
+    "promotions":  [
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.3.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.3.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.3.0.1",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.3.0.1",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.3.0.1",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       }
+                   ],
+    "merges":  [
+                   {
+                       "source":  "HU_6.70000_PC",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0-to-stg",
+                       "target":  "stg",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "BUG_AZ_70001_DD",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0.1-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0.1-to-stg",
+                       "target":  "stg",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0.1-to-prod",
+                       "target":  "prod",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   }
+               ],
+    "branches":  [
+                     "HU_6.70000_PC",
+                     "promote/v1.3.0-to-qa",
+                     "promote/v1.3.0-to-stg",
+                     "BUG_AZ_70001_DD",
+                     "promote/v1.3.0.1-to-qa",
+                     "promote/v1.3.0.1-to-stg",
+                     "promote/v1.3.0.1-to-prod"
+                 ],
+    "findings":  [
+                     "v1.3.0 aprobada en qa; falla en stg (bug AZ 70001)",
+                     "Contenido de qa: modulo-a.txt:L1=\u0027funcionalidad v1.3\u0027 ; modulo-a.txt:L2=\u0027fix detectado en stg (AZ 70001)\u0027",
+                     "Contenido de stg: modulo-a.txt:L1=\u0027funcionalidad v1.3\u0027 ; modulo-a.txt:L2=\u0027fix detectado en stg (AZ 70001)\u0027",
+                     "Contenido de prod: modulo-a.txt:L1=\u0027funcionalidad v1.3\u0027 ; modulo-a.txt:L2=\u0027fix detectado en stg (AZ 70001)\u0027"
+                 ]
+}

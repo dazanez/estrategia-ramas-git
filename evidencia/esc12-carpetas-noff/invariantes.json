@@ -1,0 +1,122 @@
+﻿{
+    "escenario":  "12",
+    "variante":  "modelo propuesto (carpetas)",
+    "mergeMode":  "noff",
+    "etapa":  "final",
+    "invariantes":  {
+                        "I1":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "qa: git diff v1.4.0 qa -\u003e vacio",
+                                                  "stg: git diff v1.4.0 stg -\u003e vacio",
+                                                  "prod: git diff v1.4.0 prod -\u003e vacio"
+                                              ]
+                               },
+                        "I2":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "v1.0.0 es ancestro de sbx",
+                                                  "v1.0.0.1 es ancestro de sbx",
+                                                  "v1.1.0 es ancestro de sbx",
+                                                  "v1.1.1 es ancestro de sbx",
+                                                  "v1.2.0 es ancestro de sbx",
+                                                  "v1.3.0 es ancestro de sbx",
+                                                  "v1.4.0 es ancestro de sbx"
+                                              ]
+                               },
+                        "I3":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "auditoria: 37 operaciones de integracion revisadas",
+                                                  "estructural: 17 commits propios de ambiente revisados, 0 fuera de lugar"
+                                              ]
+                               },
+                        "I4":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "rama feature/az-1001-consulta-expedientes-pc: OK",
+                                                  "rama feature/az-1002-firma-digital-dd: OK",
+                                                  "rama feature/az-1003-retiro-temporal-hu-1001-pc: OK",
+                                                  "rama feature/az-1004-reintroduce-hu-1001-pc: OK",
+                                                  "rama hotfix/glpi-20001-bloqueo-sesion-pc: OK",
+                                                  "rama prod: OK",
+                                                  "rama promote/v1.0.0.1-to-prod: OK",
+                                                  "rama promote/v1.0.0.1-to-stg: OK",
+                                                  "rama promote/v1.1.0-to-qa: OK",
+                                                  "rama promote/v1.1.1-to-qa: OK",
+                                                  "rama promote/v1.2.0-to-qa: OK",
+                                                  "rama promote/v1.3.0-to-prod: OK",
+                                                  "rama promote/v1.3.0-to-qa: OK",
+                                                  "rama promote/v1.3.0-to-stg: OK",
+                                                  "rama promote/v1.4.0-to-prod: OK",
+                                                  "rama promote/v1.4.0-to-qa: OK",
+                                                  "rama promote/v1.4.0-to-stg: OK",
+                                                  "rama qa: OK",
+                                                  "rama sbx: OK",
+                                                  "rama stg: OK",
+                                                  "rama test/az-1001-web-consulta-expedientes-dd: OK",
+                                                  "tag v1.0.0: nombre OK, tipo anotado OK",
+                                                  "tag v1.0.0.1: nombre OK, tipo anotado OK (cuarta posicion)",
+                                                  "tag v1.1.0: nombre OK, tipo anotado OK",
+                                                  "tag v1.1.1: nombre OK, tipo anotado OK",
+                                                  "tag v1.2.0: nombre OK, tipo anotado OK",
+                                                  "tag v1.3.0: nombre OK, tipo anotado OK",
+                                                  "tag v1.4.0: nombre OK, tipo anotado OK",
+                                                  "tag v1.4.1: nombre OK, tipo anotado OK"
+                                              ]
+                               },
+                        "I5":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "origin: solo ramas de ambiente (prod, qa, sbx, stg)",
+                                                  "dev1: ramas locales OK (prod, qa, sbx, stg)",
+                                                  "dev2: ramas locales OK (qa, sbx)"
+                                              ]
+                               },
+                        "I6":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "tag v1.0.0: intacto (56b454cc -\u003e commit c5751756)",
+                                                  "tag v1.1.0: intacto (33bcb680 -\u003e commit f4d4ff71)",
+                                                  "tag v1.0.0.1: intacto (3992c49f -\u003e commit 94658c60)",
+                                                  "tag v1.1.1: intacto (ac8f009e -\u003e commit e79e117a)",
+                                                  "tag v1.2.0: intacto (e7afabf6 -\u003e commit ba3703da)",
+                                                  "tag v1.3.0: intacto (b0ffda6f -\u003e commit 5ed1c4b2)",
+                                                  "tag v1.4.0: intacto (2ff6b458 -\u003e commit 92d73ee2)",
+                                                  "tag v1.4.1: intacto (9eae009d -\u003e commit 9448bd23)",
+                                                  "auditoria: sin \u0027tag -f/-d\u0027 ni force-push"
+                                              ]
+                               },
+                        "I7":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "tags vigentes: qa=v1.4.0  stg=v1.4.0  prod=v1.4.0",
+                                                  "stg contiene todo lo de prod",
+                                                  "stg contiene todo lo de qa",
+                                                  "contenido stg == prod: True"
+                                              ]
+                               }
+                    },
+    "hechos":  [
+                   "Regla de cadena antes de etiquetar: la rama contiene el ultimo tag (v1.0.0): True",
+                   "QA certifica v1.1.0 (A). Falta la aprobacion del cliente: A se queda en qa (no sube a stg)",
+                   "Regla de cadena antes de etiquetar: la rama contiene el ultimo tag (v1.1.0): True",
+                   "PR del hotfix a sbx: completado",
+                   "Regla de cadena antes de etiquetar: la rama contiene el ultimo tag (v1.1.1): False",
+                   "Regla de cadena antes de etiquetar: la rama contiene el ultimo tag (v1.1.1): True",
+                   "PR de B a sbx tras la regla de cadena: completado sin conflicto",
+                   "sbx tiene el mismo contenido que el ultimo tag v1.2.0: True",
+                   "Regla de cadena antes de etiquetar: la rama contiene el ultimo tag (v1.2.0): True",
+                   "Regla de cadena antes de etiquetar: la rama contiene el ultimo tag (v1.3.0): True",
+                   "sbx tiene el mismo contenido que v1.4.1 (tag de la prueba automatizada): True",
+                   "v1.1.0: A=True B=False hotfix=False",
+                   "v1.0.0.1: A=False B=False hotfix=True",
+                   "v1.1.1: A=True B=False hotfix=True",
+                   "v1.2.0: A=True B=True hotfix=True",
+                   "v1.3.0: A=False B=True hotfix=True",
+                   "v1.4.0: A=True B=True hotfix=True",
+                   "prod: A=True B=True hotfix=True",
+                   "sbx: A=True B=True hotfix=True",
+                   "Orden de tags: v1.0.0 \u003c v1.0.0.1 \u003c v1.1.0 \u003c v1.1.1 \u003c v1.2.0 \u003c v1.3.0 \u003c v1.4.0 \u003c v1.4.1"
+               ]
+}

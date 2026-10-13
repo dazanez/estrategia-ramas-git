@@ -1,0 +1,9 @@
+*   8a5d66e (prod) Merge PR: promote/v9.9.9-to-prod -> prod (--no-ff)
+|\  
+| * 715e270 (tag: v9.9.9, HU_6.99999_DD) feat: HU nunca integrada
+|/  
+| * c825ae0 (HEAD -> sbx, feature/login) merge qa en sbx
+|/| 
+| * fb9dc67 (qa) fix: cambio directo en qa
+|/  
+* cbfd991 (tag: v1.0.0, stg) chore: estructura inicial del repositorio

@@ -1,0 +1,174 @@
+﻿{
+    "escenario":  "04",
+    "variante":  "4a-solo",
+    "mergeMode":  "ff",
+    "clones":  [
+                   "dev1",
+                   "dev2"
+               ],
+    "tags":  {
+                 "v1.0.0":  {
+                                "object":  "3ae2bf87e7eb643b0df5c3042a2462785b7a9a56",
+                                "commit":  "97fbf2243ddff8908c05d3a1eb2d0030cfe264b8",
+                                "dev":  "dev1"
+                            },
+                 "v1.3.0":  {
+                                "object":  "03379676d3b0023ec3b7cc6f89c518e3bddbe1bd",
+                                "commit":  "e5b0b48eb07410e4af5352370db17afb47651a3c",
+                                "dev":  "dev1"
+                            },
+                 "v1.3.0.1":  {
+                                  "object":  "0cf93fca0d909c72462c61c89955d0e6eca3fdb4",
+                                  "commit":  "bdc01cbf5fdd1aade54d1ccffb438e2cd57f5a42",
+                                  "dev":  "dev2"
+                              },
+                 "v1.3.0.2":  {
+                                  "object":  "f4d28aa2b7a029006c00c33bbbeaf9171d58c04e",
+                                  "commit":  "543159736c069b0f128659ba68b8e5b87ba00dd0",
+                                  "dev":  "dev2"
+                              }
+             },
+    "promotions":  [
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.3.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.3.0.1",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.3.0.2",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.3.0.2",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.3.0.2",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       }
+                   ],
+    "merges":  [
+                   {
+                       "source":  "HU_6.30000_PC",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "BUG_AZ_65487_DD",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0.1-to-qa",
+                       "target":  "qa",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "BUG_AZ_65488_DD",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0.2-to-qa",
+                       "target":  "qa",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0.2-to-stg",
+                       "target":  "stg",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0.2-to-prod",
+                       "target":  "prod",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   }
+               ],
+    "branches":  [
+                     "HU_6.30000_PC",
+                     "promote/v1.3.0-to-qa",
+                     "BUG_AZ_65487_DD",
+                     "promote/v1.3.0.1-to-qa",
+                     "BUG_AZ_65488_DD",
+                     "promote/v1.3.0.2-to-qa",
+                     "promote/v1.3.0.2-to-stg",
+                     "promote/v1.3.0.2-to-prod"
+                 ],
+    "findings":  [
+                     "QA rechaza v1.3.0 (bug AZ 65487)",
+                     "QA rechaza v1.3.0.1 (bug AZ 65488)",
+                     "Contenido de v1.3.0: modulo-a.txt:L1=\u0027funcionalidad v1.3\u0027",
+                     "Contenido de v1.3.0.1: modulo-a.txt:L1=\u0027funcionalidad v1.3\u0027 ; modulo-a.txt:L2=\u0027fix iteracion 1 (AZ 65487)\u0027",
+                     "Contenido de v1.3.0.2: modulo-a.txt:L1=\u0027funcionalidad v1.3\u0027 ; modulo-a.txt:L2=\u0027fix iteracion 1 (AZ 65487)\u0027 ; modulo-a.txt:L3=\u0027fix iteracion 2 (AZ 65488)\u0027",
+                     "Contenido de prod: modulo-a.txt:L1=\u0027funcionalidad v1.3\u0027 ; modulo-a.txt:L2=\u0027fix iteracion 1 (AZ 65487)\u0027 ; modulo-a.txt:L3=\u0027fix iteracion 2 (AZ 65488)\u0027",
+                     "Contenido de sbx: modulo-a.txt:L1=\u0027funcionalidad v1.3\u0027 ; modulo-a.txt:L2=\u0027fix iteracion 1 (AZ 65487)\u0027 ; modulo-a.txt:L3=\u0027fix iteracion 2 (AZ 65488)\u0027"
+                 ]
+}

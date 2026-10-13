@@ -1,0 +1,27 @@
+*   e480b53 (prod) Merge PR: promote/v1.3.0.1-to-prod -> prod (--no-ff)
+|\  
+| | *   23ff018 (stg) Merge PR: promote/v1.3.0.1-to-stg -> stg (--no-ff)
+| | |\  
+| | |/  
+| |/|   
+| | * e381107 Merge PR: promote/v1.3.0-to-stg -> stg (--no-ff)
+| |/| 
+|/| | 
+| | | *   ea9b49e (qa) Merge PR: promote/v1.3.0.1-to-qa -> qa (--no-ff)
+| | | |\  
+| | |_|/  
+| |/| |   
+| | | * af0f13e Merge PR: promote/v1.3.0-to-qa -> qa (--no-ff)
+| |_|/| 
+|/| |/  
+| | | * 8e65bdd (HEAD -> sbx) Merge PR: BUG_AZ_70001_DD -> sbx (--no-ff)
+| | |/| 
+| | |/  
+| |/|   
+| * | 1ad062f (tag: v1.3.0.1) fix(modulo-a): corrige integracion detectada en stg (AZ 70001)
+| |/  
+| * 6aebf4d (tag: v1.3.0) Merge PR: HU_6.70000_PC -> sbx (--no-ff)
+|/| 
+| * 450a676 feat(modulo-a): add funcionalidad v1.3
+|/  
+* ec4eb76 (tag: v1.0.0) chore: estructura inicial del repositorio

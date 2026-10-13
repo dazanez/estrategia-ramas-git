@@ -1,0 +1,115 @@
+﻿{
+    "escenario":  "05",
+    "variante":  "5a",
+    "mergeMode":  "ff",
+    "clones":  [
+                   "dev1",
+                   "dev2"
+               ],
+    "tags":  {
+                 "v1.0.0":  {
+                                "object":  "8964ed308f5e8d4e69c949d0d72e3579d1a6baa8",
+                                "commit":  "0d0f8291405077b24090cb4cd5e5175d90d6bd01",
+                                "dev":  "dev1"
+                            },
+                 "v1.1.0":  {
+                                "object":  "da0a3e00d2b596285f18be9905135ddc2118ee4b",
+                                "commit":  "ccf9e1c355f3f21a04861a289faf3d2d912ce3c1",
+                                "dev":  "dev1"
+                            }
+             },
+    "promotions":  [
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.1.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       }
+                   ],
+    "merges":  [
+                   {
+                       "source":  "HU_7.501_PC",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_7.502_DD",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  false,
+                       "kind":  "pr",
+                       "detail":  "fatal: Not possible to fast-forward, aborting."
+                   },
+                   {
+                       "source":  "HU_7.502_DD",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_7.503_PC",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  false,
+                       "kind":  "pr",
+                       "detail":  "fatal: Not possible to fast-forward, aborting."
+                   },
+                   {
+                       "source":  "HU_7.503_PC",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.1.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   }
+               ],
+    "branches":  [
+                     "HU_7.501_PC",
+                     "HU_7.502_DD",
+                     "HU_7.503_PC",
+                     "promote/v1.1.0-to-qa"
+                 ],
+    "findings":  [
+                     "PR HU_7.502_DD -\u003e sbx [ff] bloqueado: fatal: Not possible to fast-forward, aborting.",
+                     "PR HU_7.503_PC -\u003e sbx [ff] bloqueado: fatal: Not possible to fast-forward, aborting.",
+                     "El cliente aprueba solo A (HU_7.501) y B (HU_7.502); C (HU_7.503) no sale",
+                     "C en qa: True ; C en sbx: True (el proximo tag de sbx lo arrastrara)",
+                     "Contenido de qa: modulo-a.txt:L1=\u0027A: HU 501 (aprobada)\u0027 ; modulo-b.txt:L1=\u0027B: HU 502 (aprobada)\u0027 ; comun.txt:L1=\u0027C: HU 503 (NO aprobada)\u0027",
+                     "Contenido de sbx: modulo-a.txt:L1=\u0027A: HU 501 (aprobada)\u0027 ; modulo-b.txt:L1=\u0027B: HU 502 (aprobada)\u0027 ; comun.txt:L1=\u0027C: HU 503 (NO aprobada)\u0027"
+                 ]
+}

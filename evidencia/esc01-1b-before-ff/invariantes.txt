@@ -1,0 +1,61 @@
+INVARIANTES  escenario=01 variante=1b-before merge=ff etapa=final
+[OK] I1
+      qa: git diff v1.2.1 qa -> vacio
+      stg: git diff v1.2.1 stg -> vacio
+      prod: git diff v1.2.1 prod -> vacio
+[OK] I2
+      v1.0.0 es ancestro de sbx
+      v1.1.0 es ancestro de sbx
+      v1.1.1 es ancestro de sbx
+      v1.2.1 es ancestro de sbx
+[OK] I3
+      auditoria: 22 operaciones de integracion revisadas
+      estructural: 0 commits propios de ambiente revisados, 0 fuera de lugar
+[OK] I4
+      rama BUG_GLPI_13487_PC: OK
+      rama HU_1.110_PC: OK
+      rama HU_1.120_DD: OK
+      rama prod: OK
+      rama promote/v1.1.0-to-prod: OK
+      rama promote/v1.1.0-to-qa: OK
+      rama promote/v1.1.0-to-stg: OK
+      rama promote/v1.1.1-to-prod: OK
+      rama promote/v1.1.1-to-qa: OK
+      rama promote/v1.1.1-to-stg: OK
+      rama promote/v1.2.0-to-qa: OK
+      rama promote/v1.2.1-to-prod: OK
+      rama promote/v1.2.1-to-qa: OK
+      rama promote/v1.2.1-to-stg: OK
+      rama qa: OK
+      rama sbx: OK
+      rama stg: OK
+      tag v1.0.0: nombre OK, tipo anotado OK
+      tag v1.1.0: nombre OK, tipo anotado OK
+      tag v1.1.1: nombre OK, tipo anotado OK
+      tag v1.2.0: nombre OK, tipo anotado OK
+      tag v1.2.1: nombre OK, tipo anotado OK
+[OK] I5
+      origin: solo ramas de ambiente (prod, qa, sbx, stg)
+      dev1: ramas locales OK (prod, qa, sbx, stg)
+      dev2: ramas locales OK (qa, sbx)
+[OK] I6
+      tag v1.0.0: intacto (fce72927 -> commit 94461c12)
+      tag v1.1.0: intacto (9208f15d -> commit 6d1196f1)
+      tag v1.2.0: intacto (21291953 -> commit 333aded9)
+      tag v1.1.1: intacto (ad6432c7 -> commit c82be2d8)
+      tag v1.2.1: intacto (0acfa112 -> commit dcc01a24)
+      auditoria: sin 'tag -f/-d' ni force-push
+[OK] I7
+      tags vigentes: qa=v1.2.1  stg=v1.2.1  prod=v1.2.1
+      stg contiene todo lo de prod
+      stg contiene todo lo de qa
+      contenido stg == prod: True
+HECHOS registrados durante la ejecucion:
+  - PR BUG_GLPI_13487_PC -> sbx [ff] bloqueado: fatal: Not possible to fast-forward, aborting.
+  - Conflicto al actualizar BUG_GLPI_13487_PC con v1.2.0 en: modulo-a.txt (se resuelve en la rama de trabajo)
+  - Promocion v1.2.0 -> qa [ff] BLOQUEADA: fatal: Not possible to fast-forward, aborting.
+  - Contenido de v1.1.0: modulo-a.txt:L2='calculo v1.1 (DEFECTO)'
+  - Contenido de v1.2.0: modulo-a.txt:L2='calculo v1.1 (DEFECTO)' ; modulo-a.txt:L3='reporte v1.2' ; modulo-b.txt:L1='pantalla v1.2'
+  - Contenido de v1.1.1: modulo-a.txt:L2='calculo v1.1 CORREGIDO GLPI-13487'
+  - Contenido de v1.2.1: modulo-a.txt:L2='calculo v1.1 CORREGIDO GLPI-13487' ; modulo-a.txt:L3='reporte v1.2' ; modulo-b.txt:L1='pantalla v1.2'
+  - Contenido de prod: modulo-a.txt:L2='calculo v1.1 CORREGIDO GLPI-13487' ; modulo-a.txt:L3='reporte v1.2' ; modulo-b.txt:L1='pantalla v1.2'

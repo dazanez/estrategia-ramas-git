@@ -1,0 +1,36 @@
+*   5465d2d (prod) Merge PR: promote/v1.3.0.2-to-prod -> prod (--no-ff)
+|\  
+| | * 18d3d29 (stg) Merge PR: promote/v1.3.0.2-to-stg -> stg (--no-ff)
+| |/| 
+|/|/  
+| | *   a642790 (qa) Merge PR: promote/v1.3.0.2-to-qa -> qa (--no-ff)
+| | |\  
+| | |/  
+| |/|   
+| | *   6132e4b Merge PR: promote/v1.3.0.1-to-qa -> qa (--no-ff)
+| | |\  
+| | * | 0eeddd6 Merge PR: promote/v1.3.0-to-qa -> qa (--no-ff)
+| |/| | 
+|/| | | 
+| | | | *   ba0139a (HEAD -> sbx) Merge PR: BUG_AZ_65488_DD -> sbx (--no-ff)
+| | | | |\  
+| | |_|_|/  
+| |/| | |   
+| * | | | b015748 (tag: v1.3.0.2) fix(modulo-a): corrige mensaje de error (AZ 65488)
+| | |/ /  
+| |/| |   
+| | | *   b437032 Merge PR: BUG_AZ_65487_DD -> sbx (--no-ff)
+| | | |\  
+| | |_|/  
+| |/| |   
+| * | | 889461f (tag: v1.3.0.1) fix(modulo-a): corrige validacion (AZ 65487)
+| |/ /  
+| | * 36d2145 Merge PR: HU_6.30500_PC -> sbx (--no-ff)
+| |/| 
+| | * 80f4707 feat(modulo-b): add cambio HU 30500
+| |/  
+| * 061c860 (tag: v1.3.0) Merge PR: HU_6.30000_PC -> sbx (--no-ff)
+|/| 
+| * 4cdfa00 feat(modulo-a): add funcionalidad v1.3
+|/  
+* 6357eed (tag: v1.0.0) chore: estructura inicial del repositorio

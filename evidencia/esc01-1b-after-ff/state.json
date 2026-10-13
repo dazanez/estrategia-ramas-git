@@ -1,0 +1,197 @@
+﻿{
+    "escenario":  "01",
+    "variante":  "1b-after",
+    "mergeMode":  "ff",
+    "clones":  [
+                   "dev1",
+                   "dev2"
+               ],
+    "tags":  {
+                 "v1.0.0":  {
+                                "object":  "b88b5996a90406af11c1d907a795bde235ec1e24",
+                                "commit":  "81166031d86c1203123c899615bd9e5a68954393",
+                                "dev":  "dev1"
+                            },
+                 "v1.1.0":  {
+                                "object":  "4054fdc01a1813531f674bb4286aaa943c9139bb",
+                                "commit":  "fd3dc48505e2814f34daf9cce06d0b35c206f946",
+                                "dev":  "dev1"
+                            },
+                 "v1.2.0":  {
+                                "object":  "ae98f775ab14079d56db64c234b9c03b34080d12",
+                                "commit":  "9da3c5c55ab7614d388ea56363ddce8890e50f0b",
+                                "dev":  "dev2"
+                            },
+                 "v1.2.1":  {
+                                "object":  "1b710f9ed4be602cb5aaf8afd24504218af8ae19",
+                                "commit":  "32433d9ce436994c9dbf018a059d61648af6aa53",
+                                "dev":  "dev1"
+                            }
+             },
+    "promotions":  [
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.1.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.1.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.1.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.2.1",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.2.1",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.2.1",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       }
+                   ],
+    "merges":  [
+                   {
+                       "source":  "HU_1.110_PC",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.1.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.1.0-to-stg",
+                       "target":  "stg",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.1.0-to-prod",
+                       "target":  "prod",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_1.120_DD",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "BUG_GLPI_13487_PC",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  false,
+                       "kind":  "pr",
+                       "detail":  "fatal: Not possible to fast-forward, aborting."
+                   },
+                   {
+                       "source":  "BUG_GLPI_13487_PC",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.1-to-qa",
+                       "target":  "qa",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.1-to-stg",
+                       "target":  "stg",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.1-to-prod",
+                       "target":  "prod",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   }
+               ],
+    "branches":  [
+                     "HU_1.110_PC",
+                     "promote/v1.1.0-to-qa",
+                     "promote/v1.1.0-to-stg",
+                     "promote/v1.1.0-to-prod",
+                     "HU_1.120_DD",
+                     "BUG_GLPI_13487_PC",
+                     "promote/v1.2.1-to-qa",
+                     "promote/v1.2.1-to-stg",
+                     "promote/v1.2.1-to-prod"
+                 ],
+    "findings":  [
+                     "PR BUG_GLPI_13487_PC -\u003e sbx [ff] bloqueado: fatal: Not possible to fast-forward, aborting.",
+                     "Conflicto al actualizar BUG_GLPI_13487_PC con v1.2.0 en: modulo-a.txt (se resuelve en la rama de trabajo)",
+                     "Contenido de v1.1.0: modulo-a.txt:L2=\u0027calculo v1.1 (DEFECTO)\u0027",
+                     "Contenido de v1.2.0: modulo-a.txt:L2=\u0027calculo v1.1 (DEFECTO)\u0027 ; modulo-a.txt:L3=\u0027reporte v1.2\u0027 ; modulo-b.txt:L1=\u0027pantalla v1.2\u0027",
+                     "Contenido de v1.2.1: modulo-a.txt:L2=\u0027calculo v1.1 CORREGIDO GLPI-13487\u0027 ; modulo-a.txt:L3=\u0027reporte v1.2\u0027 ; modulo-b.txt:L1=\u0027pantalla v1.2\u0027",
+                     "Contenido de prod: modulo-a.txt:L2=\u0027calculo v1.1 CORREGIDO GLPI-13487\u0027 ; modulo-a.txt:L3=\u0027reporte v1.2\u0027 ; modulo-b.txt:L1=\u0027pantalla v1.2\u0027"
+                 ]
+}

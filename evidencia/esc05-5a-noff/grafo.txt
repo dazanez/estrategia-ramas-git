@@ -1,0 +1,17 @@
+*   9f26025 (qa) Merge PR: promote/v1.1.0-to-qa -> qa (--no-ff)
+|\  
+| *   10dede4 (HEAD -> sbx, tag: v1.1.0) Merge PR: HU_7.503_PC -> sbx (--no-ff)
+| |\  
+| | * 8d56f75 feat(comun): add HU 503
+| |/  
+|/|   
+| *   015220f Merge PR: HU_7.502_DD -> sbx (--no-ff)
+| |\  
+| | * 400d8e5 feat(modulo-b): add HU 502
+| |/  
+|/|   
+| * b712f1b Merge PR: HU_7.501_PC -> sbx (--no-ff)
+|/| 
+| * cc9ee25 feat(modulo-a): add HU 501
+|/  
+* b7f5fc3 (tag: v1.0.0, stg, prod) chore: estructura inicial del repositorio

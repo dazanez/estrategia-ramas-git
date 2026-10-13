@@ -1,0 +1,28 @@
+*   51bd05e (qa) Merge PR: promote/v1.3.1-to-qa -> qa (--no-ff)
+|\  
+* \   1167eb1 Merge PR: promote/v1.1.0-to-qa -> qa (--no-ff)
+|\ \  
+| | | *   c47f4b1 (HEAD -> sbx) Merge PR: bug/az-3010-regulariza-sbx-dd -> sbx (--no-ff)
+| | | |\  
+| | | |/  
+| | |/|   
+| | * | 52a8013 (tag: v1.3.1) Merge origin/sbx en bug/az-3010-regulariza-sbx-dd (actualizacion de rama de trabajo)
+| |/| | 
+| | |/  
+| | * 45cc4bf fix: cambio subido directo a sbx sin PR
+| | * 75f2ad7 Merge PR: feature/az-3001-consulta-expedientes-pc -> sbx (--no-ff)
+| |/| 
+|/|/  
+| | * 74d96ac (tag: v1.3.0) feat: C: HU 3009
+| |/  
+| | * eebef4a (tag: v1.1.0.1) feat: HOTFIX GLPI-3008
+| |/  
+| | * 182dcb3 (tag: v1.0.1) feat: cambio de sonda
+| |/  
+| | * 6a88ded (tag: v1.2.0.1) feat: cambio de sonda
+| |/  
+| | * 61c709d (tag: v1.2.0) feat: cambio de sonda
+| |/  
+| * a593b1f (tag: v1.1.0) feat(modulo-a): add HU 3001
+|/  
+* 152923d (tag: v1.0.0, stg, prod) chore: estructura inicial del repositorio

@@ -1,0 +1,6 @@
+*   8391ce8 (HEAD -> sbx, tag: v1.2.0, qa) Merge v1.1.0 en HU_8.602_DD (actualizacion de rama de trabajo)
+|\  
+| * a04d7c8 (tag: v1.1.0) feat(comun): add regla HU 601
+* | a7d4ab0 feat(comun): add regla HU 602
+|/  
+* bd9306b (tag: v1.0.0, stg, prod) chore: estructura inicial del repositorio

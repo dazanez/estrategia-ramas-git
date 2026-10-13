@@ -1,0 +1,41 @@
+INVARIANTES  escenario=03 variante=3a-otro merge=noff etapa=final
+[OK] I1
+      qa: git diff v1.1.0 qa -> vacio
+      stg: git diff v1.1.0 stg -> vacio
+      prod: git diff v1.1.0 prod -> vacio
+[OK] I2
+      v1.0.0 es ancestro de sbx
+      v1.1.0 es ancestro de sbx
+[OK] I3
+      auditoria: 7 operaciones de integracion revisadas
+      estructural: 3 commits propios de ambiente revisados, 0 fuera de lugar
+[OK] I4
+      rama HU_6.32100_DD: OK
+      rama HU_6.32154_PC: OK
+      rama prod: OK
+      rama promote/v1.1.0-to-prod: OK
+      rama promote/v1.1.0-to-qa: OK
+      rama promote/v1.1.0-to-stg: OK
+      rama qa: OK
+      rama sbx: OK
+      rama stg: OK
+      tag v1.0.0: nombre OK, tipo anotado OK
+      tag v1.1.0: nombre OK, tipo anotado OK
+[OK] I5
+      origin: solo ramas de ambiente (prod, qa, sbx, stg)
+      dev1: ramas locales OK (prod, qa, sbx, stg)
+      dev2: ramas locales OK (sbx)
+[OK] I6
+      tag v1.0.0: intacto (7f63956a -> commit 944dbd6e)
+      tag v1.1.0: intacto (799b32e3 -> commit 79b7a54b)
+      auditoria: sin 'tag -f/-d' ni force-push
+[OK] I7
+      tags vigentes: qa=v1.1.0  stg=v1.1.0  prod=v1.1.0
+      stg contiene todo lo de prod
+      stg contiene todo lo de qa
+      contenido stg == prod: True
+HECHOS registrados durante la ejecucion:
+  - El cambio ajeno HU_6.32100_DD se cuela en v1.1.0 (y en prod): True
+  - Contenido de v1.1.0: modulo-a.txt:L1='validacion de tokens (HU 32154)' ; modulo-b.txt:L1='cambio ajeno NO aprobado (HU 32100)'
+  - Contenido de prod: modulo-a.txt:L1='validacion de tokens (HU 32154)' ; modulo-b.txt:L1='cambio ajeno NO aprobado (HU 32100)'
+  - Contenido de sbx: modulo-a.txt:L1='validacion de tokens (HU 32154)' ; modulo-b.txt:L1='cambio ajeno NO aprobado (HU 32100)'

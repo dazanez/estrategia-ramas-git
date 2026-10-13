@@ -1,0 +1,10 @@
+# Caso 33 (G2): Promover v1.2.0 (sin cadena) a qa
+# PR: promote/v1.2.0-to-qa -> qa   modo: build validation (commit de merge del PR)
+# Esperado: FALLA RESULTADO   Obtenido: FALLA
+
+Validar-PR  origen=promote/v1.2.0-to-qa  destino=qa
+OK     PROMOTE-NOMBRE   R6           Promocion de v1.2.0 hacia qa.
+OK     PROMOTE-TAG      R6           La rama apunta exactamente al tag anotado v1.2.0.
+OK     SBX              I2           v1.2.0 ya esta en sbx.
+ERROR  RESULTADO        I1           Tras el PR, qa NO seria igual a v1.2.0: quedaria una mezcla que no es ninguna version (archivos: modulo-a.txt). qa tiene cambios que v1.2.0 no contiene: 6838e46 feat(modulo-a): add HU 2001. Causa probable: el tag no incorpora lo que ya tiene qa (regla de cadena, R3).
+RESULTADO: RECHAZADO (1 error(es), 0 aviso(s))

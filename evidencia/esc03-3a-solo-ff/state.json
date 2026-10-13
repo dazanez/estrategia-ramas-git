@@ -1,0 +1,110 @@
+﻿{
+    "escenario":  "03",
+    "variante":  "3a-solo",
+    "mergeMode":  "ff",
+    "clones":  [
+                   "dev1",
+                   "dev2"
+               ],
+    "tags":  {
+                 "v1.0.0":  {
+                                "object":  "7383e856eb85c66f5121e00af090f2b1d78cc73a",
+                                "commit":  "84452e406a799f4ff2b7242a80953aa6bed0840d",
+                                "dev":  "dev1"
+                            },
+                 "v1.1.0":  {
+                                "object":  "ea4c65f01eb9a63bc4ef4e4e427841862f80e806",
+                                "commit":  "60dbb30285da2f215af91d72109fdff3b27901ab",
+                                "dev":  "dev1"
+                            }
+             },
+    "promotions":  [
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.1.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.1.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.1.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       }
+                   ],
+    "merges":  [
+                   {
+                       "source":  "HU_6.32154_PC",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.1.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.1.0-to-stg",
+                       "target":  "stg",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.1.0-to-prod",
+                       "target":  "prod",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   }
+               ],
+    "branches":  [
+                     "HU_6.32154_PC",
+                     "promote/v1.1.0-to-qa",
+                     "promote/v1.1.0-to-stg",
+                     "promote/v1.1.0-to-prod"
+                 ],
+    "findings":  [
+                     "Contenido de v1.1.0: modulo-a.txt:L1=\u0027validacion de tokens (HU 32154)\u0027",
+                     "Contenido de prod: modulo-a.txt:L1=\u0027validacion de tokens (HU 32154)\u0027",
+                     "Contenido de sbx: modulo-a.txt:L1=\u0027validacion de tokens (HU 32154)\u0027"
+                 ]
+}

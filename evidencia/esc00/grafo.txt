@@ -1,0 +1,1 @@
+* 27692c1 (HEAD -> sbx, tag: v1.0.0, stg, qa, prod) chore: estructura inicial del repositorio

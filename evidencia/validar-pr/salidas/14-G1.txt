@@ -1,0 +1,11 @@
+# Caso 14 (G1): B revisa su PR en su clon, con cadena y tag
+# PR: feature/az-1002-firma-digital-dd -> sbx   modo: manual en dev2
+# Esperado: PASA    Obtenido: PASA
+
+Validar-PR  origen=feature/az-1002-firma-digital-dd  destino=sbx
+OK     NOMBRE           Seccion 2    La rama cumple <tipo>/<sistema>-<id>-<descripcion>-<iniciales>.
+OK     TAG              R4           La punta tiene el tag anotado v1.2.0.
+OK     VERSION          Versionado   v1.2.0 es mayor que el ultimo tag existente (v1.1.1).
+OK     CADENA           R3           La rama contiene el ultimo tag (v1.1.1).
+OK     RESULTADO        R5           Tras el PR, sbx sera identico a v1.2.0 (merge simulado (el PR aun no existe o HEAD no es su commit de merge)).
+RESULTADO: APROBADO (0 aviso(s))

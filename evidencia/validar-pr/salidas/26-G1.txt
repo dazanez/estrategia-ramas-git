@@ -1,0 +1,10 @@
+# Caso 26 (G1): Promover v1.4.0 a stg
+# PR: promote/v1.4.0-to-stg -> stg   modo: build validation (commit de merge del PR)
+# Esperado: PASA    Obtenido: PASA
+
+Validar-PR  origen=promote/v1.4.0-to-stg  destino=stg
+OK     PROMOTE-NOMBRE   R6           Promocion de v1.4.0 hacia stg.
+OK     PROMOTE-TAG      R6           La rama apunta exactamente al tag anotado v1.4.0.
+OK     ORDEN            R6           v1.4.0 ya paso por qa.
+OK     RESULTADO        I1           Tras el PR, stg sera identico a v1.4.0 (commit de merge del PR 2e362b14).
+RESULTADO: APROBADO (0 aviso(s))

@@ -1,0 +1,9 @@
+# Caso 29 (G1): Rollback promoviendo v1.3.0 a prod
+# PR: promote/v1.3.0-to-prod -> prod   modo: build validation (commit de merge del PR)
+# Esperado: FALLA YA-CONTENIDO   Obtenido: FALLA
+
+Validar-PR  origen=promote/v1.3.0-to-prod  destino=prod
+OK     PROMOTE-NOMBRE   R6           Promocion de v1.3.0 hacia prod.
+OK     PROMOTE-TAG      R6           La rama apunta exactamente al tag anotado v1.3.0.
+ERROR  YA-CONTENIDO     R6           prod ya contiene v1.3.0 (hoy tiene v1.4.0): el merge no cambiaria nada. Para volver a una version anterior se crea una version nueva con revert (seccion 6.5, rollback).
+RESULTADO: RECHAZADO (1 error(es), 0 aviso(s))

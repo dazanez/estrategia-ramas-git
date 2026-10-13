@@ -1,0 +1,716 @@
+﻿#POC escenario=12 variante=modelo propuesto mergeMode=noff fecha=2026-10-02T16:34:36
+CMD	1	-	-	0	git init --bare --initial-branch=sbx origin.git
+   | Initialized empty Git repository in D:/Desarrollos/Git Migration/poc-ramas/runs/esc12-noff/origin.git/
+CMD	2	origin	sbx	0	git config receive.denyNonFastForwards true
+#STEP	E0: clones de dos desarrolladores (PC = Pablo Castro, DD = Daniel Duran)
+CMD	3	-	-	0	git clone -q origin.git dev1
+   | warning: You appear to have cloned an empty repository.
+CMD	4	dev1	sbx	0	git config user.name "Pablo Castro"
+CMD	5	dev1	sbx	0	git config user.email pc@poc.local
+CMD	6	dev1	sbx	0	git config core.autocrlf false
+CMD	7	dev1	sbx	0	git config pull.ff only
+CMD	8	-	-	0	git clone -q origin.git dev2
+   | warning: You appear to have cloned an empty repository.
+CMD	9	dev2	sbx	0	git config user.name "Daniel Duran"
+CMD	10	dev2	sbx	0	git config user.email dd@poc.local
+CMD	11	dev2	sbx	0	git config core.autocrlf false
+CMD	12	dev2	sbx	0	git config pull.ff only
+#STEP	E0: commit inicial en sbx (arranque del repositorio: unica escritura directa en sbx)
+CMD	13	dev1	sbx	0	git checkout -q -b sbx
+CMD	14	dev1	sbx	0	git add .
+CMD	15	dev1	sbx	0	git commit -q -m "chore: estructura inicial del repositorio"
+CMD	16	dev1	sbx	0	git push -q -u origin sbx
+#STEP	E0: tag v1.0.0 sobre sbx
+CMD	17	dev1	sbx	0	git tag -a v1.0.0 HEAD -m "v1.0.0: linea base inicial"
+CMD	18	dev1	sbx	0	git push -q origin v1.0.0
+CMD	19	origin	sbx	0	git rev-parse refs/tags/v1.0.0
+   | de6ef03a9239400caf7fb05d647d666dfffe88df
+CMD	20	origin	sbx	0	git rev-parse refs/tags/v1.0.0^{commit}
+   | 5f0723aae47a5e930feabb89dcc185e04c33cccf
+#STEP	E0: creacion de qa, stg y prod desde v1.0.0 (lo hace Soporte al crear el repo, DES-EST-016 4.4.1)
+CMD	21	origin	sbx	0	git branch qa v1.0.0^{commit}
+CMD	22	origin	sbx	0	git branch stg v1.0.0^{commit}
+CMD	23	origin	sbx	0	git branch prod v1.0.0^{commit}
+CMD	24	dev1	sbx	0	git fetch -q --tags origin
+CMD	25	dev2	sbx	0	git fetch -q --tags origin
+CMD	26	dev2	sbx	0	git checkout -q sbx
+#STEP	0. A y B arrancan en paralelo desde v1.0.0
+CMD	27	dev1	sbx	0	git fetch -q --tags origin
+CMD	28	dev1	sbx	0	git checkout -q tags/v1.0.0 -b HU_12.1001_PC
+CMD	29	dev1	HU_12.1001_PC	0	git push -q -u origin HU_12.1001_PC
+CMD	30	dev1	HU_12.1001_PC	0	git add modulo-a.txt
+CMD	31	dev1	HU_12.1001_PC	0	git commit -q -m "feat(modulo-a): add HU 1001"
+CMD	32	dev1	HU_12.1001_PC	0	git symbolic-ref --short HEAD
+   | HU_12.1001_PC
+CMD	33	dev1	HU_12.1001_PC	0	git push -q origin HU_12.1001_PC
+CMD	34	dev2	sbx	0	git fetch -q --tags origin
+CMD	35	dev2	sbx	0	git checkout -q tags/v1.0.0 -b HU_12.1002_DD
+CMD	36	dev2	HU_12.1002_DD	0	git push -q -u origin HU_12.1002_DD
+CMD	37	dev2	HU_12.1002_DD	0	git add modulo-b.txt
+CMD	38	dev2	HU_12.1002_DD	0	git commit -q -m "feat(modulo-b): add HU 1002"
+CMD	39	dev2	HU_12.1002_DD	0	git symbolic-ref --short HEAD
+   | HU_12.1002_DD
+CMD	40	dev2	HU_12.1002_DD	0	git push -q origin HU_12.1002_DD
+#STEP	1. A termina: regla de cadena, tag v1.1.0 en la rama, PR a sbx, promocion a qa
+CMD	41	dev1	HU_12.1001_PC	0	git fetch -q --tags origin
+CMD	42	dev1	HU_12.1001_PC	0	git tag --sort=-version:refname
+   | v1.0.0
+CMD	43	dev1	HU_12.1001_PC	0	git merge-base --is-ancestor v1.0.0 HEAD
+CMD	44	dev1	HU_12.1001_PC	0	git tag -a v1.1.0 HEAD -m "v1.1.0: HU 1001 validada en pruebas unitarias"
+CMD	45	dev1	HU_12.1001_PC	0	git push -q origin v1.1.0
+CMD	46	origin	sbx	0	git rev-parse refs/tags/v1.1.0
+   | 12235d84fae2152ebdbed808054ec4daf32b9ce5
+CMD	47	origin	sbx	0	git rev-parse refs/tags/v1.1.0^{commit}
+   | 355cdefd3ac1fdc348a0ef0a6964fe931bc2f26a
+CMD	48	dev1	HU_12.1001_PC	0	git fetch -q --tags origin
+CMD	49	dev1	HU_12.1001_PC	0	git rev-parse -q --verify refs/heads/sbx
+   | 5f0723aae47a5e930feabb89dcc185e04c33cccf
+CMD	50	dev1	HU_12.1001_PC	0	git checkout -q sbx
+CMD	51	dev1	sbx	0	git pull -q --ff-only origin sbx
+CMD	52	dev1	sbx	0	git rev-parse -q --verify refs/remotes/origin/HU_12.1001_PC
+   | 355cdefd3ac1fdc348a0ef0a6964fe931bc2f26a
+CMD	53	dev1	sbx	0	git merge --no-ff -m "Merge PR: HU_12.1001_PC -> sbx (--no-ff)" origin/HU_12.1001_PC
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	54	dev1	sbx	0	git push -q origin sbx
+CMD	55	dev1	sbx	0	git checkout -q sbx
+CMD	56	dev1	sbx	0	git branch -d HU_12.1001_PC
+   | Deleted branch HU_12.1001_PC (was 355cdef).
+CMD	57	dev1	sbx	0	git push -q origin --delete HU_12.1001_PC
+#STEP	Promocion v1.1.0 -> qa
+CMD	58	dev1	sbx	0	git fetch -q --tags origin
+CMD	59	dev1	sbx	0	git checkout -q tags/v1.1.0 -b promote/v1.1.0-to-qa
+CMD	60	dev1	promote/v1.1.0-to-qa	0	git push -q -u origin promote/v1.1.0-to-qa
+CMD	61	dev1	promote/v1.1.0-to-qa	0	git fetch -q --tags origin
+CMD	62	dev1	promote/v1.1.0-to-qa	1	git rev-parse -q --verify refs/heads/qa
+CMD	63	dev1	promote/v1.1.0-to-qa	0	git checkout -q -b qa --track origin/qa
+CMD	64	dev1	qa	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.1.0-to-qa
+   | 355cdefd3ac1fdc348a0ef0a6964fe931bc2f26a
+CMD	65	dev1	qa	0	git merge --no-ff -m "Merge PR: promote/v1.1.0-to-qa -> qa (--no-ff)" origin/promote/v1.1.0-to-qa
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	66	dev1	qa	0	git push -q origin qa
+CMD	67	dev1	qa	0	git checkout -q sbx
+CMD	68	dev1	sbx	0	git branch -d promote/v1.1.0-to-qa
+   | Deleted branch promote/v1.1.0-to-qa (was 355cdef).
+CMD	69	dev1	sbx	0	git push -q origin --delete promote/v1.1.0-to-qa
+CMD	70	origin	sbx	0	git diff --stat v1.1.0 qa
+#STEP	2. Hotfix sobre prod (v1.0.0): rama v1.0.0_BUG_GLPI_20001_PC, tag v1.0.0.1, stg -> prod
+CMD	71	dev1	sbx	0	git fetch -q --tags origin
+CMD	72	dev1	sbx	0	git checkout -q tags/v1.0.0 -b v1.0.0_BUG_GLPI_20001_PC
+CMD	73	dev1	v1.0.0_BUG_GLPI_20001_PC	0	git push -q -u origin v1.0.0_BUG_GLPI_20001_PC
+CMD	74	dev1	v1.0.0_BUG_GLPI_20001_PC	0	git add comun.txt
+CMD	75	dev1	v1.0.0_BUG_GLPI_20001_PC	0	git commit -q -m "fix(comun): corrige bloqueo de sesion (GLPI 20001)"
+CMD	76	dev1	v1.0.0_BUG_GLPI_20001_PC	0	git symbolic-ref --short HEAD
+   | v1.0.0_BUG_GLPI_20001_PC
+CMD	77	dev1	v1.0.0_BUG_GLPI_20001_PC	0	git push -q origin v1.0.0_BUG_GLPI_20001_PC
+CMD	78	dev1	v1.0.0_BUG_GLPI_20001_PC	0	git tag -a v1.0.0.1 HEAD -m "v1.0.0.1: Hotfix GLPI 20001 sobre v1.0.0 (produccion)"
+CMD	79	dev1	v1.0.0_BUG_GLPI_20001_PC	0	git push -q origin v1.0.0.1
+CMD	80	origin	sbx	0	git rev-parse refs/tags/v1.0.0.1
+   | 6f04c5617087b7490357f10ded4f27b5e72b6561
+CMD	81	origin	sbx	0	git rev-parse refs/tags/v1.0.0.1^{commit}
+   | 6f236276075bd035f7cf628eb758a230d02e1638
+#STEP	Promocion v1.0.0.1 -> stg
+CMD	82	dev1	v1.0.0_BUG_GLPI_20001_PC	0	git fetch -q --tags origin
+CMD	83	dev1	v1.0.0_BUG_GLPI_20001_PC	0	git checkout -q tags/v1.0.0.1 -b promote/v1.0.0.1-to-stg
+CMD	84	dev1	promote/v1.0.0.1-to-stg	0	git push -q -u origin promote/v1.0.0.1-to-stg
+CMD	85	dev1	promote/v1.0.0.1-to-stg	0	git fetch -q --tags origin
+CMD	86	dev1	promote/v1.0.0.1-to-stg	1	git rev-parse -q --verify refs/heads/stg
+CMD	87	dev1	promote/v1.0.0.1-to-stg	0	git checkout -q -b stg --track origin/stg
+CMD	88	dev1	stg	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.0.0.1-to-stg
+   | 6f236276075bd035f7cf628eb758a230d02e1638
+CMD	89	dev1	stg	0	git merge --no-ff -m "Merge PR: promote/v1.0.0.1-to-stg -> stg (--no-ff)" origin/promote/v1.0.0.1-to-stg
+   | Merge made by the 'recursive' strategy.
+   |  comun.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	90	dev1	stg	0	git push -q origin stg
+CMD	91	dev1	stg	0	git checkout -q sbx
+CMD	92	dev1	sbx	0	git branch -d promote/v1.0.0.1-to-stg
+   | warning: deleting branch 'promote/v1.0.0.1-to-stg' that has been merged to
+   |          'refs/remotes/origin/promote/v1.0.0.1-to-stg', but not yet merged to HEAD.
+   | Deleted branch promote/v1.0.0.1-to-stg (was 6f23627).
+CMD	93	dev1	sbx	0	git push -q origin --delete promote/v1.0.0.1-to-stg
+CMD	94	origin	sbx	0	git diff --stat v1.0.0.1 stg
+#STEP	Promocion v1.0.0.1 -> prod
+CMD	95	dev1	sbx	0	git fetch -q --tags origin
+CMD	96	dev1	sbx	0	git checkout -q tags/v1.0.0.1 -b promote/v1.0.0.1-to-prod
+CMD	97	dev1	promote/v1.0.0.1-to-prod	0	git push -q -u origin promote/v1.0.0.1-to-prod
+CMD	98	dev1	promote/v1.0.0.1-to-prod	0	git fetch -q --tags origin
+CMD	99	dev1	promote/v1.0.0.1-to-prod	1	git rev-parse -q --verify refs/heads/prod
+CMD	100	dev1	promote/v1.0.0.1-to-prod	0	git checkout -q -b prod --track origin/prod
+CMD	101	dev1	prod	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.0.0.1-to-prod
+   | 6f236276075bd035f7cf628eb758a230d02e1638
+CMD	102	dev1	prod	0	git merge --no-ff -m "Merge PR: promote/v1.0.0.1-to-prod -> prod (--no-ff)" origin/promote/v1.0.0.1-to-prod
+   | Merge made by the 'recursive' strategy.
+   |  comun.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	103	dev1	prod	0	git push -q origin prod
+CMD	104	dev1	prod	0	git checkout -q sbx
+CMD	105	dev1	sbx	0	git branch -d promote/v1.0.0.1-to-prod
+   | warning: deleting branch 'promote/v1.0.0.1-to-prod' that has been merged to
+   |          'refs/remotes/origin/promote/v1.0.0.1-to-prod', but not yet merged to HEAD.
+   | Deleted branch promote/v1.0.0.1-to-prod (was 6f23627).
+CMD	106	dev1	sbx	0	git push -q origin --delete promote/v1.0.0.1-to-prod
+CMD	107	origin	sbx	0	git diff --stat v1.0.0.1 prod
+#STEP	2b. El hotfix se incorpora a la cabeza de la cadena (v1.1.0) en la misma rama: v1.1.1 -> qa; PR a sbx
+CMD	108	dev1	sbx	0	git fetch -q --tags origin
+CMD	109	dev1	sbx	0	git checkout -q v1.0.0_BUG_GLPI_20001_PC
+CMD	110	dev1	v1.0.0_BUG_GLPI_20001_PC	0	git merge --no-ff -m "Merge v1.1.0 en v1.0.0_BUG_GLPI_20001_PC (actualizacion de rama de trabajo)" v1.1.0
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	111	dev1	v1.0.0_BUG_GLPI_20001_PC	0	git push -q origin v1.0.0_BUG_GLPI_20001_PC
+CMD	112	dev1	v1.0.0_BUG_GLPI_20001_PC	0	git fetch -q --tags origin
+CMD	113	dev1	v1.0.0_BUG_GLPI_20001_PC	0	git tag --sort=-version:refname
+   | v1.1.0
+   | v1.0.0.1
+   | v1.0.0
+CMD	114	dev1	v1.0.0_BUG_GLPI_20001_PC	0	git merge-base --is-ancestor v1.1.0 HEAD
+CMD	115	dev1	v1.0.0_BUG_GLPI_20001_PC	0	git tag -a v1.1.1 HEAD -m "v1.1.1: v1.1.0 (en qa) + hotfix GLPI 20001"
+CMD	116	dev1	v1.0.0_BUG_GLPI_20001_PC	0	git push -q origin v1.1.1
+CMD	117	origin	sbx	0	git rev-parse refs/tags/v1.1.1
+   | d2f7d605dba584e3ece32182a03b62a0f8798248
+CMD	118	origin	sbx	0	git rev-parse refs/tags/v1.1.1^{commit}
+   | 8062a78b2b1ac0c92e3c4a6fb6c969af3224a68c
+#STEP	Promocion v1.1.1 -> qa
+CMD	119	dev1	v1.0.0_BUG_GLPI_20001_PC	0	git fetch -q --tags origin
+CMD	120	dev1	v1.0.0_BUG_GLPI_20001_PC	0	git checkout -q tags/v1.1.1 -b promote/v1.1.1-to-qa
+CMD	121	dev1	promote/v1.1.1-to-qa	0	git push -q -u origin promote/v1.1.1-to-qa
+CMD	122	dev1	promote/v1.1.1-to-qa	0	git fetch -q --tags origin
+CMD	123	dev1	promote/v1.1.1-to-qa	0	git rev-parse -q --verify refs/heads/qa
+   | b9934a11a377344d34847c88e54ef0e755e382ca
+CMD	124	dev1	promote/v1.1.1-to-qa	0	git checkout -q qa
+CMD	125	dev1	qa	0	git pull -q --ff-only origin qa
+CMD	126	dev1	qa	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.1.1-to-qa
+   | 8062a78b2b1ac0c92e3c4a6fb6c969af3224a68c
+CMD	127	dev1	qa	0	git merge --no-ff -m "Merge PR: promote/v1.1.1-to-qa -> qa (--no-ff)" origin/promote/v1.1.1-to-qa
+   | Merge made by the 'recursive' strategy.
+   |  comun.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	128	dev1	qa	0	git push -q origin qa
+CMD	129	dev1	qa	0	git checkout -q sbx
+CMD	130	dev1	sbx	0	git branch -d promote/v1.1.1-to-qa
+   | warning: deleting branch 'promote/v1.1.1-to-qa' that has been merged to
+   |          'refs/remotes/origin/promote/v1.1.1-to-qa', but not yet merged to HEAD.
+   | Deleted branch promote/v1.1.1-to-qa (was 8062a78).
+CMD	131	dev1	sbx	0	git push -q origin --delete promote/v1.1.1-to-qa
+CMD	132	origin	sbx	0	git diff --stat v1.1.1 qa
+CMD	133	dev1	sbx	0	git fetch -q --tags origin
+CMD	134	dev1	sbx	0	git rev-parse -q --verify refs/heads/sbx
+   | bf51b231e06b751867efaed9409c9027aab9af7a
+CMD	135	dev1	sbx	0	git checkout -q sbx
+CMD	136	dev1	sbx	0	git pull -q --ff-only origin sbx
+CMD	137	dev1	sbx	0	git rev-parse -q --verify refs/remotes/origin/v1.0.0_BUG_GLPI_20001_PC
+   | 8062a78b2b1ac0c92e3c4a6fb6c969af3224a68c
+CMD	138	dev1	sbx	0	git merge --no-ff -m "Merge PR: v1.0.0_BUG_GLPI_20001_PC -> sbx (--no-ff)" origin/v1.0.0_BUG_GLPI_20001_PC
+   | Merge made by the 'recursive' strategy.
+   |  comun.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	139	dev1	sbx	0	git push -q origin sbx
+CMD	140	dev1	sbx	0	git checkout -q sbx
+CMD	141	dev1	sbx	0	git branch -d v1.0.0_BUG_GLPI_20001_PC
+   | Deleted branch v1.0.0_BUG_GLPI_20001_PC (was 8062a78).
+CMD	142	dev1	sbx	0	git push -q origin --delete v1.0.0_BUG_GLPI_20001_PC
+#STEP	3. B termina: regla de cadena (incorpora v1.1.1 antes de etiquetar), v1.2.0, PR, qa
+CMD	143	dev2	HU_12.1002_DD	0	git fetch -q --tags origin
+CMD	144	dev2	HU_12.1002_DD	0	git tag --sort=-version:refname
+   | v1.1.1
+   | v1.1.0
+   | v1.0.0.1
+   | v1.0.0
+CMD	145	dev2	HU_12.1002_DD	1	git merge-base --is-ancestor v1.1.1 HEAD
+CMD	146	dev2	HU_12.1002_DD	0	git fetch -q --tags origin
+CMD	147	dev2	HU_12.1002_DD	0	git checkout -q HU_12.1002_DD
+CMD	148	dev2	HU_12.1002_DD	0	git merge --no-ff -m "Merge v1.1.1 en HU_12.1002_DD (actualizacion de rama de trabajo)" v1.1.1
+   | Merge made by the 'recursive' strategy.
+   |  comun.txt    | 2 +-
+   |  modulo-a.txt | 2 +-
+   |  2 files changed, 2 insertions(+), 2 deletions(-)
+CMD	149	dev2	HU_12.1002_DD	0	git push -q origin HU_12.1002_DD
+CMD	150	dev2	HU_12.1002_DD	0	git fetch -q --tags origin
+CMD	151	dev2	HU_12.1002_DD	0	git tag --sort=-version:refname
+   | v1.1.1
+   | v1.1.0
+   | v1.0.0.1
+   | v1.0.0
+CMD	152	dev2	HU_12.1002_DD	0	git merge-base --is-ancestor v1.1.1 HEAD
+CMD	153	dev2	HU_12.1002_DD	0	git tag -a v1.2.0 HEAD -m "v1.2.0: HU 1002 validada en pruebas unitarias"
+CMD	154	dev2	HU_12.1002_DD	0	git push -q origin v1.2.0
+CMD	155	origin	sbx	0	git rev-parse refs/tags/v1.2.0
+   | cd27e7b843efb310eaedcb7502940f3d7327a203
+CMD	156	origin	sbx	0	git rev-parse refs/tags/v1.2.0^{commit}
+   | 9e6ab35de8371e250b36c37d7bc8f4cf29366123
+CMD	157	dev2	HU_12.1002_DD	0	git fetch -q --tags origin
+CMD	158	dev2	HU_12.1002_DD	0	git rev-parse -q --verify refs/heads/sbx
+   | 5f0723aae47a5e930feabb89dcc185e04c33cccf
+CMD	159	dev2	HU_12.1002_DD	0	git checkout -q sbx
+CMD	160	dev2	sbx	0	git pull -q --ff-only origin sbx
+CMD	161	dev2	sbx	0	git rev-parse -q --verify refs/remotes/origin/HU_12.1002_DD
+   | 9e6ab35de8371e250b36c37d7bc8f4cf29366123
+CMD	162	dev2	sbx	0	git merge --no-ff -m "Merge PR: HU_12.1002_DD -> sbx (--no-ff)" origin/HU_12.1002_DD
+   | Merge made by the 'recursive' strategy.
+   |  modulo-b.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	163	dev2	sbx	0	git push -q origin sbx
+CMD	164	dev2	sbx	0	git checkout -q sbx
+CMD	165	dev2	sbx	0	git branch -d HU_12.1002_DD
+   | Deleted branch HU_12.1002_DD (was 9e6ab35).
+CMD	166	dev2	sbx	0	git push -q origin --delete HU_12.1002_DD
+CMD	167	origin	sbx	0	git diff --quiet v1.2.0 sbx
+#STEP	Promocion v1.2.0 -> qa
+CMD	168	dev2	sbx	0	git fetch -q --tags origin
+CMD	169	dev2	sbx	0	git checkout -q tags/v1.2.0 -b promote/v1.2.0-to-qa
+CMD	170	dev2	promote/v1.2.0-to-qa	0	git push -q -u origin promote/v1.2.0-to-qa
+CMD	171	dev2	promote/v1.2.0-to-qa	0	git fetch -q --tags origin
+CMD	172	dev2	promote/v1.2.0-to-qa	1	git rev-parse -q --verify refs/heads/qa
+CMD	173	dev2	promote/v1.2.0-to-qa	0	git checkout -q -b qa --track origin/qa
+CMD	174	dev2	qa	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.2.0-to-qa
+   | 9e6ab35de8371e250b36c37d7bc8f4cf29366123
+CMD	175	dev2	qa	0	git merge --no-ff -m "Merge PR: promote/v1.2.0-to-qa -> qa (--no-ff)" origin/promote/v1.2.0-to-qa
+   | Merge made by the 'recursive' strategy.
+   |  modulo-b.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	176	dev2	qa	0	git push -q origin qa
+CMD	177	dev2	qa	0	git checkout -q sbx
+CMD	178	dev2	sbx	0	git branch -d promote/v1.2.0-to-qa
+   | Deleted branch promote/v1.2.0-to-qa (was 9e6ab35).
+CMD	179	dev2	sbx	0	git push -q origin --delete promote/v1.2.0-to-qa
+CMD	180	origin	sbx	0	git diff --stat v1.2.0 qa
+#STEP	4. B debe salir y el cliente no ha aprobado A: retiro temporal de A con revert
+CMD	181	dev1	sbx	0	git fetch -q --tags origin
+CMD	182	dev1	sbx	0	git checkout -q tags/v1.2.0 -b HU_12.1003_PC
+CMD	183	dev1	HU_12.1003_PC	0	git push -q -u origin HU_12.1003_PC
+CMD	184	dev1	HU_12.1003_PC	0	git log -1 --format=%H "--grep=add HU 1001" v1.2.0
+   | 355cdefd3ac1fdc348a0ef0a6964fe931bc2f26a
+CMD	185	dev1	HU_12.1003_PC	0	git revert --no-edit 355cdefd3ac1fdc348a0ef0a6964fe931bc2f26a
+   | [HU_12.1003_PC 30b0029] Revert "feat(modulo-a): add HU 1001"
+   |  Date: Fri Oct 2 16:35:03 2026 -0500
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	186	dev1	HU_12.1003_PC	0	git push -q origin HU_12.1003_PC
+CMD	187	dev1	HU_12.1003_PC	0	git fetch -q --tags origin
+CMD	188	dev1	HU_12.1003_PC	0	git tag --sort=-version:refname
+   | v1.2.0
+   | v1.1.1
+   | v1.1.0
+   | v1.0.0.1
+   | v1.0.0
+CMD	189	dev1	HU_12.1003_PC	0	git merge-base --is-ancestor v1.2.0 HEAD
+CMD	190	dev1	HU_12.1003_PC	0	git tag -a v1.3.0 HEAD -m "v1.3.0: sale B; HU 1001 retirada temporalmente (pendiente aprobacion del cliente)"
+CMD	191	dev1	HU_12.1003_PC	0	git push -q origin v1.3.0
+CMD	192	origin	sbx	0	git rev-parse refs/tags/v1.3.0
+   | f89cfb0e98cd32858c9be1773422f8e4906452f3
+CMD	193	origin	sbx	0	git rev-parse refs/tags/v1.3.0^{commit}
+   | 30b0029883260cf0df78de9f9718c9405afd35ca
+CMD	194	dev1	HU_12.1003_PC	0	git fetch -q --tags origin
+CMD	195	dev1	HU_12.1003_PC	0	git rev-parse -q --verify refs/heads/sbx
+   | 8c6ba5d7ee3596f5641f2e74174df8250837c035
+CMD	196	dev1	HU_12.1003_PC	0	git checkout -q sbx
+CMD	197	dev1	sbx	0	git pull -q --ff-only origin sbx
+CMD	198	dev1	sbx	0	git rev-parse -q --verify refs/remotes/origin/HU_12.1003_PC
+   | 30b0029883260cf0df78de9f9718c9405afd35ca
+CMD	199	dev1	sbx	0	git merge --no-ff -m "Merge PR: HU_12.1003_PC -> sbx (--no-ff)" origin/HU_12.1003_PC
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	200	dev1	sbx	0	git push -q origin sbx
+CMD	201	dev1	sbx	0	git checkout -q sbx
+CMD	202	dev1	sbx	0	git branch -d HU_12.1003_PC
+   | Deleted branch HU_12.1003_PC (was 30b0029).
+CMD	203	dev1	sbx	0	git push -q origin --delete HU_12.1003_PC
+#STEP	Promocion v1.3.0 -> qa
+CMD	204	dev1	sbx	0	git fetch -q --tags origin
+CMD	205	dev1	sbx	0	git checkout -q tags/v1.3.0 -b promote/v1.3.0-to-qa
+CMD	206	dev1	promote/v1.3.0-to-qa	0	git push -q -u origin promote/v1.3.0-to-qa
+CMD	207	dev1	promote/v1.3.0-to-qa	0	git fetch -q --tags origin
+CMD	208	dev1	promote/v1.3.0-to-qa	0	git rev-parse -q --verify refs/heads/qa
+   | 65b0f1d307f00e0097650f8200f75b990881bd28
+CMD	209	dev1	promote/v1.3.0-to-qa	0	git checkout -q qa
+CMD	210	dev1	qa	0	git pull -q --ff-only origin qa
+CMD	211	dev1	qa	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.3.0-to-qa
+   | 30b0029883260cf0df78de9f9718c9405afd35ca
+CMD	212	dev1	qa	0	git merge --no-ff -m "Merge PR: promote/v1.3.0-to-qa -> qa (--no-ff)" origin/promote/v1.3.0-to-qa
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	213	dev1	qa	0	git push -q origin qa
+CMD	214	dev1	qa	0	git checkout -q sbx
+CMD	215	dev1	sbx	0	git branch -d promote/v1.3.0-to-qa
+   | Deleted branch promote/v1.3.0-to-qa (was 30b0029).
+CMD	216	dev1	sbx	0	git push -q origin --delete promote/v1.3.0-to-qa
+CMD	217	origin	sbx	0	git diff --stat v1.3.0 qa
+#STEP	Promocion v1.3.0 -> stg
+CMD	218	dev1	sbx	0	git fetch -q --tags origin
+CMD	219	dev1	sbx	0	git checkout -q tags/v1.3.0 -b promote/v1.3.0-to-stg
+CMD	220	dev1	promote/v1.3.0-to-stg	0	git push -q -u origin promote/v1.3.0-to-stg
+CMD	221	dev1	promote/v1.3.0-to-stg	0	git fetch -q --tags origin
+CMD	222	dev1	promote/v1.3.0-to-stg	0	git rev-parse -q --verify refs/heads/stg
+   | 5e12bc8cf67d1015cbd9efa34f57bd2c0d684193
+CMD	223	dev1	promote/v1.3.0-to-stg	0	git checkout -q stg
+CMD	224	dev1	stg	0	git pull -q --ff-only origin stg
+CMD	225	dev1	stg	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.3.0-to-stg
+   | 30b0029883260cf0df78de9f9718c9405afd35ca
+CMD	226	dev1	stg	0	git merge --no-ff -m "Merge PR: promote/v1.3.0-to-stg -> stg (--no-ff)" origin/promote/v1.3.0-to-stg
+   | Merge made by the 'recursive' strategy.
+   |  modulo-b.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	227	dev1	stg	0	git push -q origin stg
+CMD	228	dev1	stg	0	git checkout -q sbx
+CMD	229	dev1	sbx	0	git branch -d promote/v1.3.0-to-stg
+   | Deleted branch promote/v1.3.0-to-stg (was 30b0029).
+CMD	230	dev1	sbx	0	git push -q origin --delete promote/v1.3.0-to-stg
+CMD	231	origin	sbx	0	git diff --stat v1.3.0 stg
+#STEP	Promocion v1.3.0 -> prod
+CMD	232	dev1	sbx	0	git fetch -q --tags origin
+CMD	233	dev1	sbx	0	git checkout -q tags/v1.3.0 -b promote/v1.3.0-to-prod
+CMD	234	dev1	promote/v1.3.0-to-prod	0	git push -q -u origin promote/v1.3.0-to-prod
+CMD	235	dev1	promote/v1.3.0-to-prod	0	git fetch -q --tags origin
+CMD	236	dev1	promote/v1.3.0-to-prod	0	git rev-parse -q --verify refs/heads/prod
+   | 771066d7ccebe6f4f0176a5852a68481a04de0a0
+CMD	237	dev1	promote/v1.3.0-to-prod	0	git checkout -q prod
+CMD	238	dev1	prod	0	git pull -q --ff-only origin prod
+CMD	239	dev1	prod	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.3.0-to-prod
+   | 30b0029883260cf0df78de9f9718c9405afd35ca
+CMD	240	dev1	prod	0	git merge --no-ff -m "Merge PR: promote/v1.3.0-to-prod -> prod (--no-ff)" origin/promote/v1.3.0-to-prod
+   | Merge made by the 'recursive' strategy.
+   |  modulo-b.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	241	dev1	prod	0	git push -q origin prod
+CMD	242	dev1	prod	0	git checkout -q sbx
+CMD	243	dev1	sbx	0	git branch -d promote/v1.3.0-to-prod
+   | Deleted branch promote/v1.3.0-to-prod (was 30b0029).
+CMD	244	dev1	sbx	0	git push -q origin --delete promote/v1.3.0-to-prod
+CMD	245	origin	sbx	0	git diff --stat v1.3.0 prod
+#STEP	5. El cliente aprueba A: revert del revert
+CMD	246	dev1	sbx	0	git fetch -q --tags origin
+CMD	247	dev1	sbx	0	git checkout -q tags/v1.3.0 -b HU_12.1004_PC
+CMD	248	dev1	HU_12.1004_PC	0	git push -q -u origin HU_12.1004_PC
+CMD	249	dev1	HU_12.1004_PC	0	git log -1 --format=%H --grep=^Revert "--grep=HU 1001" --all-match v1.3.0
+   | 30b0029883260cf0df78de9f9718c9405afd35ca
+CMD	250	dev1	HU_12.1004_PC	0	git revert --no-edit 30b0029883260cf0df78de9f9718c9405afd35ca
+   | [HU_12.1004_PC f7c40fd] Revert "Revert "feat(modulo-a): add HU 1001""
+   |  Date: Fri Oct 2 16:35:12 2026 -0500
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	251	dev1	HU_12.1004_PC	0	git push -q origin HU_12.1004_PC
+CMD	252	dev1	HU_12.1004_PC	0	git fetch -q --tags origin
+CMD	253	dev1	HU_12.1004_PC	0	git tag --sort=-version:refname
+   | v1.3.0
+   | v1.2.0
+   | v1.1.1
+   | v1.1.0
+   | v1.0.0.1
+   | v1.0.0
+CMD	254	dev1	HU_12.1004_PC	0	git merge-base --is-ancestor v1.3.0 HEAD
+CMD	255	dev1	HU_12.1004_PC	0	git tag -a v1.4.0 HEAD -m "v1.4.0: reintroduce HU 1001 aprobada por el cliente"
+CMD	256	dev1	HU_12.1004_PC	0	git push -q origin v1.4.0
+CMD	257	origin	sbx	0	git rev-parse refs/tags/v1.4.0
+   | 958c89bfd3e1de8ca29d6e822f2ae21a3f4620dc
+CMD	258	origin	sbx	0	git rev-parse refs/tags/v1.4.0^{commit}
+   | f7c40fdd15754b69b447452a476b043a38acf9b6
+CMD	259	dev1	HU_12.1004_PC	0	git fetch -q --tags origin
+CMD	260	dev1	HU_12.1004_PC	0	git rev-parse -q --verify refs/heads/sbx
+   | 6fa4e0bbc8b8f667053457527b5c769bfe87c276
+CMD	261	dev1	HU_12.1004_PC	0	git checkout -q sbx
+CMD	262	dev1	sbx	0	git pull -q --ff-only origin sbx
+CMD	263	dev1	sbx	0	git rev-parse -q --verify refs/remotes/origin/HU_12.1004_PC
+   | f7c40fdd15754b69b447452a476b043a38acf9b6
+CMD	264	dev1	sbx	0	git merge --no-ff -m "Merge PR: HU_12.1004_PC -> sbx (--no-ff)" origin/HU_12.1004_PC
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	265	dev1	sbx	0	git push -q origin sbx
+CMD	266	dev1	sbx	0	git checkout -q sbx
+CMD	267	dev1	sbx	0	git branch -d HU_12.1004_PC
+   | Deleted branch HU_12.1004_PC (was f7c40fd).
+CMD	268	dev1	sbx	0	git push -q origin --delete HU_12.1004_PC
+#STEP	Promocion v1.4.0 -> qa
+CMD	269	dev1	sbx	0	git fetch -q --tags origin
+CMD	270	dev1	sbx	0	git checkout -q tags/v1.4.0 -b promote/v1.4.0-to-qa
+CMD	271	dev1	promote/v1.4.0-to-qa	0	git push -q -u origin promote/v1.4.0-to-qa
+CMD	272	dev1	promote/v1.4.0-to-qa	0	git fetch -q --tags origin
+CMD	273	dev1	promote/v1.4.0-to-qa	0	git rev-parse -q --verify refs/heads/qa
+   | 4cefee12a8adcea876a3f57d0484849d66727a40
+CMD	274	dev1	promote/v1.4.0-to-qa	0	git checkout -q qa
+CMD	275	dev1	qa	0	git pull -q --ff-only origin qa
+CMD	276	dev1	qa	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.4.0-to-qa
+   | f7c40fdd15754b69b447452a476b043a38acf9b6
+CMD	277	dev1	qa	0	git merge --no-ff -m "Merge PR: promote/v1.4.0-to-qa -> qa (--no-ff)" origin/promote/v1.4.0-to-qa
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	278	dev1	qa	0	git push -q origin qa
+CMD	279	dev1	qa	0	git checkout -q sbx
+CMD	280	dev1	sbx	0	git branch -d promote/v1.4.0-to-qa
+   | Deleted branch promote/v1.4.0-to-qa (was f7c40fd).
+CMD	281	dev1	sbx	0	git push -q origin --delete promote/v1.4.0-to-qa
+CMD	282	origin	sbx	0	git diff --stat v1.4.0 qa
+#STEP	Promocion v1.4.0 -> stg
+CMD	283	dev1	sbx	0	git fetch -q --tags origin
+CMD	284	dev1	sbx	0	git checkout -q tags/v1.4.0 -b promote/v1.4.0-to-stg
+CMD	285	dev1	promote/v1.4.0-to-stg	0	git push -q -u origin promote/v1.4.0-to-stg
+CMD	286	dev1	promote/v1.4.0-to-stg	0	git fetch -q --tags origin
+CMD	287	dev1	promote/v1.4.0-to-stg	0	git rev-parse -q --verify refs/heads/stg
+   | a21f6353759d79606f95d7d06962d41a64f6b20a
+CMD	288	dev1	promote/v1.4.0-to-stg	0	git checkout -q stg
+CMD	289	dev1	stg	0	git pull -q --ff-only origin stg
+CMD	290	dev1	stg	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.4.0-to-stg
+   | f7c40fdd15754b69b447452a476b043a38acf9b6
+CMD	291	dev1	stg	0	git merge --no-ff -m "Merge PR: promote/v1.4.0-to-stg -> stg (--no-ff)" origin/promote/v1.4.0-to-stg
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	292	dev1	stg	0	git push -q origin stg
+CMD	293	dev1	stg	0	git checkout -q sbx
+CMD	294	dev1	sbx	0	git branch -d promote/v1.4.0-to-stg
+   | Deleted branch promote/v1.4.0-to-stg (was f7c40fd).
+CMD	295	dev1	sbx	0	git push -q origin --delete promote/v1.4.0-to-stg
+CMD	296	origin	sbx	0	git diff --stat v1.4.0 stg
+#STEP	Promocion v1.4.0 -> prod
+CMD	297	dev1	sbx	0	git fetch -q --tags origin
+CMD	298	dev1	sbx	0	git checkout -q tags/v1.4.0 -b promote/v1.4.0-to-prod
+CMD	299	dev1	promote/v1.4.0-to-prod	0	git push -q -u origin promote/v1.4.0-to-prod
+CMD	300	dev1	promote/v1.4.0-to-prod	0	git fetch -q --tags origin
+CMD	301	dev1	promote/v1.4.0-to-prod	0	git rev-parse -q --verify refs/heads/prod
+   | 4698ee966141b926a6ee507eb289549bb553de65
+CMD	302	dev1	promote/v1.4.0-to-prod	0	git checkout -q prod
+CMD	303	dev1	prod	0	git pull -q --ff-only origin prod
+CMD	304	dev1	prod	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.4.0-to-prod
+   | f7c40fdd15754b69b447452a476b043a38acf9b6
+CMD	305	dev1	prod	0	git merge --no-ff -m "Merge PR: promote/v1.4.0-to-prod -> prod (--no-ff)" origin/promote/v1.4.0-to-prod
+   | Merge made by the 'recursive' strategy.
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	306	dev1	prod	0	git push -q origin prod
+CMD	307	dev1	prod	0	git checkout -q sbx
+CMD	308	dev1	sbx	0	git branch -d promote/v1.4.0-to-prod
+   | Deleted branch promote/v1.4.0-to-prod (was f7c40fd).
+CMD	309	dev1	sbx	0	git push -q origin --delete promote/v1.4.0-to-prod
+CMD	310	origin	sbx	0	git diff --stat v1.4.0 prod
+#STEP	Inventario de cada version
+CMD	311	origin	sbx	0	git show v1.1.0:modulo-a.txt
+   | A: HU 1001 (certificada, espera cliente)
+   | modulo-a.txt L2: base
+   | modulo-a.txt L3: base
+   | modulo-a.txt L4: base
+   | modulo-a.txt L5: base
+CMD	312	origin	sbx	0	git show v1.1.0:modulo-b.txt
+   | modulo-b.txt L1: base
+   | modulo-b.txt L2: base
+   | modulo-b.txt L3: base
+   | modulo-b.txt L4: base
+   | modulo-b.txt L5: base
+CMD	313	origin	sbx	0	git show v1.1.0:comun.txt
+   | comun.txt L1: base
+   | comun.txt L2: base
+   | comun.txt L3: base
+   | comun.txt L4: base
+   | comun.txt L5: base
+CMD	314	origin	sbx	0	git show v1.0.0.1:modulo-a.txt
+   | modulo-a.txt L1: base
+   | modulo-a.txt L2: base
+   | modulo-a.txt L3: base
+   | modulo-a.txt L4: base
+   | modulo-a.txt L5: base
+CMD	315	origin	sbx	0	git show v1.0.0.1:modulo-b.txt
+   | modulo-b.txt L1: base
+   | modulo-b.txt L2: base
+   | modulo-b.txt L3: base
+   | modulo-b.txt L4: base
+   | modulo-b.txt L5: base
+CMD	316	origin	sbx	0	git show v1.0.0.1:comun.txt
+   | HOTFIX GLPI-20001
+   | comun.txt L2: base
+   | comun.txt L3: base
+   | comun.txt L4: base
+   | comun.txt L5: base
+CMD	317	origin	sbx	0	git show v1.1.1:modulo-a.txt
+   | A: HU 1001 (certificada, espera cliente)
+   | modulo-a.txt L2: base
+   | modulo-a.txt L3: base
+   | modulo-a.txt L4: base
+   | modulo-a.txt L5: base
+CMD	318	origin	sbx	0	git show v1.1.1:modulo-b.txt
+   | modulo-b.txt L1: base
+   | modulo-b.txt L2: base
+   | modulo-b.txt L3: base
+   | modulo-b.txt L4: base
+   | modulo-b.txt L5: base
+CMD	319	origin	sbx	0	git show v1.1.1:comun.txt
+   | HOTFIX GLPI-20001
+   | comun.txt L2: base
+   | comun.txt L3: base
+   | comun.txt L4: base
+   | comun.txt L5: base
+CMD	320	origin	sbx	0	git show v1.2.0:modulo-a.txt
+   | A: HU 1001 (certificada, espera cliente)
+   | modulo-a.txt L2: base
+   | modulo-a.txt L3: base
+   | modulo-a.txt L4: base
+   | modulo-a.txt L5: base
+CMD	321	origin	sbx	0	git show v1.2.0:modulo-b.txt
+   | B: HU 1002
+   | modulo-b.txt L2: base
+   | modulo-b.txt L3: base
+   | modulo-b.txt L4: base
+   | modulo-b.txt L5: base
+CMD	322	origin	sbx	0	git show v1.2.0:comun.txt
+   | HOTFIX GLPI-20001
+   | comun.txt L2: base
+   | comun.txt L3: base
+   | comun.txt L4: base
+   | comun.txt L5: base
+CMD	323	origin	sbx	0	git show v1.3.0:modulo-a.txt
+   | modulo-a.txt L1: base
+   | modulo-a.txt L2: base
+   | modulo-a.txt L3: base
+   | modulo-a.txt L4: base
+   | modulo-a.txt L5: base
+CMD	324	origin	sbx	0	git show v1.3.0:modulo-b.txt
+   | B: HU 1002
+   | modulo-b.txt L2: base
+   | modulo-b.txt L3: base
+   | modulo-b.txt L4: base
+   | modulo-b.txt L5: base
+CMD	325	origin	sbx	0	git show v1.3.0:comun.txt
+   | HOTFIX GLPI-20001
+   | comun.txt L2: base
+   | comun.txt L3: base
+   | comun.txt L4: base
+   | comun.txt L5: base
+CMD	326	origin	sbx	0	git show v1.4.0:modulo-a.txt
+   | A: HU 1001 (certificada, espera cliente)
+   | modulo-a.txt L2: base
+   | modulo-a.txt L3: base
+   | modulo-a.txt L4: base
+   | modulo-a.txt L5: base
+CMD	327	origin	sbx	0	git show v1.4.0:modulo-b.txt
+   | B: HU 1002
+   | modulo-b.txt L2: base
+   | modulo-b.txt L3: base
+   | modulo-b.txt L4: base
+   | modulo-b.txt L5: base
+CMD	328	origin	sbx	0	git show v1.4.0:comun.txt
+   | HOTFIX GLPI-20001
+   | comun.txt L2: base
+   | comun.txt L3: base
+   | comun.txt L4: base
+   | comun.txt L5: base
+CMD	329	origin	sbx	0	git show prod:modulo-a.txt
+   | A: HU 1001 (certificada, espera cliente)
+   | modulo-a.txt L2: base
+   | modulo-a.txt L3: base
+   | modulo-a.txt L4: base
+   | modulo-a.txt L5: base
+CMD	330	origin	sbx	0	git show prod:modulo-b.txt
+   | B: HU 1002
+   | modulo-b.txt L2: base
+   | modulo-b.txt L3: base
+   | modulo-b.txt L4: base
+   | modulo-b.txt L5: base
+CMD	331	origin	sbx	0	git show prod:comun.txt
+   | HOTFIX GLPI-20001
+   | comun.txt L2: base
+   | comun.txt L3: base
+   | comun.txt L4: base
+   | comun.txt L5: base
+CMD	332	origin	sbx	0	git show sbx:modulo-a.txt
+   | A: HU 1001 (certificada, espera cliente)
+   | modulo-a.txt L2: base
+   | modulo-a.txt L3: base
+   | modulo-a.txt L4: base
+   | modulo-a.txt L5: base
+CMD	333	origin	sbx	0	git show sbx:modulo-b.txt
+   | B: HU 1002
+   | modulo-b.txt L2: base
+   | modulo-b.txt L3: base
+   | modulo-b.txt L4: base
+   | modulo-b.txt L5: base
+CMD	334	origin	sbx	0	git show sbx:comun.txt
+   | HOTFIX GLPI-20001
+   | comun.txt L2: base
+   | comun.txt L3: base
+   | comun.txt L4: base
+   | comun.txt L5: base
+CMD	335	origin	sbx	0	git tag --sort=version:refname
+   | v1.0.0
+   | v1.0.0.1
+   | v1.1.0
+   | v1.1.1
+   | v1.2.0
+   | v1.3.0
+   | v1.4.0
+CMD	336	origin	sbx	0	git log --oneline --graph --all --decorate
+   | *   ee3e9b5 (prod) Merge PR: promote/v1.4.0-to-prod -> prod (--no-ff)
+   | |\  
+   | * \   4698ee9 Merge PR: promote/v1.3.0-to-prod -> prod (--no-ff)
+   | |\ \  
+   | * \ \   771066d Merge PR: promote/v1.0.0.1-to-prod -> prod (--no-ff)
+   | |\ \ \  
+   | | | | | *   56a83bf (stg) Merge PR: promote/v1.4.0-to-stg -> stg (--no-ff)
+   | | | | | |\  
+   | | | | | |/  
+   | | | | |/|   
+   | | | | | *   a21f635 Merge PR: promote/v1.3.0-to-stg -> stg (--no-ff)
+   | | | | | |\  
+   | | | | |_|/  
+   | | | |/| |   
+   | | | | | * 5e12bc8 Merge PR: promote/v1.0.0.1-to-stg -> stg (--no-ff)
+   | | |_|_|/| 
+   | |/| | |/  
+   | | | |/|   
+   | | |/| |   
+   | | | | | *   d6df39f (qa) Merge PR: promote/v1.4.0-to-qa -> qa (--no-ff)
+   | | | | | |\  
+   | | | | | |/  
+   | | | | |/|   
+   | | | | | *   4cefee1 Merge PR: promote/v1.3.0-to-qa -> qa (--no-ff)
+   | | | | | |\  
+   | | | | |_|/  
+   | | | |/| |   
+   | | | | | *   938de72 Merge PR: promote/v1.2.0-to-qa -> qa (--no-ff)
+   | | | | | |\  
+   | | | | | * \   65b0f1d Merge PR: promote/v1.1.1-to-qa -> qa (--no-ff)
+   | | | | | |\ \  
+   | | | | | * | | b9934a1 Merge PR: promote/v1.1.0-to-qa -> qa (--no-ff)
+   | | |_|_|/| | | 
+   | |/| | | | | | 
+   | | | | | | | | *   a3d82d3 (HEAD -> sbx) Merge PR: HU_12.1004_PC -> sbx (--no-ff)
+   | | | | | | | | |\  
+   | | | | | |_|_|_|/  
+   | | | | |/| | | |   
+   | | | | * | | | | f7c40fd (tag: v1.4.0) Revert "Revert "feat(modulo-a): add HU 1001""
+   | | | |/ / / / /  
+   | | | | | | | *   6fa4e0b Merge PR: HU_12.1003_PC -> sbx (--no-ff)
+   | | | | | | | |\  
+   | | | | |_|_|_|/  
+   | | | |/| | | |   
+   | | | * | | | | 30b0029 (tag: v1.3.0) Revert "feat(modulo-a): add HU 1001"
+   | | | | |_|/ /  
+   | | | |/| | |   
+   | | | | | | *   2932002 Merge PR: HU_12.1002_DD -> sbx (--no-ff)
+   | | | | | | |\  
+   | | | | |_|_|/  
+   | | | |/| | |   
+   | | | * | | |   9e6ab35 (tag: v1.2.0) Merge v1.1.1 en HU_12.1002_DD (actualizacion de rama de trabajo)
+   | | | |\ \ \ \  
+   | | | | | |/ /  
+   | | | | |/| |   
+   | | | * / | | e0f862e feat(modulo-b): add HU 1002
+   | | |/ / / /  
+   | |/| | | |   
+   | | | | | *   8c6ba5d Merge PR: v1.0.0_BUG_GLPI_20001_PC -> sbx (--no-ff)
+   | | | | | |\  
+   | | | | |_|/  
+   | | | |/| |   
+   | | | * | | 8062a78 (tag: v1.1.1) Merge v1.1.0 en v1.0.0_BUG_GLPI_20001_PC (actualizacion de rama de trabajo)
+   | | |/| | | 
+   | | | |/ /  
+   | | * / / 6f23627 (tag: v1.0.0.1) fix(comun): corrige bloqueo de sesion (GLPI 20001)
+   | |/ / /  
+   | | | * bf51b23 Merge PR: HU_12.1001_PC -> sbx (--no-ff)
+   | | |/| 
+   | |/|/  
+   | | * 355cdef (tag: v1.1.0) feat(modulo-a): add HU 1001
+   | |/  
+   | * 5f0723a (tag: v1.0.0) chore: estructura inicial del repositorio

@@ -1,0 +1,93 @@
+﻿{
+    "escenario":  "11",
+    "variante":  "11a",
+    "mergeMode":  "noff",
+    "clones":  [
+                   "dev1",
+                   "dev2"
+               ],
+    "tags":  {
+                 "v1.0.0":  {
+                                "object":  "1e0957cd2a9867b55747cc14847011b07a6729af",
+                                "commit":  "bdc549e6901113c7c32995beb4e73353dbe0ba13",
+                                "dev":  "dev1"
+                            },
+                 "v1.1.0":  {
+                                "object":  "f694e3aaf53276c77097abcb3b0f4610721ca4e5",
+                                "commit":  "a6216c14682bf83b99eb421c7c2a20f7baa272f3",
+                                "dev":  "dev1"
+                            },
+                 "v1.2.0":  {
+                                "object":  "db135009fdac08b11ef149493dbca22ad0d029cd",
+                                "commit":  "df75c8fdbb6ae9943eac7e624902bc09a6b77367",
+                                "dev":  "dev2"
+                            }
+             },
+    "promotions":  [
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.2.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       }
+                   ],
+    "merges":  [
+                   {
+                       "source":  "HU_6.40002_PC",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_6.40001_DD",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   }
+               ],
+    "branches":  [
+                     "HU_6.40001_DD",
+                     "HU_6.40002_PC",
+                     "promote/v1.2.0-to-qa"
+                 ],
+    "findings":  [
+                     "PR HU_6.40001_DD -\u003e sbx [noff] tras incorporar v1.1.0: limpio",
+                     "Contenido de v1.1.0: modulo-a.txt:L1=\u0027HU 40002\u0027",
+                     "Contenido de v1.2.0: modulo-a.txt:L1=\u0027HU 40002\u0027 ; modulo-a.txt:L4=\u0027HU 40001 parte 1\u0027 ; modulo-a.txt:L5=\u0027HU 40001 parte 2\u0027",
+                     "Contenido de qa: modulo-a.txt:L1=\u0027HU 40002\u0027 ; modulo-a.txt:L4=\u0027HU 40001 parte 1\u0027 ; modulo-a.txt:L5=\u0027HU 40001 parte 2\u0027"
+                 ]
+}

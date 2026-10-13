@@ -1,0 +1,12 @@
+# Caso 34 (G2): PR de regularizacion (v1.2.1 = A + B)
+# PR: bug/az-2003-regulariza-cadena-dd -> sbx   modo: build validation (commit de merge del PR)
+# Esperado: PASA DESCARTADOS   Obtenido: PASA
+
+Validar-PR  origen=bug/az-2003-regulariza-cadena-dd  destino=sbx
+OK     NOMBRE           Seccion 2    La rama cumple <tipo>/<sistema>-<id>-<descripcion>-<iniciales>.
+OK     TAG              R4           La punta tiene el tag anotado v1.2.1.
+OK     VERSION          Versionado   v1.2.1 es mayor que el ultimo tag existente (v1.2.0).
+AVISO  DESCARTADOS      R10          Tags descartados que no se exigen en la cadena: v1.2.0.
+OK     CADENA           R3           La rama contiene el ultimo tag (v1.1.0).
+OK     RESULTADO        R5           Tras el PR, sbx sera identico a v1.2.1 (commit de merge del PR d811787b).
+RESULTADO: APROBADO (1 aviso(s))

@@ -1,0 +1,9 @@
+# Caso 38 (G3): Nombre feature/3002-sin-sistema-pc
+# PR: feature/3002-sin-sistema-pc -> sbx   modo: build validation (commit de merge del PR)
+# Esperado: FALLA NOMBRE   Obtenido: FALLA
+
+Validar-PR  origen=feature/3002-sin-sistema-pc  destino=sbx
+ERROR  NOMBRE           Seccion 2    La rama no cumple <tipo>/<sistema>-<id>-<descripcion>-<iniciales> (tipo: feature, bug, hotfix o test; sistema: az o glpi; todo en minusculas). Ejemplo: feature/az-32154-validacion-tokens-pc
+ERROR  TAG-FALTA        R4           El ultimo commit de la rama no tiene tag de version. Cree el tag en la rama antes de completar el PR: git tag -a vX.Y.Z -m "..." y git push origin vX.Y.Z
+OK     CADENA           R3           La rama contiene el ultimo tag (v1.1.0).
+RESULTADO: RECHAZADO (2 error(es), 0 aviso(s))

@@ -1,0 +1,10 @@
+*   ccf9e1c (HEAD -> sbx, tag: v1.1.0, qa) Merge origin/sbx en HU_7.503_PC (actualizacion de rama de trabajo)
+|\  
+| *   04f7090 Merge origin/sbx en HU_7.502_DD (actualizacion de rama de trabajo)
+| |\  
+| | * f50cc11 feat(modulo-a): add HU 501
+| * | 22416e7 feat(modulo-b): add HU 502
+| |/  
+* / 5e08f93 feat(comun): add HU 503
+|/  
+* 0d0f829 (tag: v1.0.0, stg, prod) chore: estructura inicial del repositorio

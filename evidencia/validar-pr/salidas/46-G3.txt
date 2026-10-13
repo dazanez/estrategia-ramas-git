@@ -1,0 +1,12 @@
+# Caso 46 (G3): El mismo PR con -TagsDescartados
+# PR: feature/az-3009-despues-push-directo-dd -> sbx   modo: build validation (commit de merge del PR)
+# Esperado: FALLA RESULTADO   Obtenido: FALLA
+
+Validar-PR  origen=feature/az-3009-despues-push-directo-dd  destino=sbx
+OK     NOMBRE           Seccion 2    La rama cumple <tipo>/<sistema>-<id>-<descripcion>-<iniciales>.
+OK     TAG              R4           La punta tiene el tag anotado v1.3.0.
+OK     VERSION          Versionado   v1.3.0 es mayor que el ultimo tag existente (v1.2.0.1).
+AVISO  DESCARTADOS      R10          Tags descartados que no se exigen en la cadena: v1.0.1, v1.1.0.1, v1.2.0, v1.2.0.1.
+OK     CADENA           R3           La rama contiene el ultimo tag (v1.1.0).
+ERROR  RESULTADO        R5           Tras el PR, sbx NO seria igual a v1.3.0 (archivos distintos: modulo-b.txt). sbx ya tenia contenido que no esta en ningun tag (archivos: modulo-b.txt): posible push directo o PR completado sin pasar esta validacion. Regularice con una rama que incorpore origin/sbx y un tag nuevo.
+RESULTADO: RECHAZADO (1 error(es), 1 aviso(s))

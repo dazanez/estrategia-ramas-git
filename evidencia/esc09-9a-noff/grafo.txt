@@ -1,0 +1,28 @@
+*   547588a (prod) Merge PR: promote/v1.4.0-to-prod -> prod (--no-ff)
+|\  
+* \   e61790d Merge PR: promote/v1.3.0-to-prod -> prod (--no-ff)
+|\ \  
+| | | *   3a5be9c (stg) Merge PR: promote/v1.4.0-to-stg -> stg (--no-ff)
+| | | |\  
+| | | |/  
+| | |/|   
+| | | * bee49b6 Merge PR: promote/v1.3.0-to-stg -> stg (--no-ff)
+| |_|/| 
+|/| |/  
+| |/|   
+| | | *   5bb9ccd (qa) Merge PR: promote/v1.4.0-to-qa -> qa (--no-ff)
+| | | |\  
+| | | |/  
+| | |/|   
+| | * | 903e957 (HEAD -> sbx, tag: v1.4.0) Merge PR: HU_6.91000_DD -> sbx (--no-ff)
+| |/| | 
+| | * | 396300a feat(modulo-b): add funcionalidad v1.4
+| |/ /  
+| | * 83880c3 Merge PR: promote/v1.3.0-to-qa -> qa (--no-ff)
+| |/| 
+|/|/  
+| * 798f6f3 (tag: v1.3.0) Merge PR: HU_6.90000_PC -> sbx (--no-ff)
+|/| 
+| * 335bd78 feat(modulo-a): add funcionalidad v1.3
+|/  
+* 568fff0 (tag: v1.0.0) chore: estructura inicial del repositorio

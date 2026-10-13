@@ -1,0 +1,12 @@
+# Caso 8 (G1): Hotfix v1.0.0.1 a prod
+# PR: promote/v1.0.0.1-to-prod -> prod   modo: build validation (commit de merge del PR)
+# Esperado: PASA    Obtenido: PASA
+
+Validar-PR  origen=promote/v1.0.0.1-to-prod  destino=prod
+OK     PROMOTE-NOMBRE   R6           Promocion de v1.0.0.1 hacia prod.
+OK     PROMOTE-TAG      R6           La rama apunta exactamente al tag anotado v1.0.0.1.
+OK     ORDEN            R6           v1.0.0.1 es la version que esta en stg.
+OK     HOTFIX-BASE      R2           El hotfix v1.0.0.1 nace del tag de produccion (v1.0.0).
+AVISO  HOTFIX-PENDIENTE 5.2          Al terminar: re-etiquetar la cabeza de la cadena con el hotfix, PR de la rama del hotfix a sbx y luego promover el tag nuevo a qa. Mientras tanto, nadie crea tags nuevos.
+OK     RESULTADO        I1           Tras el PR, prod sera identico a v1.0.0.1 (commit de merge del PR 1d3e7878).
+RESULTADO: APROBADO (1 aviso(s))

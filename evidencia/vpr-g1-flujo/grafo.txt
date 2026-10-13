@@ -1,0 +1,76 @@
+*   222d436 (HEAD -> sbx) Merge PR: test/az-1001-web-consulta-expedientes-dd -> sbx (--no-ff)
+|\  
+| * 4138b5b (tag: v1.4.1) test(web): add prueba automatizada consulta de expedientes
+* | aa8ecf8 Merge PR: feature/az-1004-reintroduce-hu-1001-pc -> sbx (--no-ff)
+|\| 
+* |   b70f39c Merge PR: feature/az-1003-retiro-temporal-hu-1001-pc -> sbx (--no-ff)
+|\ \  
+* \ \   aa10127 Merge PR: feature/az-1002-firma-digital-dd -> sbx (--no-ff)
+|\ \ \  
+* \ \ \   2a2ff2b Merge PR: hotfix/glpi-20001-bloqueo-sesion-pc -> sbx (--no-ff)
+|\ \ \ \  
+* \ \ \ \   6ebae25 Merge PR: feature/az-1001-consulta-expedientes-pc -> sbx (--no-ff)
+|\ \ \ \ \  
+| | | | | | *   72d871d (prod) Merge PR: promote/v1.4.0-to-prod -> prod (--no-ff)
+| | | | | | |\  
+| | | | | | |/  
+| | | | | |/|   
+| | | | | | *   51d693c Merge PR: promote/v1.3.0-to-prod -> prod (--no-ff)
+| | | | | | |\  
+| | | | | |_|/  
+| | | | |/| |   
+| | | | | | * 8202046 Merge PR: promote/v1.0.0.1-to-prod -> prod (--no-ff)
+| |_|_|_|_|/| 
+|/| | | | | | 
+| | | | | | | *   3c7b7cc (stg) Merge PR: promote/v1.4.0-to-stg -> stg (--no-ff)
+| | | | | | | |\  
+| | | | | | |_|/  
+| | | | | |/| |   
+| | | | | | | *   7a10c98 Merge PR: promote/v1.3.0-to-stg -> stg (--no-ff)
+| | | | | | | |\  
+| | | | | |_|_|/  
+| | | | |/| | |   
+| | | | | | | * 8c660e7 Merge PR: promote/v1.0.0.1-to-stg -> stg (--no-ff)
+| |_|_|_|_|_|/| 
+|/| | | | | |/  
+| | | | | | | *   ab09fda (qa) Merge PR: promote/v1.4.0-to-qa -> qa (--no-ff)
+| | | | | | | |\  
+| | | | | | |_|/  
+| | | | | |/| |   
+| | | | | * | | 9a310e5 (tag: v1.4.0) Revert "Revert "feat(modulo-a): add HU 1001""
+| | | | |/ / /  
+| | | | | | *   700763f Merge PR: promote/v1.3.0-to-qa -> qa (--no-ff)
+| | | | | | |\  
+| | | | | |_|/  
+| | | | |/| |   
+| | | | * | | 2b1559a (tag: v1.3.0) Revert "feat(modulo-a): add HU 1001"
+| | | |/ / /  
+| | | | | *   85eed57 Merge PR: promote/v1.2.0-to-qa -> qa (--no-ff)
+| | | | | |\  
+| | | | |_|/  
+| | | |/| |   
+| | | * | |   9c52d08 (tag: v1.2.0) Merge v1.1.1 en feature/az-1002-firma-digital-dd (actualizacion de rama de trabajo)
+| | | |\ \ \  
+| | | |/ / /  
+| | |/| | |   
+| | | * | | adcbb0f feat(modulo-b): add HU 1002
+| |_|/ / /  
+|/| | | |   
+| | | | *   a6b4e1a Merge PR: promote/v1.1.1-to-qa -> qa (--no-ff)
+| | | | |\  
+| | | |_|/  
+| | |/| |   
+| | * | |   fbddd38 (tag: v1.1.1) Merge v1.1.0 en hotfix/glpi-20001-bloqueo-sesion-pc (actualizacion de rama de trabajo)
+| | |\ \ \  
+| | |/ / /  
+| |/| / /   
+| | |/ /    
+| | * / a42ff13 (tag: v1.0.0.1) fix(comun): corrige bloqueo de sesion por token nulo (GLPI 20001)
+| |/ /  
+|/| |   
+| | * c5cfe45 Merge PR: promote/v1.1.0-to-qa -> qa (--no-ff)
+| |/| 
+|/|/  
+| * 98f225d (tag: v1.1.0) feat(modulo-a): add HU 1001
+|/  
+* f4bb4d9 (tag: v1.0.0) chore: estructura inicial del repositorio

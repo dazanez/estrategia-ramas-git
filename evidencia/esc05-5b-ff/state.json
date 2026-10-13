@@ -1,0 +1,143 @@
+﻿{
+    "escenario":  "05",
+    "variante":  "5b",
+    "mergeMode":  "ff",
+    "clones":  [
+                   "dev1",
+                   "dev2"
+               ],
+    "tags":  {
+                 "v1.0.0":  {
+                                "object":  "66512f91958f7cc468ac3237f51369056ed1f347",
+                                "commit":  "8e1869030b1972ce7dfca41807d66654ab537867",
+                                "dev":  "dev1"
+                            },
+                 "v1.1.0":  {
+                                "object":  "7dc13b5b2198990e08502449606056c00fa5c7a8",
+                                "commit":  "7cf5a972483d2e2513dc583049861c9f0675f47d",
+                                "dev":  "dev1"
+                            },
+                 "v1.2.0":  {
+                                "object":  "80cd4752eb6e3960d9b73c844aa679f9755fd566",
+                                "commit":  "1e768a6190e06403d1b0c6dcabb6dc579cba7fa0",
+                                "dev":  "dev2"
+                            },
+                 "v1.3.0":  {
+                                "object":  "3826a52f23b0a6f64c148d9334e090313fc07599",
+                                "commit":  "74c75db0a118ed93ee8e6bc3af6f08a4186127e4",
+                                "dev":  "dev1"
+                            }
+             },
+    "promotions":  [
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.1.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.2.0",
+                           "mode":  "ff",
+                           "ok":  false,
+                           "kind":  "promote"
+                       }
+                   ],
+    "merges":  [
+                   {
+                       "source":  "HU_7.501_PC",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_7.502_DD",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  false,
+                       "kind":  "pr",
+                       "detail":  "fatal: Not possible to fast-forward, aborting."
+                   },
+                   {
+                       "source":  "HU_7.502_DD",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_7.503_PC",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  false,
+                       "kind":  "pr",
+                       "detail":  "fatal: Not possible to fast-forward, aborting."
+                   },
+                   {
+                       "source":  "HU_7.503_PC",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.1.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--ff-only",
+                       "ok":  false,
+                       "kind":  "promotion",
+                       "detail":  "fatal: Not possible to fast-forward, aborting."
+                   }
+               ],
+    "branches":  [
+                     "HU_7.501_PC",
+                     "HU_7.502_DD",
+                     "HU_7.503_PC",
+                     "promote/v1.1.0-to-qa",
+                     "promote/v1.2.0-to-qa"
+                 ],
+    "findings":  [
+                     "PR HU_7.502_DD -\u003e sbx [ff] bloqueado: fatal: Not possible to fast-forward, aborting.",
+                     "PR HU_7.503_PC -\u003e sbx [ff] bloqueado: fatal: Not possible to fast-forward, aborting.",
+                     "El cliente aprueba solo A (HU_7.501) y B (HU_7.502); C (HU_7.503) no sale",
+                     "Promocion v1.2.0 -\u003e qa [ff] BLOQUEADA: fatal: Not possible to fast-forward, aborting.",
+                     "Tags que contienen exactamente A+B sin C: NINGUNO",
+                     "C en qa: False ; C en sbx: True (el proximo tag de sbx lo arrastrara)",
+                     "Contenido de qa: modulo-a.txt:L1=\u0027A: HU 501 (aprobada)\u0027",
+                     "Contenido de sbx: modulo-a.txt:L1=\u0027A: HU 501 (aprobada)\u0027 ; modulo-b.txt:L1=\u0027B: HU 502 (aprobada)\u0027 ; comun.txt:L1=\u0027C: HU 503 (NO aprobada)\u0027"
+                 ]
+}

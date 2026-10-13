@@ -1,0 +1,73 @@
+*   ee3e9b5 (prod) Merge PR: promote/v1.4.0-to-prod -> prod (--no-ff)
+|\  
+* \   4698ee9 Merge PR: promote/v1.3.0-to-prod -> prod (--no-ff)
+|\ \  
+* \ \   771066d Merge PR: promote/v1.0.0.1-to-prod -> prod (--no-ff)
+|\ \ \  
+| | | | *   56a83bf (stg) Merge PR: promote/v1.4.0-to-stg -> stg (--no-ff)
+| | | | |\  
+| | | | |/  
+| | | |/|   
+| | | | *   a21f635 Merge PR: promote/v1.3.0-to-stg -> stg (--no-ff)
+| | | | |\  
+| | | |_|/  
+| | |/| |   
+| | | | * 5e12bc8 Merge PR: promote/v1.0.0.1-to-stg -> stg (--no-ff)
+| |_|_|/| 
+|/| | |/  
+| | |/|   
+| |/| |   
+| | | | *   d6df39f (qa) Merge PR: promote/v1.4.0-to-qa -> qa (--no-ff)
+| | | | |\  
+| | | | |/  
+| | | |/|   
+| | | | *   4cefee1 Merge PR: promote/v1.3.0-to-qa -> qa (--no-ff)
+| | | | |\  
+| | | |_|/  
+| | |/| |   
+| | | | *   938de72 Merge PR: promote/v1.2.0-to-qa -> qa (--no-ff)
+| | | | |\  
+| | | | * \   65b0f1d Merge PR: promote/v1.1.1-to-qa -> qa (--no-ff)
+| | | | |\ \  
+| | | | * | | b9934a1 Merge PR: promote/v1.1.0-to-qa -> qa (--no-ff)
+| |_|_|/| | | 
+|/| | | | | | 
+| | | | | | | *   a3d82d3 (HEAD -> sbx) Merge PR: HU_12.1004_PC -> sbx (--no-ff)
+| | | | | | | |\  
+| | | | |_|_|_|/  
+| | | |/| | | |   
+| | | * | | | | f7c40fd (tag: v1.4.0) Revert "Revert "feat(modulo-a): add HU 1001""
+| | |/ / / / /  
+| | | | | | *   6fa4e0b Merge PR: HU_12.1003_PC -> sbx (--no-ff)
+| | | | | | |\  
+| | | |_|_|_|/  
+| | |/| | | |   
+| | * | | | | 30b0029 (tag: v1.3.0) Revert "feat(modulo-a): add HU 1001"
+| | | |_|/ /  
+| | |/| | |   
+| | | | | *   2932002 Merge PR: HU_12.1002_DD -> sbx (--no-ff)
+| | | | | |\  
+| | | |_|_|/  
+| | |/| | |   
+| | * | | |   9e6ab35 (tag: v1.2.0) Merge v1.1.1 en HU_12.1002_DD (actualizacion de rama de trabajo)
+| | |\ \ \ \  
+| | | | |/ /  
+| | | |/| |   
+| | * / | | e0f862e feat(modulo-b): add HU 1002
+| |/ / / /  
+|/| | | |   
+| | | | *   8c6ba5d Merge PR: v1.0.0_BUG_GLPI_20001_PC -> sbx (--no-ff)
+| | | | |\  
+| | | |_|/  
+| | |/| |   
+| | * | | 8062a78 (tag: v1.1.1) Merge v1.1.0 en v1.0.0_BUG_GLPI_20001_PC (actualizacion de rama de trabajo)
+| |/| | | 
+| | |/ /  
+| * / / 6f23627 (tag: v1.0.0.1) fix(comun): corrige bloqueo de sesion (GLPI 20001)
+|/ / /  
+| | * bf51b23 Merge PR: HU_12.1001_PC -> sbx (--no-ff)
+| |/| 
+|/|/  
+| * 355cdef (tag: v1.1.0) feat(modulo-a): add HU 1001
+|/  
+* 5f0723a (tag: v1.0.0) chore: estructura inicial del repositorio

@@ -1,0 +1,9 @@
+# Caso 13 (G1): B revisa su PR en su clon, sin cadena ni tag
+# PR: feature/az-1002-firma-digital-dd -> sbx   modo: manual en dev2
+# Esperado: FALLA TAG-FALTA,CADENA   Obtenido: FALLA
+
+Validar-PR  origen=feature/az-1002-firma-digital-dd  destino=sbx
+OK     NOMBRE           Seccion 2    La rama cumple <tipo>/<sistema>-<id>-<descripcion>-<iniciales>.
+ERROR  TAG-FALTA        R4           El ultimo commit de la rama no tiene tag de version. Cree el tag en la rama antes de completar el PR: git tag -a vX.Y.Z -m "..." y git push origin vX.Y.Z
+ERROR  CADENA           R3           La rama no contiene el ultimo tag (v1.1.1). Aplique la regla de cadena antes de etiquetar: git merge v1.1.1 en la rama y resuelva conflictos; despues cree el tag.
+RESULTADO: RECHAZADO (2 error(es), 0 aviso(s))

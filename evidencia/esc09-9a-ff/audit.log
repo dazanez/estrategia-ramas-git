@@ -1,0 +1,307 @@
+﻿#POC escenario=09 variante=9a mergeMode=ff fecha=2026-09-28T10:48:25
+CMD	1	-	-	0	git init --bare --initial-branch=sbx origin.git
+   | Initialized empty Git repository in D:/Desarrollos/Git Migration/poc-ramas/runs/esc09-9a-ff/origin.git/
+CMD	2	origin	sbx	0	git config receive.denyNonFastForwards true
+#STEP	E0: clones de dos desarrolladores (PC = Pablo Castro, DD = Daniel Duran)
+CMD	3	-	-	0	git clone -q origin.git dev1
+   | warning: You appear to have cloned an empty repository.
+CMD	4	dev1	sbx	0	git config user.name "Pablo Castro"
+CMD	5	dev1	sbx	0	git config user.email pc@poc.local
+CMD	6	dev1	sbx	0	git config core.autocrlf false
+CMD	7	dev1	sbx	0	git config pull.ff only
+CMD	8	-	-	0	git clone -q origin.git dev2
+   | warning: You appear to have cloned an empty repository.
+CMD	9	dev2	sbx	0	git config user.name "Daniel Duran"
+CMD	10	dev2	sbx	0	git config user.email dd@poc.local
+CMD	11	dev2	sbx	0	git config core.autocrlf false
+CMD	12	dev2	sbx	0	git config pull.ff only
+#STEP	E0: commit inicial en sbx (arranque del repositorio: unica escritura directa en sbx)
+CMD	13	dev1	sbx	0	git checkout -q -b sbx
+CMD	14	dev1	sbx	0	git add .
+CMD	15	dev1	sbx	0	git commit -q -m "chore: estructura inicial del repositorio"
+CMD	16	dev1	sbx	0	git push -q -u origin sbx
+#STEP	E0: tag v1.0.0 sobre sbx
+CMD	17	dev1	sbx	0	git tag -a v1.0.0 HEAD -m "v1.0.0: linea base inicial"
+CMD	18	dev1	sbx	0	git push -q origin v1.0.0
+CMD	19	origin	sbx	0	git rev-parse refs/tags/v1.0.0
+   | 68d0aed8599ec4a7ae24c04b46224738e6e8c221
+CMD	20	origin	sbx	0	git rev-parse refs/tags/v1.0.0^{commit}
+   | 70eb4a26e456619abb652b9610b3eaf5a5ff447d
+#STEP	E0: creacion de qa, stg y prod desde v1.0.0 (lo hace Soporte al crear el repo, DES-EST-016 4.4.1)
+CMD	21	origin	sbx	0	git branch qa v1.0.0^{commit}
+CMD	22	origin	sbx	0	git branch stg v1.0.0^{commit}
+CMD	23	origin	sbx	0	git branch prod v1.0.0^{commit}
+CMD	24	dev1	sbx	0	git fetch -q --tags origin
+CMD	25	dev2	sbx	0	git fetch -q --tags origin
+CMD	26	dev2	sbx	0	git checkout -q sbx
+#STEP	Entrega HU_6.90000_PC (desde v1.0.0, tag v1.3.0 after del PR, merge ff)
+CMD	27	dev1	sbx	0	git fetch -q --tags origin
+CMD	28	dev1	sbx	0	git checkout -q tags/v1.0.0 -b HU_6.90000_PC
+CMD	29	dev1	HU_6.90000_PC	0	git push -q -u origin HU_6.90000_PC
+CMD	30	dev1	HU_6.90000_PC	0	git add modulo-a.txt
+CMD	31	dev1	HU_6.90000_PC	0	git commit -q -m "feat(modulo-a): add funcionalidad v1.3"
+CMD	32	dev1	HU_6.90000_PC	0	git symbolic-ref --short HEAD
+   | HU_6.90000_PC
+CMD	33	dev1	HU_6.90000_PC	0	git push -q origin HU_6.90000_PC
+CMD	34	dev1	HU_6.90000_PC	0	git fetch -q --tags origin
+CMD	35	dev1	HU_6.90000_PC	0	git rev-parse -q --verify refs/heads/sbx
+   | 70eb4a26e456619abb652b9610b3eaf5a5ff447d
+CMD	36	dev1	HU_6.90000_PC	0	git checkout -q sbx
+CMD	37	dev1	sbx	0	git pull -q --ff-only origin sbx
+CMD	38	dev1	sbx	0	git rev-parse -q --verify refs/remotes/origin/HU_6.90000_PC
+   | d88f15afd0014e41ab184de90c8317aacd65af91
+CMD	39	dev1	sbx	0	git merge --ff-only -m "Merge PR: HU_6.90000_PC -> sbx (--ff-only)" origin/HU_6.90000_PC
+   | Updating 70eb4a2..d88f15a
+   | Fast-forward (no commit created; -m option ignored)
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	40	dev1	sbx	0	git push -q origin sbx
+CMD	41	dev1	sbx	0	git tag -a v1.3.0 sbx -m "v1.3.0: sbx tras integrar HU_6.90000_PC"
+CMD	42	dev1	sbx	0	git push -q origin v1.3.0
+CMD	43	origin	sbx	0	git rev-parse refs/tags/v1.3.0
+   | 7eee5a06551f5f230b7f69db21f088df5a965a42
+CMD	44	origin	sbx	0	git rev-parse refs/tags/v1.3.0^{commit}
+   | d88f15afd0014e41ab184de90c8317aacd65af91
+CMD	45	dev1	sbx	0	git checkout -q sbx
+CMD	46	dev1	sbx	0	git branch -d HU_6.90000_PC
+   | Deleted branch HU_6.90000_PC (was d88f15a).
+CMD	47	dev1	sbx	0	git push -q origin --delete HU_6.90000_PC
+#STEP	Promocion v1.3.0 -> qa
+CMD	48	dev1	sbx	0	git fetch -q --tags origin
+CMD	49	dev1	sbx	0	git checkout -q tags/v1.3.0 -b promote/v1.3.0-to-qa
+CMD	50	dev1	promote/v1.3.0-to-qa	0	git push -q -u origin promote/v1.3.0-to-qa
+CMD	51	dev1	promote/v1.3.0-to-qa	0	git fetch -q --tags origin
+CMD	52	dev1	promote/v1.3.0-to-qa	1	git rev-parse -q --verify refs/heads/qa
+CMD	53	dev1	promote/v1.3.0-to-qa	0	git checkout -q -b qa --track origin/qa
+CMD	54	dev1	qa	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.3.0-to-qa
+   | d88f15afd0014e41ab184de90c8317aacd65af91
+CMD	55	dev1	qa	0	git merge --ff-only -m "Merge PR: promote/v1.3.0-to-qa -> qa (--ff-only)" origin/promote/v1.3.0-to-qa
+   | Updating 70eb4a2..d88f15a
+   | Fast-forward (no commit created; -m option ignored)
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	56	dev1	qa	0	git push -q origin qa
+CMD	57	dev1	qa	0	git checkout -q sbx
+CMD	58	dev1	sbx	0	git branch -d promote/v1.3.0-to-qa
+   | Deleted branch promote/v1.3.0-to-qa (was d88f15a).
+CMD	59	dev1	sbx	0	git push -q origin --delete promote/v1.3.0-to-qa
+CMD	60	origin	sbx	0	git diff --stat v1.3.0 qa
+#STEP	Promocion v1.3.0 -> stg
+CMD	61	dev1	sbx	0	git fetch -q --tags origin
+CMD	62	dev1	sbx	0	git checkout -q tags/v1.3.0 -b promote/v1.3.0-to-stg
+CMD	63	dev1	promote/v1.3.0-to-stg	0	git push -q -u origin promote/v1.3.0-to-stg
+CMD	64	dev1	promote/v1.3.0-to-stg	0	git fetch -q --tags origin
+CMD	65	dev1	promote/v1.3.0-to-stg	1	git rev-parse -q --verify refs/heads/stg
+CMD	66	dev1	promote/v1.3.0-to-stg	0	git checkout -q -b stg --track origin/stg
+CMD	67	dev1	stg	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.3.0-to-stg
+   | d88f15afd0014e41ab184de90c8317aacd65af91
+CMD	68	dev1	stg	0	git merge --ff-only -m "Merge PR: promote/v1.3.0-to-stg -> stg (--ff-only)" origin/promote/v1.3.0-to-stg
+   | Updating 70eb4a2..d88f15a
+   | Fast-forward (no commit created; -m option ignored)
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	69	dev1	stg	0	git push -q origin stg
+CMD	70	dev1	stg	0	git checkout -q sbx
+CMD	71	dev1	sbx	0	git branch -d promote/v1.3.0-to-stg
+   | Deleted branch promote/v1.3.0-to-stg (was d88f15a).
+CMD	72	dev1	sbx	0	git push -q origin --delete promote/v1.3.0-to-stg
+CMD	73	origin	sbx	0	git diff --stat v1.3.0 stg
+#STEP	Promocion v1.3.0 -> prod
+CMD	74	dev1	sbx	0	git fetch -q --tags origin
+CMD	75	dev1	sbx	0	git checkout -q tags/v1.3.0 -b promote/v1.3.0-to-prod
+CMD	76	dev1	promote/v1.3.0-to-prod	0	git push -q -u origin promote/v1.3.0-to-prod
+CMD	77	dev1	promote/v1.3.0-to-prod	0	git fetch -q --tags origin
+CMD	78	dev1	promote/v1.3.0-to-prod	1	git rev-parse -q --verify refs/heads/prod
+CMD	79	dev1	promote/v1.3.0-to-prod	0	git checkout -q -b prod --track origin/prod
+CMD	80	dev1	prod	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.3.0-to-prod
+   | d88f15afd0014e41ab184de90c8317aacd65af91
+CMD	81	dev1	prod	0	git merge --ff-only -m "Merge PR: promote/v1.3.0-to-prod -> prod (--ff-only)" origin/promote/v1.3.0-to-prod
+   | Updating 70eb4a2..d88f15a
+   | Fast-forward (no commit created; -m option ignored)
+   |  modulo-a.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	82	dev1	prod	0	git push -q origin prod
+CMD	83	dev1	prod	0	git checkout -q sbx
+CMD	84	dev1	sbx	0	git branch -d promote/v1.3.0-to-prod
+   | Deleted branch promote/v1.3.0-to-prod (was d88f15a).
+CMD	85	dev1	sbx	0	git push -q origin --delete promote/v1.3.0-to-prod
+CMD	86	origin	sbx	0	git diff --stat v1.3.0 prod
+#STEP	Entrega HU_6.91000_DD (desde v1.3.0, tag v1.4.0 after del PR, merge ff)
+CMD	87	dev2	sbx	0	git fetch -q --tags origin
+CMD	88	dev2	sbx	0	git checkout -q tags/v1.3.0 -b HU_6.91000_DD
+CMD	89	dev2	HU_6.91000_DD	0	git push -q -u origin HU_6.91000_DD
+CMD	90	dev2	HU_6.91000_DD	0	git add modulo-b.txt
+CMD	91	dev2	HU_6.91000_DD	0	git commit -q -m "feat(modulo-b): add funcionalidad v1.4"
+CMD	92	dev2	HU_6.91000_DD	0	git symbolic-ref --short HEAD
+   | HU_6.91000_DD
+CMD	93	dev2	HU_6.91000_DD	0	git push -q origin HU_6.91000_DD
+CMD	94	dev2	HU_6.91000_DD	0	git fetch -q --tags origin
+CMD	95	dev2	HU_6.91000_DD	0	git rev-parse -q --verify refs/heads/sbx
+   | 70eb4a26e456619abb652b9610b3eaf5a5ff447d
+CMD	96	dev2	HU_6.91000_DD	0	git checkout -q sbx
+CMD	97	dev2	sbx	0	git pull -q --ff-only origin sbx
+CMD	98	dev2	sbx	0	git rev-parse -q --verify refs/remotes/origin/HU_6.91000_DD
+   | fbba2711224574040acbf5f7193a656d6126e4e9
+CMD	99	dev2	sbx	0	git merge --ff-only -m "Merge PR: HU_6.91000_DD -> sbx (--ff-only)" origin/HU_6.91000_DD
+   | Updating d88f15a..fbba271
+   | Fast-forward (no commit created; -m option ignored)
+   |  modulo-b.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	100	dev2	sbx	0	git push -q origin sbx
+CMD	101	dev2	sbx	0	git tag -a v1.4.0 sbx -m "v1.4.0: sbx tras integrar HU_6.91000_DD"
+CMD	102	dev2	sbx	0	git push -q origin v1.4.0
+CMD	103	origin	sbx	0	git rev-parse refs/tags/v1.4.0
+   | 687df2ae1a31c901d6fe00b1ce84b71000b823c7
+CMD	104	origin	sbx	0	git rev-parse refs/tags/v1.4.0^{commit}
+   | fbba2711224574040acbf5f7193a656d6126e4e9
+CMD	105	dev2	sbx	0	git checkout -q sbx
+CMD	106	dev2	sbx	0	git branch -d HU_6.91000_DD
+   | Deleted branch HU_6.91000_DD (was fbba271).
+CMD	107	dev2	sbx	0	git push -q origin --delete HU_6.91000_DD
+#STEP	Promocion v1.4.0 -> qa
+CMD	108	dev2	sbx	0	git fetch -q --tags origin
+CMD	109	dev2	sbx	0	git checkout -q tags/v1.4.0 -b promote/v1.4.0-to-qa
+CMD	110	dev2	promote/v1.4.0-to-qa	0	git push -q -u origin promote/v1.4.0-to-qa
+CMD	111	dev2	promote/v1.4.0-to-qa	0	git fetch -q --tags origin
+CMD	112	dev2	promote/v1.4.0-to-qa	1	git rev-parse -q --verify refs/heads/qa
+CMD	113	dev2	promote/v1.4.0-to-qa	0	git checkout -q -b qa --track origin/qa
+CMD	114	dev2	qa	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.4.0-to-qa
+   | fbba2711224574040acbf5f7193a656d6126e4e9
+CMD	115	dev2	qa	0	git merge --ff-only -m "Merge PR: promote/v1.4.0-to-qa -> qa (--ff-only)" origin/promote/v1.4.0-to-qa
+   | Updating d88f15a..fbba271
+   | Fast-forward (no commit created; -m option ignored)
+   |  modulo-b.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	116	dev2	qa	0	git push -q origin qa
+CMD	117	dev2	qa	0	git checkout -q sbx
+CMD	118	dev2	sbx	0	git branch -d promote/v1.4.0-to-qa
+   | Deleted branch promote/v1.4.0-to-qa (was fbba271).
+CMD	119	dev2	sbx	0	git push -q origin --delete promote/v1.4.0-to-qa
+CMD	120	origin	sbx	0	git diff --stat v1.4.0 qa
+#STEP	Promocion v1.4.0 -> stg
+CMD	121	dev2	sbx	0	git fetch -q --tags origin
+CMD	122	dev2	sbx	0	git checkout -q tags/v1.4.0 -b promote/v1.4.0-to-stg
+CMD	123	dev2	promote/v1.4.0-to-stg	0	git push -q -u origin promote/v1.4.0-to-stg
+CMD	124	dev2	promote/v1.4.0-to-stg	0	git fetch -q --tags origin
+CMD	125	dev2	promote/v1.4.0-to-stg	1	git rev-parse -q --verify refs/heads/stg
+CMD	126	dev2	promote/v1.4.0-to-stg	0	git checkout -q -b stg --track origin/stg
+CMD	127	dev2	stg	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.4.0-to-stg
+   | fbba2711224574040acbf5f7193a656d6126e4e9
+CMD	128	dev2	stg	0	git merge --ff-only -m "Merge PR: promote/v1.4.0-to-stg -> stg (--ff-only)" origin/promote/v1.4.0-to-stg
+   | Updating d88f15a..fbba271
+   | Fast-forward (no commit created; -m option ignored)
+   |  modulo-b.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	129	dev2	stg	0	git push -q origin stg
+CMD	130	dev2	stg	0	git checkout -q sbx
+CMD	131	dev2	sbx	0	git branch -d promote/v1.4.0-to-stg
+   | Deleted branch promote/v1.4.0-to-stg (was fbba271).
+CMD	132	dev2	sbx	0	git push -q origin --delete promote/v1.4.0-to-stg
+CMD	133	origin	sbx	0	git diff --stat v1.4.0 stg
+#STEP	Promocion v1.4.0 -> prod
+CMD	134	dev2	sbx	0	git fetch -q --tags origin
+CMD	135	dev2	sbx	0	git checkout -q tags/v1.4.0 -b promote/v1.4.0-to-prod
+CMD	136	dev2	promote/v1.4.0-to-prod	0	git push -q -u origin promote/v1.4.0-to-prod
+CMD	137	dev2	promote/v1.4.0-to-prod	0	git fetch -q --tags origin
+CMD	138	dev2	promote/v1.4.0-to-prod	1	git rev-parse -q --verify refs/heads/prod
+CMD	139	dev2	promote/v1.4.0-to-prod	0	git checkout -q -b prod --track origin/prod
+CMD	140	dev2	prod	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.4.0-to-prod
+   | fbba2711224574040acbf5f7193a656d6126e4e9
+CMD	141	dev2	prod	0	git merge --ff-only -m "Merge PR: promote/v1.4.0-to-prod -> prod (--ff-only)" origin/promote/v1.4.0-to-prod
+   | Updating d88f15a..fbba271
+   | Fast-forward (no commit created; -m option ignored)
+   |  modulo-b.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	142	dev2	prod	0	git push -q origin prod
+CMD	143	dev2	prod	0	git checkout -q sbx
+CMD	144	dev2	sbx	0	git branch -d promote/v1.4.0-to-prod
+   | Deleted branch promote/v1.4.0-to-prod (was fbba271).
+CMD	145	dev2	sbx	0	git push -q origin --delete promote/v1.4.0-to-prod
+CMD	146	origin	sbx	0	git diff --stat v1.4.0 prod
+#STEP	9a: promover v1.3.0 a prod con promote/
+CMD	147	dev1	sbx	0	git fetch -q --tags origin
+CMD	148	dev1	sbx	0	git checkout -q tags/v1.3.0 -b promote/v1.3.0-to-prod
+CMD	149	dev1	promote/v1.3.0-to-prod	0	git push -q -u origin promote/v1.3.0-to-prod
+CMD	150	dev1	promote/v1.3.0-to-prod	0	git fetch -q --tags origin
+CMD	151	dev1	promote/v1.3.0-to-prod	0	git rev-parse -q --verify refs/heads/prod
+   | d88f15afd0014e41ab184de90c8317aacd65af91
+CMD	152	dev1	promote/v1.3.0-to-prod	0	git checkout -q prod
+CMD	153	dev1	prod	0	git pull -q --ff-only origin prod
+CMD	154	dev1	prod	0	git rev-parse -q --verify refs/remotes/origin/promote/v1.3.0-to-prod
+   | d88f15afd0014e41ab184de90c8317aacd65af91
+CMD	155	dev1	prod	0	git merge --ff-only -m "Merge PR: promote/v1.3.0-to-prod -> prod (--ff-only)" origin/promote/v1.3.0-to-prod
+   | Already up to date.
+CMD	156	dev1	prod	0	git push -q origin prod
+CMD	157	dev1	prod	0	git checkout -q sbx
+CMD	158	dev1	sbx	0	git branch -d promote/v1.3.0-to-prod
+   | Deleted branch promote/v1.3.0-to-prod (was d88f15a).
+CMD	159	dev1	sbx	0	git push -q origin --delete promote/v1.3.0-to-prod
+CMD	160	origin	sbx	0	git diff --stat v1.3.0 prod
+   |  modulo-b.txt | 2 +-
+   |  1 file changed, 1 insertion(+), 1 deletion(-)
+CMD	161	origin	sbx	0	git diff --name-only v1.3.0 prod
+   | modulo-b.txt
+CMD	162	origin	sbx	0	git show prod:modulo-b.txt
+   | funcionalidad v1.4 (FALLA en prod)
+   | modulo-b.txt L2: base
+   | modulo-b.txt L3: base
+   | modulo-b.txt L4: base
+   | modulo-b.txt L5: base
+CMD	163	origin	sbx	0	git show v1.3.0:modulo-a.txt
+   | funcionalidad v1.3
+   | modulo-a.txt L2: base
+   | modulo-a.txt L3: base
+   | modulo-a.txt L4: base
+   | modulo-a.txt L5: base
+CMD	164	origin	sbx	0	git show v1.3.0:modulo-b.txt
+   | modulo-b.txt L1: base
+   | modulo-b.txt L2: base
+   | modulo-b.txt L3: base
+   | modulo-b.txt L4: base
+   | modulo-b.txt L5: base
+CMD	165	origin	sbx	0	git show v1.3.0:comun.txt
+   | comun.txt L1: base
+   | comun.txt L2: base
+   | comun.txt L3: base
+   | comun.txt L4: base
+   | comun.txt L5: base
+CMD	166	origin	sbx	0	git show v1.4.0:modulo-a.txt
+   | funcionalidad v1.3
+   | modulo-a.txt L2: base
+   | modulo-a.txt L3: base
+   | modulo-a.txt L4: base
+   | modulo-a.txt L5: base
+CMD	167	origin	sbx	0	git show v1.4.0:modulo-b.txt
+   | funcionalidad v1.4 (FALLA en prod)
+   | modulo-b.txt L2: base
+   | modulo-b.txt L3: base
+   | modulo-b.txt L4: base
+   | modulo-b.txt L5: base
+CMD	168	origin	sbx	0	git show v1.4.0:comun.txt
+   | comun.txt L1: base
+   | comun.txt L2: base
+   | comun.txt L3: base
+   | comun.txt L4: base
+   | comun.txt L5: base
+CMD	169	origin	sbx	0	git show prod:modulo-a.txt
+   | funcionalidad v1.3
+   | modulo-a.txt L2: base
+   | modulo-a.txt L3: base
+   | modulo-a.txt L4: base
+   | modulo-a.txt L5: base
+CMD	170	origin	sbx	0	git show prod:modulo-b.txt
+   | funcionalidad v1.4 (FALLA en prod)
+   | modulo-b.txt L2: base
+   | modulo-b.txt L3: base
+   | modulo-b.txt L4: base
+   | modulo-b.txt L5: base
+CMD	171	origin	sbx	0	git show prod:comun.txt
+   | comun.txt L1: base
+   | comun.txt L2: base
+   | comun.txt L3: base
+   | comun.txt L4: base
+   | comun.txt L5: base
+CMD	172	origin	sbx	0	git log --oneline --graph --all --decorate
+   | * fbba271 (HEAD -> sbx, tag: v1.4.0, stg, qa, prod) feat(modulo-b): add funcionalidad v1.4
+   | * d88f15a (tag: v1.3.0) feat(modulo-a): add funcionalidad v1.3
+   | * 70eb4a2 (tag: v1.0.0) chore: estructura inicial del repositorio

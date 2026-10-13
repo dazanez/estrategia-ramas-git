@@ -1,0 +1,34 @@
+*   2222b3d (prod) Merge PR: promote/v1.1.0-to-prod -> prod (--no-ff)
+|\  
+| | * 53328f3 (stg) Merge PR: promote/v1.1.0-to-stg -> stg (--no-ff)
+| |/| 
+|/|/  
+| | * e688bc5 (qa) Merge PR: promote/v1.1.0-to-qa -> qa (--no-ff)
+| |/| 
+|/|/  
+| | *   97c4fc1 (HEAD -> sbx) Merge PR: integracion/v1.1.0 -> sbx (--no-ff)
+| | |\  
+| | |/  
+| |/|   
+| * |   2e6e9a4 (tag: v1.1.0) Merge HU_7.502_DD en integracion/v1.1.0
+| |\ \  
+| * | | 2e9b8e8 Merge HU_7.501_PC en integracion/v1.1.0
+|/| | | 
+| | | *   18da459 Merge PR: HU_7.503_PC -> sbx (--no-ff)
+| | | |\  
+| | | | * daca63f feat(comun): add HU 503
+| |_|_|/  
+|/| | |   
+| | | *   c4ccd05 Merge PR: HU_7.502_DD -> sbx (--no-ff)
+| | | |\  
+| | | |/  
+| | |/|   
+| | * | 0c33292 feat(modulo-b): add HU 502
+| |/ /  
+|/| |   
+| | * f898212 Merge PR: HU_7.501_PC -> sbx (--no-ff)
+| |/| 
+|/|/  
+| * c018f90 feat(modulo-a): add HU 501
+|/  
+* bb48690 (tag: v1.0.0) chore: estructura inicial del repositorio

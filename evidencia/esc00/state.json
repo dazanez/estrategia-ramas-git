@@ -1,0 +1,48 @@
+﻿{
+    "escenario":  "00",
+    "variante":  "arranque",
+    "mergeMode":  "n/a",
+    "clones":  [
+                   "dev1",
+                   "dev2"
+               ],
+    "tags":  {
+                 "v1.0.0":  {
+                                "object":  "8aaa767e63201d6e9d184d92dd82b11229f81d42",
+                                "commit":  "27692c1d12f1ec93e530121ff3738804fa8fd473",
+                                "dev":  "dev1"
+                            }
+             },
+    "promotions":  [
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       }
+                   ],
+    "merges":  [
+
+               ],
+    "branches":  [
+
+                 ],
+    "findings":  [
+
+                 ]
+}

@@ -1,0 +1,2 @@
+* b99d418 (HEAD -> sbx, tag: v1.1.0, stg, qa, prod) feat(modulo-a): add validacion de tokens
+* 231d520 (tag: v1.0.0) chore: estructura inicial del repositorio

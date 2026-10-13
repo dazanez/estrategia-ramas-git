@@ -1,0 +1,32 @@
+*   0cc0208 (prod) Merge PR: promote/v1.3.0.2-to-prod -> prod (--no-ff)
+|\  
+| | * 0df89d6 (stg) Merge PR: promote/v1.3.0.2-to-stg -> stg (--no-ff)
+| |/| 
+|/|/  
+| | *   1663fd6 (qa) Merge PR: promote/v1.3.0.2-to-qa -> qa (--no-ff)
+| | |\  
+| | |/  
+| |/|   
+| | *   ce6dd6c Merge PR: promote/v1.3.0.1-to-qa -> qa (--no-ff)
+| | |\  
+| | * | 2faea61 Merge PR: promote/v1.3.0-to-qa -> qa (--no-ff)
+| |/| | 
+|/| | | 
+| | | | *   b35eee9 (HEAD -> sbx) Merge PR: BUG_AZ_65488_DD -> sbx (--no-ff)
+| | | | |\  
+| | |_|_|/  
+| |/| | |   
+| * | | | 528972c (tag: v1.3.0.2) fix(modulo-a): corrige mensaje de error (AZ 65488)
+| | |/ /  
+| |/| |   
+| | | * 13aefe2 Merge PR: BUG_AZ_65487_DD -> sbx (--no-ff)
+| | |/| 
+| | |/  
+| |/|   
+| * | 575291f (tag: v1.3.0.1) fix(modulo-a): corrige validacion (AZ 65487)
+| |/  
+| * a6c719a (tag: v1.3.0) Merge PR: HU_6.30000_PC -> sbx (--no-ff)
+|/| 
+| * 9f9a708 feat(modulo-a): add funcionalidad v1.3
+|/  
+* 1f997cd (tag: v1.0.0) chore: estructura inicial del repositorio

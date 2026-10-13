@@ -1,0 +1,7 @@
+* 6fc2bd0 (HEAD -> sbx, tag: v1.2.0, qa) feat(modulo-a): add HU 40001 parte 2
+*   d89b98a Merge v1.1.0 en HU_6.40001_DD (actualizacion de rama de trabajo)
+|\  
+| * 62ffba2 (tag: v1.1.0) feat(modulo-a): add HU 40002
+* | ff0be6b feat(modulo-a): add HU 40001 parte 1
+|/  
+* 985bcd5 (tag: v1.0.0, stg, prod) chore: estructura inicial del repositorio

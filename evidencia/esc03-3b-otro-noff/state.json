@@ -1,0 +1,120 @@
+﻿{
+    "escenario":  "03",
+    "variante":  "3b-otro",
+    "mergeMode":  "noff",
+    "clones":  [
+                   "dev1",
+                   "dev2"
+               ],
+    "tags":  {
+                 "v1.0.0":  {
+                                "object":  "1afacb4b98addcf644aa834cdacf3263f1f83acb",
+                                "commit":  "8fe8ab7e450ed635aaf3b4b78558b6cfde056fba",
+                                "dev":  "dev1"
+                            },
+                 "v1.1.0":  {
+                                "object":  "b0efddeb29eefc54f2eb6afe28da15e3e57f3d1a",
+                                "commit":  "2f124c3f2859b9e25acd02bc5c481f1bec5a0244",
+                                "dev":  "dev1"
+                            }
+             },
+    "promotions":  [
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.1.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.1.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.1.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       }
+                   ],
+    "merges":  [
+                   {
+                       "source":  "HU_6.32100_DD",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_6.32154_PC",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.1.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.1.0-to-stg",
+                       "target":  "stg",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.1.0-to-prod",
+                       "target":  "prod",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   }
+               ],
+    "branches":  [
+                     "HU_6.32100_DD",
+                     "HU_6.32154_PC",
+                     "promote/v1.1.0-to-qa",
+                     "promote/v1.1.0-to-stg",
+                     "promote/v1.1.0-to-prod"
+                 ],
+    "findings":  [
+                     "El cambio ajeno HU_6.32100_DD se cuela en v1.1.0 (y en prod): False",
+                     "Contenido de v1.1.0: modulo-a.txt:L1=\u0027validacion de tokens (HU 32154)\u0027",
+                     "Contenido de prod: modulo-a.txt:L1=\u0027validacion de tokens (HU 32154)\u0027",
+                     "Contenido de sbx: modulo-a.txt:L1=\u0027validacion de tokens (HU 32154)\u0027 ; modulo-b.txt:L1=\u0027cambio ajeno NO aprobado (HU 32100)\u0027"
+                 ]
+}

@@ -1,0 +1,54 @@
+*   4bd3154 (prod) Merge PR: promote/v1.3.1-to-prod -> prod (--no-ff)
+|\  
+* \   2216a98 Merge PR: promote/v1.3.0.2-to-prod -> prod (--no-ff)
+|\ \  
+| | | *   cf34e03 (stg) Merge PR: promote/v1.3.1-to-stg -> stg (--no-ff)
+| | | |\  
+| | | |/  
+| | |/|   
+| | | * 32d8a7f Merge PR: promote/v1.3.0.2-to-stg -> stg (--no-ff)
+| |_|/| 
+|/| |/  
+| |/|   
+| | | *   d0ce0d3 (qa) Merge PR: promote/v1.3.1-to-qa -> qa (--no-ff)
+| | | |\  
+| | | |/  
+| | |/|   
+| | | *   0f0e848 Merge PR: promote/v1.3.0.2-to-qa -> qa (--no-ff)
+| | | |\  
+| | |_|/  
+| |/| |   
+| | | *   93e68fa Merge PR: promote/v1.3.0.1-to-qa -> qa (--no-ff)
+| | | |\  
+| | | * | da6128e Merge PR: promote/v1.3.0-to-qa -> qa (--no-ff)
+| |_|/| | 
+|/| | | | 
+| | | | | *   a81bc4f (HEAD -> sbx) Merge PR: BUG_GLPI_13500_PC -> sbx (--no-ff)
+| | | | | |\  
+| | | |_|_|/  
+| | |/| | |   
+| | * | | | 50b8e5a (tag: v1.3.1) fix(comun): corrige bloqueo de sesion (GLPI 13500)
+| |/ / / /  
+| | | | *   24e50fe Merge PR: HU_6.10100_DD -> sbx (--no-ff)
+| | | | |\  
+| | | | | * e8109b7 feat(modulo-b): add funcionalidad v1.4
+| | |_|_|/  
+| |/| | |   
+| | | | *   7802512 Merge PR: BUG_AZ_65488_DD -> sbx (--no-ff)
+| | | | |\  
+| | |_|_|/  
+| |/| | |   
+| * | | | 1705edc (tag: v1.3.0.2) fix(modulo-a): corrige mensaje (AZ 65488)
+| | |/ /  
+| |/| |   
+| | | * 4d83a53 Merge PR: BUG_AZ_65487_DD -> sbx (--no-ff)
+| | |/| 
+| | |/  
+| |/|   
+| * | 9e9c6a7 (tag: v1.3.0.1) fix(modulo-a): corrige validacion (AZ 65487)
+| |/  
+| * 0551b46 (tag: v1.3.0) Merge PR: HU_6.10000_PC -> sbx (--no-ff)
+|/| 
+| * 2f920a4 feat(modulo-a): add funcionalidad v1.3
+|/  
+* 8b5cc49 (tag: v1.0.0) chore: estructura inicial del repositorio

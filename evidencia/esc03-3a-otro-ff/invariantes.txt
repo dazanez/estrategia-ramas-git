@@ -1,0 +1,42 @@
+INVARIANTES  escenario=03 variante=3a-otro merge=ff etapa=final
+[OK] I1
+      qa: git diff v1.1.0 qa -> vacio
+      stg: git diff v1.1.0 stg -> vacio
+      prod: git diff v1.1.0 prod -> vacio
+[OK] I2
+      v1.0.0 es ancestro de sbx
+      v1.1.0 es ancestro de sbx
+[OK] I3
+      auditoria: 9 operaciones de integracion revisadas
+      estructural: 0 commits propios de ambiente revisados, 0 fuera de lugar
+[OK] I4
+      rama HU_6.32100_DD: OK
+      rama HU_6.32154_PC: OK
+      rama prod: OK
+      rama promote/v1.1.0-to-prod: OK
+      rama promote/v1.1.0-to-qa: OK
+      rama promote/v1.1.0-to-stg: OK
+      rama qa: OK
+      rama sbx: OK
+      rama stg: OK
+      tag v1.0.0: nombre OK, tipo anotado OK
+      tag v1.1.0: nombre OK, tipo anotado OK
+[OK] I5
+      origin: solo ramas de ambiente (prod, qa, sbx, stg)
+      dev1: ramas locales OK (prod, qa, sbx, stg)
+      dev2: ramas locales OK (sbx)
+[OK] I6
+      tag v1.0.0: intacto (f7b81a57 -> commit bc499149)
+      tag v1.1.0: intacto (0adc7507 -> commit e1ee8d73)
+      auditoria: sin 'tag -f/-d' ni force-push
+[OK] I7
+      tags vigentes: qa=v1.1.0  stg=v1.1.0  prod=v1.1.0
+      stg contiene todo lo de prod
+      stg contiene todo lo de qa
+      contenido stg == prod: True
+HECHOS registrados durante la ejecucion:
+  - PR HU_6.32154_PC -> sbx [ff] bloqueado: fatal: Not possible to fast-forward, aborting.
+  - El cambio ajeno HU_6.32100_DD se cuela en v1.1.0 (y en prod): True
+  - Contenido de v1.1.0: modulo-a.txt:L1='validacion de tokens (HU 32154)' ; modulo-b.txt:L1='cambio ajeno NO aprobado (HU 32100)'
+  - Contenido de prod: modulo-a.txt:L1='validacion de tokens (HU 32154)' ; modulo-b.txt:L1='cambio ajeno NO aprobado (HU 32100)'
+  - Contenido de sbx: modulo-a.txt:L1='validacion de tokens (HU 32154)' ; modulo-b.txt:L1='cambio ajeno NO aprobado (HU 32100)'

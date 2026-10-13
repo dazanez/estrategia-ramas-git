@@ -1,0 +1,6 @@
+*   84ea8d6 (HEAD -> sbx, tag: v1.2.0, qa) Merge origin/sbx en HU_8.602_DD (actualizacion de rama de trabajo)
+|\  
+| * 3db3023 (tag: v1.1.0) feat(comun): add regla HU 601
+* | 9b2aa53 feat(comun): add regla HU 602
+|/  
+* 2223a8b (tag: v1.0.0, stg, prod) chore: estructura inicial del repositorio

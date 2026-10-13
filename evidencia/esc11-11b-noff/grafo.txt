@@ -1,0 +1,21 @@
+*   cab8fd5 (qa) Merge PR: promote/v1.2.0-to-qa -> qa (--no-ff)
+|\  
+| *   8908919 (HEAD -> sbx, tag: v1.2.0) Merge PR: HU_6.40001_DD -> sbx (--no-ff)
+| |\  
+| | * 07f7697 feat(modulo-a): add HU 40001 parte 2
+| | *   a57d0ef Merge v1.1.0 en HU_6.40001_DD (actualizacion de rama de trabajo)
+| | |\  
+| | * | bbdca1c feat(modulo-a): add HU 40001 parte 1
+| |/ /  
+|/| |   
+| * |   dbe1ef3 Merge PR: HU_6.40003_PC -> sbx (--no-ff)
+| |\ \  
+| | |/  
+| |/|   
+| | * a3273f3 feat(modulo-b): add HU 40003
+| |/  
+| * 2116f05 (tag: v1.1.0) Merge PR: HU_6.40002_PC -> sbx (--no-ff)
+|/| 
+| * 355912a feat(modulo-a): add HU 40002
+|/  
+* 9aca13e (tag: v1.0.0, stg, prod) chore: estructura inicial del repositorio

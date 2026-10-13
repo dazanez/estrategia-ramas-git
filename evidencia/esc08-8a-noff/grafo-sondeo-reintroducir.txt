@@ -1,0 +1,37 @@
+*   d218b05 (prod) Merge PR: promote/v1.3.0-to-prod -> prod (--no-ff)
+|\  
+* \   42f5151 Merge PR: promote/v1.2.0-to-prod -> prod (--no-ff)
+|\ \  
+| | | *   2b03a7c (stg) Merge PR: promote/v1.3.0-to-stg -> stg (--no-ff)
+| | | |\  
+| | | |/  
+| | |/|   
+| | | * d833a7e Merge PR: promote/v1.2.0-to-stg -> stg (--no-ff)
+| |_|/| 
+|/| |/  
+| |/|   
+| | | *   8b55d1a (qa) Merge PR: promote/v1.3.0-to-qa -> qa (--no-ff)
+| | | |\  
+| | | |/  
+| | |/|   
+| | * | 7993833 (HEAD -> sbx, tag: v1.3.0) Merge PR: HU_9.804_DD -> sbx (--no-ff)
+| |/| | 
+| | * | fe2f5fe feat(comun): add HU 804
+| |/ /  
+| | * 4aa2982 Merge PR: promote/v1.2.0-to-qa -> qa (--no-ff)
+| |/| 
+|/|/  
+| *   2c7a895 (tag: v1.2.0) Merge PR: HU_9.803_PC -> sbx (--no-ff)
+| |\  
+| | * 05c5224 Revert "Merge PR: HU_9.801_PC -> sbx (--no-ff)"
+| |/  
+| *   4921334 (tag: v1.1.0) Merge PR: HU_9.802_DD -> sbx (--no-ff)
+| |\  
+| | * 40c9e87 feat(modulo-b): add HU 802
+| |/  
+|/|   
+| * f8e0444 Merge PR: HU_9.801_PC -> sbx (--no-ff)
+|/| 
+| * 51817b3 feat(modulo-a): add HU 801
+|/  
+* a337da7 (tag: v1.0.0) chore: estructura inicial del repositorio

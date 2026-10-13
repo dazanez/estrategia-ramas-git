@@ -1,0 +1,125 @@
+﻿{
+    "escenario":  "05",
+    "variante":  "5b",
+    "mergeMode":  "noff",
+    "clones":  [
+                   "dev1",
+                   "dev2"
+               ],
+    "tags":  {
+                 "v1.0.0":  {
+                                "object":  "e9d7e96259473c482b88132d2839fb467cd1edb1",
+                                "commit":  "af31e0e7c4de499684c9e3366a01c76c8c7d892e",
+                                "dev":  "dev1"
+                            },
+                 "v1.1.0":  {
+                                "object":  "35fbaa40a8ef9a9beeba97316bfb6eecd2018cf4",
+                                "commit":  "89d63dd120459e294eb51be47638ccdbb646dbc5",
+                                "dev":  "dev1"
+                            },
+                 "v1.2.0":  {
+                                "object":  "a50e5ec293d61935ccfc532436ab9a0c54fcd8cc",
+                                "commit":  "9be0f8bfe47f17f0ffa1505052fc8fb89ce90742",
+                                "dev":  "dev2"
+                            },
+                 "v1.3.0":  {
+                                "object":  "ff43b83af4b8fc90eb57544f9477772e3df5c2bc",
+                                "commit":  "9ff67f3c0d2ea7b87ac468c080416f7812c4aece",
+                                "dev":  "dev1"
+                            }
+             },
+    "promotions":  [
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.1.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.2.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       }
+                   ],
+    "merges":  [
+                   {
+                       "source":  "HU_7.501_PC",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_7.502_DD",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_7.503_PC",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.1.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   }
+               ],
+    "branches":  [
+                     "HU_7.501_PC",
+                     "HU_7.502_DD",
+                     "HU_7.503_PC",
+                     "promote/v1.1.0-to-qa",
+                     "promote/v1.2.0-to-qa"
+                 ],
+    "findings":  [
+                     "El cliente aprueba solo A (HU_7.501) y B (HU_7.502); C (HU_7.503) no sale",
+                     "Tras promover v1.2.0 -\u003e qa [noff], qa NO es igual a v1.2.0 (contenido extra en: modulo-a.txt)",
+                     "Tags que contienen exactamente A+B sin C: NINGUNO",
+                     "C en qa: False ; C en sbx: True (el proximo tag de sbx lo arrastrara)",
+                     "Contenido de qa: modulo-a.txt:L1=\u0027A: HU 501 (aprobada)\u0027 ; modulo-b.txt:L1=\u0027B: HU 502 (aprobada)\u0027",
+                     "Contenido de sbx: modulo-a.txt:L1=\u0027A: HU 501 (aprobada)\u0027 ; modulo-b.txt:L1=\u0027B: HU 502 (aprobada)\u0027 ; comun.txt:L1=\u0027C: HU 503 (NO aprobada)\u0027"
+                 ]
+}

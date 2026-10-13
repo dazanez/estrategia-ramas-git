@@ -1,0 +1,128 @@
+﻿{
+    "escenario":  "validar-pr-G3",
+    "variante":  "atajos",
+    "mergeMode":  "noff",
+    "clones":  [
+                   "dev1",
+                   "dev2",
+                   "ci"
+               ],
+    "tags":  {
+                 "v1.0.0":  {
+                                "object":  "c7d10101b43590decf1b3d48579beddb02ea994e",
+                                "commit":  "152923de3ea54ee74f51a914a00d31802226cbff",
+                                "dev":  "dev1"
+                            },
+                 "v1.1.0":  {
+                                "object":  "111bdc713d98079f7d17ee76b6c15d089e28b05b",
+                                "commit":  "a593b1f33d3a079cf3940e356a3c8b8e64ba8a0c",
+                                "dev":  "dev1"
+                            },
+                 "v1.2.0.1":  {
+                                  "object":  "c4966ccb46dcbd0b1351a78f5b924f70190123b9",
+                                  "commit":  "6a88ded2f4dec86769648f249fc0ae7a48b89d0f",
+                                  "dev":  "dev2"
+                              },
+                 "v1.0.1":  {
+                                "object":  "ed76365bd3bd06765cd3321ba51ccefa9dbceff9",
+                                "commit":  "182dcb3274a58dc773de5e7ff9fb89382c0883ce",
+                                "dev":  "dev2"
+                            },
+                 "v1.1.0.1":  {
+                                  "object":  "923db0231e8d549d35cef3ed26cf3e26537dcfce",
+                                  "commit":  "eebef4a9788d5bb99a416cb5366808d293804fe0",
+                                  "dev":  "dev1"
+                              },
+                 "v1.3.0":  {
+                                "object":  "9149e8d62d8041297c3d06c36fe9635ce36482bf",
+                                "commit":  "74d96ac1669d941ab550b2ccfe94ea920f6f065b",
+                                "dev":  "dev2"
+                            },
+                 "v1.3.1":  {
+                                "object":  "fbb43e94fd74fb90394701d47904add33f3b8237",
+                                "commit":  "52a8013c168d75f12811ba78c12466602c064190",
+                                "dev":  "dev2"
+                            }
+             },
+    "promotions":  [
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.1.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.3.1",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       }
+                   ],
+    "merges":  [
+                   {
+                       "source":  "feature/az-3001-consulta-expedientes-pc",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.1.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "bug/az-3010-regulariza-sbx-dd",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.1-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   }
+               ],
+    "branches":  [
+                     "feature/az-3001-consulta-expedientes-pc",
+                     "promote/v1.1.0-to-qa",
+                     "bug/az-3010-regulariza-sbx-dd",
+                     "promote/v1.3.1-to-qa"
+                 ],
+    "findings":  [
+                     "Push directo a sbx (simulacion de bypass): sbx tiene contenido que no esta en ningun tag",
+                     "sbx identico a v1.3.1: True"
+                 ]
+}

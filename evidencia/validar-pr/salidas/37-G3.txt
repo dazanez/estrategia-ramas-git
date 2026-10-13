@@ -1,0 +1,10 @@
+# Caso 37 (G3): Promover v1.1.0 a qa
+# PR: promote/v1.1.0-to-qa -> qa   modo: build validation (commit de merge del PR)
+# Esperado: PASA    Obtenido: PASA
+
+Validar-PR  origen=promote/v1.1.0-to-qa  destino=qa
+OK     PROMOTE-NOMBRE   R6           Promocion de v1.1.0 hacia qa.
+OK     PROMOTE-TAG      R6           La rama apunta exactamente al tag anotado v1.1.0.
+OK     SBX              I2           v1.1.0 ya esta en sbx.
+OK     RESULTADO        I1           Tras el PR, qa sera identico a v1.1.0 (commit de merge del PR 7b200377).
+RESULTADO: APROBADO (0 aviso(s))

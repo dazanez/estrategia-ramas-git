@@ -1,0 +1,97 @@
+﻿{
+    "escenario":  "08",
+    "variante":  "8b",
+    "mergeMode":  "ff",
+    "etapa":  "sondeo-reintroducir",
+    "invariantes":  {
+                        "I1":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "qa: git diff v1.3.0 qa -\u003e vacio",
+                                                  "stg: git diff v1.3.0 stg -\u003e vacio",
+                                                  "prod: git diff v1.3.0 prod -\u003e vacio"
+                                              ]
+                               },
+                        "I2":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "v1.0.0 es ancestro de sbx",
+                                                  "v1.1.0 es ancestro de sbx",
+                                                  "v1.2.0 es ancestro de sbx",
+                                                  "v1.3.0 es ancestro de sbx"
+                                              ]
+                               },
+                        "I3":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "auditoria: 19 operaciones de integracion revisadas",
+                                                  "estructural: 0 commits propios de ambiente revisados, 0 fuera de lugar"
+                                              ]
+                               },
+                        "I4":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "rama HU_9.801_PC: OK",
+                                                  "rama HU_9.802_DD: OK",
+                                                  "rama HU_9.803_PC: OK",
+                                                  "rama HU_9.804_DD: OK",
+                                                  "rama HU_9.805_PC: OK",
+                                                  "rama prod: OK",
+                                                  "rama promote/v1.1.0-to-qa: OK",
+                                                  "rama promote/v1.2.0-to-prod: OK",
+                                                  "rama promote/v1.2.0-to-qa: OK",
+                                                  "rama promote/v1.2.0-to-stg: OK",
+                                                  "rama promote/v1.3.0-to-prod: OK",
+                                                  "rama promote/v1.3.0-to-qa: OK",
+                                                  "rama promote/v1.3.0-to-stg: OK",
+                                                  "rama qa: OK",
+                                                  "rama sbx: OK",
+                                                  "rama stg: OK",
+                                                  "tag v1.0.0: nombre OK, tipo anotado OK",
+                                                  "tag v1.1.0: nombre OK, tipo anotado OK",
+                                                  "tag v1.2.0: nombre OK, tipo anotado OK",
+                                                  "tag v1.3.0: nombre OK, tipo anotado OK"
+                                              ]
+                               },
+                        "I5":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "origin: solo ramas de ambiente (prod, qa, sbx, stg)",
+                                                  "dev1: ramas locales OK (prod, qa, sbx, stg)",
+                                                  "dev2: ramas locales OK (prod, qa, sbx, stg)"
+                                              ]
+                               },
+                        "I6":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "tag v1.0.0: intacto (781a8642 -\u003e commit 7a3fde2d)",
+                                                  "tag v1.1.0: intacto (94f479aa -\u003e commit 1807c656)",
+                                                  "tag v1.2.0: intacto (ce83907e -\u003e commit c15f5f51)",
+                                                  "tag v1.3.0: intacto (996c65cd -\u003e commit 36ab8741)",
+                                                  "auditoria: sin \u0027tag -f/-d\u0027 ni force-push"
+                                              ]
+                               },
+                        "I7":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "tags vigentes: qa=v1.3.0  stg=v1.3.0  prod=v1.3.0",
+                                                  "stg contiene todo lo de prod",
+                                                  "stg contiene todo lo de qa",
+                                                  "contenido stg == prod: True"
+                                              ]
+                               }
+                    },
+    "hechos":  [
+                   "PR HU_9.802_DD -\u003e sbx [ff] bloqueado: fatal: Not possible to fast-forward, aborting.",
+                   "El cliente cancela HU 801",
+                   "HU 801 presente en v1.2.0: False",
+                   "HU 801 presente en v1.3.0: False",
+                   "HU 801 presente en qa: False",
+                   "HU 801 presente en prod: False",
+                   "Contenido de v1.1.0: modulo-a.txt:L1=\u0027HU 801 (luego CANCELADA)\u0027 ; modulo-b.txt:L1=\u0027HU 802\u0027",
+                   "Contenido de v1.2.0: modulo-b.txt:L1=\u0027HU 802\u0027",
+                   "Contenido de v1.3.0: modulo-b.txt:L1=\u0027HU 802\u0027 ; comun.txt:L1=\u0027HU 804\u0027",
+                   "Contenido de prod: modulo-b.txt:L1=\u0027HU 802\u0027 ; comun.txt:L1=\u0027HU 804\u0027",
+                   "Re-merge del commit original de HU 801: Already up to date. ; HU 801 presente en la rama: False"
+               ]
+}

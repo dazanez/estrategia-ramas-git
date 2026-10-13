@@ -1,0 +1,6 @@
+*   e1ee8d7 (HEAD -> sbx, tag: v1.1.0, stg, qa, prod) Merge origin/sbx en HU_6.32154_PC (actualizacion de rama de trabajo)
+|\  
+| * 0180e22 feat(modulo-b): add cambio HU 32100
+* | 1ccfc5f feat(modulo-a): add validacion de tokens
+|/  
+* bc49914 (tag: v1.0.0) chore: estructura inicial del repositorio

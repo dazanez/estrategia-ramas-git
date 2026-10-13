@@ -1,0 +1,61 @@
+INVARIANTES  escenario=09 variante=9a merge=ff etapa=final
+[FAIL] I1
+      qa: git diff v1.4.0 qa -> vacio
+      stg: git diff v1.4.0 stg -> vacio
+      prod: git diff v1.3.0 prod -> NO vacio:
+            diff --git a/modulo-b.txt b/modulo-b.txt
+            index c41c256..14e65a0 100644
+            --- a/modulo-b.txt
+            +++ b/modulo-b.txt
+            @@ -1,4 +1,4 @@
+            -modulo-b.txt L1: base
+            +funcionalidad v1.4 (FALLA en prod)
+             modulo-b.txt L2: base
+             modulo-b.txt L3: base
+             modulo-b.txt L4: base
+[OK] I2
+      v1.0.0 es ancestro de sbx
+      v1.3.0 es ancestro de sbx
+      v1.4.0 es ancestro de sbx
+[OK] I3
+      auditoria: 12 operaciones de integracion revisadas
+      estructural: 0 commits propios de ambiente revisados, 0 fuera de lugar
+[FAIL] I4
+      rama promote/v1.3.0-to-prod: nombre REUTILIZADO (creada mas de una vez)
+      rama HU_6.90000_PC: OK
+      rama HU_6.91000_DD: OK
+      rama prod: OK
+      rama promote/v1.3.0-to-prod: OK
+      rama promote/v1.3.0-to-qa: OK
+      rama promote/v1.3.0-to-stg: OK
+      rama promote/v1.4.0-to-prod: OK
+      rama promote/v1.4.0-to-qa: OK
+      rama promote/v1.4.0-to-stg: OK
+      rama qa: OK
+      rama sbx: OK
+      rama stg: OK
+      tag v1.0.0: nombre OK, tipo anotado OK
+      tag v1.3.0: nombre OK, tipo anotado OK
+      tag v1.4.0: nombre OK, tipo anotado OK
+[OK] I5
+      origin: solo ramas de ambiente (prod, qa, sbx, stg)
+      dev1: ramas locales OK (prod, qa, sbx, stg)
+      dev2: ramas locales OK (prod, qa, sbx, stg)
+[OK] I6
+      tag v1.0.0: intacto (68d0aed8 -> commit 70eb4a26)
+      tag v1.3.0: intacto (7eee5a06 -> commit d88f15af)
+      tag v1.4.0: intacto (687df2ae -> commit fbba2711)
+      auditoria: sin 'tag -f/-d' ni force-push
+[OK] I7
+      tags vigentes: qa=v1.4.0  stg=v1.4.0  prod=v1.3.0
+      stg contiene todo lo de prod
+      stg contiene todo lo de qa
+      contenido stg == prod: True
+HECHOS registrados durante la ejecucion:
+  - v1.4.0 falla en produccion; se requiere volver a v1.3.0
+  - Tras promover v1.3.0 -> prod [ff], prod NO es igual a v1.3.0 (contenido extra en: modulo-b.txt)
+  - Merge de promote/v1.3.0-to-prod: ok=True ; salida 'Already up to date' presente: True
+  - prod tras el 'rollback' contiene v1.4.0: True
+  - Contenido de v1.3.0: modulo-a.txt:L1='funcionalidad v1.3'
+  - Contenido de v1.4.0: modulo-a.txt:L1='funcionalidad v1.3' ; modulo-b.txt:L1='funcionalidad v1.4 (FALLA en prod)'
+  - Contenido de prod: modulo-a.txt:L1='funcionalidad v1.3' ; modulo-b.txt:L1='funcionalidad v1.4 (FALLA en prod)'

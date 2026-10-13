@@ -1,0 +1,53 @@
+# azure-pipelines-validar-pr.yml
+# Validacion automatica de PR (build validation) segun ESTRATEGIA-RAMAS.md, seccion 7.
+#
+# ESTADO: NO PROBADO EN AZURE DEVOPS. La logica (Validar-PR.ps1) se probo en la PoC con un remoto local
+# (probar-validar-pr.ps1); este YAML y la configuracion de Azure se prueban con CONFIGURAR-AZURE-DEVOPS.md.
+#
+# Donde va cada cosa:
+#   - Este archivo va en la raiz de CADA repositorio de aplicacion (rama sbx), con este mismo nombre.
+#   - Validar-PR.ps1 va en un repositorio aparte y protegido (devops-plantillas). Asi un desarrollador no
+#     puede cambiar las reglas desde su propio PR: el script siempre se toma de la rama main de ese repositorio.
+#   - Los cambios a este YAML pasan por un revisor obligatorio (politica "Automatically included reviewers").
+#
+# Quien lo dispara: la politica "Build validation" de las ramas sbx, qa, stg y prod. En Azure Repos los
+# triggers 'pr:' del YAML no se usan; por eso no hay trigger propio.
+
+trigger: none
+
+pool:
+  vmImage: windows-latest          # agente de Microsoft; con agentes propios, cambiar por: name: <pool>
+
+resources:
+  repositories:
+  - repository: plantillas
+    type: git
+    name: NOMBRE-PROYECTO/devops-plantillas   # <-- reemplazar por <proyecto>/<repositorio de plantillas>
+    ref: refs/heads/main
+
+steps:
+# Repositorio del PR: historial completo y tags (la regla de cadena y el orden de promocion los necesitan).
+# El agente deja HEAD en el commit de merge del PR (refs/pull/<N>/merge).
+- checkout: self
+  path: s/app
+  fetchDepth: 0
+  fetchTags: true
+  persistCredentials: true          # para el fetch de las ramas de ambiente del paso siguiente
+
+- checkout: plantillas
+  path: s/plantillas
+  fetchDepth: 1
+
+# Asegura que existan origin/sbx, origin/qa, origin/stg y origin/prod en el clon del agente
+- powershell: |
+    git -C "$(Pipeline.Workspace)/s/app" fetch --tags --force origin "+refs/heads/*:refs/remotes/origin/*"
+  displayName: Traer ramas de ambiente y tags
+
+- powershell: |
+    & "$(Pipeline.Workspace)/s/plantillas/Validar-PR.ps1" `
+        -RepoPath "$(Pipeline.Workspace)/s/app" `
+        -SourceBranch "$(System.PullRequest.SourceBranch)" `
+        -TargetBranch "$(System.PullRequest.TargetBranch)"
+    exit $LASTEXITCODE
+  displayName: Validar PR (ESTRATEGIA-RAMAS)
+  condition: eq(variables['Build.Reason'], 'PullRequest')

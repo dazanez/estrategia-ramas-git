@@ -1,0 +1,330 @@
+﻿{
+    "escenario":  "12",
+    "variante":  "modelo propuesto (carpetas)",
+    "mergeMode":  "noff",
+    "clones":  [
+                   "dev1",
+                   "dev2"
+               ],
+    "tags":  {
+                 "v1.0.0":  {
+                                "object":  "56b454cc332af6b2d9fd33a94f55087c6a295e3e",
+                                "commit":  "c5751756b49ed21f6d37740429d5730d2225966c",
+                                "dev":  "dev1"
+                            },
+                 "v1.1.0":  {
+                                "object":  "33bcb6803da69c42263b6ae55dc7ed9e7dbeb8ce",
+                                "commit":  "f4d4ff7148b3dd4370b3e2d877079e7ea4f52afe",
+                                "dev":  "dev1"
+                            },
+                 "v1.0.0.1":  {
+                                  "object":  "3992c49fd72f5095e44ad1da6b3024cd685d8bc3",
+                                  "commit":  "94658c6023c0a6990bd8340ba2609182daf6bf6b",
+                                  "dev":  "dev1"
+                              },
+                 "v1.1.1":  {
+                                "object":  "ac8f009edaf3cedb8f175edb8b6f5ef7d4e3c0aa",
+                                "commit":  "e79e117a83b4bb70f17d8b530cf9e281a0bfa39d",
+                                "dev":  "dev1"
+                            },
+                 "v1.2.0":  {
+                                "object":  "e7afabf67b43768bfecf9623c8fab2dce21c12b5",
+                                "commit":  "ba3703da9d49560c44a044415b5dabc0829f01d3",
+                                "dev":  "dev2"
+                            },
+                 "v1.3.0":  {
+                                "object":  "b0ffda6f5a7d1b874d63ad5ebfcda4dbb9ed5074",
+                                "commit":  "5ed1c4b23baad712730333afb52b49925d95a3be",
+                                "dev":  "dev1"
+                            },
+                 "v1.4.0":  {
+                                "object":  "2ff6b458c3daaebb75d5325d0f4ba66c0a8c791f",
+                                "commit":  "92d73ee2e95d4e6ff9de28162aa25da1a5d7bc79",
+                                "dev":  "dev1"
+                            },
+                 "v1.4.1":  {
+                                "object":  "9eae009d998be9165902b78a0cf48c9e3a8c1329",
+                                "commit":  "9448bd2347c087b35908abe73fdb522434bbd419",
+                                "dev":  "dev2"
+                            }
+             },
+    "promotions":  [
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.1.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0.1",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0.1",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.1.1",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.2.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.3.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.3.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.3.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.4.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.4.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.4.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       }
+                   ],
+    "merges":  [
+                   {
+                       "source":  "feature/az-1001-consulta-expedientes-pc",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.1.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.0.0.1-to-stg",
+                       "target":  "stg",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.0.0.1-to-prod",
+                       "target":  "prod",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.1.1-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "hotfix/glpi-20001-bloqueo-sesion-pc",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "feature/az-1002-firma-digital-dd",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "feature/az-1003-retiro-temporal-hu-1001-pc",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0-to-stg",
+                       "target":  "stg",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0-to-prod",
+                       "target":  "prod",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "feature/az-1004-reintroduce-hu-1001-pc",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.4.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.4.0-to-stg",
+                       "target":  "stg",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.4.0-to-prod",
+                       "target":  "prod",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "test/az-1001-web-consulta-expedientes-dd",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   }
+               ],
+    "branches":  [
+                     "feature/az-1001-consulta-expedientes-pc",
+                     "feature/az-1002-firma-digital-dd",
+                     "promote/v1.1.0-to-qa",
+                     "hotfix/glpi-20001-bloqueo-sesion-pc",
+                     "promote/v1.0.0.1-to-stg",
+                     "promote/v1.0.0.1-to-prod",
+                     "promote/v1.1.1-to-qa",
+                     "promote/v1.2.0-to-qa",
+                     "feature/az-1003-retiro-temporal-hu-1001-pc",
+                     "promote/v1.3.0-to-qa",
+                     "promote/v1.3.0-to-stg",
+                     "promote/v1.3.0-to-prod",
+                     "feature/az-1004-reintroduce-hu-1001-pc",
+                     "promote/v1.4.0-to-qa",
+                     "promote/v1.4.0-to-stg",
+                     "promote/v1.4.0-to-prod",
+                     "test/az-1001-web-consulta-expedientes-dd"
+                 ],
+    "findings":  [
+                     "Regla de cadena antes de etiquetar: la rama contiene el ultimo tag (v1.0.0): True",
+                     "QA certifica v1.1.0 (A). Falta la aprobacion del cliente: A se queda en qa (no sube a stg)",
+                     "Regla de cadena antes de etiquetar: la rama contiene el ultimo tag (v1.1.0): True",
+                     "PR del hotfix a sbx: completado",
+                     "Regla de cadena antes de etiquetar: la rama contiene el ultimo tag (v1.1.1): False",
+                     "Regla de cadena antes de etiquetar: la rama contiene el ultimo tag (v1.1.1): True",
+                     "PR de B a sbx tras la regla de cadena: completado sin conflicto",
+                     "sbx tiene el mismo contenido que el ultimo tag v1.2.0: True",
+                     "Regla de cadena antes de etiquetar: la rama contiene el ultimo tag (v1.2.0): True",
+                     "Regla de cadena antes de etiquetar: la rama contiene el ultimo tag (v1.3.0): True",
+                     "sbx tiene el mismo contenido que v1.4.1 (tag de la prueba automatizada): True",
+                     "v1.1.0: A=True B=False hotfix=False",
+                     "v1.0.0.1: A=False B=False hotfix=True",
+                     "v1.1.1: A=True B=False hotfix=True",
+                     "v1.2.0: A=True B=True hotfix=True",
+                     "v1.3.0: A=False B=True hotfix=True",
+                     "v1.4.0: A=True B=True hotfix=True",
+                     "prod: A=True B=True hotfix=True",
+                     "sbx: A=True B=True hotfix=True",
+                     "Orden de tags: v1.0.0 \u003c v1.0.0.1 \u003c v1.1.0 \u003c v1.1.1 \u003c v1.2.0 \u003c v1.3.0 \u003c v1.4.0 \u003c v1.4.1"
+                 ]
+}

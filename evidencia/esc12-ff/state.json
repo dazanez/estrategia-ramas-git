@@ -1,0 +1,315 @@
+﻿{
+    "escenario":  "12",
+    "variante":  "modelo propuesto",
+    "mergeMode":  "ff",
+    "clones":  [
+                   "dev1",
+                   "dev2"
+               ],
+    "tags":  {
+                 "v1.0.0":  {
+                                "object":  "35201cb0d71e7863fba6feaaefec0a084cbb336b",
+                                "commit":  "70db534a5951d697b78f6e8977f40a741ca19a71",
+                                "dev":  "dev1"
+                            },
+                 "v1.1.0":  {
+                                "object":  "6777a67310eb862c5baba8e0c26aa79444ea182e",
+                                "commit":  "429f9ab6c354ffe5e32e68c75cf18726598bfbe3",
+                                "dev":  "dev1"
+                            },
+                 "v1.0.0.1":  {
+                                  "object":  "00835bd32d6ebe647f842f509786119b5e76c1f7",
+                                  "commit":  "20ff078a751dc5731d5c03b7367978f892961005",
+                                  "dev":  "dev1"
+                              },
+                 "v1.1.1":  {
+                                "object":  "69d642f9bd81e23d28fbdbc2ced643254747d3bf",
+                                "commit":  "8add881b6fabb1ad9b8222bdc59154e58202cd7f",
+                                "dev":  "dev1"
+                            },
+                 "v1.2.0":  {
+                                "object":  "a9ecc00f8a4a9b419c76506f5ab0d694692c18dc",
+                                "commit":  "1f8ce006e670ad17449ac36a5e6bfe4c41ad5c81",
+                                "dev":  "dev2"
+                            },
+                 "v1.3.0":  {
+                                "object":  "1afdd33e37c9ebee1f8345c2cf69c23c7b465450",
+                                "commit":  "ff8e52c8fcfe2137e4ab0814eb6df5f8ba42274a",
+                                "dev":  "dev1"
+                            },
+                 "v1.4.0":  {
+                                "object":  "a3f8aafa2e723927d85612d29d9acae576b37a23",
+                                "commit":  "13fc75ec83ee685639dfa6cc74c3a5222806937e",
+                                "dev":  "dev1"
+                            }
+             },
+    "promotions":  [
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.1.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0.1",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0.1",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.1.1",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.2.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.3.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.3.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.3.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.4.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.4.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.4.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       }
+                   ],
+    "merges":  [
+                   {
+                       "source":  "HU_12.1001_PC",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.1.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.0.0.1-to-stg",
+                       "target":  "stg",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.0.0.1-to-prod",
+                       "target":  "prod",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.1.1-to-qa",
+                       "target":  "qa",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "v1.0.0_BUG_GLPI_20001_PC",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_12.1002_DD",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_12.1003_PC",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0-to-stg",
+                       "target":  "stg",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0-to-prod",
+                       "target":  "prod",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_12.1004_PC",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.4.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.4.0-to-stg",
+                       "target":  "stg",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.4.0-to-prod",
+                       "target":  "prod",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   }
+               ],
+    "branches":  [
+                     "HU_12.1001_PC",
+                     "HU_12.1002_DD",
+                     "promote/v1.1.0-to-qa",
+                     "v1.0.0_BUG_GLPI_20001_PC",
+                     "promote/v1.0.0.1-to-stg",
+                     "promote/v1.0.0.1-to-prod",
+                     "promote/v1.1.1-to-qa",
+                     "promote/v1.2.0-to-qa",
+                     "HU_12.1003_PC",
+                     "promote/v1.3.0-to-qa",
+                     "promote/v1.3.0-to-stg",
+                     "promote/v1.3.0-to-prod",
+                     "HU_12.1004_PC",
+                     "promote/v1.4.0-to-qa",
+                     "promote/v1.4.0-to-stg",
+                     "promote/v1.4.0-to-prod"
+                 ],
+    "findings":  [
+                     "Regla de cadena antes de etiquetar: la rama contiene el ultimo tag (v1.0.0): True",
+                     "QA certifica v1.1.0 (A). Falta la aprobacion del cliente: A se queda en qa (no sube a stg)",
+                     "Regla de cadena antes de etiquetar: la rama contiene el ultimo tag (v1.1.0): True",
+                     "PR del hotfix a sbx: completado",
+                     "Regla de cadena antes de etiquetar: la rama contiene el ultimo tag (v1.1.1): False",
+                     "Regla de cadena antes de etiquetar: la rama contiene el ultimo tag (v1.1.1): True",
+                     "PR de B a sbx tras la regla de cadena: completado sin conflicto",
+                     "sbx tiene el mismo contenido que el ultimo tag v1.2.0: True",
+                     "Regla de cadena antes de etiquetar: la rama contiene el ultimo tag (v1.2.0): True",
+                     "Regla de cadena antes de etiquetar: la rama contiene el ultimo tag (v1.3.0): True",
+                     "v1.1.0: A=True B=False hotfix=False",
+                     "v1.0.0.1: A=False B=False hotfix=True",
+                     "v1.1.1: A=True B=False hotfix=True",
+                     "v1.2.0: A=True B=True hotfix=True",
+                     "v1.3.0: A=False B=True hotfix=True",
+                     "v1.4.0: A=True B=True hotfix=True",
+                     "prod: A=True B=True hotfix=True",
+                     "sbx: A=True B=True hotfix=True",
+                     "Orden de tags: v1.0.0 \u003c v1.0.0.1 \u003c v1.1.0 \u003c v1.1.1 \u003c v1.2.0 \u003c v1.3.0 \u003c v1.4.0"
+                 ]
+}

@@ -1,0 +1,122 @@
+﻿{
+    "escenario":  "validar-pr-G2",
+    "variante":  "cadena",
+    "mergeMode":  "noff",
+    "clones":  [
+                   "dev1",
+                   "dev2",
+                   "ci"
+               ],
+    "tags":  {
+                 "v1.0.0":  {
+                                "object":  "b177db8b4468dd67be7332ac5e9da316ade73706",
+                                "commit":  "8e30dc2650e4841f9f33a5595bd3adae09bad4ad",
+                                "dev":  "dev1"
+                            },
+                 "v1.1.0":  {
+                                "object":  "f860324750675728baaef90ed9fe92371b5a23aa",
+                                "commit":  "6838e4681cbb6715f6ea3bdf2ec612ddcdd86089",
+                                "dev":  "dev1"
+                            },
+                 "v1.2.0":  {
+                                "object":  "617baff9e924d22e32cd0e6fc670078c4d0d1e3e",
+                                "commit":  "e2dd4f457d900e217f791c01c8a7f514b6af09cb",
+                                "dev":  "dev2"
+                            },
+                 "v1.2.1":  {
+                                "object":  "37821daa353c76cbce0245345a7bf49ab706edfa",
+                                "commit":  "8b9f535fd3ce2746c0ec9fda884ead4c561b321e",
+                                "dev":  "dev2"
+                            }
+             },
+    "promotions":  [
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.1.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.2.1",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       }
+                   ],
+    "merges":  [
+                   {
+                       "source":  "HU_12.2001_PC",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.1.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "feature/az-2002-firma-digital-dd",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "bug/az-2003-regulariza-cadena-dd",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.1-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   }
+               ],
+    "branches":  [
+                     "HU_12.2001_PC",
+                     "feature/az-2002-firma-digital-dd",
+                     "promote/v1.1.0-to-qa",
+                     "bug/az-2003-regulariza-cadena-dd",
+                     "promote/v1.2.1-to-qa"
+                 ],
+    "findings":  [
+                     "PR de B completado con bypass de la validacion: sbx = A + B, que no es ningun tag",
+                     "qa identico a v1.2.1: True ; sbx identico a v1.2.1: True"
+                 ]
+}

@@ -1,0 +1,46 @@
+*   917d9b9 (prod) Merge PR: promote/v1.4.1-to-prod -> prod (--no-ff)
+|\  
+* \   73aaa08 Merge PR: promote/v1.4.0-to-prod -> prod (--no-ff)
+|\ \  
+* \ \   c2fdbda Merge PR: promote/v1.3.0-to-prod -> prod (--no-ff)
+|\ \ \  
+| | | | *   222ddea (stg) Merge PR: promote/v1.4.1-to-stg -> stg (--no-ff)
+| | | | |\  
+| | | | |/  
+| | | |/|   
+| | | | *   ed276f0 Merge PR: promote/v1.4.0-to-stg -> stg (--no-ff)
+| | | | |\  
+| | | |_|/  
+| | |/| |   
+| | | | * e4247a2 Merge PR: promote/v1.3.0-to-stg -> stg (--no-ff)
+| |_|_|/| 
+|/| | |/  
+| | |/|   
+| |/| |   
+| | | | *   0c78ee0 (qa) Merge PR: promote/v1.4.1-to-qa -> qa (--no-ff)
+| | | | |\  
+| | | | |/  
+| | | |/|   
+| | | | *   133d5fb Merge PR: promote/v1.4.0-to-qa -> qa (--no-ff)
+| | | | |\  
+| | | |_|/  
+| | |/| |   
+| | | | * ad7849e Merge PR: promote/v1.3.0-to-qa -> qa (--no-ff)
+| |_|_|/| 
+|/| | |/  
+| | |/|   
+| |/| |   
+| | | | * 4e0aded (HEAD -> sbx) Merge PR: BUG_GLPI_90001_PC -> sbx (--no-ff)
+| | | |/| 
+| | |/|/  
+| | | * 321c2ce (tag: v1.4.1) Revert "Merge PR: HU_6.91000_DD -> sbx (--no-ff)"
+| | |/  
+| | * bfd288e (tag: v1.4.0) Merge PR: HU_6.91000_DD -> sbx (--no-ff)
+| |/| 
+| | * a6230a9 feat(modulo-b): add funcionalidad v1.4
+| |/  
+| * 3d357c0 (tag: v1.3.0) Merge PR: HU_6.90000_PC -> sbx (--no-ff)
+|/| 
+| * 4e89f91 feat(modulo-a): add funcionalidad v1.3
+|/  
+* 9308441 (tag: v1.0.0) chore: estructura inicial del repositorio

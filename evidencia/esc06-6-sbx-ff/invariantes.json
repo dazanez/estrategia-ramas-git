@@ -1,0 +1,79 @@
+﻿{
+    "escenario":  "06",
+    "variante":  "6-sbx",
+    "mergeMode":  "ff",
+    "etapa":  "final",
+    "invariantes":  {
+                        "I1":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "qa: git diff v1.2.0 qa -\u003e vacio",
+                                                  "stg: git diff v1.0.0 stg -\u003e vacio",
+                                                  "prod: git diff v1.0.0 prod -\u003e vacio"
+                                              ]
+                               },
+                        "I2":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "v1.0.0 es ancestro de sbx",
+                                                  "v1.2.0 es ancestro de sbx"
+                                              ]
+                               },
+                        "I3":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "auditoria: 6 operaciones de integracion revisadas",
+                                                  "estructural: 0 commits propios de ambiente revisados, 0 fuera de lugar"
+                                              ]
+                               },
+                        "I4":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "rama HU_8.601_PC: OK",
+                                                  "rama HU_8.602_DD: OK",
+                                                  "rama prod: OK",
+                                                  "rama promote/v1.2.0-to-qa: OK",
+                                                  "rama qa: OK",
+                                                  "rama sbx: OK",
+                                                  "rama stg: OK",
+                                                  "tag v1.0.0: nombre OK, tipo anotado OK",
+                                                  "tag v1.1.0: nombre OK, tipo anotado OK",
+                                                  "tag v1.2.0: nombre OK, tipo anotado OK"
+                                              ]
+                               },
+                        "I5":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "origin: solo ramas de ambiente (prod, qa, sbx, stg)",
+                                                  "dev1: ramas locales OK (sbx)",
+                                                  "dev2: ramas locales OK (qa, sbx)"
+                                              ]
+                               },
+                        "I6":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "tag v1.0.0: intacto (04845b99 -\u003e commit 2223a8b9)",
+                                                  "tag v1.1.0: intacto (0805ace6 -\u003e commit 3db3023f)",
+                                                  "tag v1.2.0: intacto (c2f1db2c -\u003e commit 84ea8d68)",
+                                                  "auditoria: sin \u0027tag -f/-d\u0027 ni force-push"
+                                              ]
+                               },
+                        "I7":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "tags vigentes: qa=v1.2.0  stg=v1.0.0  prod=v1.0.0",
+                                                  "stg contiene todo lo de prod",
+                                                  "stg no tiene 2 commit(s) de qa [normal si hay una version en pruebas]",
+                                                  "contenido stg == prod: True"
+                                              ]
+                               }
+                    },
+    "hechos":  [
+                   "PR HU_8.602_DD -\u003e sbx [ff]: bloqueado: fatal: Not possible to fast-forward, aborting.",
+                   "Conflicto al actualizar HU_8.602_DD con origin/sbx en: comun.txt (se resuelve en la rama de trabajo)",
+                   "PR HU_8.602_DD -\u003e sbx [ff] tras actualizar desde origin/sbx: completado sin conflicto",
+                   "Contenido de v1.1.0: comun.txt:L3=\u0027regla de negocio segun HU 601\u0027",
+                   "Contenido de v1.2.0: comun.txt:L3=\u0027regla de negocio segun HU 601 + HU 602\u0027",
+                   "Contenido de qa: comun.txt:L3=\u0027regla de negocio segun HU 601 + HU 602\u0027"
+               ]
+}

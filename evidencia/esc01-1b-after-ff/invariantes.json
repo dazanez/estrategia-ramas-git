@@ -1,0 +1,88 @@
+﻿{
+    "escenario":  "01",
+    "variante":  "1b-after",
+    "mergeMode":  "ff",
+    "etapa":  "final",
+    "invariantes":  {
+                        "I1":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "qa: git diff v1.2.1 qa -\u003e vacio",
+                                                  "stg: git diff v1.2.1 stg -\u003e vacio",
+                                                  "prod: git diff v1.2.1 prod -\u003e vacio"
+                                              ]
+                               },
+                        "I2":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "v1.0.0 es ancestro de sbx",
+                                                  "v1.1.0 es ancestro de sbx",
+                                                  "v1.2.1 es ancestro de sbx"
+                                              ]
+                               },
+                        "I3":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "auditoria: 16 operaciones de integracion revisadas",
+                                                  "estructural: 0 commits propios de ambiente revisados, 0 fuera de lugar"
+                                              ]
+                               },
+                        "I4":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "rama BUG_GLPI_13487_PC: OK",
+                                                  "rama HU_1.110_PC: OK",
+                                                  "rama HU_1.120_DD: OK",
+                                                  "rama prod: OK",
+                                                  "rama promote/v1.1.0-to-prod: OK",
+                                                  "rama promote/v1.1.0-to-qa: OK",
+                                                  "rama promote/v1.1.0-to-stg: OK",
+                                                  "rama promote/v1.2.1-to-prod: OK",
+                                                  "rama promote/v1.2.1-to-qa: OK",
+                                                  "rama promote/v1.2.1-to-stg: OK",
+                                                  "rama qa: OK",
+                                                  "rama sbx: OK",
+                                                  "rama stg: OK",
+                                                  "tag v1.0.0: nombre OK, tipo anotado OK",
+                                                  "tag v1.1.0: nombre OK, tipo anotado OK",
+                                                  "tag v1.2.0: nombre OK, tipo anotado OK",
+                                                  "tag v1.2.1: nombre OK, tipo anotado OK"
+                                              ]
+                               },
+                        "I5":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "origin: solo ramas de ambiente (prod, qa, sbx, stg)",
+                                                  "dev1: ramas locales OK (prod, qa, sbx, stg)",
+                                                  "dev2: ramas locales OK (sbx)"
+                                              ]
+                               },
+                        "I6":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "tag v1.0.0: intacto (b88b5996 -\u003e commit 81166031)",
+                                                  "tag v1.1.0: intacto (4054fdc0 -\u003e commit fd3dc485)",
+                                                  "tag v1.2.0: intacto (ae98f775 -\u003e commit 9da3c5c5)",
+                                                  "tag v1.2.1: intacto (1b710f9e -\u003e commit 32433d9c)",
+                                                  "auditoria: sin \u0027tag -f/-d\u0027 ni force-push"
+                                              ]
+                               },
+                        "I7":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "tags vigentes: qa=v1.2.1  stg=v1.2.1  prod=v1.2.1",
+                                                  "stg contiene todo lo de prod",
+                                                  "stg contiene todo lo de qa",
+                                                  "contenido stg == prod: True"
+                                              ]
+                               }
+                    },
+    "hechos":  [
+                   "PR BUG_GLPI_13487_PC -\u003e sbx [ff] bloqueado: fatal: Not possible to fast-forward, aborting.",
+                   "Conflicto al actualizar BUG_GLPI_13487_PC con v1.2.0 en: modulo-a.txt (se resuelve en la rama de trabajo)",
+                   "Contenido de v1.1.0: modulo-a.txt:L2=\u0027calculo v1.1 (DEFECTO)\u0027",
+                   "Contenido de v1.2.0: modulo-a.txt:L2=\u0027calculo v1.1 (DEFECTO)\u0027 ; modulo-a.txt:L3=\u0027reporte v1.2\u0027 ; modulo-b.txt:L1=\u0027pantalla v1.2\u0027",
+                   "Contenido de v1.2.1: modulo-a.txt:L2=\u0027calculo v1.1 CORREGIDO GLPI-13487\u0027 ; modulo-a.txt:L3=\u0027reporte v1.2\u0027 ; modulo-b.txt:L1=\u0027pantalla v1.2\u0027",
+                   "Contenido de prod: modulo-a.txt:L2=\u0027calculo v1.1 CORREGIDO GLPI-13487\u0027 ; modulo-a.txt:L3=\u0027reporte v1.2\u0027 ; modulo-b.txt:L1=\u0027pantalla v1.2\u0027"
+               ]
+}

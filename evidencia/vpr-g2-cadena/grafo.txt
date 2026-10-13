@@ -1,0 +1,25 @@
+*   fae1305 (qa) Merge PR: promote/v1.2.1-to-qa -> qa (--no-ff)
+|\  
+* \   8e6a579 Merge PR: promote/v1.1.0-to-qa -> qa (--no-ff)
+|\ \  
+| | | *   45796cd (HEAD -> sbx) Merge PR: bug/az-2003-regulariza-cadena-dd -> sbx (--no-ff)
+| | | |\  
+| | | |/  
+| | |/|   
+| | * |   8b9f535 (tag: v1.2.1) Merge v1.1.0 en bug/az-2003-regulariza-cadena-dd (actualizacion de rama de trabajo)
+| | |\ \  
+| | |/ /  
+| |/| |   
+| | | *   79303ae Merge PR: feature/az-2002-firma-digital-dd -> sbx (--no-ff)
+| | | |\  
+| | | |/  
+| | |/|   
+| | * | e2dd4f4 (tag: v1.2.0) feat(modulo-b): add HU 2002
+| |/ /  
+|/| |   
+| | * 1343bb9 Merge PR: HU_12.2001_PC -> sbx (--no-ff)
+| |/| 
+|/|/  
+| * 6838e46 (tag: v1.1.0) feat(modulo-a): add HU 2001
+|/  
+* 8e30dc2 (tag: v1.0.0, stg, prod) chore: estructura inicial del repositorio

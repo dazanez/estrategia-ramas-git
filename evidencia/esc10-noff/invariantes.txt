@@ -1,0 +1,60 @@
+INVARIANTES  escenario=10 variante=v1.3.1 merge=noff etapa=final
+[OK] I1
+      qa: git diff v1.3.1 qa -> vacio
+      stg: git diff v1.3.1 stg -> vacio
+      prod: git diff v1.3.1 prod -> vacio
+[OK] I2
+      v1.0.0 es ancestro de sbx
+      v1.3.0 es ancestro de sbx
+      v1.3.0.1 es ancestro de sbx
+      v1.3.0.2 es ancestro de sbx
+      v1.3.1 es ancestro de sbx
+[OK] I3
+      auditoria: 20 operaciones de integracion revisadas
+      estructural: 12 commits propios de ambiente revisados, 0 fuera de lugar
+[OK] I4
+      rama BUG_AZ_65487_DD: OK
+      rama BUG_AZ_65488_DD: OK
+      rama BUG_GLPI_13500_PC: OK
+      rama HU_6.10000_PC: OK
+      rama HU_6.10100_DD: OK
+      rama prod: OK
+      rama promote/v1.3.0.1-to-qa: OK
+      rama promote/v1.3.0.2-to-prod: OK
+      rama promote/v1.3.0.2-to-qa: OK
+      rama promote/v1.3.0.2-to-stg: OK
+      rama promote/v1.3.0-to-qa: OK
+      rama promote/v1.3.1-to-prod: OK
+      rama promote/v1.3.1-to-qa: OK
+      rama promote/v1.3.1-to-stg: OK
+      rama qa: OK
+      rama sbx: OK
+      rama stg: OK
+      tag v1.0.0: nombre OK, tipo anotado OK
+      tag v1.3.0: nombre OK, tipo anotado OK
+      tag v1.3.0.1: nombre OK, tipo anotado OK (cuarta posicion)
+      tag v1.3.0.2: nombre OK, tipo anotado OK (cuarta posicion)
+      tag v1.3.1: nombre OK, tipo anotado OK
+[OK] I5
+      origin: solo ramas de ambiente (prod, qa, sbx, stg)
+      dev1: ramas locales OK (prod, qa, sbx, stg)
+      dev2: ramas locales OK (prod, qa, sbx, stg)
+[OK] I6
+      tag v1.0.0: intacto (a6c1dc2c -> commit 8b5cc49f)
+      tag v1.3.0: intacto (629892a3 -> commit 0551b462)
+      tag v1.3.0.1: intacto (773c4a42 -> commit 9e9c6a7d)
+      tag v1.3.0.2: intacto (c2d67152 -> commit 1705edc8)
+      tag v1.3.1: intacto (e3c8162e -> commit 50b8e5a4)
+      auditoria: sin 'tag -f/-d' ni force-push
+[OK] I7
+      tags vigentes: qa=v1.3.1  stg=v1.3.1  prod=v1.3.1
+      stg contiene todo lo de prod
+      stg contiene todo lo de qa
+      contenido stg == prod: True
+HECHOS registrados durante la ejecucion:
+  - Orden de tags segun git (version:refname): v1.0.0 < v1.3.0 < v1.3.0.1 < v1.3.0.2 < v1.3.1
+  - v1.3.1 contiene la funcionalidad v1.4 en curso: False
+  - Contenido de v1.3.0.2: modulo-a.txt:L1='funcionalidad v1.3' ; modulo-a.txt:L2='fix iteracion 1 (AZ 65487)' ; modulo-a.txt:L3='fix iteracion 2 (AZ 65488)'
+  - Contenido de v1.3.1: modulo-a.txt:L1='funcionalidad v1.3' ; modulo-a.txt:L2='fix iteracion 1 (AZ 65487)' ; modulo-a.txt:L3='fix iteracion 2 (AZ 65488)' ; comun.txt:L2='HOTFIX GLPI-13500'
+  - Contenido de prod: modulo-a.txt:L1='funcionalidad v1.3' ; modulo-a.txt:L2='fix iteracion 1 (AZ 65487)' ; modulo-a.txt:L3='fix iteracion 2 (AZ 65488)' ; comun.txt:L2='HOTFIX GLPI-13500'
+  - Contenido de sbx: modulo-a.txt:L1='funcionalidad v1.3' ; modulo-a.txt:L2='fix iteracion 1 (AZ 65487)' ; modulo-a.txt:L3='fix iteracion 2 (AZ 65488)' ; modulo-b.txt:L1='funcionalidad v1.4 en curso' ; comun.txt:L2='HOTFIX GLPI-13500'

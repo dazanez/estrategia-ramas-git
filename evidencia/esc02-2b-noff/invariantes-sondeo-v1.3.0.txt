@@ -1,0 +1,98 @@
+INVARIANTES  escenario=02 variante=2b merge=noff etapa=sondeo-v1.3.0
+[FAIL] I1
+      qa: git diff v1.2.0.1 qa -> NO vacio:
+            diff --git a/modulo-b.txt b/modulo-b.txt
+            index c41c256..0e92af2 100644
+            --- a/modulo-b.txt
+            +++ b/modulo-b.txt
+            @@ -1,4 +1,4 @@
+            -modulo-b.txt L1: base
+            +pantalla v1.3
+             modulo-b.txt L2: base
+             modulo-b.txt L3: base
+             modulo-b.txt L4: base
+      stg: git diff v1.3.0 stg -> NO vacio:
+            diff --git a/modulo-a.txt b/modulo-a.txt
+            index 73d5624..737cff0 100644
+            --- a/modulo-a.txt
+            +++ b/modulo-a.txt
+            @@ -1,5 +1,5 @@
+             login v1.2
+            -modulo-a.txt L2: base
+            +HOTFIX GLPI-13487
+             modulo-a.txt L3: base
+             modulo-a.txt L4: base
+             modulo-a.txt L5: base
+      prod: git diff v1.3.0 prod -> NO vacio:
+            diff --git a/modulo-a.txt b/modulo-a.txt
+            index 73d5624..737cff0 100644
+            --- a/modulo-a.txt
+            +++ b/modulo-a.txt
+            @@ -1,5 +1,5 @@
+             login v1.2
+            -modulo-a.txt L2: base
+            +HOTFIX GLPI-13487
+             modulo-a.txt L3: base
+             modulo-a.txt L4: base
+             modulo-a.txt L5: base
+[OK] I2
+      v1.0.0 es ancestro de sbx
+      v1.2.0 es ancestro de sbx
+      v1.2.0.1 es ancestro de sbx
+      v1.3.0 es ancestro de sbx
+[OK] I3
+      auditoria: 21 operaciones de integracion revisadas
+      estructural: 11 commits propios de ambiente revisados, 0 fuera de lugar
+[OK] I4
+      rama BUG_GLPI_13487_PC: OK
+      rama HU_2.200_PC: OK
+      rama HU_2.300_DD: OK
+      rama HU_2.400_DD: OK
+      rama prod: OK
+      rama promote/v1.2.0.1-to-prod: OK
+      rama promote/v1.2.0.1-to-qa: OK
+      rama promote/v1.2.0.1-to-stg: OK
+      rama promote/v1.2.0-to-prod: OK
+      rama promote/v1.2.0-to-qa: OK
+      rama promote/v1.2.0-to-stg: OK
+      rama promote/v1.3.0-to-prod: OK
+      rama promote/v1.3.0-to-qa: OK
+      rama promote/v1.3.0-to-stg: OK
+      rama qa: OK
+      rama sbx: OK
+      rama stg: OK
+      tag v1.0.0: nombre OK, tipo anotado OK
+      tag v1.2.0: nombre OK, tipo anotado OK
+      tag v1.2.0.1: nombre OK, tipo anotado OK (cuarta posicion)
+      tag v1.3.0: nombre OK, tipo anotado OK
+[OK] I5
+      origin: solo ramas de ambiente (prod, qa, sbx, stg)
+      dev1: ramas locales OK (prod, qa, sbx, stg)
+      dev2: ramas locales OK (prod, qa, sbx, stg)
+[OK] I6
+      tag v1.0.0: intacto (035bdef9 -> commit 05fbb933)
+      tag v1.2.0: intacto (47d2f25e -> commit 68327011)
+      tag v1.3.0: intacto (05c04a84 -> commit a087fc0b)
+      tag v1.2.0.1: intacto (6dc867ea -> commit ba29a96e)
+      auditoria: sin 'tag -f/-d' ni force-push
+[OK] I7
+      tags vigentes: qa=v1.2.0.1  stg=v1.3.0  prod=v1.3.0
+      stg contiene todo lo de prod
+      stg contiene todo lo de qa
+      contenido stg == prod: True
+HECHOS registrados durante la ejecucion:
+  - Tras promover v1.2.0.1 -> qa [noff], qa NO es igual a v1.2.0.1 (contenido extra en: modulo-b.txt)
+  - Contenido de qa: modulo-a.txt:L1='login v1.2' ; modulo-a.txt:L2='HOTFIX GLPI-13487' ; modulo-b.txt:L1='pantalla v1.3'
+  - PR BUG_GLPI_13487_PC -> sbx [noff] bloqueado: CONFLICT (content): Merge conflict in modulo-a.txt | Automatic merge failed; fix conflicts and then commit the result.
+  - Conflicto al actualizar BUG_GLPI_13487_PC con origin/sbx en: modulo-a.txt (se resuelve en la rama de trabajo)
+  - Contenido de v1.2.0.1: modulo-a.txt:L1='login v1.2' ; modulo-a.txt:L2='HOTFIX GLPI-13487'
+  - Contenido de v1.3.0: modulo-a.txt:L1='login v1.2' ; modulo-b.txt:L1='pantalla v1.3'
+  - Contenido de qa: modulo-a.txt:L1='login v1.2' ; modulo-a.txt:L2='HOTFIX GLPI-13487' ; modulo-b.txt:L1='pantalla v1.3'
+  - Contenido de stg: modulo-a.txt:L1='login v1.2' ; modulo-a.txt:L2='HOTFIX GLPI-13487'
+  - Contenido de prod: modulo-a.txt:L1='login v1.2' ; modulo-a.txt:L2='HOTFIX GLPI-13487'
+  - Contenido de sbx: modulo-a.txt:L1='login v1.2' ; modulo-a.txt:L2='validacion v1.4 (en sbx, sin tag) + HOTFIX GLPI-13487' ; modulo-b.txt:L1='pantalla v1.3'
+  - Tras promover v1.3.0 -> stg [noff], stg NO es igual a v1.3.0 (contenido extra en: modulo-a.txt)
+  - Tras promover v1.3.0 -> prod [noff], prod NO es igual a v1.3.0 (contenido extra en: modulo-a.txt)
+  - Tras el sondeo, el hotfix sigue en prod: True ; v1.3.0 contiene el hotfix: False
+  - Contenido de stg: modulo-a.txt:L1='login v1.2' ; modulo-a.txt:L2='HOTFIX GLPI-13487' ; modulo-b.txt:L1='pantalla v1.3'
+  - Contenido de prod: modulo-a.txt:L1='login v1.2' ; modulo-a.txt:L2='HOTFIX GLPI-13487' ; modulo-b.txt:L1='pantalla v1.3'

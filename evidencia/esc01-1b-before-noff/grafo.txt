@@ -1,0 +1,49 @@
+*   0d5decd (prod) Merge PR: promote/v1.2.1-to-prod -> prod (--no-ff)
+|\  
+* \   282e700 Merge PR: promote/v1.1.1-to-prod -> prod (--no-ff)
+|\ \  
+* \ \   6932e95 Merge PR: promote/v1.1.0-to-prod -> prod (--no-ff)
+|\ \ \  
+| | | | *   85f3b1d (stg) Merge PR: promote/v1.2.1-to-stg -> stg (--no-ff)
+| | | | |\  
+| | | | |/  
+| | | |/|   
+| | | | *   87dc142 Merge PR: promote/v1.1.1-to-stg -> stg (--no-ff)
+| | | | |\  
+| | | |_|/  
+| | |/| |   
+| | | | * aa194be Merge PR: promote/v1.1.0-to-stg -> stg (--no-ff)
+| |_|_|/| 
+|/| | |/  
+| | |/|   
+| |/| |   
+| | | | *   c3b25af (qa) Merge PR: promote/v1.2.1-to-qa -> qa (--no-ff)
+| | | | |\  
+| | | | |/  
+| | | |/|   
+| | | * |   9394a99 (HEAD -> sbx, tag: v1.2.1) Merge PR: BUG_GLPI_13487_PC -> sbx (--no-ff)
+| | | |\ \  
+| | | | * | 97fa0ae Merge v1.2.0 en BUG_GLPI_13487_PC (actualizacion de rama de trabajo)
+| | | |/| | 
+| | |/|/ /  
+| | | * | bc4b35d (tag: v1.2.0) Merge PR: HU_1.120_DD -> sbx (--no-ff)
+| | |/| | 
+| |/| | | 
+| | | * | f0fdf6d feat(modulo-b): add pantalla v1.2
+| | | * | e39b211 feat(modulo-a): add reporte v1.2
+| | |/ /  
+| |/| |   
+| | | *   87b5083 Merge PR: promote/v1.1.1-to-qa -> qa (--no-ff)
+| | | |\  
+| | | |/  
+| | |/|   
+| | * | ff4b4f3 (tag: v1.1.1) fix(modulo-a): corrige calculo por error de redondeo (GLPI 13487)
+| |/ /  
+| | * 6aab601 Merge PR: promote/v1.1.0-to-qa -> qa (--no-ff)
+| |/| 
+|/|/  
+| * bfef63b (tag: v1.1.0) Merge PR: HU_1.110_PC -> sbx (--no-ff)
+|/| 
+| * 185e696 feat(modulo-a): add calculo v1.1
+|/  
+* 9802c12 (tag: v1.0.0) chore: estructura inicial del repositorio

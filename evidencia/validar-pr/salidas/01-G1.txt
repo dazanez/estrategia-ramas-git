@@ -1,0 +1,9 @@
+# Caso 1 (G1): PR de A a sbx sin tag
+# PR: feature/az-1001-consulta-expedientes-pc -> sbx   modo: build validation (commit de merge del PR)
+# Esperado: FALLA TAG-FALTA   Obtenido: FALLA
+
+Validar-PR  origen=feature/az-1001-consulta-expedientes-pc  destino=sbx
+OK     NOMBRE           Seccion 2    La rama cumple <tipo>/<sistema>-<id>-<descripcion>-<iniciales>.
+ERROR  TAG-FALTA        R4           El ultimo commit de la rama no tiene tag de version. Cree el tag en la rama antes de completar el PR: git tag -a vX.Y.Z -m "..." y git push origin vX.Y.Z
+OK     CADENA           R3           La rama contiene el ultimo tag (v1.0.0).
+RESULTADO: RECHAZADO (1 error(es), 0 aviso(s))

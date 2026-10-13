@@ -1,0 +1,44 @@
+INVARIANTES  escenario=05 variante=5c merge=noff etapa=final
+[OK] I1
+      qa: git diff v1.1.0 qa -> vacio
+      stg: git diff v1.1.0 stg -> vacio
+      prod: git diff v1.1.0 prod -> vacio
+[OK] I2
+      v1.0.0 es ancestro de sbx
+      v1.1.0 es ancestro de sbx
+[OK] I3
+      auditoria: 13 operaciones de integracion revisadas
+      estructural: 7 commits propios de ambiente revisados, 0 fuera de lugar
+[FAIL] I4
+      rama HU_7.501_PC: OK
+      rama HU_7.502_DD: OK
+      rama HU_7.503_PC: OK
+      rama integracion/v1.1.0: NO cumple nomenclatura
+      rama prod: OK
+      rama promote/v1.1.0-to-prod: OK
+      rama promote/v1.1.0-to-qa: OK
+      rama promote/v1.1.0-to-stg: OK
+      rama qa: OK
+      rama sbx: OK
+      rama stg: OK
+      tag v1.0.0: nombre OK, tipo anotado OK
+      tag v1.1.0: nombre OK, tipo anotado OK
+[OK] I5
+      origin: solo ramas de ambiente (prod, qa, sbx, stg)
+      dev1: ramas locales OK (prod, qa, sbx, stg)
+      dev2: ramas locales OK (sbx)
+[OK] I6
+      tag v1.0.0: intacto (e738c68a -> commit bb48690f)
+      tag v1.1.0: intacto (6c95d4de -> commit 2e6e9a49)
+      auditoria: sin 'tag -f/-d' ni force-push
+[OK] I7
+      tags vigentes: qa=v1.1.0  stg=v1.1.0  prod=v1.1.0
+      stg contiene todo lo de prod
+      stg contiene todo lo de qa
+      contenido stg == prod: True
+HECHOS registrados durante la ejecucion:
+  - El cliente aprueba solo A (HU_7.501) y B (HU_7.502); C (HU_7.503) no sale
+  - La rama de integracion contiene C: False
+  - C en qa: False ; C en sbx: True (el proximo tag de sbx lo arrastrara)
+  - Contenido de qa: modulo-a.txt:L1='A: HU 501 (aprobada)' ; modulo-b.txt:L1='B: HU 502 (aprobada)'
+  - Contenido de sbx: modulo-a.txt:L1='A: HU 501 (aprobada)' ; modulo-b.txt:L1='B: HU 502 (aprobada)' ; comun.txt:L1='C: HU 503 (NO aprobada)'

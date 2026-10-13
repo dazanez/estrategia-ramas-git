@@ -1,0 +1,10 @@
+# Caso 9 (G1): Re-etiquetado v1.1.1 a qa ANTES del PR del hotfix a sbx (orden de la guia v1.2)
+# PR: promote/v1.1.1-to-qa -> qa   modo: build validation (commit de merge del PR)
+# Esperado: FALLA SBX   Obtenido: FALLA
+
+Validar-PR  origen=promote/v1.1.1-to-qa  destino=qa
+OK     PROMOTE-NOMBRE   R6           Promocion de v1.1.1 hacia qa.
+OK     PROMOTE-TAG      R6           La rama apunta exactamente al tag anotado v1.1.1.
+ERROR  SBX              I2/R5        v1.1.1 no ha entrado a sbx: complete primero el PR de la rama de trabajo a sbx. Nada llega a un ambiente sin estar en la linea base.
+OK     RESULTADO        I1           Tras el PR, qa sera identico a v1.1.1 (commit de merge del PR abc85741).
+RESULTADO: RECHAZADO (1 error(es), 0 aviso(s))

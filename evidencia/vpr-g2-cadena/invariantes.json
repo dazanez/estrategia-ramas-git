@@ -1,0 +1,81 @@
+﻿{
+    "escenario":  "validar-pr-G2",
+    "variante":  "cadena",
+    "mergeMode":  "noff",
+    "etapa":  "final",
+    "invariantes":  {
+                        "I1":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "qa: git diff v1.2.1 qa -\u003e vacio",
+                                                  "stg: git diff v1.0.0 stg -\u003e vacio",
+                                                  "prod: git diff v1.0.0 prod -\u003e vacio"
+                                              ]
+                               },
+                        "I2":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "v1.0.0 es ancestro de sbx",
+                                                  "v1.1.0 es ancestro de sbx",
+                                                  "v1.2.1 es ancestro de sbx"
+                                              ]
+                               },
+                        "I3":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "auditoria: 9 operaciones de integracion revisadas",
+                                                  "estructural: 5 commits propios de ambiente revisados, 0 fuera de lugar"
+                                              ]
+                               },
+                        "I4":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "rama bug/az-2003-regulariza-cadena-dd: OK",
+                                                  "rama feature/az-2002-firma-digital-dd: OK",
+                                                  "rama HU_12.2001_PC: OK",
+                                                  "rama prod: OK",
+                                                  "rama promote/v1.1.0-to-qa: OK",
+                                                  "rama promote/v1.2.1-to-qa: OK",
+                                                  "rama qa: OK",
+                                                  "rama sbx: OK",
+                                                  "rama stg: OK",
+                                                  "tag v1.0.0: nombre OK, tipo anotado OK",
+                                                  "tag v1.1.0: nombre OK, tipo anotado OK",
+                                                  "tag v1.2.0: nombre OK, tipo anotado OK",
+                                                  "tag v1.2.1: nombre OK, tipo anotado OK"
+                                              ]
+                               },
+                        "I5":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "origin: solo ramas de ambiente (prod, qa, sbx, stg)",
+                                                  "dev1: ramas locales OK (qa, sbx)",
+                                                  "dev2: ramas locales OK (qa, sbx)",
+                                                  "ci: ramas locales OK (sbx)"
+                                              ]
+                               },
+                        "I6":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "tag v1.0.0: intacto (b177db8b -\u003e commit 8e30dc26)",
+                                                  "tag v1.1.0: intacto (f8603247 -\u003e commit 6838e468)",
+                                                  "tag v1.2.0: intacto (617baff9 -\u003e commit e2dd4f45)",
+                                                  "tag v1.2.1: intacto (37821daa -\u003e commit 8b9f535f)",
+                                                  "auditoria: sin \u0027tag -f/-d\u0027 ni force-push"
+                                              ]
+                               },
+                        "I7":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "tags vigentes: qa=v1.2.1  stg=v1.0.0  prod=v1.0.0",
+                                                  "stg contiene todo lo de prod",
+                                                  "stg no tiene 2 commit(s) de qa [normal si hay una version en pruebas]",
+                                                  "contenido stg == prod: True"
+                                              ]
+                               }
+                    },
+    "hechos":  [
+                   "PR de B completado con bypass de la validacion: sbx = A + B, que no es ningun tag",
+                   "qa identico a v1.2.1: True ; sbx identico a v1.2.1: True"
+               ]
+}

@@ -1,0 +1,246 @@
+﻿{
+    "escenario":  "02",
+    "variante":  "2b",
+    "mergeMode":  "ff",
+    "clones":  [
+                   "dev1",
+                   "dev2"
+               ],
+    "tags":  {
+                 "v1.0.0":  {
+                                "object":  "53ddb9758a1420fe7172bce2f76287ed8acc908a",
+                                "commit":  "a32f466ac25ea4ad8dc37e5a8cd43519ac7bb553",
+                                "dev":  "dev1"
+                            },
+                 "v1.2.0":  {
+                                "object":  "61d6e8cf87609e9bafa607dba3f8f143243611f1",
+                                "commit":  "75e4d51573b5112682fd7b65516510c2a68d7cbb",
+                                "dev":  "dev1"
+                            },
+                 "v1.3.0":  {
+                                "object":  "fe764dbe396fc121b474279a815e8a3b40d06cf0",
+                                "commit":  "119a23447e583e75f3a8c6a88cfd4cb6918ca9ad",
+                                "dev":  "dev2"
+                            },
+                 "v1.2.0.1":  {
+                                  "object":  "7164e3b5c08ca75fc8910b7e393e63766de1d295",
+                                  "commit":  "dc98909341509ef251dab9d282e464b56aa1cf18",
+                                  "dev":  "dev1"
+                              }
+             },
+    "promotions":  [
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.2.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.2.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.2.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.3.0",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.2.0.1",
+                           "mode":  "ff",
+                           "ok":  false,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.2.0.1",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.2.0.1",
+                           "mode":  "ff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.3.0",
+                           "mode":  "ff",
+                           "ok":  false,
+                           "kind":  "promote"
+                       }
+                   ],
+    "merges":  [
+                   {
+                       "source":  "HU_2.200_PC",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0-to-stg",
+                       "target":  "stg",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0-to-prod",
+                       "target":  "prod",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_2.300_DD",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_2.400_DD",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0.1-to-qa",
+                       "target":  "qa",
+                       "mode":  "--ff-only",
+                       "ok":  false,
+                       "kind":  "promotion",
+                       "detail":  "fatal: Not possible to fast-forward, aborting."
+                   },
+                   {
+                       "source":  "promote/v1.2.0.1-to-stg",
+                       "target":  "stg",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0.1-to-prod",
+                       "target":  "prod",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "BUG_GLPI_13487_PC",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  false,
+                       "kind":  "pr",
+                       "detail":  "fatal: Not possible to fast-forward, aborting."
+                   },
+                   {
+                       "source":  "BUG_GLPI_13487_PC",
+                       "target":  "sbx",
+                       "mode":  "--ff-only",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.3.0-to-stg",
+                       "target":  "stg",
+                       "mode":  "--ff-only",
+                       "ok":  false,
+                       "kind":  "promotion",
+                       "detail":  "fatal: Not possible to fast-forward, aborting."
+                   }
+               ],
+    "branches":  [
+                     "HU_2.200_PC",
+                     "promote/v1.2.0-to-qa",
+                     "promote/v1.2.0-to-stg",
+                     "promote/v1.2.0-to-prod",
+                     "HU_2.300_DD",
+                     "promote/v1.3.0-to-qa",
+                     "HU_2.400_DD",
+                     "BUG_GLPI_13487_PC",
+                     "promote/v1.2.0.1-to-qa",
+                     "promote/v1.2.0.1-to-stg",
+                     "promote/v1.2.0.1-to-prod",
+                     "promote/v1.3.0-to-stg"
+                 ],
+    "findings":  [
+                     "Promocion v1.2.0.1 -\u003e qa [ff] BLOQUEADA: fatal: Not possible to fast-forward, aborting.",
+                     "Contenido de qa: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-b.txt:L1=\u0027pantalla v1.3\u0027",
+                     "PR BUG_GLPI_13487_PC -\u003e sbx [ff] bloqueado: fatal: Not possible to fast-forward, aborting.",
+                     "Conflicto al actualizar BUG_GLPI_13487_PC con origin/sbx en: modulo-a.txt (se resuelve en la rama de trabajo)",
+                     "Contenido de v1.2.0.1: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-a.txt:L2=\u0027HOTFIX GLPI-13487\u0027",
+                     "Contenido de v1.3.0: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-b.txt:L1=\u0027pantalla v1.3\u0027",
+                     "Contenido de qa: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-b.txt:L1=\u0027pantalla v1.3\u0027",
+                     "Contenido de stg: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-a.txt:L2=\u0027HOTFIX GLPI-13487\u0027",
+                     "Contenido de prod: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-a.txt:L2=\u0027HOTFIX GLPI-13487\u0027",
+                     "Contenido de sbx: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-a.txt:L2=\u0027validacion v1.4 (en sbx, sin tag) + HOTFIX GLPI-13487\u0027 ; modulo-b.txt:L1=\u0027pantalla v1.3\u0027",
+                     "Promocion v1.3.0 -\u003e stg [ff] BLOQUEADA: fatal: Not possible to fast-forward, aborting.",
+                     "Tras el sondeo, el hotfix sigue en prod: True ; v1.3.0 contiene el hotfix: False",
+                     "Contenido de stg: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-a.txt:L2=\u0027HOTFIX GLPI-13487\u0027",
+                     "Contenido de prod: modulo-a.txt:L1=\u0027login v1.2\u0027 ; modulo-a.txt:L2=\u0027HOTFIX GLPI-13487\u0027"
+                 ]
+}

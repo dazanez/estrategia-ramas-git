@@ -1,0 +1,102 @@
+﻿{
+    "escenario":  "11",
+    "variante":  "11b",
+    "mergeMode":  "noff",
+    "clones":  [
+                   "dev1",
+                   "dev2"
+               ],
+    "tags":  {
+                 "v1.0.0":  {
+                                "object":  "7287e83181a5076286b365dc02ed23d756b80ee3",
+                                "commit":  "9aca13e61fe26f5cda65060a753f281ebda8a394",
+                                "dev":  "dev1"
+                            },
+                 "v1.1.0":  {
+                                "object":  "c9c26fe3c9cf399269f4bac61dbdf707d78bcb0c",
+                                "commit":  "2116f056972fcae652c607f3046210b5d7724de3",
+                                "dev":  "dev1"
+                            },
+                 "v1.2.0":  {
+                                "object":  "b7230af2b80b0315578eb384b36f1fe7788cf888",
+                                "commit":  "89089196b73c4d91b2a6ae011aa1ce2d1079d804",
+                                "dev":  "dev2"
+                            }
+             },
+    "promotions":  [
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "stg",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "prod",
+                           "tag":  "v1.0.0",
+                           "mode":  "create",
+                           "ok":  true,
+                           "kind":  "init"
+                       },
+                       {
+                           "env":  "qa",
+                           "tag":  "v1.2.0",
+                           "mode":  "noff",
+                           "ok":  true,
+                           "kind":  "promote"
+                       }
+                   ],
+    "merges":  [
+                   {
+                       "source":  "HU_6.40002_PC",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_6.40003_PC",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "HU_6.40001_DD",
+                       "target":  "sbx",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "pr",
+                       "detail":  ""
+                   },
+                   {
+                       "source":  "promote/v1.2.0-to-qa",
+                       "target":  "qa",
+                       "mode":  "--no-ff",
+                       "ok":  true,
+                       "kind":  "promotion",
+                       "detail":  ""
+                   }
+               ],
+    "branches":  [
+                     "HU_6.40001_DD",
+                     "HU_6.40002_PC",
+                     "HU_6.40003_PC",
+                     "promote/v1.2.0-to-qa"
+                 ],
+    "findings":  [
+                     "PR HU_6.40001_DD -\u003e sbx [noff] tras incorporar v1.1.0: limpio",
+                     "Contenido de v1.1.0: modulo-a.txt:L1=\u0027HU 40002\u0027",
+                     "Contenido de v1.2.0: modulo-a.txt:L1=\u0027HU 40002\u0027 ; modulo-a.txt:L4=\u0027HU 40001 parte 1\u0027 ; modulo-a.txt:L5=\u0027HU 40001 parte 2\u0027 ; modulo-b.txt:L1=\u0027HU 40003\u0027",
+                     "Contenido de qa: modulo-a.txt:L1=\u0027HU 40002\u0027 ; modulo-a.txt:L4=\u0027HU 40001 parte 1\u0027 ; modulo-a.txt:L5=\u0027HU 40001 parte 2\u0027 ; modulo-b.txt:L1=\u0027HU 40003\u0027"
+                 ]
+}

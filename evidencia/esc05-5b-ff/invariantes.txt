@@ -1,0 +1,49 @@
+INVARIANTES  escenario=05 variante=5b merge=ff etapa=final
+[OK] I1
+      qa: git diff v1.1.0 qa -> vacio
+      stg: git diff v1.0.0 stg -> vacio
+      prod: git diff v1.0.0 prod -> vacio
+[OK] I2
+      v1.0.0 es ancestro de sbx
+      v1.1.0 es ancestro de sbx
+[OK] I3
+      auditoria: 12 operaciones de integracion revisadas
+      estructural: 1 commits propios de ambiente revisados, 0 fuera de lugar
+[OK] I4
+      rama HU_7.501_PC: OK
+      rama HU_7.502_DD: OK
+      rama HU_7.503_PC: OK
+      rama prod: OK
+      rama promote/v1.1.0-to-qa: OK
+      rama promote/v1.2.0-to-qa: OK
+      rama qa: OK
+      rama sbx: OK
+      rama stg: OK
+      tag v1.0.0: nombre OK, tipo anotado OK
+      tag v1.1.0: nombre OK, tipo anotado OK
+      tag v1.2.0: nombre OK, tipo anotado OK
+      tag v1.3.0: nombre OK, tipo anotado OK
+[OK] I5
+      origin: solo ramas de ambiente (prod, qa, sbx, stg)
+      dev1: ramas locales OK (qa, sbx)
+      dev2: ramas locales OK (sbx)
+[OK] I6
+      tag v1.0.0: intacto (66512f91 -> commit 8e186903)
+      tag v1.1.0: intacto (7dc13b5b -> commit 7cf5a972)
+      tag v1.2.0: intacto (80cd4752 -> commit 1e768a61)
+      tag v1.3.0: intacto (3826a52f -> commit 74c75db0)
+      auditoria: sin 'tag -f/-d' ni force-push
+[OK] I7
+      tags vigentes: qa=v1.1.0  stg=v1.0.0  prod=v1.0.0
+      stg contiene todo lo de prod
+      stg no tiene 1 commit(s) de qa [normal si hay una version en pruebas]
+      contenido stg == prod: True
+HECHOS registrados durante la ejecucion:
+  - PR HU_7.502_DD -> sbx [ff] bloqueado: fatal: Not possible to fast-forward, aborting.
+  - PR HU_7.503_PC -> sbx [ff] bloqueado: fatal: Not possible to fast-forward, aborting.
+  - El cliente aprueba solo A (HU_7.501) y B (HU_7.502); C (HU_7.503) no sale
+  - Promocion v1.2.0 -> qa [ff] BLOQUEADA: fatal: Not possible to fast-forward, aborting.
+  - Tags que contienen exactamente A+B sin C: NINGUNO
+  - C en qa: False ; C en sbx: True (el proximo tag de sbx lo arrastrara)
+  - Contenido de qa: modulo-a.txt:L1='A: HU 501 (aprobada)'
+  - Contenido de sbx: modulo-a.txt:L1='A: HU 501 (aprobada)' ; modulo-b.txt:L1='B: HU 502 (aprobada)' ; comun.txt:L1='C: HU 503 (NO aprobada)'

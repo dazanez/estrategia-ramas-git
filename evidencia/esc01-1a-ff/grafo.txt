@@ -1,0 +1,5 @@
+* 276d9c8 (HEAD -> sbx, tag: v1.2.1, stg, qa, prod) fix(modulo-a): corrige calculo por error de redondeo (GLPI 13487)
+* 2907327 (tag: v1.2.0) feat(modulo-b): add pantalla v1.2
+* bb0c448 feat(modulo-a): add reporte v1.2
+* 6ac7877 (tag: v1.1.0) feat(modulo-a): add calculo v1.1
+* 510c28a (tag: v1.0.0) chore: estructura inicial del repositorio

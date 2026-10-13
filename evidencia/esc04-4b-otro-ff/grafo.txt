@@ -1,0 +1,11 @@
+*   a3eee7b (HEAD -> sbx) Merge origin/sbx en BUG_AZ_65488_DD (actualizacion de rama de trabajo)
+|\  
+| *   94419be Merge origin/sbx en BUG_AZ_65487_DD (actualizacion de rama de trabajo)
+| |\  
+| | * 8bf352d feat(modulo-b): add cambio HU 30500
+* | | f066d2f (tag: v1.3.0.2, stg, qa, prod) fix(modulo-a): corrige mensaje de error (AZ 65488)
+|/ /  
+* / 327886e (tag: v1.3.0.1) fix(modulo-a): corrige validacion (AZ 65487)
+|/  
+* d41d4cb (tag: v1.3.0) feat(modulo-a): add funcionalidad v1.3
+* a0b618f (tag: v1.0.0) chore: estructura inicial del repositorio

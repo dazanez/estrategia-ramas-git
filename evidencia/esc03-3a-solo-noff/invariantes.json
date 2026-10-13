@@ -1,0 +1,75 @@
+﻿{
+    "escenario":  "03",
+    "variante":  "3a-solo",
+    "mergeMode":  "noff",
+    "etapa":  "final",
+    "invariantes":  {
+                        "I1":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "qa: git diff v1.1.0 qa -\u003e vacio",
+                                                  "stg: git diff v1.1.0 stg -\u003e vacio",
+                                                  "prod: git diff v1.1.0 prod -\u003e vacio"
+                                              ]
+                               },
+                        "I2":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "v1.0.0 es ancestro de sbx",
+                                                  "v1.1.0 es ancestro de sbx"
+                                              ]
+                               },
+                        "I3":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "auditoria: 5 operaciones de integracion revisadas",
+                                                  "estructural: 3 commits propios de ambiente revisados, 0 fuera de lugar"
+                                              ]
+                               },
+                        "I4":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "rama HU_6.32154_PC: OK",
+                                                  "rama prod: OK",
+                                                  "rama promote/v1.1.0-to-prod: OK",
+                                                  "rama promote/v1.1.0-to-qa: OK",
+                                                  "rama promote/v1.1.0-to-stg: OK",
+                                                  "rama qa: OK",
+                                                  "rama sbx: OK",
+                                                  "rama stg: OK",
+                                                  "tag v1.0.0: nombre OK, tipo anotado OK",
+                                                  "tag v1.1.0: nombre OK, tipo anotado OK"
+                                              ]
+                               },
+                        "I5":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "origin: solo ramas de ambiente (prod, qa, sbx, stg)",
+                                                  "dev1: ramas locales OK (prod, qa, sbx, stg)",
+                                                  "dev2: ramas locales OK (sbx)"
+                                              ]
+                               },
+                        "I6":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "tag v1.0.0: intacto (bd369093 -\u003e commit 4f36747a)",
+                                                  "tag v1.1.0: intacto (85f62e99 -\u003e commit b0fcceec)",
+                                                  "auditoria: sin \u0027tag -f/-d\u0027 ni force-push"
+                                              ]
+                               },
+                        "I7":  {
+                                   "status":  "OK",
+                                   "detail":  [
+                                                  "tags vigentes: qa=v1.1.0  stg=v1.1.0  prod=v1.1.0",
+                                                  "stg contiene todo lo de prod",
+                                                  "stg contiene todo lo de qa",
+                                                  "contenido stg == prod: True"
+                                              ]
+                               }
+                    },
+    "hechos":  [
+                   "Contenido de v1.1.0: modulo-a.txt:L1=\u0027validacion de tokens (HU 32154)\u0027",
+                   "Contenido de prod: modulo-a.txt:L1=\u0027validacion de tokens (HU 32154)\u0027",
+                   "Contenido de sbx: modulo-a.txt:L1=\u0027validacion de tokens (HU 32154)\u0027"
+               ]
+}
