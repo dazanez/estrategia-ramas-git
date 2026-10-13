@@ -33,17 +33,19 @@
   --warn-bar: #B36F00;          --warn-bg: #FFF1D6;
 
   /* Tipografía */
-  --font-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
-  --font-sans: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
-  --font-mono: 'IBM Plex Mono', Consolas, 'Courier New', monospace;
+  --font-heading: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
+  --font-sans: 'Hanken Grotesk', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', Consolas, 'Courier New', monospace;
 
   --fs-h1: 2.25rem;     /* 36 px */
   --fs-h2: 1.5rem;      /* 24 px */
   --fs-h3: 1.1875rem;   /* 19 px */
   --fs-body: 1.0625rem; /* 17 px */
   --fs-small: 0.875rem; /* 14 px */
-  --fs-code: 0.9375rem; /* 15 px */
+  --fs-code: 0.875rem;  /* 14 px: JetBrains Mono es mas ancha y alta que IBM Plex Mono */
   --fs-chip: 0.8125rem; /* 13 px */
+  --fs-label: 0.75rem;  /* 12 px: rotulos en mayusculas (menu, tablas, bloques de codigo) */
+  --ls-label: 0.06em;  /* espaciado de esos rotulos */
 
   /* Espaciado (base 4 px) */
   --sp-1: 4px;
@@ -56,8 +58,8 @@
   --sp-8: 64px;
 
   /* Radios */
-  --r-s: 6px;
-  --r-m: 10px;
+  --radius-sm: 4px;  /* chips, botones, campos y botones de paso */
+  --radius-md: 6px;  /* tarjetas, tablas, bloques de codigo, recuadros y lienzo del diagrama */
 
   /* Layout */
   --nav-w: 296px;
@@ -66,6 +68,6 @@
   --measure: 68ch;
 
   /* Movimiento */
-  --t-fast: 150ms;
-  --t-nav: 250ms;
+  --t-fast: 120ms;
+  --t-nav: 150ms;
 }

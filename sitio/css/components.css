@@ -1,4 +1,6 @@
-/* Componentes: navegación, migas, encabezado, bloques, recuadros, chips, pager y pie. */
+/* Componentes: navegación, migas, encabezado, botones, bloques de código, recuadros, chips, tarjetas, pager y pie.
+   Los botones y los bloques con cabecera son un solo sistema para todo el sitio (DESIGN.md §7): las hojas de cada
+   característica (git-flow, guides, branch-validator) solo añaden lo que es propio de su componente. */
 
 /* ---------- Navegación lateral (la inyecta js/nav.js) ---------- */
 .site-nav__bar,
@@ -19,8 +21,8 @@
 }
 
 .brand { display: block; text-decoration: none; color: var(--ink); padding: 0 var(--sp-2) var(--sp-5); }
-.brand__name { display: block; font-family: var(--font-serif); font-weight: 600; font-size: 1.625rem; line-height: 1.1; }
-.brand__sub { display: block; margin-top: var(--sp-1); font-family: var(--font-mono); font-size: var(--fs-chip); color: var(--ink-muted); }
+.brand__name { display: block; font-family: var(--font-heading); font-weight: 700; letter-spacing: -0.01em; font-size: 1.625rem; line-height: 1.1; }
+.brand__sub { display: block; margin-top: var(--sp-1); font-family: var(--font-mono); font-variant-ligatures: none; font-size: var(--fs-chip); color: var(--ink-muted); }
 
 .nav-list, .nav-children { list-style: none; margin: 0; padding: 0; max-width: none; }
 .site-nav__panel > .nav-list { margin-bottom: var(--sp-5); }
@@ -31,30 +33,46 @@
   display: block;
   flex: 1;
   padding: var(--sp-2) var(--sp-3);
-  border-radius: var(--r-s);
+  border-radius: var(--radius-sm);
   color: var(--ink);
   text-decoration: none;
   font-size: 1rem;
   line-height: 1.35;
+  transition: background-color var(--t-fast);
 }
 .nav-link:hover { background: var(--primary-tint); color: var(--ink); }
 .nav-link--section { font-weight: 600; }
+/* Ítem activo: peso 600, fondo suave (solo en hover y en el activo) y una barra vertical de 3 px con las puntas
+   redondeadas. La barra es un ::after propio (no un borde ni una sombra interior, que seguirían la curva de la
+   esquina); el ::before de los ítems hijos ya lo usa la «estación». */
 .nav-link.is-active {
+  position: relative;
   background: var(--primary-tint);
   color: var(--primary);
   font-weight: 600;
-  box-shadow: inset 3px 0 0 var(--primary);
+}
+.nav-link.is-active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 3px;
+  border-radius: var(--radius-sm);
+  background: var(--primary);
 }
 
+/* Chevron de las secciones desplegables: apunta a la derecha y gira hacia abajo al abrir. */
 .nav-toggle {
   flex: none;
   width: 36px;
   border: 0;
-  border-radius: var(--r-s);
+  border-radius: var(--radius-sm);
   background: transparent;
   color: var(--ink-muted);
   cursor: pointer;
   font: inherit;
+  transition: background-color var(--t-fast);
 }
 .nav-toggle:hover { background: var(--primary-tint); color: var(--ink); }
 .nav-toggle::before {
@@ -78,9 +96,9 @@
 .nav-children[hidden] { display: none; }
 .nav-group {
   margin: var(--sp-3) 0 var(--sp-1) var(--sp-3);
-  font-size: var(--fs-chip);
+  font-size: var(--fs-label);
   font-weight: 600;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--ls-label);
   text-transform: uppercase;
   color: var(--ink-muted);
 }
@@ -99,13 +117,24 @@
 }
 .nav-children .nav-link.is-active::before { background: var(--primary); border-color: var(--primary); }
 
-/* Subítems con ancla de la página actual (por ejemplo, un caso por línea en «Casos poco frecuentes»). */
-.nav-anchors { list-style: none; margin: var(--sp-1) 0 var(--sp-2) var(--sp-4); padding: 0 0 0 var(--sp-2); max-width: none; border-left: 1px solid var(--line-strong); }
+/* Subítems con ancla de la página actual (por ejemplo, un caso por línea en «Casos poco frecuentes»):
+   árbol con una línea guía de 1 px; el subítem activo la pinta de --primary. */
+.nav-anchors { list-style: none; margin: var(--sp-1) 0 var(--sp-2) var(--sp-4); padding: 0; max-width: none; border-left: 1px solid var(--line); }
 .nav-anchors li + li { margin-top: 0; }
-.nav-children .nav-anchors .nav-link--anchor { padding: 5px var(--sp-3); font-size: var(--fs-small); line-height: 1.35; color: var(--ink-muted); }
-.nav-children .nav-anchors .nav-link--anchor::before { content: none; }
-.nav-children .nav-anchors .nav-link--anchor:hover { color: var(--ink); }
-.nav-children .nav-anchors .nav-link--anchor.is-active { color: var(--primary); font-weight: 600; box-shadow: inset 2px 0 0 var(--primary); }
+.nav-anchors .nav-link.nav-link--anchor {
+  margin-left: -1px;
+  padding: 5px var(--sp-3) 5px calc(var(--sp-3) - 1px);
+  border-left: 2px solid transparent;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  box-shadow: none;
+  font-size: var(--fs-small);
+  line-height: 1.35;
+  color: var(--ink-muted);
+}
+.nav-anchors .nav-link.nav-link--anchor::before,
+.nav-anchors .nav-link.nav-link--anchor::after { content: none; }
+.nav-anchors .nav-link.nav-link--anchor:hover { color: var(--ink); }
+.nav-anchors .nav-link.nav-link--anchor.is-active { color: var(--primary); font-weight: 600; border-left-color: var(--primary); }
 
 /* Indicador fijo al pie del panel: versión, fecha y estado de la guía (js/nav.js; los datos, en js/config.js). */
 .nav-status {
@@ -115,9 +144,10 @@
   padding: var(--sp-3) var(--sp-4);
   max-width: none;
   background: var(--surface-nav);
-  border-top: 1px solid var(--line-strong);
+  border-top: 1px solid var(--line);
   font-family: var(--font-mono);
-  font-size: var(--fs-chip);
+  font-variant-ligatures: none;
+  font-size: var(--fs-label);
   line-height: 1.4;
   color: var(--ink-muted);
 }
@@ -137,26 +167,10 @@
     border-top: 4px solid var(--primary);
     z-index: 20;
   }
-  .site-nav__bar-brand { color: var(--ink); text-decoration: none; font-family: var(--font-serif); font-weight: 600; font-size: 1.125rem; }
-  .site-nav__bar-brand span { font-family: var(--font-mono); font-weight: 400; font-size: var(--fs-chip); color: var(--ink-muted); margin-left: var(--sp-2); }
+  .site-nav__bar-brand { color: var(--ink); text-decoration: none; font-family: var(--font-heading); font-weight: 700; letter-spacing: -0.01em; font-size: 1.125rem; }
+  .site-nav__bar-brand span { font-family: var(--font-mono); font-variant-ligatures: none; font-weight: 400; letter-spacing: normal; font-size: var(--fs-chip); color: var(--ink-muted); margin-left: var(--sp-2); }
 
-  .site-nav__menu-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--sp-2);
-    min-height: 40px;
-    padding: 0 var(--sp-3);
-    border: 1px solid var(--line-strong);
-    border-radius: var(--r-s);
-    background: var(--surface);
-    color: var(--ink);
-    font: inherit;
-    font-size: 0.9375rem;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .site-nav__menu-btn:hover { border-color: var(--primary); }
-  .burger, .burger::before, .burger::after { display: block; width: 16px; height: 2px; background: var(--ink); border-radius: 1px; }
+  .burger, .burger::before, .burger::after { display: block; width: 16px; height: 2px; background: var(--ink); border-radius: var(--radius-sm); }
   .burger { position: relative; }
   .burger::before, .burger::after { content: ''; position: absolute; left: 0; }
   .burger::before { top: -5px; }
@@ -179,6 +193,50 @@
   .site-nav.is-open .site-nav__backdrop { display: block; position: fixed; inset: 0; background: rgba(20, 38, 75, 0.35); z-index: 35; }
 }
 
+/* ---------- Botones: un solo sistema ----------
+   Secundario (por defecto): borde 1 px --line-strong sobre --surface. Primario: sólido --primary. Terciario: solo texto.
+   Altura 36 px, radio sm, peso 600, sin sombras ni degradados. El foco es el contorno global de base.css.
+   Las clases propias de cada componente (.gf-btn, .cmd__copy, .site-nav__menu-btn, .validator__example) se suman al
+   sistema aquí, para que un cambio de botón se haga en un solo lugar. */
+.btn, .gf-btn, .site-nav__menu-btn, .cmd__copy {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  min-height: 36px;
+  padding: 0 var(--sp-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--t-fast), border-color var(--t-fast), color var(--t-fast);
+}
+.btn:hover, .gf-btn:hover, .site-nav__menu-btn:hover { background: var(--primary-tint); color: var(--ink); }
+
+.btn--primary, .gf-btn--primary { background: var(--primary); border-color: var(--primary); color: var(--on-primary); }
+.btn--primary:hover, .gf-btn--primary:hover { background: var(--primary-hover); border-color: var(--primary-hover); color: var(--on-primary); }
+
+/* Terciario: texto en --primary sobre --surface. Lleva el mismo borde de 1 px que el secundario: sin borde se leía
+   como texto suelto y no como un botón. Lo distingue el color del texto; el fondo suave aparece al pasar el cursor. */
+.btn--tertiary, .gf-btn.gf-cmds__copy, .cmd__copy, .validator__example {
+  background: var(--surface);
+  border-color: var(--line-strong);
+  color: var(--primary);
+}
+.btn--tertiary:hover, .gf-btn.gf-cmds__copy:hover, .cmd__copy:hover, .validator__example:hover { background: var(--primary-tint); color: var(--primary-hover); }
+
+.btn--small, .gf-btn--small, .cmd__copy { min-height: 28px; padding: 0 var(--sp-2); font-size: var(--fs-small); }
+
+.btn[aria-disabled="true"], .gf-btn[aria-disabled="true"] { opacity: 0.45; cursor: default; }
+.btn[aria-disabled="true"]:hover, .gf-btn[aria-disabled="true"]:hover { background: var(--surface); color: var(--ink); }
+.btn--primary[aria-disabled="true"]:hover, .gf-btn--primary[aria-disabled="true"]:hover { background: var(--primary); color: var(--on-primary); }
+
 /* ---------- Migas de pan ---------- */
 .breadcrumbs { margin: 0 0 var(--sp-5); font-size: var(--fs-small); color: var(--ink-muted); min-height: 1.5em; }
 .breadcrumbs ol { list-style: none; margin: 0; padding: 0; max-width: none; display: flex; flex-wrap: wrap; gap: var(--sp-2); }
@@ -186,6 +244,7 @@
 .breadcrumbs li + li::before { content: '\203A'; margin-right: var(--sp-2); color: var(--line-strong); }
 .breadcrumbs a { color: var(--ink-muted); }
 .breadcrumbs a:hover { color: var(--primary); }
+.breadcrumbs [aria-current="page"] { color: var(--ink); }
 
 /* ---------- Encabezado y bloques de página ---------- */
 .page-header { margin-bottom: var(--sp-6); }
@@ -194,8 +253,10 @@
   margin: 0;
   padding: 2px var(--sp-2);
   border: 1px solid var(--line-strong);
-  border-radius: var(--r-s);
+  border-radius: var(--radius-sm);
+  background: transparent;
   font-family: var(--font-mono);
+  font-variant-ligatures: none;
   font-size: var(--fs-chip);
   color: var(--ink-muted);
 }
@@ -208,27 +269,53 @@
   margin: 0 0 var(--sp-4);
   padding: var(--sp-4);
   border: 1px dashed var(--line-strong);
-  border-radius: var(--r-s);
+  border-radius: var(--radius-md);
   background: var(--surface);
   color: var(--ink-muted);
 }
 .pending strong { color: var(--ink); letter-spacing: 0.02em; }
 
-/* ---------- Recuadros ---------- */
+/* ---------- Recuadros ("section message"): borde izquierdo de 3 px, título en 600 e ícono de trazo ----------
+   El ícono es una máscara CSS (datos incrustados, sin archivos) pintada con currentColor: toma el color del borde. */
 .callout {
+  --callout-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M12 11v5M12 8h.01'/%3E%3C/svg%3E");
+  --callout-color: var(--note-bar);
   margin: 0 0 var(--sp-4);
   padding: var(--sp-3) var(--sp-4);
-  border-left: 4px solid var(--note-bar);
-  border-radius: 0 var(--r-s) var(--r-s) 0;
+  border-left: 3px solid var(--callout-color);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
   background: var(--note-bg);
   max-width: var(--measure);
 }
 .callout > :last-child { margin-bottom: 0; }
-.callout__title { margin: 0 0 var(--sp-1); font-size: var(--fs-small); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
-.callout__title--question { text-transform: none; letter-spacing: 0; font-size: var(--fs-body); }
-.callout--error { border-left-color: var(--error-bar); background: var(--error-bg); }
-.callout--svn { border-left-color: var(--svn-bar); background: var(--svn-bg); }
-.callout--warn { border-left-color: var(--warn-bar); background: var(--warn-bg); }
+.callout__title { margin: 0 0 var(--sp-1); font-weight: 600; line-height: 1.4; }
+.callout__title::before {
+  content: '';
+  display: inline-block;
+  width: 1.125em;
+  height: 1.125em;
+  margin-right: var(--sp-2);
+  vertical-align: -0.2em;
+  color: var(--callout-color);
+  background-color: currentColor;
+  -webkit-mask: var(--callout-icon) center / contain no-repeat;
+  mask: var(--callout-icon) center / contain no-repeat;
+}
+.callout--error {
+  --callout-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9'/%3E%3Cpath d='M9 9l6 6M15 9l-6 6'/%3E%3C/svg%3E");
+  --callout-color: var(--error-bar);
+  background: var(--error-bg);
+}
+.callout--svn {
+  --callout-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8h13M13 4l4 4-4 4M20 16H7M11 12l-4 4 4 4'/%3E%3C/svg%3E");
+  --callout-color: var(--svn-bar);
+  background: var(--svn-bg);
+}
+.callout--warn {
+  --callout-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3.5l9.5 16.5h-19z'/%3E%3Cpath d='M12 10v4.5M12 17.5h.01'/%3E%3C/svg%3E");
+  --callout-color: var(--warn-bar);
+  background: var(--warn-bg);
+}
 
 /* ---------- Chips (ambientes y clases de rama) ---------- */
 .chip {
@@ -237,10 +324,11 @@
   gap: 6px;
   padding: 2px var(--sp-2);
   border: 1px solid var(--line-strong);
-  border-radius: var(--r-s);
+  border-radius: var(--radius-sm);
   background: var(--surface);
   color: var(--ink);
   font-family: var(--font-mono);
+  font-variant-ligatures: none;
   font-size: var(--fs-chip);
   font-weight: 500;
   line-height: 1.4;
@@ -257,20 +345,45 @@
 .chip--tag     { --chip-c: var(--c-tag);     background: var(--c-tag-soft);     border-color: var(--c-tag-edge); }
 .chip-row { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin: 0 0 var(--sp-4); }
 
-/* Chip de regla (R1–R11): enlaza a la regla en Referencia. */
-.chip--rule { --chip-c: var(--ink-muted); text-decoration: none; background: var(--surface); }
+/* Chip de regla (R1–R11): contorno neutro; enlaza a la regla en Referencia. */
+.chip--rule { --chip-c: var(--ink-muted); text-decoration: none; background: var(--surface); transition: border-color var(--t-fast), color var(--t-fast); }
 .chip--rule:hover { border-color: var(--primary); color: var(--primary); }
 .rules { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); margin: 0 0 var(--sp-4); max-width: none; font-size: var(--fs-small); color: var(--ink-muted); }
 .rules__label { font-weight: 600; margin-right: var(--sp-1); }
 
-/* ---------- Índice interno de una página (js/toc.js) y anclas ---------- */
-.toc__list { list-style: none; margin: 0 0 var(--sp-4); padding: 0; max-width: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: var(--sp-3); }
-.toc__item { display: flex; flex-direction: column; gap: 2px; margin: 0; padding: var(--sp-2) var(--sp-4); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-s); }
-.toc__item:hover { border-color: var(--primary); }
-.toc__link { font-weight: 600; }
-.toc__summary { font-size: var(--fs-small); color: var(--ink-muted); }
+/* ---------- Tarjetas con enlace (índice de página, índice de páginas, Relacionados) ----------
+   --surface, borde 1 px --line, radio md y sin sombra. Al pasar el cursor el borde pasa a --line-strong y la flecha
+   junto al título se desplaza 2 px. */
+.toc__list, .related { list-style: none; margin: 0; padding: 0; max-width: none; display: grid; gap: var(--sp-4); }
+.toc__list { margin-bottom: var(--sp-4); grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: var(--sp-3); }
+.related { grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+
+.toc__item, .related__item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  transition: border-color var(--t-fast);
+}
+.toc__item:hover, .related__item:hover { border-color: var(--line-strong); }
+.toc__link, .related__link { font-weight: 600; text-decoration: none; }
+.related__link { font-size: 1.0625rem; }
+.toc__link:hover, .related__link:hover { text-decoration: underline; }
+.toc__link::after, .related__link::after {
+  content: '\2192';
+  display: inline-block;
+  margin-left: var(--sp-1);
+  transition: transform var(--t-fast);
+}
+.toc__item:hover .toc__link::after, .related__item:hover .related__link::after,
+.toc__link:focus-visible::after, .related__link:focus-visible::after { transform: translateX(2px); }
+.toc__summary, .related__summary { font-size: var(--fs-small); color: var(--ink-muted); }
 /* Índice de páginas (js/pages-index.js): cada página con sus partes debajo; un subtítulo por grupo */
-.toc__group { grid-column: 1 / -1; margin: var(--sp-3) 0 0; padding: 0; font-size: var(--fs-small); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-muted); }
+.toc__group { grid-column: 1 / -1; margin: var(--sp-3) 0 0; padding: 0; font-size: var(--fs-label); font-weight: 600; letter-spacing: var(--ls-label); text-transform: uppercase; color: var(--ink-muted); }
 .toc__group:first-child { margin-top: 0; }
 .toc__parts { list-style: none; margin: var(--sp-2) 0 0; padding: 0; max-width: none; font-size: var(--fs-small); }
 .toc__part { margin: 2px 0; padding: 0; break-inside: avoid; }
@@ -281,15 +394,9 @@
 @media (max-width: 959px) { .content [id] { scroll-margin-top: calc(var(--bar-h) + var(--sp-4)); } }
 
 /* ---------- Tablas anchas: se desplazan dentro de su caja (DESIGN.md §7) ---------- */
-.table-wrap { overflow-x: auto; margin: 0 0 var(--sp-4); border: 1px solid var(--line); border-radius: var(--r-s); }
+.table-wrap { overflow-x: auto; margin: 0 0 var(--sp-4); border: 1px solid var(--line); border-radius: var(--radius-md); }
 .table-wrap table { margin: 0; min-width: 100%; }
-
-/* ---------- Relacionados ---------- */
-.related { list-style: none; margin: 0; padding: 0; max-width: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: var(--sp-4); }
-.related__item { display: flex; flex-direction: column; gap: var(--sp-1); margin: 0; padding: var(--sp-3) var(--sp-4); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-m); }
-.related__item:hover { border-color: var(--primary); }
-.related__link { font-weight: 600; font-size: 1.0625rem; }
-.related__summary { font-size: var(--fs-small); color: var(--ink-muted); }
+.table-wrap tbody tr:last-child td { border-bottom: 0; }
 
 /* ---------- Páginas de contenido: recorrido, escalera de ambientes y tarjetas ---------- */
 .callout__see { font-size: var(--fs-small); }
@@ -318,19 +425,20 @@
 .ladder__rung .chip { min-width: 5rem; }
 .ladder__note { font-size: var(--fs-small); color: var(--ink-muted); }
 
-/* Tarjetas de decisión (Por qué lo hacemos así): Tema / Decisión / Justificación / Riesgo. */
+/* Tarjetas de decisión (Por qué lo hacemos así): Tema / Decisión / Justificación / Riesgo.
+   No son enlaces, así que no llevan hover ni flecha: los rótulos van como los de una tabla de parámetros. */
 .cards { list-style: none; margin: 0 0 var(--sp-4); padding: 0; max-width: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); gap: var(--sp-4); }
-.card { margin: 0; padding: var(--sp-4); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-m); min-width: 0; }
+.card { margin: 0; padding: var(--sp-4); background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md); min-width: 0; }
 .card__head { display: flex; align-items: baseline; gap: var(--sp-3); margin: 0 0 var(--sp-3); }
-.card__num { font-family: var(--font-mono); font-size: var(--fs-chip); color: var(--ink-muted); }
+.card__num { font-family: var(--font-mono); font-variant-ligatures: none; font-size: var(--fs-chip); color: var(--ink-muted); }
 .card__title { margin: 0; font-size: var(--fs-h3); font-weight: 600; line-height: 1.3; }
 .card__note { font-size: var(--fs-small); color: var(--ink-muted); }
 .card dl { margin: 0; }
-.card dt { margin-top: var(--sp-3); font-size: var(--fs-chip); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-muted); }
+.card dt { margin-top: var(--sp-3); font-size: var(--fs-label); font-weight: 600; letter-spacing: var(--ls-label); text-transform: uppercase; color: var(--ink-muted); }
 .card dt:first-child { margin-top: 0; }
 .card dd { margin: 2px 0 0; overflow-wrap: break-word; }
 .card__none { color: var(--ink-muted); }
-.card__risk { padding: var(--sp-2) var(--sp-3); background: var(--warn-bg); border-left: 4px solid var(--warn-bar); border-radius: 0 var(--r-s) var(--r-s) 0; }
+.card__risk { padding: var(--sp-2) var(--sp-3); background: var(--warn-bg); border-left: 3px solid var(--warn-bar); border-radius: 0 var(--radius-md) var(--radius-md) 0; }
 
 /* Tablas con celdas largas: el código se ajusta al ancho; la primera columna (número, regla) no se parte. */
 .table-wrap td code, .table-wrap th code { white-space: normal; overflow-wrap: break-word; }
@@ -339,20 +447,79 @@
 .table-wrap--wide table { min-width: 58rem; }
 .table-wrap tr:target td, .table-wrap tr:target th { background: var(--primary-tint); }
 
-/* ---------- Anterior / Siguiente ---------- */
+/* ---------- Bloque con cabecera (comandos, recetas y pasos en Azure DevOps) ----------
+   Cabecera de 32 px con el rótulo en mayúsculas pequeñas a la izquierda y «Copiar» a la derecha, separada del
+   contenido por un borde --line. Los números de línea los generan los contadores CSS (el botón Copiar copia la lista
+   de comandos, no el texto de la pantalla, así que no los incluye). */
+.cmd, .gf-cmds, .gf-azure, .recipe__azure {
+  margin: 0 0 var(--sp-4);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  min-width: 0;
+}
+.cmd__head, .gf-cmds__head, .gf-azure__title, .recipe__azure > .cmd__title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+  min-height: 32px;
+  margin: 0;
+  padding: 0 var(--sp-3);
+  background: var(--surface-nav);
+  border-bottom: 1px solid var(--line);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+.cmd__title, .gf-cmds__title, .gf-azure__title {
+  margin: 0;
+  max-width: none;
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.cmd__head .cmd__title, .gf-cmds__head .gf-cmds__title { padding: 0; }
+.cmd__code, .gf-cmds__code {
+  margin: 0;
+  padding: var(--sp-3);
+  border: 0;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  background: transparent;
+}
+.cmd__code code, .gf-cmds__code code { counter-reset: cmd-line; }
+.cmd__line, .gf-cmd { counter-increment: cmd-line; }
+.cmd__line::before, .gf-cmd::before {
+  content: counter(cmd-line);
+  display: inline-block;
+  min-width: 2ch;
+  margin-right: var(--sp-3);
+  text-align: right;
+  color: var(--ink-muted);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* ---------- Anterior / Siguiente: tarjetas; la flecha la dibuja el CSS y se mueve 2 px en hover ---------- */
 .pager { display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-4); margin-top: var(--sp-7); }
 .pager__link {
   display: block;
   padding: var(--sp-3) var(--sp-4);
   border: 1px solid var(--line);
-  border-radius: var(--r-m);
+  border-radius: var(--radius-md);
   background: var(--surface);
   color: var(--ink);
   text-decoration: none;
+  transition: border-color var(--t-fast);
 }
-.pager__link:hover { border-color: var(--primary); }
+.pager__link:hover { border-color: var(--line-strong); }
 .pager__link--next { grid-column: 2; text-align: right; }
 .pager__label { display: block; font-size: var(--fs-small); color: var(--ink-muted); }
+.pager__label::before, .pager__label::after { display: inline-block; transition: transform var(--t-fast); }
+.pager__link--prev .pager__label::before { content: '\2190'; margin-right: var(--sp-1); }
+.pager__link--next .pager__label::after { content: '\2192'; margin-left: var(--sp-1); }
+.pager__link--prev:hover .pager__label::before, .pager__link--prev:focus-visible .pager__label::before { transform: translateX(-2px); }
+.pager__link--next:hover .pager__label::after, .pager__link--next:focus-visible .pager__label::after { transform: translateX(2px); }
 .pager__title { display: block; font-weight: 600; font-size: 1.0625rem; color: var(--primary); }
 
 /* ---------- Pie ---------- */

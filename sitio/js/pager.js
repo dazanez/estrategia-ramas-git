@@ -18,8 +18,8 @@
       host.classList.add('pager');
       host.setAttribute('role', 'navigation');
       host.setAttribute('aria-label', 'Páginas contiguas');
-      if (previous) host.appendChild(link(previous, '← Anterior', 'prev'));
-      if (next) host.appendChild(link(next, 'Siguiente →', 'next'));
+      if (previous) host.appendChild(link(previous, 'Anterior', 'prev'));
+      if (next) host.appendChild(link(next, 'Siguiente', 'next'));
     }
 
     return { mount: mount };

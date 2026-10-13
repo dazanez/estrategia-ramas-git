@@ -1,26 +1,10 @@
-/* Guías rápidas (js/guides.js): una receta por bloque, con su bloque de comandos y sus avisos. Se carga solo con [data-guides]. */
+/* Guías rápidas (js/guides.js): una receta por bloque, con su bloque de comandos y sus avisos. Se carga solo con [data-guides].
+   El bloque con cabecera (.cmd, .recipe__azure), el botón «Copiar» y los números de línea son del sistema del sitio
+   (components.css); aquí solo queda lo propio de la receta. */
 .recipe__when { margin: 0 0 var(--sp-4); }
 
-.cmd { margin: 0 0 var(--sp-4); }
-.cmd__head { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); margin-bottom: var(--sp-2); }
-.cmd__title { margin: 0; font-weight: 600; font-size: var(--fs-small); letter-spacing: 0.04em; text-transform: uppercase; max-width: none; }
-.cmd__copy {
-  min-height: 32px;
-  padding: 0 var(--sp-3);
-  border: 1px solid var(--line-strong);
-  border-radius: var(--r-s);
-  background: var(--surface);
-  color: var(--ink);
-  font: inherit;
-  font-size: var(--fs-small);
-  font-weight: 600;
-  cursor: pointer;
-}
-.cmd__copy:hover { border-color: var(--primary); color: var(--primary); }
-.cmd__code { margin: 0; white-space: pre; font-size: var(--fs-code); line-height: 1.6; }
+.cmd__code { white-space: pre; font-size: var(--fs-code); line-height: 1.6; }
 .cmd__code code { font-size: inherit; }
 .cmd__line--comment { color: var(--ink-muted); }
 
-.recipe__azure { margin: 0 0 var(--sp-4); padding: var(--sp-3) var(--sp-4); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-m); }
-.recipe__azure .cmd__title { margin-bottom: var(--sp-2); }
-.recipe__azure-list { margin: 0; max-width: none; }
+.recipe__azure-list { margin: 0; padding: var(--sp-3) var(--sp-3) var(--sp-3) calc(var(--sp-3) + var(--sp-5)); max-width: none; }

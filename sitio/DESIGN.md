@@ -68,14 +68,14 @@ Este documento fija las decisiones de diseño y estructura del sitio. Es la refe
 
 ---
 
-## 2. Dirección visual: «Norma técnica con líneas de metro»
+## 2. Dirección visual: «Documentación técnica con líneas de metro»
 
 Combina dos ideas:
 
-- **De la norma técnica:** papel cálido, tipografía con serif en los títulos, secciones numeradas como en el estándar (§ 5.2), bordes finos en lugar de sombras, mucho aire. Se siente como un documento oficial bien hecho.
+- **De la documentación técnica** (referencias: Plaid Docs y Atlassian Git Tutorials; sin copiar logos, ilustraciones ni fuentes propietarias): tipografía sans (títulos en Plus Jakarta Sans, texto en Hanken Grotesk, código en JetBrains Mono), bordes finos de 1 px en lugar de sombras, esquinas casi rectas (4 y 6 px), tarjetas planas, bloques de código con cabecera y números de línea, tablas solo con líneas horizontales y rótulos pequeños en mayúsculas. Se siente como un manual de referencia ordenado y sin adornos.
 - **Del mapa de metro:** en los diagramas, cada ambiente es una **línea gruesa de color fijo**, cada tag una **etiqueta** y cada merge un **rombo**. Quien mira entiende en segundos que una versión viaja de `sbx` a `prod`.
 
-Lo que se evita a propósito: degradados, tarjetas con emojis, sombras difusas, fuente Inter, esquinas muy redondeadas, íconos decorativos sin función.
+Lo que se evita a propósito: degradados, tarjetas con emojis, sombras difusas, fuente Inter, serif en los títulos, esquinas muy redondeadas, botones tipo píldora, íconos decorativos sin función (los íconos de los recuadros sí tienen función: indican el tipo de aviso).
 
 ### 2.1 Regla central de color
 
@@ -162,24 +162,26 @@ Las fuentes **se incluyen dentro del sitio** (no se descargan de internet). Las 
 
 | Rol | Fuente | Pesos | Dónde |
 |---|---|---|---|
-| Títulos | **Source Serif 4** | 600 | `h1`, `h2`, nombre del sitio, numeración de sección. Nada más: los títulos de paneles y tarjetas (incluidos los del diagrama) usan la escala `h3`, en Sans |
-| Texto | **IBM Plex Sans** | 400, 600 | Párrafos, menú, botones, tablas |
-| Código | **IBM Plex Mono** | 400, 500 | Comandos, nombres de rama y de tag, expresiones regulares |
+| Títulos | **Plus Jakarta Sans** | 600, 700 | `h1` (700), `h2` (600) y nombre del sitio (700), con espaciado entre letras ligeramente negativo (−0.02 em, −0.015 em y −0.01 em). Nada más: `h3` y los títulos de paneles y tarjetas (incluidos los del diagrama) usan la escala `h3`, en la fuente de texto |
+| Texto | **Hanken Grotesk** | 400, 600 | Párrafos, menú, botones, tablas, `h3`. La negrita es 600 (no se incluye el 700) |
+| Código | **JetBrains Mono** | 400, 500 | Comandos, nombres de rama y de tag, expresiones regulares, chips. Sin ligaduras (`font-variant-ligatures: none`): en una terminal `--` y `->` deben verse tal cual se escriben |
 
-**Cómo se incluyen** (decisión importante para `file://`): los archivos `.woff2` (solo caracteres latinos) se convierten **una vez** a texto base64 y se guardan dentro de `vendor/fonts/fonts.css`. Así cargan igual en Edge, Chrome y Firefox sin depender de rutas. Los `.woff2` originales y las licencias quedan en `vendor/fonts/origen/`. Si la fuente fallara, la pila de respaldo es `Georgia` para títulos, `Segoe UI` para texto y `Consolas` para código.
+**Cómo se incluyen** (decisión importante para `file://`): los archivos `.woff2` (solo caracteres latinos) se convierten **una vez** a texto base64 y se guardan dentro de `vendor/fonts/fonts.css`. Así cargan igual en Edge, Chrome y Firefox sin depender de rutas. Los `.woff2` originales y las licencias quedan en `vendor/fonts/origen/`. Si la fuente fallara, la pila de respaldo es `Segoe UI` para títulos y texto, y `Consolas` para código.
+
 
 ### Escala
 
 | Estilo | Tamaño / interlínea | Fuente | Notas |
 |---|---|---|---|
-| `h1` | 36 px / 1.15 | Serif 600 | Uno por página |
-| `h2` | 24 px / 1.25 | Serif 600 | Los cuatro bloques de la página (§5) |
+| `h1` | 36 px / 1.15 | Títulos 700 | Uno por página |
+| `h2` | 24 px / 1.25 | Títulos 600 | Los cuatro bloques de la página (§5) |
 | `h3` | 19 px / 1.3 | Sans 600 | Dentro de un bloque |
 | Texto | 17 px / 1.6 | Sans 400 | Ancho máximo de línea: 68 caracteres |
 | Pequeño | 14 px / 1.5 | Sans 400 | Leyendas, pies, migas de pan |
-| Código en línea | 15 px | Mono 400 | Fondo `--primary-tint`, borde `--line` |
-| Bloque de comando | 15 px / 1.6 | Mono 400 | Sobre `--surface`; si una línea es más ancha que su caja, se desplaza horizontalmente (no se parte) |
+| Código en línea | 14 px | Mono 400 | Fondo `--primary-tint`, borde `--line` |
+| Bloque de comando | 14 px / 1.6 | Mono 400 | Sobre `--surface`; si una línea es más ancha que su caja, se desplaza horizontalmente (no se parte) |
 | Etiqueta (chip) | 13 px / 1 | Mono 500 | Ambiente, rama, regla (`R3`) |
+| Rótulo en mayúsculas | 12 px, espaciado 0.06 em | Sans 600, `--ink-muted` | Subtítulos de grupo del menú, cabecera de tablas, rótulos de los bloques de código y del detalle del paso, tarjetas de decisión. Nunca en el gris `#6E7271`. Un `code` dentro de un rótulo conserva sus minúsculas |
 
 ---
 
@@ -265,21 +267,23 @@ Las páginas **de flujo** pueden añadir, entre los bloques 1 y 2, un recuadro *
 | Diagrama | Ocupa todo el ancho del área de contenido |
 | Escala de espaciado (base 4 px) | 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 |
 | Separación entre bloques `h2` | 48 px, con línea `--line-strong` arriba |
-| Radios | 6 px (chips, botones), 10 px (tarjetas, diagramas). Nada mayor. |
+| Radios | Dos tokens y nada más: `--radius-sm` 4 px (chips, botones, campos y botones de paso) y `--radius-md` 6 px (tarjetas, tablas, bloques de código, recuadros y lienzo del diagrama). Única excepción: los puntos circulares (`50%`, el punto del chip). |
 | Bordes | 1 px `--line`. **Sin sombras**, salvo el panel del menú en móvil. |
 | Puntos de quiebre | ≥ 960 px: dos columnas. < 960 px: la navegación pasa a un panel que se abre con un botón «Menú», contenido a una columna. |
-| Movimiento | Transiciones de 400–500 ms en los diagramas. Con `prefers-reduced-motion`, se eliminan. |
+| Movimiento | Diagramas: transiciones de 400–500 ms. Interfaz: 120 ms (`--t-fast`: hover, color, chevron) y 150 ms (`--t-nav`: panel del menú en móvil). Con `prefers-reduced-motion`, se eliminan. |
 
 ### Navegación (decisión 8b, 9a, 9b)
 
 - Seis entradas fijas: **Inicio, Primeros pasos, Flujos de trabajo, Guías rápidas, Referencia, Por qué lo hacemos así**.
 - Solo se **despliega la sección de la página actual**; las demás quedan cerradas (se pueden abrir a mano).
-- En «Flujos de trabajo» las páginas se agrupan en dos subtítulos: *Casos habituales* y *Casos poco frecuentes* (una página con los 11 casos).
+- En «Flujos de trabajo» las páginas se agrupan en dos subtítulos: *Casos habituales* y *Casos poco frecuentes* (una página con los 11 casos). Los subtítulos van en mayúsculas pequeñas de 12 px, `--ink-muted`.
+- Las secciones con páginas hijas llevan un chevron que gira al abrir.
 - «Referencia» y «Por qué lo hacemos así» tienen una página de sección (portada con el índice de sus páginas) y páginas hijas, que se despliegan al entrar en la sección.
 - Una página larga puede declarar `anchors` en `nav-data.js`: bajo su enlace, y solo mientras es la página actual, el menú muestra un subítem con ancla por parte (se marca el de la parte que el usuario está leyendo, según el scroll y no según el `#` de la URL; `js/scroll-spy.js`, con la decisión en `js/reading-model.js`). Si el subítem activo queda fuera de la vista del panel, este se desplaza para mostrarlo. En móvil, tocar uno cierra el panel.
-- **Indicador de la guía:** al pie del panel, siempre visible, una línea con la versión, la fecha y el estado («Guía v1.8 · 2026-10-13 · Pendiente de aprobación»). Los tres datos se editan en un solo lugar: `sourceVersion`, `sourceDate` y `sourceStatus` de `js/config.js` (el pie de página usa la misma versión).
+- **Indicador de la guía:** al pie del panel, siempre visible, una línea en mono de 12 px, con borde superior `--line`, con la versión, la fecha y el estado («Guía v1.8 · 2026-10-13 · Pendiente de aprobación»). Los tres datos se editan en un solo lugar: `sourceVersion`, `sourceDate` y `sourceStatus` de `js/config.js` (el pie de página usa la misma versión).
 - Una **página de sección** también puede declarar `anchors` (por ejemplo, las recetas de Guías rápidas): sus subítems cuelgan de la propia sección.
-- Ítem activo: fondo `--primary-tint` y barra izquierda de 3 px `--primary`.
+- Ítem activo: peso 600, fondo `--primary-tint` (solo en el activo y en hover, con radio 4 px) y una barra vertical de 3 px `--primary` con las puntas redondeadas. La barra es un elemento propio (`::after`) y no un borde ni una sombra interior, que seguirían la curva de la esquina; queda inset 6 px arriba y abajo.
+- **Subítems con ancla:** más pequeños (14 px, `--ink-muted`), con una línea guía vertical de 1 px `--line` a su izquierda, al estilo de un árbol; el subítem activo pinta esa línea de `--primary`.
 - Enlace «Saltar al contenido» como primer elemento enfocable; foco visible en todo (contorno de 2 px `--primary`, separado 2 px).
 - Migas de pan arriba y botones Anterior/Siguiente abajo (9a y 9b). El buscador y el glosario con enlaces automáticos **no** se incluyen (no se eligieron), pero la arquitectura deja el lugar listo (§9). Las tablas anchas se envuelven en `.table-wrap` para que se desplacen dentro de su caja.
 
@@ -293,24 +297,25 @@ Cada componente es una clase CSS con nombre fijo (`.componente`, `.componente--v
 |---|---|---|
 | **Navegación lateral** | Árbol de 6 secciones; la actual desplegada. | Se dibuja desde el mapa del sitio (`nav-data.js`). |
 | **Migas de pan** | `Sección › Página`. | Se dibujan desde el mapa del sitio. |
-| **Encabezado de página** | `h1`, chip «Fuente: §x», y el «Para qué sirve». | Estático. |
-| **Chip de ambiente** | `<span class="chip chip--prod">prod</span>`: fondo `soft`, borde `edge`, un punto del color de relleno y el texto en `--ink` (así el contraste es siempre ≥ 4.5), mono 13 px. | Estático. |
+| **Encabezado de página** | `h1`, chip «Fuente: §x» (contorno de 1 px `--line-strong`, mono, radio 4 px, sin relleno) y el «Para qué sirve». Las migas van en 14 px `--ink-muted`, con la página actual en `--ink`. | Estático. |
+| **Chip de ambiente** | `<span class="chip chip--prod">prod</span>`: fondo `soft`, borde `edge`, un punto del color de relleno y el texto en `--ink` (así el contraste es siempre ≥ 4.5), mono 13 px (peso 500) y radio de 4 px. | Estático. |
 | **Chip de rama** | El mismo componente `chip`, con la variante de la clase de rama (`chip--hotfix`). El nombre se escribe tal cual. El diagrama usa este chip para la rama de cada paso. | Estático. |
 | **Chip de regla** | `<a class="chip chip--rule" href="referencia-reglas.html#r3">R3</a>`: el chip del sitio, neutro, con enlace. Va en una fila «Reglas que aplica» (`.rules`). Los destinos `#r1`…`#r11` son las filas de la tabla de la página «Reglas R1–R11». | Estático. |
-| **Índice de página** | Rejilla de enlaces con ancla (`.toc`), uno por parte de la página, con una línea que dice qué tiene (diagrama, texto, enlace a otro flujo). Se declara en `nav-data.js` (`anchors`) y se dibuja donde haya un `<div data-toc>`; es la misma lista del menú. | Se genera desde el mapa del sitio. |
+| **Índice de página** | Rejilla de tarjetas planas con enlace (`.toc`: `--surface`, borde 1 px `--line`, radio 6 px, sin sombra; título en 600 con una flecha →; al pasar el cursor el borde pasa a `--line-strong` y la flecha se desplaza 2 px), una por parte de la página, con una línea que dice qué tiene (diagrama, texto, enlace a otro flujo). Se declara en `nav-data.js` (`anchors`) y se dibuja donde haya un `<div data-toc>`; es la misma lista del menú. | Se genera desde el mapa del sitio. |
 | **Índice de páginas** | Las mismas tarjetas del índice de página (`.toc`), pero una por **página**: título con enlace, resumen y, debajo, sus partes con ancla (a dos columnas y a todo el ancho si son 6 o más). Solo funciona en la portada de una sección, donde lista las páginas hijas; si declaran `group`, pone el subtítulo del grupo. Se dibuja donde haya un `<div data-pages-index>` (`js/pages-index.js`, que lo calcula `nav-model.indexPages()`). | Se genera desde el mapa del sitio. |
 | **Receta** | Bloque de una página de Guías rápidas: título, «Cuándo se usa», bloque de comandos con **Copiar**, pasos de Azure DevOps (si los tiene), avisos y chips de las reglas que aplica. Se dibuja desde `js/guides-data.js` (`<div data-guides>`). | Botón **Copiar** (con respaldo para `file://`). |
 | **Enlace a la receta** | Bajo los comandos de cada paso de un diagrama: «Receta: Crear una rama desde un tag». Qué recetas corresponden lo decide `G.guides.forCommands()` a partir de las líneas de comando del paso, así que no se cablea paso por paso y no puede quedar desactualizado. | Enlace. |
 | **Cadena de tags** | Mini diagrama interactivo (`<div data-tag-chain="cadena-de-tags">`): fila de tags con flechas «está contenido en» y muñecas rusas anidadas; al tocar un tag se marca lo que contiene y una frase lo dice. | Botones con `aria-pressed`. |
-| **Validador de nombre de rama** | Campo de texto (`<div data-branch-validator>`) que valida con las dos expresiones de la guía y el límite de 60 caracteres, muestra el desglose en partes (✔/✖ además del color) y explica qué parte falla. Con ejemplos de la guía que se pueden pulsar. Se puede poner en cualquier página con solo el marcador (hoy, Nomenclatura y validador e Inicio): `boot.js` carga sus módulos y su CSS, y varios en una misma página no se pisan. | Valida mientras se escribe. |
-| **Recorrido, escalera y tarjeta de decisión** | `.route` (una fila por paso: acción → ambiente), `.ladder` (prod arriba, sbx abajo) y `.card` (Tema / Decisión / Justificación / Riesgo; el riesgo en ámbar, salvo «Ninguno»). HTML estático. | Estático. |
-| **Bloque de comando** | Fondo `--surface`, borde `--line`, mono 15 px. Rótulo «Comandos de Git» arriba a la izquierda. | Botón **Copiar**. |
-| **Pasos en Azure DevOps** | Lista numerada con rótulo «Pasos en Azure DevOps» (decisión 11b: solo texto, sin capturas). | Estático. |
-| **Recuadro** | `.callout` y sus variantes `--error` (error común), `--svn` (equivalencia SVN) y `--warn` (advertencia); sin variante es la nota (colores en §3.3). Borde izquierdo de 4 px. | Estático. |
-| **Tabla** | Cabecera `--surface-nav`, filas con borde inferior `--line`, sin cebra. Si es ancha, scroll horizontal dentro de su caja. | Estático. |
+| **Validador de nombre de rama** | Campo de texto (`<div data-branch-validator>`) que valida con las dos expresiones de la guía y el límite de 60 caracteres, muestra el desglose en partes (✔/✖ además del color) y explica qué parte falla. Campo de 40 px (borde 1 px `--line-strong`, radio 4 px, foco de 2 px); el valor de cada parte se muestra como chip y los ejemplos de la guía son botones terciarios que se pueden pulsar. Se puede poner en cualquier página con solo el marcador (hoy, Nomenclatura y validador e Inicio): `boot.js` carga sus módulos y su CSS, y varios en una misma página no se pisan. | Valida mientras se escribe. |
+| **Recorrido, escalera y tarjeta de decisión** | `.route` (una fila por paso: acción → ambiente), `.ladder` (prod arriba, sbx abajo) y `.card` (Tema / Decisión / Justificación / Riesgo; el riesgo en ámbar, salvo «Ninguno»; los rótulos van en mayúsculas pequeñas de 12 px, como una tabla de parámetros; no es un enlace, así que no lleva hover ni flecha). HTML estático. | Estático. |
+| **Bloque de comando** | Bloque con cabecera: franja de 32 px (`--surface-nav`) con el rótulo «Comandos de Git» en mayúsculas pequeñas a la izquierda y **Copiar** (botón terciario pequeño) a la derecha, separada del código por un borde `--line`. Código en mono 14 px sobre `--surface`, borde `--line` y radio 6 px, con números de línea en `--ink-muted` generados por contadores CSS (no se seleccionan ni se copian). | Botón **Copiar** (copia solo los comandos). |
+| **Pasos en Azure DevOps** | Lista numerada dentro del mismo bloque con cabecera, con el rótulo «Pasos en Azure DevOps» (decisión 11b: solo texto, sin capturas). | Estático. |
+| **Recuadro** | `.callout` y sus variantes `--error` (error común), `--svn` (equivalencia SVN) y `--warn` (advertencia); sin variante es la nota (colores en §3.3). Borde izquierdo de 3 px, radio de 6 px solo a la derecha, título en 600 y un ícono de trazo por variante (nota, error, advertencia, SVN) dibujado con una máscara CSS y `currentColor`: lleva el color del borde, sin archivos ni colores nuevos. | Estático. |
+| **Tabla** | Cabecera sin relleno, en mayúsculas de 12 px `--ink-muted` y con borde inferior `--line-strong`; filas solo con borde inferior `--line`, sin cebra. Si es ancha, scroll horizontal dentro de su caja (`.table-wrap`: borde 1 px y radio 6 px). | Estático. |
 | **Diagrama interactivo** | Ver §7.1. | Paso a paso. |
-| **Relacionados** | 2–4 enlaces con el título y el resumen de cada página. Se declara en `nav-data.js` (`related` en la página y `summary` en la página enlazada) y se dibuja donde haya un `<div data-related>`; si la página no declara `related`, queda el aviso de contenido pendiente. | Se genera desde el mapa del sitio. |
-| **Anterior / Siguiente** | Dos botones a los extremos. | Se genera desde el mapa del sitio. |
+| **Relacionados** | 2–4 enlaces con el título y el resumen de cada página. Se declara en `nav-data.js` (`related` en la página y `summary` en la página enlazada) y se dibuja donde haya un `<div data-related>`; si la página no declara `related`, queda el aviso de contenido pendiente. Son tarjetas con el mismo estilo y hover que las del índice de página. | Se genera desde el mapa del sitio. |
+| **Anterior / Siguiente** | Dos tarjetas a los extremos: rótulo pequeño «Anterior» o «Siguiente» en `--ink-muted`, título de la página en 600 y una flecha que dibuja el CSS y se desplaza 2 px en hover (mismo hover que las tarjetas). | Se genera desde el mapa del sitio. |
+| **Botones** | Un solo sistema para todo el sitio (`components.css`): altura de 36 px, radio 4 px, peso 600, sin degradados ni sombras. **Primario:** sólido `--primary`. **Secundario:** borde 1 px `--line-strong` sobre `--surface`. **Terciario:** texto `--primary` sobre `--surface` y el mismo borde de 1 px que el secundario, para que se lea como botón (Copiar, ejemplos del validador); lo distingue el color del texto. Todo botón lleva borde visible, salvo el primario, cuyo borde es su propio relleno, y el chevron del menú. Foco: el contorno de 2 px de §6. Las clases de cada componente (`.gf-btn`, `.cmd__copy`, `.site-nav__menu-btn`, `.validator__example`) se suman al sistema en ese archivo. | Estático. |
 
 ### 7.1 Diagrama interactivo (paso a paso)
 
@@ -345,7 +350,7 @@ Toma la estructura y la interactividad de `html/git-merge-types.html` (encabezad
 - El origen de cada merge sigue la regla de §10.1.
 
 **Cómo se usa**
-- Botones **Anterior / Siguiente / Reiniciar**, botones numerados para saltar a un paso (el paso previo de la tabla, `—`, es el 0) y las teclas ← → cuando el diagrama tiene el foco.
+- Botones **Anterior / Siguiente / Reiniciar** (control segmentado: bordes compartidos y radio solo en los extremos), botones numerados (cuadrados de 32 px, mono; el paso actual va relleno de `--primary` con texto blanco) para saltar a un paso (el paso previo de la tabla, `—`, es el 0) y las teclas ← → cuando el diagrama tiene el foco.
 - Cada paso muestra la rama, la descripción (una sola, con «qué se hace» y «por qué»), los **comandos de Git** (con botón Copiar) y los **pasos en Azure DevOps** (texto).
 - Retroceder funciona siempre: el diagrama se **calcula desde el principio** para cada paso (no se «deshace»), así nunca queda un estado a medias.
 - El texto del paso está en una región `aria-live="polite"`, para lectores de pantalla.
@@ -521,7 +526,7 @@ poc-ramas/
    └─ vendor/
       └─ fonts/
          ├─ fonts.css               ← @font-face con las fuentes en base64
-         └─ origen/                 ← .woff2 originales + licencias OFL
+         └─ origen/                 ← .woff2 originales + licencias OFL de las fuentes en uso (Plus Jakarta Sans, Hanken Grotesk, JetBrains Mono)
 ```
 
 Convenciones:
@@ -569,7 +574,7 @@ Convenciones:
 |---|---|
 | **El sitio y ESTRATEGIA-RAMAS.md se desincronizan** cuando cambie la estrategia. | Cada página muestra su `Fuente: §x`; el menú y el pie muestran la versión base (`config.js`). Cuando ESTRATEGIA-RAMAS.md cambie de versión, se revisan las páginas cuyo `§` cambió, y los flujos se comparan con su sección (carriles, orden, tags, merges y filas de la tabla). Más adelante se puede añadir un chequeo automático. |
 | **Las páginas son HTML a mano:** un script que las regenere borraría ediciones. | No existe un generador en el repositorio. Los cambios de contenido se hacen editando el HTML (o el archivo de datos) y se confirman en git. |
-| `fonts.css` en base64 pesa (~250–350 KB). | Se carga una vez y el navegador la guarda; solo caracteres latinos. Es el precio de que funcione igual con doble clic en cualquier navegador. |
+| `fonts.css` en base64 pesa (~130 KB con las seis fuentes). | Se carga una vez y el navegador la guarda; solo caracteres latinos. Es el precio de que funcione igual con doble clic en cualquier navegador. |
 | Hay que mantener ~15 escenarios de diagrama. | Se escriben como datos simples (§7.1); las posiciones se calculan solas. |
 | El color de `hotfix` (`#C24A1F`) se parece algo al amarillo de `qa` y al vinotinto de `bug`. | La línea siempre lleva su nombre escrito y está en un lugar fijo del diagrama (la de más arriba). Se ve en la Fase 2 y se ajusta si hace falta. |
 | `sbx` (verde oliva) y `feature` (aguamarina) son los dos verdes del diagrama, y `bug` comparte el vinotinto con el recuadro «Error común». | Difieren en luminosidad y siempre llevan el nombre escrito; en la guía los cuadrados aproximados repiten 🟩 y por eso van junto al nombre (§3.2). |
@@ -582,7 +587,7 @@ Convenciones:
 Todas se confirmaron; lo que cambió respecto de lo propuesto está registrado en §7.1, §10 y §10.1. Se conserva la lista como historial.
 
 1. **Reparto de colores (§3.2).** Usted dio los colores; yo los asigné: celeste → `sbx`, amarillo → `qa`, morado → `stg`, vinotinto → `prod`, aguamarina → `feature`, verde oliva → `bug`, gris → `test`/`promote`, verde `#026433` → tags y acción. El **naranja quemado `#C24A1F`** para `hotfix` es nuevo. *Aprobado. En la v1.8 el responsable cambió tres: verde oliva → `sbx`, vinotinto → `bug`, celeste → `prod`; el reparto vigente es el de §3.2.*
-2. **Tipografías:** Source Serif 4 + IBM Plex Sans + IBM Plex Mono, incluidas en el sitio. ¿De acuerdo?
+2. **Tipografías:** Source Serif 4 + IBM Plex Sans + IBM Plex Mono, incluidas en el sitio. ¿De acuerdo? *Sustituidas en el rediseño de identidad por Plus Jakarta Sans + Hanken Grotesk + JetBrains Mono (§4, §14).*
 3. **Carpeta `sitio/`** nueva dentro de `poc-ramas`, sin tocar `html/git-merge-types.html`. ¿De acuerdo?
 4. **Mapa de páginas (§8):** ¿falta o sobra alguna? (Por ejemplo, no incluí un glosario ni un buscador porque no los eligió.)
 5. **Extras que añadí sin que los pidiera:** botón «Copiar» en los comandos, pestañas de variantes dentro de un diagrama, y el panel «Menú» en pantallas estrechas. Se quitan sin afectar lo demás si no los quiere.
@@ -621,5 +626,6 @@ Revisión hecha antes de seguir con más páginas. Se comprobaron, con scripts, 
 | Portada de «Flujos de trabajo» | Completada: elección del flujo, lista de flujos con sus casos y cómo se lee un flujo (§5 y §8). «Primeros pasos» sigue como marcador, a la espera del material. |
 | Corrección | La celda «Pipelines» de la tabla de Azure DevOps mostraba `feature/<em>` en lugar de `feature/*` (el generador de la Fase 4 leyó los asteriscos como cursiva). |
 | Contrastes | Dos cifras de §3.4 estaban redondeadas hacia arriba: blanco sobre `hotfix` es 4.9 (no 5.1) y el `edge` de `qa` es 4.0 (no 4.1). Siguen cumpliendo. |
+| Rediseño de identidad | Cambian tipografía, formas, espaciado y componentes; **ningún color** (las 24 líneas de color de `tokens.css` son idénticas a las de git). Fuentes: Plus Jakarta Sans (títulos), Hanken Grotesk (texto) y JetBrains Mono (código y chips), en base64 en `vendor/fonts/fonts.css` (~128 KB); se retiraron Source Serif 4 e IBM Plex. Tokens nuevos: `--font-heading`, `--radius-sm` 4 px y `--radius-md` 6 px (sustituyen a `--r-s` y `--r-m`; lo único fuera de ellos es el `50%` de los puntos circulares), `--fs-label` y `--ls-label`; `--fs-code` baja a 14 px. Transiciones: interfaz a 120–150 ms y las del diagrama normalizadas a 400 ms (había tres de 200–300 ms). Componentes (§7): sistema único de botones, bloque con cabecera y números de línea para comandos y pasos en Azure DevOps, recuadros con ícono de máscara CSS, tarjetas planas con flecha en hover, Anterior/Siguiente como tarjetas, tablas con cabecera en mayúsculas pequeñas, subítems del menú en árbol y validador con campo de 40 px. Marcado: un solo cambio en `pager.js` (los rótulos «Anterior» y «Siguiente» sin la flecha, que ahora dibuja el CSS). Código sin ligaduras; pesos de mono limitados a 400 y 500. Comprobado en Edge y Chrome sin red: foco visible en todos los controles, contraste AA (el peor caso, 6.28 : 1) y 21 comprobaciones de los módulos puros. **Firefox sin comprobar en esta revisión** (no estaba instalado); las fuentes no dependen de rutas `file://`. |
 
 **Pendiente por fase** (no es una inconsistencia: aún no hay contenido que lo use): recuadro «Equivalencia SVN» en uso, variantes de un flujo como pestañas, el diagrama de recorrido de Inicio, y la migración de `html/git-merge-types.html` a «Por qué lo hacemos así».
