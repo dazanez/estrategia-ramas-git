@@ -10,7 +10,7 @@
 
   var LABELS = {
     field: 'Nombre de la rama',
-    placeholder: 'feature/az-32154-validacion-tokens-pc',
+    placeholder: 'feature/az-32154-validacion-tokens-ds',
     count: 'caracteres',
     empty: 'Escriba o pegue el nombre de una rama para validarlo.',
     valid: 'Válido. Cumple la expresión de la guía y no pasa de 60 caracteres.',
@@ -19,7 +19,7 @@
     parts: 'Las partes del nombre',
     adviceTitle: 'Recomendaciones (la expresión no las comprueba)',
     examplesValid: 'Ejemplos de la guía:',
-    examplesInvalid: 'Formatos que no valen (de la guía):'
+    examplesInvalid: 'Formatos incorrectos (de la guía):'
   };
 
   var PARTS = [
@@ -31,12 +31,12 @@
   ];
 
   var VALID_EXAMPLES = [
-    'feature/az-32154-validacion-tokens-pc',
-    'feature/az-32154-validacion-tokens-pc-dd',
-    'feature/az-1003-retiro-temporal-hu-1001-pc',
+    'feature/az-32154-validacion-tokens-ds',
+    'feature/az-32154-validacion-tokens-ds-cc',
+    'feature/az-1003-retiro-temporal-hu-1001-ds',
     'bug/az-65487-validacion-login-dd',
-    'bug/glpi-13487-calculo-redondeo-pc',
-    'hotfix/glpi-13487-caida-login-pc',
+    'bug/glpi-13487-calculo-redondeo-ds',
+    'hotfix/glpi-13487-caida-login-ds',
     'test/az-32154-web-login-dd'
   ];
   var INVALID_EXAMPLES = ['Bug/az-2-y-dd', 'BUG_AZ_65487_DD', 'HU_6.32154_PC'];

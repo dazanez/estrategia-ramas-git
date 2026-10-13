@@ -155,7 +155,7 @@ El número de cada paso es el de la tabla de la guía; si la guía no trae tabla
 
 | Página | Bloques | Fuente |
 |---|---|---|
-| **Inicio** | Para qué sirve → Resumen en una página (tabla de §0; cada fila enlaza a su flujo) → Tres reglas que sostienen todo (con chips R2, R3 y R4) → Relacionados | §0 |
+| **Inicio** | Para qué sirve → Resumen en una página (tabla de §0; cada fila enlaza a su flujo) → Validador de nombre de rama (el mismo componente de Referencia; las expresiones no se repiten: enlaza a Nomenclatura) → Tres reglas que sostienen todo (con chips R2, R3 y R4) → Relacionados | §0 y §2 |
 | **Conceptos clave** (Primeros pasos) | Para qué sirve → Índice → un bloque por concepto de §1, con el mini diagrama de la cadena de tags, la escalera «arriba y abajo» y el recorrido «qué viaja en cada dirección» → Relacionados | §1 |
 | **Clonar y configurar** (Primeros pasos) | Marcador `[PENDIENTE]`: el material se entrega aparte | — |
 | **Guías rápidas** | Para qué sirve → Índice → una receta por bloque (cuándo, comandos con *Copiar*, pasos de Azure DevOps, avisos, reglas que aplica) → Relacionados | §2, §3 y §6.2; las recetas están en `js/guides-data.js` |
@@ -236,7 +236,7 @@ Cada componente es una clase CSS con nombre fijo (`.componente`, `.componente--v
 | **Receta** | Bloque de una página de Guías rápidas: título, «Cuándo se usa», bloque de comandos con **Copiar**, pasos de Azure DevOps (si los tiene), avisos y chips de las reglas que aplica. Se dibuja desde `js/guides-data.js` (`<div data-guides>`). | Botón **Copiar** (con respaldo para `file://`). |
 | **Enlace a la receta** | Bajo los comandos de cada paso de un diagrama: «Receta: Crear una rama desde un tag». Qué recetas corresponden lo decide `G.guides.forCommands()` a partir de las líneas de comando del paso, así que no se cablea paso por paso y no puede quedar desactualizado. | Enlace. |
 | **Cadena de tags** | Mini diagrama interactivo (`<div data-tag-chain="cadena-de-tags">`): fila de tags con flechas «está contenido en» y muñecas rusas anidadas; al tocar un tag se marca lo que contiene y una frase lo dice. | Botones con `aria-pressed`. |
-| **Validador de nombre de rama** | Campo de texto (`<div data-branch-validator>`) que valida con las dos expresiones de la guía y el límite de 60 caracteres, muestra el desglose en partes (✔/✖ además del color) y explica qué parte falla. Con ejemplos de la guía que se pueden pulsar. | Valida mientras se escribe. |
+| **Validador de nombre de rama** | Campo de texto (`<div data-branch-validator>`) que valida con las dos expresiones de la guía y el límite de 60 caracteres, muestra el desglose en partes (✔/✖ además del color) y explica qué parte falla. Con ejemplos de la guía que se pueden pulsar. Se puede poner en cualquier página con solo el marcador (hoy, Referencia e Inicio): `boot.js` carga sus módulos y su CSS, y varios en una misma página no se pisan. | Valida mientras se escribe. |
 | **Recorrido, escalera y tarjeta de decisión** | `.route` (una fila por paso: acción → ambiente), `.ladder` (prod arriba, sbx abajo) y `.card` (Tema / Decisión / Justificación / Riesgo; el riesgo en ámbar, salvo «Ninguno»). HTML estático. | Estático. |
 | **Bloque de comando** | Fondo `--surface`, borde `--line`, mono 15 px. Rótulo «Comandos de Git» arriba a la izquierda. | Botón **Copiar**. |
 | **Pasos en Azure DevOps** | Lista numerada con rótulo «Pasos en Azure DevOps» (decisión 11b: solo texto, sin capturas). | Estático. |
