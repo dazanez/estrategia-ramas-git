@@ -66,7 +66,6 @@
         <li>Cuando el cliente aprueba A, se <strong>revierte el retiro</strong> (el «revert del revert») en otra rama nueva desde <code>v1.7.1</code>, con el tag <code>v1.8.0</code>. Luego PR a sbx y qa → stg → prod.</li>
       </ol>
       <div data-git-flow="retiro-temporal"></div>
-      <p>En ningún paso llega A a stg ni a prod sin aprobación.</p>
       <div class="callout">
         <p class="callout__title callout__title--question">¿Se cuela lo no aprobado?</p>
         <p>A <strong>producción</strong>, no. A viaja dentro de las versiones de qa, pero solo sube a stg y prod con aprobación, o retirado con el revert. La PoC lo probó en el escenario 12 (I1–I7 ✔ en los dos modos): <code>v1.7.1</code>, la versión sin A, llegó a prod sin A, y A apareció en prod solo con la reintroducción.</p>
@@ -148,14 +147,10 @@
       <h2>6.7 Dos tags al mismo tiempo</h2>
       <p>Si dos personas crean un tag casi a la vez desde la misma cabeza, el segundo tag no contiene al primero y la cadena se rompe. Al promoverlo, el PR se bloquea o mezcla.</p>
       <div data-git-flow="dos-tags"></div>
-      <p>En el diagrama, <code>v1.7.0</code> se creó sin contener a <code>v1.6.0</code>, así que la cadena se rompe. La validación automática rechaza el PR con <code>CADENA</code>. La rama incorpora <code>v1.6.0</code>, crea <code>v1.7.1</code> declarando <code>Descarta: v1.7.0</code>, y ese es el tag que sigue adelante.</p>
+      <p>En el diagrama, <code>v1.7.0</code> se creó sin contener a <code>v1.6.0</code>, así que la cadena se rompe. La validación automática rechaza el PR con <code>CADENA</code> y explica cómo corregirlo (PoC, grupo G2). La rama incorpora <code>v1.6.0</code>, crea <code>v1.7.1</code> declarando <code>Descarta: v1.7.0</code>, y ese es el tag que sigue adelante. El segundo tag no se mueve ni se borra (R10): queda sin usar, y el mensaje del tag nuevo lleva la línea <code>Descarta: &lt;tag que no se usa&gt;</code>.</p>
       <div class="callout">
         <p class="callout__title">Prevención</p>
         <p>Que el tag lo cree el líder técnico justo antes de completar el PR (R4), más la validación automática de la sección 7 de la guía.</p>
-      </div>
-      <div class="callout callout--warn">
-        <p class="callout__title">Si ya pasó: el segundo tag no se usa</p>
-        <p>El segundo tag no se usa (R10). Se incorpora el primero en la rama y se crea un tag nuevo, cuyo mensaje lleva la línea <code>Descarta: &lt;tag que no se usa&gt;</code>. La validación automática rechaza el PR del segundo tag con <code>CADENA</code> y explica cómo hacerlo (PoC, grupo G2).</p>
       </div>
       <p class="rules"><span class="rules__label">Reglas que aplica:</span> <a class="chip chip--rule" href="referencia-reglas.html#r3" title="Ver la regla R3 en Referencia">R3</a> <a class="chip chip--rule" href="referencia-reglas.html#r4" title="Ver la regla R4 en Referencia">R4</a> <a class="chip chip--rule" href="referencia-reglas.html#r10" title="Ver la regla R10 en Referencia">R10</a></p>
     </section>

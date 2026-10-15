@@ -1,13 +1,13 @@
 # Estrategia de ramificación SigDoc — guía por caso
 
 **Versión 1.8 · 2026-10-13**
-- 1.8: se reasignan tres colores: `sbx` pasa a verde oliva, `bug/` a vinotinto y `prod` a celeste (el resto no cambia). La sección 8 nombra al responsable del proyecto.
-- 1.7: la nomenclatura tiene cinco partes (decía cuatro; el esquema ya mostraba cinco: tipo, sistema, ID, descripción e iniciales). Los colores de las ramas y de los diagramas pasan a ser los del sitio de documentación: celeste, aguamarina, verde oliva, naranja quemado, gris, amarillo, morado y vinotinto.
-- 1.6: coherencia con el sitio de documentación: el aviso «Importante» del hotfix (5.2) cita los pasos 7 a 9 de la tabla (5 a 7 de la lista «Pasos»), y en el defecto (4) el paso 1–2 remite al «Flujo de requerimiento».
-- 1.5: rollback (6.5): el PR a `sbx` va antes de promover a qa, igual que en el hotfix (I2); el diagrama y la tabla se corrigen. En 5.2 se aclara que, con qa libre, el recorrido normal también empieza por el PR a `sbx`. La validación automática deja de aceptar (antes avisaba) un hotfix en qa que aún no está en `sbx`.
-- 1.4: en los diagramas de ramas, la regla de cadena y las promociones a qa, stg y prod se dibujan saliendo de `sbx` (que en ese momento ya es igual al tag), no de la rama de trabajo. El hotfix y el rollback hacia stg y prod siguen saliendo de su rama, porque `sbx` aún no tiene la corrección (secciones 1, 3, 4, 5, 6).
-- 1.3: validación automática de PR (sección 7 y [CONFIGURAR-AZURE-DEVOPS.md](CONFIGURAR-AZURE-DEVOPS.md)); en el hotfix, el PR a sbx va antes de promover a qa (5.2); los tags descartados se declaran con `Descarta:` (R10).
-- 1.2: una sola forma de nombre para todas las ramas de trabajo: `<tipo>/<sistema>-<id>-<descripcion>-<iniciales>` (`feature/`, `bug/`, `hotfix/`, `test/`); sin sprint.
+- 1.8: colores `sbx` (verde oliva), `bug/` (vinotinto) y `prod` (celeste); la sección 8 nombra al responsable del proyecto. Revisión editorial sin cambio de reglas: la lista «Pasos» del hotfix (5.2) usa la misma numeración que la tabla.
+- 1.7: la nomenclatura tiene cinco partes (decía cuatro); los colores de ramas y diagramas son los del sitio de documentación.
+- 1.6: el aviso «Importante» del hotfix (5.2) y el paso 1–2 del defecto (4) coinciden con el sitio de documentación.
+- 1.5: rollback (6.5) y hotfix (5.2): el PR a `sbx` va antes de promover a qa (I2). La validación automática rechaza (antes avisaba) un hotfix en qa que aún no está en `sbx`.
+- 1.4: en los diagramas, la regla de cadena y las promociones salen de `sbx`; el hotfix y el rollback hacia stg y prod salen de su rama (secciones 1, 3, 4, 5, 6).
+- 1.3: validación automática de PR (sección 7 y [CONFIGURAR-AZURE-DEVOPS.md](CONFIGURAR-AZURE-DEVOPS.md)); los tags descartados se declaran con `Descarta:` (R10).
+- 1.2: una sola forma de nombre para toda rama de trabajo, `<tipo>/<sistema>-<id>-<descripcion>-<iniciales>`; sin sprint.
 
 Esta guía complementa **DES-EST-016 v2** (Estándar control de código fuente) y **ARQ-PRO-001 v1** (Procedimiento control de versiones). Donde esos documentos se contradicen o no cubren un caso, se aplica lo que dice esta guía; la sección 9 lista cada diferencia. Cada regla se probó en la prueba de concepto ([POC-RAMAS.md](POC-RAMAS.md)), cuya evidencia está en `evidencia\<escenario>\`.
 
@@ -96,14 +96,12 @@ flowchart LR
   | 🟪 morado | `stg` |
   | 🟦 celeste | `prod` |
 
-  *Son los colores del sitio de documentación. Los cuadrados de las tablas son aproximados: no existe un cuadrado verde oliva, aguamarina ni gris medio, así que `sbx` y `feature/` comparten 🟩 y `test/` usa ⬛. Cada cuadrado va siempre junto al nombre de la rama, que es lo que la identifica.*
-- Cada commit lleva un **número de paso** (`1.`, `2.`, …). Debajo de cada diagrama hay una tabla con los mismos números que explica qué se hace en cada paso. Si las etiquetas se cruzan en el dibujo, guíese por los números y la tabla.
-- Cada círculo es un commit. La etiqueta en recuadro es el tag (`v1.6.0`).
-- Cuando una línea se junta con otra, es un merge: un PR completado. En las ramas de ambiente, el texto del círculo dice qué promoción fue (`promote/v1.6.0-to-qa`).
-- La regla de cadena (`git merge v1.5.1`) y las promociones a qa, stg y prod se dibujan saliendo de `sbx`, que en ese momento ya es igual al tag: es el mismo commit que nombra el comando. La excepción es el hotfix hacia stg y prod (5.2) y el rollback (6.5): como `sbx` todavía no tiene la corrección, esas líneas salen de la rama del hotfix.
-- Un círculo con una ✕ es un `git revert`. Un cuadrado marca un commit destacado: en esta guía, el "revert del revert" que devuelve algo retirado.
-- Las etiquetas inclinadas bajo cada círculo describen el commit. En las ramas de ambiente, todo círculo es una promoción.
-- Los diagramas se ven en VS Code con la extensión *Markdown Preview Mermaid Support*, y en cualquier visor que soporte Mermaid.
+  *Son los colores del sitio de documentación. Los cuadrados de las tablas son aproximados (no existe un cuadrado verde oliva, aguamarina ni gris medio): `sbx` y `feature/` comparten 🟩 y `test/` usa ⬛. Cada cuadrado va siempre junto al nombre de la rama.*
+- Cada commit lleva un **número de paso** (`1.`, `2.`, …), el mismo de la tabla que hay debajo del diagrama. Si las etiquetas se cruzan en el dibujo, guíese por los números y la tabla.
+- Cada círculo es un commit; la etiqueta en recuadro es el tag (`v1.6.0`). Las etiquetas inclinadas bajo cada círculo lo describen. En las ramas de ambiente, todo círculo es una promoción (`promote/v1.6.0-to-qa`).
+- Cuando una línea se junta con otra, es un merge: un PR completado. La regla de cadena (`git merge v1.5.1`) y las promociones se dibujan saliendo de `sbx`, que en ese momento ya es igual al tag (es el mismo commit que nombra el comando). La excepción es el hotfix hacia stg y prod (5.2) y el rollback (6.5): `sbx` todavía no tiene la corrección, así que esas líneas salen de la rama del hotfix.
+- Un círculo con una ✕ es un `git revert`. Un cuadrado marca un commit destacado: aquí, el "revert del revert" que devuelve algo retirado.
+- Los diagramas se ven en VS Code con la extensión *Markdown Preview Mermaid Support* y en cualquier visor que soporte Mermaid.
 
 ---
 
@@ -129,7 +127,7 @@ Todas las ramas de trabajo siguen **una sola forma, con cinco partes, en el mism
 
 ```
 <tipo>/<sistema>-<id>-<descripcion>-<iniciales>
-   │       │      │        │             └─ ¿quién?   iniciales en minúscula; varias personas, separadas por guion (pc-dd)
+   │       │      │        │             └─ ¿quién?   iniciales en minúscula; varias personas, separadas por guion (ds-cc)
    │       │      │        └─ ¿qué hace?  2 a 5 palabras en minúscula, sin tildes ni conectores
    │       │      └─ ¿qué número?         el ID del ítem en ese sistema
    │       └─ ¿dónde está registrado?     az (Azure DevOps) o glpi
@@ -140,12 +138,12 @@ Para armar el nombre se responden esas cinco preguntas, en ese orden. Para leerl
 
 | Clase de trabajo | `<tipo>` | Ejemplo |
 |---|---|---|
-| Requerimiento (historia de usuario) | `feature` | `feature/az-32154-validacion-tokens-pc` |
-| Requerimiento entre dos personas | `feature` | `feature/az-32154-validacion-tokens-pc-dd` |
-| Cambio de alcance: retiro temporal, reintroducción, cancelación (ID del **ítem nuevo**) | `feature` | `feature/az-1003-retiro-temporal-hu-1001-pc` |
+| Requerimiento (historia de usuario) | `feature` | `feature/az-32154-validacion-tokens-ds` |
+| Requerimiento entre dos personas | `feature` | `feature/az-32154-validacion-tokens-ds-cc` |
+| Cambio de alcance: retiro temporal, reintroducción, cancelación (ID del **ítem nuevo**) | `feature` | `feature/az-1003-retiro-temporal-hu-1001-ds` |
 | Defecto reportado por QA | `bug` | `bug/az-65487-validacion-login-dd` |
-| Incidencia no urgente | `bug` | `bug/glpi-13487-calculo-redondeo-pc` |
-| Hotfix (incluye rollback) | `hotfix` | `hotfix/glpi-13487-caida-login-pc` |
+| Incidencia no urgente | `bug` | `bug/glpi-13487-calculo-redondeo-ds` |
+| Hotfix (incluye rollback) | `hotfix` | `hotfix/glpi-13487-caida-login-ds` |
 | Prueba automatizada | `test` | `test/az-32154-web-login-dd` — la **primera palabra** de la descripción es el tipo de componente: `desk`, `web` o `serv` (DES-EST-016 §4.6.5) |
 
 Nombres que **no** son ramas de trabajo y conservan el formato del estándar:
@@ -205,18 +203,18 @@ gitGraph
     checkout sbx
     branch prod order: 9
     checkout sbx
-    branch feature/az-32154-validacion-tokens-pc order: 1
+    branch feature/az-32154-validacion-tokens-ds order: 1
     commit id: "1. feat: validacion de tokens"
     checkout sbx
     branch bug/az-65490-mensaje-error-dd order: 2
     commit id: "2. otro equipo corrige un bug" tag: "v1.5.1"
     checkout sbx
     merge bug/az-65490-mensaje-error-dd id: "2. PR del bug a sbx"
-    checkout feature/az-32154-validacion-tokens-pc
+    checkout feature/az-32154-validacion-tokens-ds
     commit id: "3. feat: pruebas unitarias"
     merge sbx id: "4. regla de cadena: merge v1.5.1" tag: "v1.6.0"
     checkout sbx
-    merge feature/az-32154-validacion-tokens-pc id: "5. PR a sbx"
+    merge feature/az-32154-validacion-tokens-ds id: "5. PR a sbx"
     checkout qa
     merge sbx id: "6. v1.6.0 a qa"
     checkout stg
@@ -243,8 +241,8 @@ gitGraph
    ```
    git fetch --all --tags
    git tag --sort=-version:refname          # el primero de la lista es el último tag
-   git checkout tags/v1.5.0 -b feature/az-32154-validacion-tokens-pc
-   git push -u origin feature/az-32154-validacion-tokens-pc
+   git checkout tags/v1.5.0 -b feature/az-32154-validacion-tokens-ds
+   git push -u origin feature/az-32154-validacion-tokens-ds
    ```
 2. Desarrollar con commits según DES-EST-016 §4.9 (`feat(api): ...`). Hacer `git push` con frecuencia.
 3. Cuando el desarrollo está terminado y pasa las pruebas unitarias, aplicar la **regla de cadena**:
@@ -259,9 +257,9 @@ gitGraph
    git tag -a v1.6.0 -m "v1.6.0: HU 32154 validación de tokens. Versión para pruebas QA"
    git push origin v1.6.0
    ```
-5. PR `feature/az-32154-validacion-tokens-pc` → `sbx`. Azure ejecuta la validación automática (sección 7) y no deja completar el PR si encuentra un error. Para revisarlo antes de abrir el PR, en el propio clon:
+5. PR `feature/az-32154-validacion-tokens-ds` → `sbx`. Azure ejecuta la validación automática (sección 7) y no deja completar el PR si encuentra un error. Para revisarlo antes de abrir el PR, en el propio clon:
    ```
-   & <ruta>\Validar-PR.ps1 -SourceBranch feature/az-32154-validacion-tokens-pc -TargetBranch sbx
+   & <ruta>\Validar-PR.ps1 -SourceBranch feature/az-32154-validacion-tokens-ds -TargetBranch sbx
    ```
    Al completar el PR, borrar la rama (local y remota).
 6. Promover a qa:
@@ -290,13 +288,13 @@ gitGraph
     checkout sbx
     branch prod order: 9
     checkout sbx
-    branch feature/az-32154-validacion-tokens-pc order: 1
+    branch feature/az-32154-validacion-tokens-ds order: 1
     commit id: "1. feat: validacion de tokens" tag: "v1.6.0"
     checkout sbx
-    merge feature/az-32154-validacion-tokens-pc id: "2. PR a sbx"
+    merge feature/az-32154-validacion-tokens-ds id: "2. PR a sbx"
     checkout qa
     merge sbx id: "3. v1.6.0 a qa: rechazo"
-    checkout feature/az-32154-validacion-tokens-pc
+    checkout feature/az-32154-validacion-tokens-ds
     branch bug/az-65487-validacion-login-dd order: 2
     commit id: "4. fix: validacion login" tag: "v1.6.1"
     checkout sbx
@@ -355,17 +353,17 @@ gitGraph
     checkout sbx
     branch prod order: 9
     checkout sbx
-    branch feature/az-32154-validacion-tokens-pc order: 1
+    branch feature/az-32154-validacion-tokens-ds order: 1
     commit id: "1. feat: validacion de tokens" tag: "v1.6.0"
     checkout sbx
-    merge feature/az-32154-validacion-tokens-pc id: "2. PR a sbx"
+    merge feature/az-32154-validacion-tokens-ds id: "2. PR a sbx"
     checkout qa
     merge sbx id: "3. v1.6.0 a qa"
-    checkout feature/az-32154-validacion-tokens-pc
-    branch bug/glpi-13487-calculo-redondeo-pc order: 2
+    checkout feature/az-32154-validacion-tokens-ds
+    branch bug/glpi-13487-calculo-redondeo-ds order: 2
     commit id: "4. fix: calculo redondeo" tag: "v1.6.1"
     checkout sbx
-    merge bug/glpi-13487-calculo-redondeo-pc id: "5. PR a sbx"
+    merge bug/glpi-13487-calculo-redondeo-ds id: "5. PR a sbx"
     checkout qa
     merge sbx id: "6. v1.6.1 a qa"
     checkout stg
@@ -390,24 +388,24 @@ gitGraph
     checkout sbx
     branch prod order: 9
     checkout sbx
-    branch hotfix/glpi-13487-caida-login-pc order: 2
+    branch hotfix/glpi-13487-caida-login-ds order: 2
     checkout sbx
-    branch feature/az-1001-consulta-expedientes-pc order: 1
+    branch feature/az-1001-consulta-expedientes-ds order: 1
     commit id: "1. feat: consulta expedientes" tag: "v1.5.0"
     checkout sbx
-    merge feature/az-1001-consulta-expedientes-pc id: "2. PR a sbx"
+    merge feature/az-1001-consulta-expedientes-ds id: "2. PR a sbx"
     checkout qa
     merge sbx id: "3. v1.5.0 a qa: en pruebas"
-    checkout hotfix/glpi-13487-caida-login-pc
+    checkout hotfix/glpi-13487-caida-login-ds
     commit id: "4. fix: caida del login" tag: "v1.4.0.1"
     checkout stg
-    merge hotfix/glpi-13487-caida-login-pc id: "5. v1.4.0.1 a stg"
+    merge hotfix/glpi-13487-caida-login-ds id: "5. v1.4.0.1 a stg"
     checkout prod
-    merge hotfix/glpi-13487-caida-login-pc id: "6. v1.4.0.1 a prod"
-    checkout hotfix/glpi-13487-caida-login-pc
+    merge hotfix/glpi-13487-caida-login-ds id: "6. v1.4.0.1 a prod"
+    checkout hotfix/glpi-13487-caida-login-ds
     merge sbx id: "7. merge v1.5.0" tag: "v1.5.1"
     checkout sbx
-    merge hotfix/glpi-13487-caida-login-pc id: "8. PR del hotfix a sbx"
+    merge hotfix/glpi-13487-caida-login-ds id: "8. PR del hotfix a sbx"
     checkout qa
     merge sbx id: "9. v1.5.1 a qa"
 ```
@@ -423,35 +421,38 @@ gitGraph
 | 8 | 🟩 sbx | PR de la rama del hotfix a sbx | La corrección entra a la línea base |
 | 9 | 🟨 qa | `promote/v1.5.1-to-qa`: **reemplaza** a `v1.5.0` | `v1.5.0` ya no se promueve, porque no tiene el hotfix |
 
-**Pasos**
+**Pasos** (con la misma numeración que la tabla; los pasos 1 a 3 son la situación de partida)
 
-1. Rama desde el tag que está **en producción**:
-   ```
-   git checkout tags/v1.4.0 -b hotfix/glpi-13487-caida-login-pc
-   ```
-2. Corregir, hacer commit (con causa raíz y solución, DES-EST-016 §4.10) y push.
-3. Crear el tag con cuarta posición:
-   ```
-   git tag -a v1.4.0.1 -m "v1.4.0.1: Hotfix GLPI 13487 sobre v1.4.0 (producción)"
-   ```
-4. Decidir por dónde se valida:
+**Paso —. Rama** desde el tag que está **en producción**:
+```
+git checkout tags/v1.4.0 -b hotfix/glpi-13487-caida-login-ds
+```
 
-   | Estado de qa | Recorrido del hotfix |
-   |---|---|
-   | qa tiene **el mismo tag que prod** (nada en pruebas) | PR a sbx primero y después qa → stg → prod (recorrido normal; I2) |
-   | qa tiene **otra versión en pruebas** | **stg → prod** (excepción R7) |
+**Paso 4. Corregir y etiquetar.** Corregir, hacer commit (con causa raíz y solución, DES-EST-016 §4.10) y push. Después, crear el tag con cuarta posición:
+```
+git tag -a v1.4.0.1 -m "v1.4.0.1: Hotfix GLPI 13487 sobre v1.4.0 (producción)"
+```
 
-5. **Re-etiquetar la cabeza de la cadena**, si es distinta del tag de prod. En la misma rama del hotfix:
-   ```
-   git merge v1.5.0                        # la cabeza de la cadena (lo que está en qa o por salir)
-   git tag -a v1.5.1 -m "v1.5.1: v1.5.0 + hotfix GLPI 13487"
-   ```
-6. PR de la rama del hotfix a `sbx` y borrar la rama.
-7. Promover `v1.5.1` a qa. Esta versión **reemplaza** a `v1.5.0`, que ya no se promueve más porque no tiene el hotfix (PoC 2: si `v1.5.0` sigue su camino, se bloquea o se mezcla).
+**Pasos 5 y 6. Validar y llevar a producción.** El recorrido depende del estado de qa:
 
-   El PR a sbx va **antes** de esta promoción porque nada llega a qa sin estar antes en sbx (I2). La validación automática lo exige: en la PoC rechazó la promoción de `v1.1.1` a qa hecha antes del PR (caso 9 de `evidencia\validar-pr`). Solo el tag de cuarta posición puede llegar a stg y prod antes de pasar por sbx, por urgencia; a qa no, y la validación lo rechaza con `SBX`. *(Hasta la versión 1.2 de esta guía, el paso 7 iba antes del 6.)*
+| Estado de qa | Recorrido del hotfix |
+|---|---|
+| qa tiene **el mismo tag que prod** (nada en pruebas) | PR a sbx primero y después qa → stg → prod (recorrido normal; I2) |
+| qa tiene **otra versión en pruebas** | **stg → prod** (excepción R7) |
 
-**Importante:** el hotfix no está terminado hasta completar los **pasos 7 a 9** de la tabla (los pasos 5 a 7 de la lista «Pasos»). Mientras tanto, la cabeza de la cadena no tiene la corrección, y cualquier tag que se cree sobre ella tampoco la tendría. **Hasta cerrar el hotfix, nadie crea tags nuevos.**
+**Paso 7. Re-etiquetar la cabeza de la cadena**, si es distinta del tag de prod. En la misma rama del hotfix:
+```
+git merge v1.5.0                        # la cabeza de la cadena (lo que está en qa o por salir)
+git tag -a v1.5.1 -m "v1.5.1: v1.5.0 + hotfix GLPI 13487"
+```
+
+**Paso 8.** PR de la rama del hotfix a `sbx` y borrar la rama.
+
+**Paso 9.** Promover `v1.5.1` a qa. Esta versión **reemplaza** a `v1.5.0`, que ya no se promueve más porque no tiene el hotfix (PoC 2: si `v1.5.0` sigue su camino, se bloquea o se mezcla).
+
+El paso 8 va **antes** del 9 porque nada llega a qa sin estar antes en sbx (I2). La validación automática lo exige: en la PoC rechazó la promoción de `v1.1.1` a qa hecha antes del PR (caso 9 de `evidencia\validar-pr`). Solo el tag de cuarta posición puede llegar a stg y prod antes de pasar por sbx, por urgencia; a qa no, y la validación lo rechaza con `SBX`.
+
+**Importante:** el hotfix no está terminado hasta completar los **pasos 7 a 9**. Mientras tanto, la cabeza de la cadena no tiene la corrección, y cualquier tag que se cree sobre ella tampoco la tendría. **Hasta cerrar el hotfix, nadie crea tags nuevos.**
 
 **Esto no es una "promoción hacia abajo".** No se lleva nada de stg a qa. Se crea un tag nuevo (`v1.5.1`) que junta la versión en pruebas con el hotfix, y ese tag sube a qa como cualquier otro. La única excepción real es que el hotfix salta qa.
 
@@ -484,14 +485,14 @@ En principio no debería pasar, porque stg solo recibe lo que QA ya certificó. 
 3. Si el cliente aprueba A antes de que B deba salir, todo sigue normal.
 4. Si **B debe salir y A sigue sin aprobación**, se hace un **retiro temporal de A**:
    ```
-   git checkout tags/v1.7.0 -b feature/az-1003-retiro-temporal-hu-1001-pc       # ítem nuevo: "retirar temporalmente HU 1001"
+   git checkout tags/v1.7.0 -b feature/az-1003-retiro-temporal-hu-1001-ds       # ítem nuevo: "retirar temporalmente HU 1001"
    git revert <commit de A>                         # si A entró como merge: git revert -m 1 <merge>
    git tag -a v1.7.1 -m "v1.7.1: sale B; HU 1001 retirada temporalmente (pendiente cliente)"
    ```
    Luego PR a sbx y recorrido **qa → stg → prod**. QA prueba B sin A.
 5. Cuando el cliente aprueba A, se **revierte el retiro**:
    ```
-   git checkout tags/v1.7.1 -b feature/az-1004-reintroduce-hu-1001-pc
+   git checkout tags/v1.7.1 -b feature/az-1004-reintroduce-hu-1001-ds
    git revert <commit del retiro>                   # "revert del revert"
    git tag -a v1.8.0 -m "v1.8.0: reintroduce HU 1001 aprobada por el cliente"
    ```
@@ -509,10 +510,10 @@ gitGraph
     checkout sbx
     branch feature/az-1002-firma-digital-dd order: 2
     checkout sbx
-    branch feature/az-1001-consulta-expedientes-pc order: 1
+    branch feature/az-1001-consulta-expedientes-ds order: 1
     commit id: "1. A: consulta expedientes" tag: "v1.6.0"
     checkout sbx
-    merge feature/az-1001-consulta-expedientes-pc id: "2. PR de A"
+    merge feature/az-1001-consulta-expedientes-ds id: "2. PR de A"
     checkout qa
     merge sbx id: "3. v1.6.0 a qa: A espera"
     checkout feature/az-1002-firma-digital-dd
@@ -523,21 +524,21 @@ gitGraph
     checkout qa
     merge sbx id: "7. v1.7.0 a qa"
     checkout feature/az-1002-firma-digital-dd
-    branch feature/az-1003-retiro-temporal-hu-1001-pc order: 3
+    branch feature/az-1003-retiro-temporal-hu-1001-ds order: 3
     commit id: "8. revert de A" type: REVERSE tag: "v1.7.1"
     checkout sbx
-    merge feature/az-1003-retiro-temporal-hu-1001-pc id: "9. PR del retiro"
+    merge feature/az-1003-retiro-temporal-hu-1001-ds id: "9. PR del retiro"
     checkout qa
     merge sbx id: "10. v1.7.1 a qa"
     checkout stg
     merge sbx id: "11. v1.7.1 a stg"
     checkout prod
     merge sbx id: "12. v1.7.1 a prod: B sin A"
-    checkout feature/az-1003-retiro-temporal-hu-1001-pc
-    branch feature/az-1004-reintroduce-hu-1001-pc order: 4
+    checkout feature/az-1003-retiro-temporal-hu-1001-ds
+    branch feature/az-1004-reintroduce-hu-1001-ds order: 4
     commit id: "13. revert del revert" type: HIGHLIGHT tag: "v1.8.0"
     checkout sbx
-    merge feature/az-1004-reintroduce-hu-1001-pc id: "14. PR de la reintroduccion"
+    merge feature/az-1004-reintroduce-hu-1001-ds id: "14. PR de la reintroduccion"
     checkout qa
     merge sbx id: "15. v1.8.0 a qa"
     checkout stg
@@ -556,8 +557,6 @@ gitGraph
 | 9–12 | 🟩 sbx → 🟨 qa → 🟪 stg → 🟦 prod | PR y recorrido completo de `v1.7.1` | Prod recibe B **sin A** |
 | 13 | 🟩 `feature/az-1004-reintroduce-…` | El cliente aprueba A: "revert del revert" (cuadrado) y tag `v1.8.0` | A + B |
 | 14–17 | 🟩 sbx → 🟨 qa → 🟪 stg → 🟦 prod | PR y recorrido completo de `v1.8.0` | Prod recibe A, ahora con aprobación |
-
-En ningún paso llega A a stg ni a prod sin aprobación.
 
 **Respuesta a "¿se cuela lo no aprobado?":** a **producción**, no. A viaja dentro de las versiones de qa, pero solo sube a stg y prod con aprobación, o retirado con el revert. La PoC lo probó en el escenario 12 (I1–I7 ✔ en los dos modos): `v1.7.1`, la versión sin A, llegó a prod sin A, y A apareció en prod solo con la reintroducción.
 
@@ -584,7 +583,7 @@ Rama con el ID de un **ítem nuevo** ("retirar HU 801"; no se reutiliza el nombr
 1. **Inmediato (operación):** se redespliega desde el pipeline el **artefacto** del tag anterior (por ejemplo `v1.3.0`), sin tocar git. Durante ese rato, la rama `prod` dice `v1.4.0` aunque lo desplegado sea `v1.3.0`; se deja anotado en el ticket GLPI.
 2. **Regularización (git):** se trata como un hotfix cuya corrección es el revert:
    ```
-   git checkout tags/v1.4.0 -b hotfix/glpi-90001-rollback-v140-pc
+   git checkout tags/v1.4.0 -b hotfix/glpi-90001-rollback-v140-ds
    git revert -m 1 <merge de lo que falló>          # o git revert <commit>, para cada cambio de v1.4.0
    git tag -a v1.4.0.1 -m "v1.4.0.1: rollback funcional a v1.3.0 (GLPI 90001)"
    ```
@@ -600,21 +599,21 @@ gitGraph
     checkout sbx
     branch prod order: 9
     checkout sbx
-    branch feature/az-2001-reporte-ventas-pc order: 1
+    branch feature/az-2001-reporte-ventas-ds order: 1
     commit id: "1. feat: reporte ventas" tag: "v1.4.0"
     checkout sbx
-    merge feature/az-2001-reporte-ventas-pc id: "2. PR a sbx"
+    merge feature/az-2001-reporte-ventas-ds id: "2. PR a sbx"
     checkout qa
     merge sbx id: "3. v1.4.0 a qa"
     checkout stg
     merge sbx id: "4. v1.4.0 a stg"
     checkout prod
     merge sbx id: "5. v1.4.0 a prod: falla"
-    checkout feature/az-2001-reporte-ventas-pc
-    branch hotfix/glpi-90001-rollback-v140-pc order: 2
+    checkout feature/az-2001-reporte-ventas-ds
+    branch hotfix/glpi-90001-rollback-v140-ds order: 2
     commit id: "6. revert de v1.4.0" type: REVERSE tag: "v1.4.0.1"
     checkout sbx
-    merge hotfix/glpi-90001-rollback-v140-pc id: "7. PR del rollback a sbx"
+    merge hotfix/glpi-90001-rollback-v140-ds id: "7. PR del rollback a sbx"
     checkout qa
     merge sbx id: "8. v1.4.0.1 a qa"
     checkout stg
@@ -626,9 +625,9 @@ gitGraph
 | Paso | Rama | Qué se hace | Por qué |
 |---|---|---|---|
 | 1–5 | 🟩 feature → 🟩 sbx → 🟨 qa → 🟪 stg → 🟦 prod | `v1.4.0` recorre todos los ambientes y **falla en producción** | Situación de partida |
-| 6 | 🟧 `hotfix/glpi-90001-rollback-v140-pc` | Rama desde `v1.4.0`, `git revert` de lo que trajo `v1.4.0` (✕) y tag `v1.4.0.1` | Su contenido queda **igual a `v1.3.0`** |
+| 6 | 🟧 `hotfix/glpi-90001-rollback-v140-ds` | Rama desde `v1.4.0`, `git revert` de lo que trajo `v1.4.0` (✕) y tag `v1.4.0.1` | Su contenido queda **igual a `v1.3.0`** |
 | 7 | 🟩 sbx | PR de la rama a sbx | El retiro entra a la línea base **antes** de promover: nada llega a qa sin estar en sbx (I2) |
-| 8–10 | 🟨 qa → 🟪 stg → 🟦 prod | `v1.4.0.1` recorre los ambientes | Aquí qa tenía lo mismo que prod, así que no hace falta saltar qa (5.2, paso 4) |
+| 8–10 | 🟨 qa → 🟪 stg → 🟦 prod | `v1.4.0.1` recorre los ambientes | Aquí qa tenía lo mismo que prod, así que no hace falta saltar qa (5.2, pasos 5 y 6) |
 
 El rollback no "vuelve atrás" en git: avanza con una versión nueva que deshace la anterior. Como `v1.4.0` era la cabeza de la cadena, no hay que re-etiquetar nada.
 
@@ -644,10 +643,10 @@ gitGraph
     commit id: "linea base" tag: "v1.5.0"
     branch feature/az-602-regla-descuento-dd order: 2
     checkout sbx
-    branch feature/az-601-regla-impuesto-pc order: 1
+    branch feature/az-601-regla-impuesto-ds order: 1
     commit id: "1. 601 cambia comun.txt L3" tag: "v1.6.0"
     checkout sbx
-    merge feature/az-601-regla-impuesto-pc id: "2. PR de 601"
+    merge feature/az-601-regla-impuesto-ds id: "2. PR de 601"
     checkout feature/az-602-regla-descuento-dd
     commit id: "3. 602 cambia comun.txt L3"
     merge sbx id: "4. merge v1.6.0: conflicto resuelto aqui" tag: "v1.7.0"
@@ -665,23 +664,21 @@ gitGraph
     commit id: "linea base" tag: "v1.5.0"
     branch feature/az-702-firma-digital-dd order: 2
     checkout sbx
-    branch feature/az-701-consulta-expedientes-pc order: 1
+    branch feature/az-701-consulta-expedientes-ds order: 1
     commit id: "1. 701" tag: "v1.6.0"
     checkout feature/az-702-firma-digital-dd
     commit id: "2. 702: tag sin cadena" tag: "v1.7.0"
     checkout sbx
-    merge feature/az-701-consulta-expedientes-pc id: "3. PR de 701"
+    merge feature/az-701-consulta-expedientes-ds id: "3. PR de 701"
     checkout feature/az-702-firma-digital-dd
     merge sbx id: "4. merge v1.6.0 + Descarta: v1.7.0" tag: "v1.7.1"
     checkout sbx
     merge feature/az-702-firma-digital-dd id: "5. PR de 702"
 ```
 
-En el diagrama, `v1.7.0` se creó sin contener a `v1.6.0`, así que la cadena se rompe. La validación automática rechaza el PR con `CADENA`. La rama incorpora `v1.6.0`, crea `v1.7.1` declarando `Descarta: v1.7.0`, y ese es el tag que sigue adelante.
+En el diagrama, `v1.7.0` se creó sin contener a `v1.6.0`, así que la cadena se rompe. La validación automática rechaza el PR con `CADENA` y explica cómo corregirlo (PoC, grupo G2). La rama incorpora `v1.6.0`, crea `v1.7.1` declarando `Descarta: v1.7.0`, y ese es el tag que sigue adelante. El segundo tag no se mueve ni se borra (R10): queda sin usar, y el mensaje del tag nuevo lleva la línea `Descarta: <tag que no se usa>`.
 
 **Prevención:** que el tag lo cree el líder técnico justo antes de completar el PR (R4), más la validación automática de la sección 7.
-
-**Si ya pasó:** el segundo tag no se usa (R10). Se incorpora el primero en la rama y se crea un tag nuevo, cuyo mensaje lleva la línea `Descarta: <tag que no se usa>`. La validación automática rechaza el PR del segundo tag con `CADENA` y explica cómo hacerlo (PoC, grupo G2).
 
 ### 6.8 Hotfix cuando stg no está igual a prod
 

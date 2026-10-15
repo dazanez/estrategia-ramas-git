@@ -79,7 +79,7 @@
       {
         number: '8–10',
         branches: [{ type: 'qa', text: 'qa' }, { type: 'stg', text: 'stg' }, { type: 'prod', text: 'prod' }],
-        description: '`v1.4.0.1` recorre los ambientes. Aquí qa tenía lo mismo que prod, así que no hace falta saltar qa (5.2, paso 4).',
+        description: '`v1.4.0.1` recorre los ambientes. Aquí qa tenía lo mismo que prod, así que no hace falta saltar qa (5.2, pasos 5 y 6).',
         commands: R.promoteRangeCommands('v1.4.0.1', ['qa', 'stg', 'prod']),
         azure: R.promoteRangeAzure('v1.4.0.1', ['qa', 'stg', 'prod']),
         events: [

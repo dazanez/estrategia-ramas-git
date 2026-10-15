@@ -7,10 +7,11 @@
  * La rama del hotfix nace de `v1.4.0` (lo que está en producción), aunque en la tabla aparezca después de los pasos
  * 1–3: por eso el evento "branch" usa node: 'base', el commit de la línea base, y no la punta actual de sbx.
  *
- * Los comandos salen de la lista «Pasos» de la sección 5.2 (que tiene otra numeración que la tabla):
- *   paso —  -> «Pasos» 1          paso 4 -> «Pasos» 2 y 3         paso 7 -> «Pasos» 5
- *   paso 8  -> «Pasos» 6 (PR y borrar la rama)                    paso 9 -> «Pasos» 7
- *   pasos 5, 6 y 9: mismo patrón de promoción que la sección 3 (R6; en el hotfix a stg y prod, R7).
+ * Los comandos salen de la lista «Pasos» de la sección 5.2, que usa la misma numeración que la tabla:
+ *   paso —  (rama)    paso 4 (corregir y etiquetar)    paso 7 (re-etiquetar la cabeza)
+ *   paso 8  (PR y borrar la rama)                      paso 9 (promover a qa)
+ *   pasos 5 y 6 (validar y llevar a producción) y 9: mismo patrón de promoción que la sección 3 (R6; en el hotfix
+ *   a stg y prod, R7).
  * No son de la guía, y por eso van como derivados: `git push origin <tag>` tras crear cada tag (la guía lo muestra
  * en la sección 3) y la validación del PR a sbx (sección 7: aplica a todo PR a sbx).
  *
