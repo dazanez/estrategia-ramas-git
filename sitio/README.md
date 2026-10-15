@@ -25,7 +25,7 @@ El formato completo está en DESIGN.md §7.1.
 
 ## Qué actualizar cuando salga una versión nueva de la guía
 
-1. `js/config.js`: `sourceVersion`, `sourceDate` y `sourceStatus` (el indicador del menú y el pie salen de ahí).
+1. `js/config.js`: `sourceVersion`, `sourceDate` y `sourceStatus` (el indicador del menú y el pie salen de ahí). `author` y `authorUrl`, que el pie muestra como «Creado por @dazanez», no cambian con la guía.
 2. Los flujos (`js/flows/*.js`): volver a compararlos con su sección. El encabezado de cada archivo dice qué parte derivó de la guía y cuál se tomó literal.
 3. Las páginas escritas a mano, según el `Fuente: §x` de su cabecera: Referencia (reglas, nomenclatura, versionado, colores y Azure DevOps), Por qué lo hacemos así (decisiones, diferencias y evidencia), Inicio (tabla resumen y tres reglas) y Conceptos clave.
 4. Las recetas de Guías rápidas (`js/guides-data.js`) y las expresiones de nombre de rama (`js/branch-name.js`, deben ser las dos de la sección 2 de la guía).

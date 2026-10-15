@@ -539,6 +539,7 @@
 /* ---------- Pie ---------- */
 .site-footer { margin-top: var(--sp-7); padding-top: var(--sp-4); border-top: 1px solid var(--line); font-size: var(--fs-small); color: var(--ink-muted); }
 .site-footer p { margin: 0; max-width: none; }
+.site-footer p + p { margin-top: var(--sp-1); }
 
 @media (max-width: 599px) {
   .pager { grid-template-columns: 1fr; }

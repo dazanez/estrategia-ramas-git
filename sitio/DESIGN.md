@@ -26,7 +26,7 @@ Este documento fija las decisiones de diseño y estructura del sitio. Es la refe
 | Qué | Dónde (única fuente) | Quién lo muestra |
 |---|---|---|
 | Menú, migas, Anterior/Siguiente, «Relacionados», índice de la página, índice de páginas y subítems con ancla | `js/nav-data.js` | `nav.js`, `breadcrumbs.js`, `pager.js`, `related.js`, `toc.js`, `pages-index.js` |
-| Versión, fecha y estado de la guía (indicador lateral y pie) | `js/config.js` | `nav.js`, `footer.js` |
+| Versión, fecha y estado de la guía (indicador lateral y pie) y autoría (pie) | `js/config.js` | `nav.js`, `footer.js` |
 | El texto de cada página | `pages/*.html` e `index.html`, escritos a mano | el navegador |
 | Un diagrama de ramas | `js/flows/<id>.js`, con `<div data-git-flow="<id>">` | `git-flow.js` y `js/git-flow/` |
 | Textos que se repiten en flujos y recetas (crear rama, regla de cadena, promover, PR) | `js/recipes.js` | los flujos y `guides-data.js` |
@@ -236,7 +236,7 @@ Elementos fijos de cada página:
 - **Migas de pan** arriba (`Flujos de trabajo › Hotfix`).
 - **Encabezado:** `h1` + una etiqueta pequeña con su origen en la guía: `Fuente: ESTRATEGIA-RAMAS §5.2`. Sirve para volver al documento oficial y para detectar páginas desactualizadas.
 - **Anterior / Siguiente** al final, siguiendo el orden del menú.
-- **Pie del sitio:** «Basado en ESTRATEGIA-RAMAS.md v1.8» (el número sale de un único lugar, `config.js`).
+- **Pie del sitio:** «Basado en ESTRATEGIA-RAMAS.md v1.8» (el número sale de un único lugar, `config.js`) y, debajo, «Creado por @dazanez», con enlace al perfil de GitHub, que se abre en otra pestaña (`author` y `authorUrl` de `config.js`).
 
 Las páginas **de flujo** pueden añadir, entre los bloques 1 y 2, un recuadro **Equivalencia SVN** cuando haya una diferencia que cause confusión («En SVN, el commit publica de inmediato; en git, el commit es local hasta el `push`»).
 
@@ -256,7 +256,7 @@ Las páginas **de flujo** pueden añadir, entre los bloques 1 y 2, un recuadro *
 │    · Hotfix ◀│  [← Anterior]               [Siguiente →]    │
 │ Guías        │                                              │
 │ Referencia   │  Basado en ESTRATEGIA-RAMAS v1.8             │
-│ Por qué…     │                                              │
+│ Por qué…     │  Creado por @dazanez                         │
 └──────────────┴──────────────────────────────────────────────┘
    fija, 296 px          contenido: máx. 920 px, centrado
 ```
@@ -587,5 +587,6 @@ Resumen de las revisiones hechas hasta ahora; el detalle de cada cambio está en
 | Páginas largas (v1.8) | Referencia en 4 páginas y Por qué en 2 (más sus portadas), con el nuevo `pages-index.js` y el método `indexPages()` del modelo de navegación; enlaces internos comprobados, ninguno roto. Altos medidos a 1 280 px: Reglas ≈ 2 100 px, Nomenclatura ≈ 4 100, Versionado y colores ≈ 2 200, Azure DevOps ≈ 3 300, Decisiones ≈ 4 300, Diferencias y evidencia ≈ 3 400; portadas ≈ 1 500 (Referencia) y ≈ 1 100 (Por qué). Casos poco frecuentes (≈ 12 200 px) se dividió en tres páginas y se **revirtió** a una sola, a pedido del responsable: el conjunto se entendía mejor junto. Guías rápidas (≈ 6 100 px) y Conceptos clave (≈ 4 100 px) se dejaron enteras. |
 | Rediseño de identidad | Cambian tipografía, formas, espaciado y componentes; **ningún color**. Tokens nuevos: `--font-heading`, `--radius-sm` (4 px) y `--radius-md` (6 px) en lugar de `--r-s` y `--r-m` (solo queda el `50%` de los puntos circulares), `--fs-label` y `--ls-label`; `--fs-code` baja a 14 px. Interfaz a 120–150 ms y diagrama a 400 ms. Código sin ligaduras. Comprobado en Edge y Chrome sin red: foco visible en todos los controles, contraste AA (peor caso 6.28 : 1) y 21 comprobaciones de los módulos puros. **Firefox sin comprobar** (no estaba instalado). |
 | Revisión final (v1.8) | Comparados los nueve flujos con la guía (887 comprobaciones: carriles, nodos, tags, número de paso, ramas, descripción y ambientes en cada paso; el estado de `sbx`/`qa`/`stg`/`prod` se derivó por separado de la guía y del sitio): 0 diferencias una vez unificadas las iniciales en `-ds`. 301 enlaces y anclas revisados: ninguno roto. Contraste de texto cumplido en las 19 páginas y en todos los pasos de los diagramas; los carriles que aún no existen se ven atenuados a propósito (estado inactivo) y los botones deshabilitados quedan exentos. Correcciones: borde de controles (`--control-border`), flechas del diagrama, regiones desplazables enfocables, trampa de foco del menú móvil y movimiento reducido a 0 s. Añadidos: búsqueda del menú y `README.md`. Iniciales: la guía, Referencia, el validador y los ejemplos pasaron de `-pc` / `pc-dd` a `-ds` / `ds-cc`; los scripts de la PoC (`probar-validar-pr.ps1`, `esc12-…ps1`) y la evidencia generada (`evidencia/`, `runs/`) conservan `-pc` porque son la salida registrada de esas corridas. |
+| Autoría en el pie | El pie muestra, debajo de «Basado en…», «Creado por @dazanez», con enlace a https://github.com/dazanez. Los datos (`author` y `authorUrl`) viven en `config.js` y los dibuja `footer.js`; el CSS solo añade 4 px entre los dos párrafos y no usa ningún color nuevo. Comprobado en Edge y Chrome: el enlace apunta a la URL indicada y se abre en otra pestaña (`target="_blank"` con `rel="noopener noreferrer"`, y un `title` que lo avisa), recibe foco visible (contorno de 2 px), su contraste es 6.79 : 1 (mínimo 4.5) y es el último control enfocable de la página. Es el único enlace externo del sitio: sin internet el pie se ve igual y el enlace simplemente no abre. Firefox sin comprobar. |
 
 **Pendiente por fase** (no es una inconsistencia: aún no hay contenido que lo use): recuadro «Equivalencia SVN» en uso, variantes de un flujo como pestañas, el diagrama de recorrido de Inicio, y la migración de `html/git-merge-types.html` a «Por qué lo hacemos así».
