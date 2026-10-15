@@ -8,6 +8,7 @@
   --surface-nav: #EBEFE8;
   --line: #D5DBD3;
   --line-strong: #B4BDB2;
+  --control-border: #6F7B6D; /* borde de campos y botones: 4.4:1 sobre --surface y 3.8:1 sobre --surface-nav (WCAG 1.4.11) */
   --ink: #14264B;
   --ink-muted: #4B5558;
   --primary: #026433;

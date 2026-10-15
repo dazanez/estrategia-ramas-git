@@ -73,5 +73,7 @@ th code { text-transform: none; letter-spacing: normal; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  /* Duración 0 (y no 0.01 ms): una transición, por breve que sea, deja la visibilidad anterior hasta el siguiente
+     fotograma, y el primer enlace del menú móvil recibe el foco justo al abrirse el panel. */
+  *, *::before, *::after { transition-duration: 0s !important; transition-delay: 0s !important; animation-duration: 0s !important; animation-delay: 0s !important; }
 }

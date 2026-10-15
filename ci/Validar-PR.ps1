@@ -4,7 +4,7 @@
 # al validar un PR), con historial completo y tags (checkout: fetchDepth 0, fetchTags true).
 # Tambien sirve para que el desarrollador revise su PR antes de abrirlo, en su propio clon:
 #     git fetch --all --tags
-#     .\Validar-PR.ps1 -SourceBranch feature/az-32154-validacion-tokens-pc -TargetBranch sbx
+#     .\Validar-PR.ps1 -SourceBranch feature/az-32154-validacion-tokens-ds -TargetBranch sbx
 # En ese caso el script simula el merge en una carpeta temporal (git worktree) sin tocar la copia de trabajo.
 #
 # Parametros
@@ -215,7 +215,7 @@ function Test-PrToSbx {
     } elseif ($anterior) {
         Add-Check 'AVISO' 'NOMBRE' 'Seccion 2' "Formato anterior (HU_/BUG_/AUT_) aceptado solo durante la transicion. Las ramas nuevas usan <tipo>/<sistema>-<id>-<descripcion>-<iniciales>."
     } else {
-        Add-Check 'ERROR' 'NOMBRE' 'Seccion 2' "La rama no cumple <tipo>/<sistema>-<id>-<descripcion>-<iniciales> (tipo: feature, bug, hotfix o test; sistema: az o glpi; todo en minusculas). Ejemplo: feature/az-32154-validacion-tokens-pc"
+        Add-Check 'ERROR' 'NOMBRE' 'Seccion 2' "La rama no cumple <tipo>/<sistema>-<id>-<descripcion>-<iniciales> (tipo: feature, bug, hotfix o test; sistema: az o glpi; todo en minusculas). Ejemplo: feature/az-32154-validacion-tokens-ds"
     }
     $esHotfix = ($src -like 'hotfix/*') -or ($src -cmatch '^v\d+\.\d+\.\d+(\.\d+)?_BUG_')
 

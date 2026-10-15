@@ -50,7 +50,7 @@
   width: 32px;
   height: 32px;
   padding: 0;
-  border: 1px solid var(--line-strong);
+  border: 1px solid var(--control-border);
   border-radius: var(--radius-sm);
   background: var(--surface);
   color: var(--ink-muted);
@@ -61,7 +61,7 @@
   transition: background-color var(--t-fast), border-color var(--t-fast), color var(--t-fast);
 }
 .gf-jump:hover { background: var(--primary-tint); color: var(--primary); }
-.gf-jump.is-done { background: var(--primary-tint); color: var(--primary); border-color: var(--line-strong); }
+.gf-jump.is-done { background: var(--primary-tint); color: var(--primary); border-color: var(--control-border); }
 .gf-jump.is-active { background: var(--primary); border-color: var(--primary); color: var(--on-primary); font-weight: 500; }
 
 /* ---------- Lienzo SVG ---------- */

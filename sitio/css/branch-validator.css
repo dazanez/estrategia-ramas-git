@@ -8,7 +8,7 @@
   min-width: 0;
   min-height: 40px;
   padding: 0 var(--sp-3);
-  border: 1px solid var(--line-strong);
+  border: 1px solid var(--control-border);
   border-radius: var(--radius-sm);
   background: var(--surface);
   color: var(--ink);
@@ -59,7 +59,7 @@
 .validator__example {
   min-height: 28px;
   padding: 0 var(--sp-2);
-  border: 1px solid var(--line-strong);
+  border: 1px solid var(--control-border);
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
   font-variant-ligatures: none;

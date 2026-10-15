@@ -29,8 +29,27 @@
       var link = event.target.closest ? event.target.closest('a') : null;
       if (link && link.hash && link.pathname === window.location.pathname) setOpen(false, false);
     });
+    // Con el panel abierto, Tab y Mayús+Tab circulan solo por sus enlaces y campos (el resto de la página queda detrás
+    // del fondo). Escape lo cierra y devuelve el foco al botón «Menú».
+    function focusables() {
+      return Array.prototype.filter.call(panel.querySelectorAll('a[href], button, input, [tabindex="0"]'), function (node) {
+        return node.getClientRects().length > 0;
+      });
+    }
+    function trapTab(event) {
+      var items = focusables();
+      if (!items.length) return;
+      var first = items[0];
+      var last = items[items.length - 1];
+      var inside = panel.contains(document.activeElement);
+      if (!inside) { event.preventDefault(); first.focus(); }
+      else if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+    }
     document.addEventListener('keydown', function (event) {
-      if (event.key === 'Escape' && root.classList.contains('is-open')) setOpen(false, true);
+      if (!root.classList.contains('is-open')) return;
+      if (event.key === 'Escape') setOpen(false, true);
+      else if (event.key === 'Tab') trapTab(event);
     });
 
     function onResize() { if (wide.matches) setOpen(false, false); }

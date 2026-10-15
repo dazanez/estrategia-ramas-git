@@ -140,8 +140,20 @@
         bringIntoView(index);
       }
 
+      // ¿El elemento con el foco es (o está dentro de) un bloque que se desplaza en horizontal, como los comandos o el
+      // lienzo? Entonces las flechas son para desplazarlo y no cambian de paso.
+      function scrollsHorizontally(node) {
+        for (var n = node; n && n !== host; n = n.parentNode) {
+          if (n.nodeType !== 1) continue;
+          var overflowX = window.getComputedStyle(n).overflowX;
+          if ((overflowX === 'auto' || overflowX === 'scroll') && n.scrollWidth > n.clientWidth) return true;
+        }
+        return false;
+      }
+
       host.addEventListener('keydown', function (event) {
         if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+        if ((event.key === 'ArrowRight' || event.key === 'ArrowLeft') && scrollsHorizontally(event.target)) return;
         if (event.key === 'ArrowRight') { event.preventDefault(); player.next(); }
         else if (event.key === 'ArrowLeft') { event.preventDefault(); player.prev(); }
       });

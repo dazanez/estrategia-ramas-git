@@ -160,7 +160,7 @@ Lo que cambia en su día a día:
 1. **Antes de abrir el PR** puede revisarlo él mismo, en su clon, con el mismo script. No hace falta que el PR exista:
    ```powershell
    git fetch --all --tags
-   & <ruta>\Validar-PR.ps1 -SourceBranch feature/az-32154-validacion-tokens-pc -TargetBranch sbx
+   & <ruta>\Validar-PR.ps1 -SourceBranch feature/az-32154-validacion-tokens-ds -TargetBranch sbx
    ```
    El script simula el merge en una carpeta temporal, sin tocar su copia de trabajo. Valida la rama **del remoto**, así que primero hay que hacer `git push` de la rama y del tag.
 2. **Al abrir el PR**, Azure ejecuta la validación. Si falla, el PR muestra el error y el botón *Complete* queda bloqueado. El mensaje dice qué hacer.
@@ -191,12 +191,12 @@ Repite en Azure lo que la PoC comprobó en local. Marcar cada fila:
 | 1 | `git push origin sbx` con un commit directo | Rechazado por la política de la rama | ☐ |
 | 2 | Crear la rama `prueba` (en la raíz) | Rechazado: solo se crean ramas en carpetas | ☐ |
 | 3 | `git push origin :refs/tags/v1.0.0` (borrar un tag) | Rechazado: falta el permiso Force push | ☐ |
-| 4 | PR de `feature/az-1-prueba-pc` a sbx **sin tag** | La validación falla con `TAG-FALTA`; *Complete* bloqueado | ☐ |
+| 4 | PR de `feature/az-1-prueba-ds` a sbx **sin tag** | La validación falla con `TAG-FALTA`; *Complete* bloqueado | ☐ |
 | 5 | Crear el tag `v1.1.0` en la rama y volver a encolar la validación | Pasa; al completar solo se ofrece *Basic merge* | ☐ |
 | 6 | `promote/v1.1.0-to-qa` → qa | Pasa; qa queda idéntico a `v1.1.0` | ☐ |
 | 7 | `promote/v1.1.0-to-prod` → prod (saltando stg) | Falla con `ORDEN` | ☐ |
 | 8 | Segunda rama desde `v1.0.0`, tag `v1.2.0` **sin** incorporar `v1.1.0`, PR a sbx | Falla con `CADENA` | ☐ |
-| 9 | Hotfix: `hotfix/glpi-1-prueba-pc` desde el tag de prod, tag de cuarta posición, `promote/…-to-stg` | Pasa con el aviso `EXCEPCION-HOTFIX` | ☐ |
+| 9 | Hotfix: `hotfix/glpi-1-prueba-ds` desde el tag de prod, tag de cuarta posición, `promote/…-to-stg` | Pasa con el aviso `EXCEPCION-HOTFIX` | ☐ |
 | 10 | Volver a promover a prod un tag que prod ya tiene | Falla con `YA-CONTENIDO` | ☐ |
 | 11 | Modificar `azure-pipelines-validar-pr.yml` en un PR | Se agrega automáticamente el revisor de arquitectura | ☐ |
 | 12 | Revisar el log del pipeline de la prueba 6 | Aparece `Validar-PR origen=promote/v1.1.0-to-qa destino=qa` y no aparece `CONTEXTO` (el agente trajo historial, tags y ramas) | ☐ |

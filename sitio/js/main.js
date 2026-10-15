@@ -20,6 +20,8 @@
 
     var mounts = [
       { selector: '[data-nav]', view: G.createNav(deps), after: G.enhanceNavMobile },
+      // La búsqueda se monta dentro del panel que acaba de dibujar el menú, por eso va justo después de él.
+      { selector: '.site-nav__panel', view: G.createSearch({ navData: G.navData, rootUrl: rootUrl }) },
       { selector: '[data-breadcrumbs]', view: G.createBreadcrumbs(deps) },
       { selector: '[data-toc]', view: G.createToc(deps) },
       { selector: '[data-pages-index]', view: G.createPagesIndex(deps) },
@@ -48,6 +50,9 @@
       m.view.mount(host);
       if (m.after) m.after(host);
     });
+
+    // Tablas y lienzos que desbordan en horizontal pasan a ser enfocables con el teclado.
+    if (G.scrollable) G.scrollable.enhance(document);
 
     // Se arranca al final: mide la página ya montada y avisa a las vistas que se suscribieron.
     if (reading) reading.start();

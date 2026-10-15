@@ -111,7 +111,7 @@
             bad('description', 'La descripción son palabras separadas por guion, solo con letras minúsculas sin tilde y números.');
           }
           if (tokens.length > next && !/^[a-z]{2,3}$/.test(last)) {
-            bad('initials', 'Termina con las iniciales: 2 o 3 letras en minúscula' + (last ? ', y termina en ' + quote(last) : '') + '. Varias personas, separadas por guion (pc-dd).');
+            bad('initials', 'Termina con las iniciales: 2 o 3 letras en minúscula' + (last ? ', y termina en ' + quote(last) : '') + '. Varias personas, separadas por guion (ds-cc).');
           }
         }
       }
